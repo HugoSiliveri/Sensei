@@ -109,6 +109,9 @@ class Message extends AbstractDataObject
         return $this->idObjet;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function recupererFormatTableau(): array
     {
         return [

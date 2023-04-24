@@ -37,6 +37,9 @@ class Droit extends AbstractDataObject
         return $this->typeDroit;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function recupererFormatTableau(): array
     {
         return [

@@ -42,6 +42,9 @@ class Etat extends AbstractDataObject
         return $this->libEtat;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function recupererFormatTableau(): array
     {
         return [

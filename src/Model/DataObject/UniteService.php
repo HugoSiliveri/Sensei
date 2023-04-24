@@ -181,6 +181,9 @@ class UniteService extends AbstractDataObject
         return $this->deleted;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function recupererFormatTableau(): array
     {
         return [

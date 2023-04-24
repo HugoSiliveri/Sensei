@@ -46,6 +46,9 @@ class Appartenir extends AbstractDataObject
         return $this->idUniteService;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function recupererFormatTableau(): array
     {
         return [

@@ -58,6 +58,9 @@ class Composante extends AbstractDataObject
         return $this->anneeDeValidation;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function recupererFormatTableau(): array
     {
         return [

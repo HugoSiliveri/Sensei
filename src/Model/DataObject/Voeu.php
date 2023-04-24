@@ -56,6 +56,9 @@ class Voeu extends AbstractDataObject
         return $this->idIntervention;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function recupererFormatTableau(): array
     {
         return [

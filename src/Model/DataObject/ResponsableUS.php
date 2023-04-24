@@ -37,6 +37,9 @@ class ResponsableUS extends AbstractDataObject
         return $this->idUniteServiceAnnee;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function recupererFormatTableau(): array
     {
         return [

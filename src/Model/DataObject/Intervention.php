@@ -58,6 +58,9 @@ class Intervention extends AbstractDataObject
         return $this->volumeHoraire;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function recupererFormatTableau(): array
     {
         return [

@@ -12,5 +12,10 @@ namespace App\Sensei\Model\DataObject;
  */
 abstract class AbstractDataObject
 {
+    /**
+     * Cette méthode doit être obligatoirement redéfinie dans les sous-classes de AbstractDataObject.
+     * Retourne l'objet sous forme de tableau (à utiliser pour les requêtes préparées)
+     * @return array
+     */
     public abstract function recupererFormatTableau(): array;
 }

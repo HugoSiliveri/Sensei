@@ -41,6 +41,9 @@ class Emploi extends AbstractDataObject
         return $this->libEmploi;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function recupererFormatTableau(): array
     {
         return [

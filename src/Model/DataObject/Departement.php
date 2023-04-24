@@ -77,6 +77,9 @@ class Departement extends AbstractDataObject
         return $this->idEtat;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function recupererFormatTableau(): array
     {
         return [

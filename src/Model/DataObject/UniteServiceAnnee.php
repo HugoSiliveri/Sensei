@@ -19,7 +19,7 @@ class UniteServiceAnnee extends AbstractDataObject
         private int     $idUniteServiceAnnee,
         private ?int    $idDepartement,
         private int     $idUniteService,
-        private ?string $libelle,
+        private ?string $libUSA,
         private ?int    $millesime,
         private float   $heuresCM,
         private int     $nbGroupesCM,
@@ -64,9 +64,9 @@ class UniteServiceAnnee extends AbstractDataObject
     /**
      * @return string|null
      */
-    public function getLibelle(): ?string
+    public function getLibUSA(): ?string
     {
-        return $this->libelle;
+        return $this->libUSA;
     }
 
     /**
@@ -173,13 +173,16 @@ class UniteServiceAnnee extends AbstractDataObject
         return $this->deleted;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function recupererFormatTableau(): array
     {
         return [
             "idUniteServiceAnnee" => $this->idUniteServiceAnnee,
             "idDepartement" => $this->idDepartement,
             "idUniteService" => $this->idUniteService,
-            "libelle" => $this->libelle,
+            "libelle" => $this->libUSA,
             "millesime" => $this->millesime,
             "heuresCM" => $this->heuresCM,
             "nbGroupesCM" => $this->nbGroupesCM,

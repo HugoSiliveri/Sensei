@@ -46,6 +46,9 @@ class Statut extends AbstractDataObject
         return $this->nbHeures;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function recupererFormatTableau(): array
     {
         return [
