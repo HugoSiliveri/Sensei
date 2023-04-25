@@ -37,7 +37,7 @@ class RouteurURL
 {
 
     /* Initialisation du conteneur de service */
-    private static $conteneur;
+    private static mixed $conteneur;
 
     /**
      * Méthode qui va renvoyer une réponse HTTP suivant l'action et les paramètres passés dans la requête HTTP
