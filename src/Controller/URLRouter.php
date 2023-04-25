@@ -26,14 +26,14 @@ use Twig\Loader\FilesystemLoader;
 use Twig\TwigFunction;
 
 /**
- * @name RouteurURL
+ * @name URLRouter
  *
- * @tutorial RouteurURL est une classe va permettre d'appeler les bonnes méthodes des controllers en fonction de l'URL.
+ * @tutorial URLRouter est une classe va permettre d'appeler les bonnes méthodes des controllers en fonction de l'URL.
  *
  * @author Hugo Siliveri
  *
  */
-class RouteurURL
+class URLRouter
 {
 
     /* Initialisation du conteneur de service */
@@ -131,11 +131,11 @@ class RouteurURL
             $reponse = call_user_func_array($controleur, $arguments);
 
         } catch (ResourceNotFoundException $exception) {
-            $reponse = ControleurGenerique::afficherErreur($exception->getMessage(), 404);
+            $reponse = GenericController::afficherErreur($exception->getMessage(), 404);
         } catch (MethodNotAllowedException $exception) {
-            $reponse = ControleurGenerique::afficherErreur($exception->getMessage(), 405);
+            $reponse = GenericController::afficherErreur($exception->getMessage(), 405);
         } catch (BadRequestException $exception) {
-            $reponse = ControleurGenerique::afficherErreur($exception->getMessage(), 406);
+            $reponse = GenericController::afficherErreur($exception->getMessage(), 406);
         }
         return $reponse;
     }

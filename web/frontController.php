@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use App\Sensei\Controller\RouteurURL;
+use App\Sensei\Controller\URLRouter;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -12,4 +12,4 @@ use Symfony\Component\HttpFoundation\Request;
  */
 $requete = Request::createFromGlobals();
 
-RouteurURL::traiterRequete($requete)->send();
+URLRouter::traiterRequete($requete)->send();

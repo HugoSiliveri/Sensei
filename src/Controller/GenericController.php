@@ -10,15 +10,15 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
 /**
- * @name ControleurGenerique
+ * @name GenericController
  *
- * @tutorial  ControleurGenerique est une classe qui regroupe les méthodes communes aux différents controllers.
+ * @tutorial GenericController est une classe qui regroupe les méthodes communes aux différents controllers.
  * Toutes les méthodes de cette classe sont statiques et accessibles uniquement par les autres controllers.
  *
  * @author Hugo Siliveri
  *
  */
-class ControleurGenerique
+class GenericController
 {
     /**
      * Affiche la vue grâce au chemin avec des paramètres supplémentaires et optionnels.
@@ -46,7 +46,7 @@ class ControleurGenerique
      */
     protected static function rediriger(string $route = "", array $option = []): Response
     {
-        $conteneur = RouteurURL::getConteneur();
+        $conteneur = URLRouter::getConteneur();
         $generateurUrl = $conteneur->get("generateurUrl");
         $url = $generateurUrl->generate($route, $option);
         $urlFinal = "Location: " . $url;
@@ -63,7 +63,7 @@ class ControleurGenerique
      */
     public static function afficherErreur($errorMessage = "", $statusCode = 400): Response
     {
-        return ControleurGenerique::afficherTwig("erreur.twig", ["errorMessage" => $errorMessage]);
+        return GenericController::afficherTwig("erreur.twig", ["errorMessage" => $errorMessage]);
     }
 
     /**
@@ -75,7 +75,7 @@ class ControleurGenerique
     protected static function afficherTwig(string $cheminVue, array $parametres = []): Response
     {
         try {
-            $conteneur = RouteurURL::getConteneur();
+            $conteneur = URLRouter::getConteneur();
             /** @var Environment $twig */
             $twig = $conteneur->get("twig");
             return new Response($twig->render($cheminVue, $parametres));
@@ -83,6 +83,4 @@ class ControleurGenerique
             return new Response("Une erreur s'est produite lors du rendu de la vue : " . $e->getMessage(), 500);
         }
     }
-
-
 }
