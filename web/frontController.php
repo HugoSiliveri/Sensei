@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . "/../src/Lib/authentificationCAS.php";
 
 use App\Sensei\Controller\URLRouter;
 use Symfony\Component\HttpFoundation\Request;

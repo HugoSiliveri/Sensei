@@ -76,7 +76,7 @@ class URLRouter
 
         $generateurUrl = new UrlGenerator($routes, $contexteRequete);
 
-        $twigLoader = new FilesystemLoader(__DIR__ . '/../vue/');
+        $twigLoader = new FilesystemLoader(__DIR__ . '/../View/');
         $twig = new Environment(
             $twigLoader,
             [
@@ -95,7 +95,7 @@ class URLRouter
         $twig->addFunction(new TwigFunction("asset", $callable2));
 
         /* Ajout de variables globales */
-        $twig->addGlobal('messagesFlash', new MessageFlash());
+        //$twig->addGlobal('messagesFlash', new MessageFlash());
 
         $conteneur->set("assistantURl", $assistantUrl);
         $conteneur->set("generateurURL", $generateurUrl);

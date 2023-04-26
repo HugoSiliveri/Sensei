@@ -43,7 +43,58 @@ class IntervenantRepository extends AbstractRepository
         return ["idIntervenant", "nom", "prenom", "idStatut", "idDroit", "emailInstitutionnel", "emailUsage", "idIntervenantReferentiel", "deleted"];
     }
 
-    /** Construit un objet Intervenant à partir d'un tableau donné en paramètre.
+    /**
+     * Retourne l'intervenant qui possède le même idIntervenantReferentiel que celui en paramètre.
+     * Retourne null s'il ne trouve pas
+     *
+     * @param $idIntervenantReferentiel
+     * @return AbstractDataObject|null
+     */
+    public function recupererParUID($idIntervenantReferentiel): ?AbstractDataObject{
+        $sql = "SELECT * from Intervenant WHERE idIntervenantReferentiel=:uidTag";
+
+        $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+        $values = array(
+            "clePrimaireTag" => $$idIntervenantReferentiel,
+        );
+        $pdoStatement->execute($values);
+
+        $objetFormatTableau = $pdoStatement->fetch();
+
+        if ($objetFormatTableau !== false) {
+            return $this->construireDepuisTableau($objetFormatTableau);
+        }
+        return null;
+    }
+
+    /**
+     * Retourne l'intervenant qui possède le même emailInstitutionnel que celui en paramètre.
+     * Retourne null s'il ne trouve pas
+     *
+     * @param $emailInstitutionnel
+     * @return AbstractDataObject|null
+     */
+    public function recupererParEmailInstitutionnel($emailInstitutionnel): ?AbstractDataObject{
+        $sql = "SELECT * from Intervenant WHERE emailInstitutionnel=:uidTag";
+
+        $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+        $values = array(
+            "clePrimaireTag" => $emailInstitutionnel,
+        );
+        $pdoStatement->execute($values);
+
+        $objetFormatTableau = $pdoStatement->fetch();
+
+        if ($objetFormatTableau !== false) {
+            return $this->construireDepuisTableau($objetFormatTableau);
+        }
+        return null;
+    }
+
+    /**
+     * Construit un objet Intervenant à partir d'un tableau donné en paramètre.
      * @param array $objetFormatTableau
      * @return Intervenant
      */
