@@ -32,11 +32,13 @@ class ConnexionBaseDeDonnees implements ConnexionBaseDeDonneesInterface
 
         // Connexion à la base de données
         $this->pdo = new PDO(
+            $this->configurationBDD->getDSN(),
             $this->configurationBDD->getLogin(),
             $this->configurationBDD->getMotDePasse(),
+            $this->configurationBDD->getOptions()
         );
 
-        // On active le mode d'affichage des erreurs, et le lancement d'exception en cas d'erreur
+        // On active le mode d'affichage des erreurs et le lancement d'exception en cas d'erreur
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     }

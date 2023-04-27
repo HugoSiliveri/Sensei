@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta CHARSET="UTF-8">
+        <title>{% block page_title %}Sensei{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset("../ressources/css/styles.css") }}">
+        <link rel="icon" type="image/png" href="{{ asset("../ressources/img/Logo_blanc.png") }}">
+    </head>
+    <body>
+        <header>
+            <nav>
+                <div id="logoEtTitre">
+                    <a href="{{ route("accueil") }}">
+                        <img id="logo" src="{{ asset("../ressources/img/Logo_blanc.png") }}" alt="logo">
+                        Sensei
+                    </a>
+                </div>
+                <div id="onglets">
+                    <a href="{{ route("accueil") }}">Services</a>
+                    <a href="#">Unités de Services</a>
+{#                    <data value="{{ route("afficherListeIntervenants") }}">Intervenants</data>#}
+                    <a href="#">Gestion</a>
+                    <a href="#">Aide</a>
+                </div>
+                <div id="deconnexion">
+{#                    <data value="{{ route("deconnexion") }}">Déconnexion</data>#}
+                    <p>Déconnexion</p>
+                </div>
+            </nav>
+        </header>
+        <div id="informationsHeader">
+            <div id="departementHeader">
+                <p>Département actuel : MATH</p> {# TODO : Changer en fonction de l'utilisateur connecté #}
+            </div>
+            <div id="anneeHeader">
+                <p>Année en cours : 2023-2024</p> {# TODO : Changer en fonction de l'utilisateur connecté #}
+            </div>
+        </div>
+        <main>
+            {% block page_content %}{% endblock %}
+        </main>
+        <footer>
+            <img id="vague" src="{{ asset("../ressources/img/wave.svg") }}" alt="vague">
+            <div id="footer">
+                <p>© Sensei 2023</p>
+            </div>
+        </footer>
+    </body>
+</html>
+

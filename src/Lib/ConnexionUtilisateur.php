@@ -5,7 +5,15 @@ namespace App\Sensei\Lib;
 use App\Sensei\Model\HTTP\Session;
 use App\Sensei\Model\Repository\AbstractRepositoryInterface;
 
-class ConnexionUtilisateur
+/**
+ * @name ConnexionUtilisateur
+ *
+ * @tutorial Classe qui permet de connecter l'utilisateur à l'application
+ *
+ * @author Hugo Siliveri
+ *
+ */
+class ConnexionUtilisateur implements ConnexionUtilisateurInterface
 {
     /**
      * @var string Est une clé qui permet de voir si un utilisateur est déjà connecté dans une session

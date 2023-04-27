@@ -3,7 +3,10 @@
 namespace App\Sensei\Controller;
 
 use App\Sensei\Configuration\ConfigurationBDDMariaDB;
+use App\Sensei\Lib\ConnexionUtilisateur;
 use App\Sensei\Model\Repository\ConnexionBaseDeDonnees;
+use App\Sensei\Model\Repository\IntervenantRepository;
+use App\Sensei\Service\IntervenantService;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
@@ -52,19 +55,34 @@ class URLRouter
 
         $conteneur->register('config_bdd', ConfigurationBDDMariaDB::class);
 
-        /* On stocke la classe qui sera appelée dans le conteneur */
+        /* On stocke la classe qui sera appelée dans le conteneur ainsi que les arguments nécessaires pour le constructeur*/
         $connexionBaseService = $conteneur->register('connexion_base', ConnexionBaseDeDonnees::class);
-        /* On lui passe également les arguments nécessaires pour le constructeur */
         $connexionBaseService->setArguments([new Reference('config_bdd')]);
+
+        $intervenantRepository = $conteneur->register('intervenant_repository', IntervenantRepository::class);
+        $intervenantRepository->setArguments([new Reference('connexion_base')]);
+
+        $connexionUtilisateur = $conteneur->register('connexion_utilisateur', ConnexionUtilisateur::class);
+        $connexionUtilisateur->setArguments([new Reference('intervenant_repository')]);
+
+        $intervenantService = $conteneur->register('intervenant_service', IntervenantService::class);
+        $intervenantService->setArguments([new Reference("intervenant_repository"), new Reference("connexion_utilisateur")]);
+
+        $intervenantController = $conteneur->register('intervenant_controller', IntervenantController::class);
+        $intervenantController->setArguments([new Reference('intervenant_service'), new Reference('connexion_utilisateur')]);
+
+
 
         /* Instantiation d'une collection de routes */
         $routes = new RouteCollection();
 
-        /* Création et ajout des routes à la collection
-        /* TODO: Rajouter les routes  */
+        /* Création et ajout des routes à la collection */
+        $routeParDefaut = new Route("/", [
+            "_controller" => ["intervenant_controller", "afficherListe"]
+        ]);
 
         /* Ajoute les routes dans la collection et leur associe un nom */
-        /* TODO : Ajouter le code pour ajouter les routes */
+        $routes->add("accueil", $routeParDefaut);
 
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);

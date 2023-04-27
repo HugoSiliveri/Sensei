@@ -34,10 +34,10 @@ require_once __DIR__ . "/../../vendor/apereo/phpcas/source/CAS.php";
 phpCAS::setLogger();
 // Initialize phpCAS
 // phpCAS::client(CAS_VERSION_2_0, $cas_host, $cas_port, $cas_context);
-phpCAS::client(CAS_VERSION_3_0,'cas.umontpellier.fr',443,'/cas/', true);
+phpCAS::client(CAS_VERSION_3_0,'cas.umontpellier.fr',443,'/cas/', false);
 // For production use set the CA certificate that is the issuer of the cert
 // on the CAS server and uncomment the line below
-// phpCAS::setCasServerCACert($cas_server_ca_cert_path);
+//phpCAS::setCasServerCACert($cas_server_ca_cert_path);
 // For quick testing you can disable SSL validation of the CAS server.
 // THIS SETTING IS NOT RECOMMENDED FOR PRODUCTION.
 // VALIDATING THE CAS SERVER IS CRUCIAL TO THE SECURITY OF THE CAS PROTOCOL!

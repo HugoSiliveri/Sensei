@@ -1,0 +1,18 @@
+{% extends "base.twig" %}
+
+{% block page_content %}
+    <div>
+        <div>
+            <h3>Listes des intervenants</h3>
+            <table>
+                {% for intervenant in intervenants %}
+                    <tr>
+                        <td>{{ intervenant.getIdIntervenant }}</td>
+                        <td>{{ intervenant.getNom }}</td>
+                        <td>{{ intervenant.getPrenom }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}
