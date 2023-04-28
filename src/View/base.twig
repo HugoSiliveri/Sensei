@@ -18,7 +18,7 @@
                 <div id="onglets">
                     <a href="{{ route("accueil") }}">Services</a>
                     <a href="#">Unités de Services</a>
-{#                    <data value="{{ route("afficherListeIntervenants") }}">Intervenants</data>#}
+                    <a href="{{ route("afficherListeIntervenants") }}">Intervenants</a>
                     <a href="#">Gestion</a>
                     <a href="#">Aide</a>
                 </div>
@@ -40,7 +40,7 @@
             {% block page_content %}{% endblock %}
         </main>
         <footer>
-            <img id="vague" src="{{ asset("../ressources/img/wave.svg") }}" alt="vague">
+            <div id="vague"></div>
             <div id="footer">
                 <p>© Sensei 2023</p>
             </div>

@@ -1,18 +1,21 @@
 {% extends "base.twig" %}
 
 {% block page_content %}
-    <div>
-        <div>
-            <h3>Listes des intervenants</h3>
-            <table>
-                {% for intervenant in intervenants %}
-                    <tr>
-                        <td>{{ intervenant.getIdIntervenant }}</td>
-                        <td>{{ intervenant.getNom }}</td>
-                        <td>{{ intervenant.getPrenom }}</td>
-                    </tr>
+    {% set nbIntervenants = intervenants|length %}
+    {% set chunkSize = (nbIntervenants / 3)|round(0, 'ceil') %}
+    {% set chunks = intervenants|batch(chunkSize) %}
+    <h2>Liste des intervenants</h2> {# TODO : A changer en fonction des intervenants du départements et des vacataires #}
+    <div class="liste">
+        {% for chunk in chunks %}
+            <ul>
+                {% for intervenant in chunk %}
+                    <li class="boutonContainer">
+                        <a href="#">{{ intervenant.getNom }}   {{ intervenant.getPrenom }}   {{ intervenant.getIdIntervenantReferentiel }}</a>
+                    </li>
                 {% endfor %}
-            </table>
-        </div>
+            </ul>
+        {% endfor %}
     </div>
 {% endblock %}
+
+

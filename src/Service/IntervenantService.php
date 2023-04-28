@@ -10,7 +10,6 @@ class IntervenantService implements IntervenantServiceInterface
 
     public function __construct(
         private IntervenantRepository $intervenantRepository,
-        private ConnexionUtilisateurInterface $connexionUtilisateur,
     )
     {
     }

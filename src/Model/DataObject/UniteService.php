@@ -16,7 +16,7 @@ class UniteService extends AbstractDataObject
 
     public function __construct(
         private int     $idUniteService,
-        private ?int    $idUSReferentiel,
+        private ?string    $idUSReferentiel,
         private ?string $libUS,
         private ?string  $nature,
         private ?int    $ancetre,
@@ -46,9 +46,9 @@ class UniteService extends AbstractDataObject
     }
 
     /**
-     * @return int|null
+     * @return string|null
      */
-    public function getIdUSReferentiel(): ?int
+    public function getIdUSReferentiel(): ?string
     {
         return $this->idUSReferentiel;
     }

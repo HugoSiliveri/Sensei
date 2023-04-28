@@ -6,7 +6,9 @@ use App\Sensei\Configuration\ConfigurationBDDMariaDB;
 use App\Sensei\Lib\ConnexionUtilisateur;
 use App\Sensei\Model\Repository\ConnexionBaseDeDonnees;
 use App\Sensei\Model\Repository\IntervenantRepository;
+use App\Sensei\Model\Repository\UniteServiceRepository;
 use App\Sensei\Service\IntervenantService;
+use App\Sensei\Service\UniteServiceService;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
@@ -62,6 +64,9 @@ class URLRouter
         $intervenantRepository = $conteneur->register('intervenant_repository', IntervenantRepository::class);
         $intervenantRepository->setArguments([new Reference('connexion_base')]);
 
+        $uniteServiceRepository = $conteneur->register('unite_service_repository', UniteServiceRepository::class);
+        $uniteServiceRepository->setArguments([new Reference('connexion_base')]);
+
         $connexionUtilisateur = $conteneur->register('connexion_utilisateur', ConnexionUtilisateur::class);
         $connexionUtilisateur->setArguments([new Reference('intervenant_repository')]);
 
@@ -71,19 +76,36 @@ class URLRouter
         $intervenantController = $conteneur->register('intervenant_controller', IntervenantController::class);
         $intervenantController->setArguments([new Reference('intervenant_service'), new Reference('connexion_utilisateur')]);
 
+        $uniteServiceService = $conteneur->register('unite_service_service', UniteServiceService::class);
+        $uniteServiceService->setArguments([new Reference("unite_service_repository")]);
 
+        $uniteServiceController = $conteneur->register('unite_service_controller', UniteServiceController::class);
+        $uniteServiceController->setArguments([new Reference('unite_service_service')]);
+
+        $genericController = $conteneur->register("generic_controller", GenericController::class);
 
         /* Instantiation d'une collection de routes */
         $routes = new RouteCollection();
 
         /* Création et ajout des routes à la collection */
         $routeParDefaut = new Route("/", [
+            "_controller" => ["unite_service_controller", "afficherListe"]//"generic_controller", "afficherAccueil"]
+        ]);
+
+        $routeAfficherListeIntervenants = new Route("/intervenants", [
             "_controller" => ["intervenant_controller", "afficherListe"]
         ]);
+        $routeAfficherListeIntervenants->setMethods(["GET"]);
+
+        $routeAfficherListeUniteServices = new Route("/unitesServices", [
+           "_controller" => ["unite_service_controller", "afficherListe"]
+        ]);
+        $routeAfficherListeUniteServices->setMethods(["GET"]);
 
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
-
+        $routes->add("afficherListeIntervenants", $routeAfficherListeIntervenants);
+        $routes->add("afficherListeUnitesServices", $routeAfficherListeUniteServices);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 
@@ -147,7 +169,6 @@ class URLRouter
 
             /* Appelle le callback avec ses arguments */
             $reponse = call_user_func_array($controleur, $arguments);
-
         } catch (ResourceNotFoundException $exception) {
             $reponse = GenericController::afficherErreur($exception->getMessage(), 404);
         } catch (MethodNotAllowedException $exception) {

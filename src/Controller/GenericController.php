@@ -63,7 +63,7 @@ class GenericController
      */
     public static function afficherErreur($errorMessage = "", $statusCode = 400): Response
     {
-        return GenericController::afficherTwig("erreur.twig", ["errorMessage" => $errorMessage]);
+        return self::afficherTwig("erreur.twig", ["errorMessage" => $errorMessage]);
     }
 
     /**
@@ -82,5 +82,9 @@ class GenericController
         } catch (LoaderError|RuntimeError|SyntaxError $e) {
             return new Response("Une erreur s'est produite lors du rendu de la vue : " . $e->getMessage(), 500);
         }
+    }
+
+    public static function afficherAccueil(): Response {
+        return self::afficherTwig("accueil.twig");
     }
 }
