@@ -27,6 +27,7 @@ html, body{
 header {
     position: sticky;
     top: 0;
+    z-index: 2;
 }
 
 main{
@@ -64,7 +65,8 @@ nav  a {
 
 h2 {
     font-family: var(--semibold-font);
-    margin-left: 5%;
+    margin: 0;
+    width: 50%;
 }
 
 ul {
@@ -153,6 +155,63 @@ ul {
 .boutonContainer:hover {
     background-color: lightblue;
     border-radius: 5px;
+}
+
+.boutonEnvoie {
+    background-color: var(--bg-color);
+    height: 35px;
+    width: 35px;
+    border-radius: 0 20% 20% 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.boutonEnvoie:hover {
+    background-color: #273C50;
+}
+
+.titreEtBarreRecherche {
+    display: flex;
+    flex-direction: row;
+    margin: 0 5%;
+    align-items: center;
+}
+
+.barreRecherche {
+    display: flex;
+    width: 100%;
+}
+
+.champsRecherche {
+    display: flex;
+    border-radius: 7px 0 0 7px;
+    width: 35%;
+}
+
+.barreRecherche > fieldset {
+    display: flex;
+    border: 0;
+    padding: 1%;
+    width: 100%;
+    height: 100%;
+}
+.conteneurChamps {
+    display: flex;
+    width: 100%;
+}
+
+.autocompletion{
+    width: 22%;
+    background-color: white;
+    border: 1px solid grey;
+    line-height: 1.5;
+    position: absolute;
+    top: 32%;
+    height: auto;
+    z-index: 1;
+    padding-left: 1%;
+    display: none;
 }
 
 

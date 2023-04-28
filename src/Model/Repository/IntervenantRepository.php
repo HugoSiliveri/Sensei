@@ -4,6 +4,8 @@ namespace App\Sensei\Model\Repository;
 
 use App\Sensei\Model\DataObject\AbstractDataObject;
 use App\Sensei\Model\DataObject\Intervenant;
+use PDO;
+use PDOException;
 
 /**
  * @name IntervenantRepository
@@ -91,6 +93,31 @@ class IntervenantRepository extends AbstractRepository
             return $this->construireDepuisTableau($objetFormatTableau);
         }
         return null;
+    }
+
+    public function recupererPourAutoCompletion(array $intervenantArray, $limit = 5): array {
+        try {
+            $sql = "SELECT * from Intervenant 
+             WHERE nom LIKE :nomTag OR prenom LIKE :prenomTag OR idIntervenantReferentiel LIKE :idIntervenantReferentielTag
+             ORDER BY nom, prenom, idIntervenantReferentiel
+             LIMIT $limit";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "nomTag" => $intervenantArray["nom"] . "%",
+                "prenomTag" => $intervenantArray["prenom"] . "%",
+                "idIntervenantReferentielTag" => $intervenantArray["idIntervenantReferentiel"] . "%"
+            );
+            $pdoStatement->execute($values);
+            $pdoStatement->setFetchMode(PDO::FETCH_OBJ);
+            return $pdoStatement->fetchAll();
+
+        } catch (PDOException $exception){
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+
     }
 
     /**

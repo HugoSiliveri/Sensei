@@ -64,6 +64,7 @@ abstract class AbstractRepository implements AbstractRepositoryInterface
         $requeteSQL = <<<SQL
             SELECT $champsSelect FROM $nomTable WHERE $whereClause LIMIT $limit;
         SQL;
+
         $pdoStatement = $this->connexionBaseDeDonnees->getPdo()->prepare($requeteSQL);
         $pdoStatement->execute($critereSelection);
 
