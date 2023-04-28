@@ -40,4 +40,45 @@ applyAndRegister(() => {
     autocompIntervenant.afficheIntervenants();
 });
 
+
+let autocompUS = reactive({
+    suggestions: [],
+    suggestions_str: "",
+
+    videUS: function () {
+        this.suggestions = [];
+    },
+    afficheUS: function () {
+        this.suggestions_str = ``;
+        for (let uniteService of this.suggestions) {
+            this.suggestions_str += `<p>${uniteService}</p>`;
+        }
+        this.videUS();
+        return this.suggestions_str;
+    },
+    callbackUS: function (req) {
+        let tabUS = JSON.parse(req.responseText);
+        for (let uniteService of tabUS) {
+
+            this.suggestions.push(`${uniteService.idUSReferentiel ? uniteService.idUSReferentiel : ""} ${uniteService.libUS ? uniteService.libUS : ""}`);
+        }
+        this.afficheUS();
+    },
+    requeteAJAX: function (stringUS) {
+        let uniteService = encodeURI(stringUS);
+        let url = `../ressources/php/requeteUS.php?uniteService=${uniteService}`;
+        let requete = new XMLHttpRequest();
+        requete.open("GET", url, true);
+        requete.addEventListener("load", function () {
+            autocompUS.callbackUS(requete);
+        });
+        requete.send(null);
+    }
+}, "autocompUS");
+
+
+applyAndRegister(() => {
+    autocompUS.afficheUS();
+});
+
 startReactiveDom();

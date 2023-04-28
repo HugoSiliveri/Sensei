@@ -89,7 +89,7 @@ class URLRouter
 
         /* Création et ajout des routes à la collection */
         $routeParDefaut = new Route("/", [
-            "_controller" => ["intervenant_controller", "afficherListe"]//"generic_controller", "afficherAccueil"]
+            "_controller" => ["unite_service_controller", "afficherListe"]//"generic_controller", "afficherAccueil"]
         ]);
 
         $routeAfficherListeIntervenants = new Route("/intervenants", [
