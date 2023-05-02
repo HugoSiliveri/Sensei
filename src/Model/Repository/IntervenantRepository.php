@@ -53,21 +53,27 @@ class IntervenantRepository extends AbstractRepository
      * @return AbstractDataObject|null
      */
     public function recupererParUID($idIntervenantReferentiel): ?AbstractDataObject{
-        $sql = "SELECT * from Intervenant WHERE idIntervenantReferentiel=:uidTag";
+        try {
+            $sql = "SELECT * from Intervenant WHERE idIntervenantReferentiel=:uidTag";
 
-        $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
 
-        $values = array(
-            "clePrimaireTag" => $$idIntervenantReferentiel,
-        );
-        $pdoStatement->execute($values);
+            $values = array(
+                "clePrimaireTag" => $$idIntervenantReferentiel,
+            );
+            $pdoStatement->execute($values);
 
-        $objetFormatTableau = $pdoStatement->fetch();
+            $objetFormatTableau = $pdoStatement->fetch();
 
-        if ($objetFormatTableau !== false) {
-            return $this->construireDepuisTableau($objetFormatTableau);
+            if ($objetFormatTableau !== false) {
+                return $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return null;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
         }
-        return null;
+
     }
 
     /**
@@ -78,21 +84,26 @@ class IntervenantRepository extends AbstractRepository
      * @return AbstractDataObject|null
      */
     public function recupererParEmailInstitutionnel($emailInstitutionnel): ?AbstractDataObject{
-        $sql = "SELECT * from Intervenant WHERE emailInstitutionnel=:uidTag";
+        try {
+            $sql = "SELECT * from Intervenant WHERE emailInstitutionnel=:uidTag";
 
-        $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
 
-        $values = array(
-            "clePrimaireTag" => $emailInstitutionnel,
-        );
-        $pdoStatement->execute($values);
+            $values = array(
+                "clePrimaireTag" => $emailInstitutionnel,
+            );
+            $pdoStatement->execute($values);
 
-        $objetFormatTableau = $pdoStatement->fetch();
+            $objetFormatTableau = $pdoStatement->fetch();
 
-        if ($objetFormatTableau !== false) {
-            return $this->construireDepuisTableau($objetFormatTableau);
+            if ($objetFormatTableau !== false) {
+                return $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return null;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
         }
-        return null;
     }
 
     public function recupererPourAutoCompletion(array $intervenantArray, $limit = 5): array {

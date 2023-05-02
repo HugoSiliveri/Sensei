@@ -5,9 +5,19 @@ namespace App\Sensei\Controller;
 use App\Sensei\Configuration\ConfigurationBDDMariaDB;
 use App\Sensei\Lib\ConnexionUtilisateur;
 use App\Sensei\Model\Repository\ConnexionBaseDeDonnees;
+use App\Sensei\Model\Repository\DepartementRepository;
+use App\Sensei\Model\Repository\DroitRepository;
+use App\Sensei\Model\Repository\EmploiRepository;
 use App\Sensei\Model\Repository\IntervenantRepository;
+use App\Sensei\Model\Repository\ServiceAnnuelRepository;
+use App\Sensei\Model\Repository\StatutRepository;
 use App\Sensei\Model\Repository\UniteServiceRepository;
+use App\Sensei\Service\DepartementService;
+use App\Sensei\Service\DroitService;
+use App\Sensei\Service\EmploiService;
 use App\Sensei\Service\IntervenantService;
+use App\Sensei\Service\ServiceAnnuelService;
+use App\Sensei\Service\StatutService;
 use App\Sensei\Service\UniteServiceService;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -67,22 +77,52 @@ class URLRouter
         $uniteServiceRepository = $conteneur->register('unite_service_repository', UniteServiceRepository::class);
         $uniteServiceRepository->setArguments([new Reference('connexion_base')]);
 
+        $statutRepository = $conteneur->register('statut_repository', StatutRepository::class);
+        $statutRepository->setArguments([new Reference('connexion_base')]);
+
+        $droitRepository = $conteneur->register('droit_repository', DroitRepository::class);
+        $droitRepository->setArguments([new Reference('connexion_base')]);
+
+        $serviceAnnuelRepository = $conteneur->register('service_annuel_repository', ServiceAnnuelRepository::class);
+        $serviceAnnuelRepository->setArguments([new Reference('connexion_base')]);
+
+        $emploiRepository = $conteneur->register('emploi_repository', EmploiRepository::class);
+        $emploiRepository->setArguments([new Reference('connexion_base')]);
+
+        $departementRepository = $conteneur->register('departement_repository', DepartementRepository::class);
+        $departementRepository->setArguments([new Reference('connexion_base')]);
+
         $connexionUtilisateur = $conteneur->register('connexion_utilisateur', ConnexionUtilisateur::class);
         $connexionUtilisateur->setArguments([new Reference('intervenant_repository')]);
+
+        $intervenantController = $conteneur->register('intervenant_controller', IntervenantController::class);
+        $intervenantController->setArguments([new Reference('intervenant_service'), new Reference('statut_service'), new Reference('droit_service'), new Reference('service_annuel_service'), new Reference('emploi_service'), new Reference('departement_service'), new Reference('connexion_utilisateur')]);
 
         $intervenantService = $conteneur->register('intervenant_service', IntervenantService::class);
         $intervenantService->setArguments([new Reference("intervenant_repository"), new Reference("connexion_utilisateur")]);
 
-        $intervenantController = $conteneur->register('intervenant_controller', IntervenantController::class);
-        $intervenantController->setArguments([new Reference('intervenant_service'), new Reference('connexion_utilisateur')]);
-
-        $uniteServiceService = $conteneur->register('unite_service_service', UniteServiceService::class);
-        $uniteServiceService->setArguments([new Reference("unite_service_repository")]);
-
         $uniteServiceController = $conteneur->register('unite_service_controller', UniteServiceController::class);
         $uniteServiceController->setArguments([new Reference('unite_service_service')]);
 
-        $genericController = $conteneur->register("generic_controller", GenericController::class);
+        $uniteServiceService = $conteneur->register('unite_service_service', UniteServiceService::class);
+        $uniteServiceService->setArguments([new Reference('unite_service_repository')]);
+
+        $statutService = $conteneur->register('statut_service', StatutService::class);
+        $statutService->setArguments([new Reference('statut_repository')]);
+
+        $droitService = $conteneur->register('droit_service', DroitService::class);
+        $droitService->setArguments([new Reference('droit_repository')]);
+
+        $serviceAnnuelService = $conteneur->register('service_annuel_service', ServiceAnnuelService::class);
+        $serviceAnnuelService->setArguments([new Reference('service_annuel_repository')]);
+
+        $emploiService = $conteneur->register('emploi_service', EmploiService::class);
+        $emploiService->setArguments([new Reference('emploi_repository')]);
+
+        $departementService = $conteneur->register('departement_service', DepartementService::class);
+        $departementService->setArguments([new Reference('departement_repository')]);
+
+        $genericController = $conteneur->register('generic_controller', GenericController::class);
 
         /* Instantiation d'une collection de routes */
         $routes = new RouteCollection();
@@ -98,14 +138,21 @@ class URLRouter
         $routeAfficherListeIntervenants->setMethods(["GET"]);
 
         $routeAfficherListeUniteServices = new Route("/unitesServices", [
-           "_controller" => ["unite_service_controller", "afficherListe"]
+            "_controller" => ["unite_service_controller", "afficherListe"]
         ]);
         $routeAfficherListeUniteServices->setMethods(["GET"]);
+
+        $routeAfficherDetailIntervenant = new Route("/intervenants/{idIntervenant}", [
+            "_controller" => ["intervenant_controller", "afficherDetail"]
+        ]);
+        $routeAfficherDetailIntervenant->setMethods(["GET"]);
 
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
         $routes->add("afficherListeIntervenants", $routeAfficherListeIntervenants);
         $routes->add("afficherListeUnitesServices", $routeAfficherListeUniteServices);
+        $routes->add("afficherDetailIntervenant", $routeAfficherDetailIntervenant);
+
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 

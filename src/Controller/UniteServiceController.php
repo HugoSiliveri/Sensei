@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 class UniteServiceController extends GenericController
 {
     public function __construct(
-        private UniteServiceServiceInterface $uniteServiceService,
+        private readonly UniteServiceServiceInterface $uniteServiceService,
     )
     {
     }

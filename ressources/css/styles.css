@@ -190,7 +190,7 @@ ul {
 .champsRecherche {
     display: flex;
     border-radius: 7px 0 0 7px;
-    width: 35%;
+    width: 300px;
 }
 
 .barreRecherche > fieldset {
@@ -217,5 +217,81 @@ ul {
 }
 
 
+.coteGauche, .coteDroit {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
 
+.coteGauche {
+    border-right: solid black;
+}
 
+.coteDroit {
+    overflow: auto;
+    height: 600px;
+}
+
+.serviceAnnuel {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 1%;
+    border: solid black;
+    border-radius: 10px;
+    margin-bottom: 3%;
+}
+
+.infosDepartementEtAnnee {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-family: var(--semibold-font);
+}
+
+.miseEnPage {
+    display: flex;
+    flex-direction: row;
+}
+
+.miseEnPage ul {
+    margin-left: 3%;
+}
+
+.miseEnPage h2 {
+    margin-bottom: 5%;
+}
+
+.description > ul, .infosServiceAnnuel > ul {
+    padding-left: 1%;
+}
+
+.coteGauche h2 , .coteDroit h2{
+    width: 100%;
+    text-align: center;
+}
+
+.coteGauche li , .coteDroit  li {
+    display: block;
+}
+
+.optionsSupplémentaires {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.coteGauche .champsRecherche {
+    width: 250px;
+}
+
+.coteGauche .autocompletion {
+    width: 18.5%;
+}
+
+.creationNouvelObjet {
+    display: flex;
+    width: 100%;
+}

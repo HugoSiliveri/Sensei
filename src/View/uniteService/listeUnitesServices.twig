@@ -6,22 +6,7 @@
     {% set chunks = unitesServices|batch(chunkSize) %}
     <div class="titreEtBarreRecherche">
         <h2>Liste des unités de services</h2> {# TODO : A changer en fonction des intervenants du départements et des vacataires #}
-        <form class="barreRecherche" action="#" method="post">
-            <fieldset id="unitesServices">
-                <div class="conteneurChamps">
-                    <label for="uniteService_id"></label>
-                    <input class="champsRecherche" type="text" data-inputfun="autocompUS.requeteAJAX()"
-                           placeholder="Rechercher une unité de service"
-                           name="uniteService"
-                           id="uniteService_id" required>
-                    <div class="boutonEnvoie">
-                        <img src="{{ asset("../ressources/img/search.svg") }}" alt="loupe">
-                    </div>
-                </div>
-                <div class="autocompletion" data-inputfun="autocompUS.requeteAJAX()"
-                     data-htmlvar="autocompUS.suggestions_str"></div>
-            </fieldset>
-        </form>
+        {% include "templates/barreRechercheUniteService.twig" %}
     </div>
     <div class="liste">
         {% for chunk in chunks %}

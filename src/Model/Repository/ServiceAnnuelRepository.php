@@ -4,6 +4,8 @@ namespace App\Sensei\Model\Repository;
 
 use App\Sensei\Model\DataObject\AbstractDataObject;
 use App\Sensei\Model\DataObject\ServiceAnnuel;
+use PDO;
+use PDOException;
 
 /**
  * @name ServiceAnnuelRepository
@@ -41,6 +43,38 @@ class ServiceAnnuelRepository extends AbstractRepository
     protected function getNomsColonnes(): array
     {
         return ["idServiceAnnuel", "idDepartement", "idIntervenant", "millesime", "idEmploi", "serviceStatuaire", "serviceFait", "delta", "deleted"];
+    }
+
+    /**
+     * Retourne la liste des services annuels de l'intervenant dont l'identifiant est passé en paramètre
+     *
+     * @param $idIntervenant
+     * @return array
+     */
+    public function recupererParIntervenant($idIntervenant): array{
+        try {
+            $sql = "SELECT * from ServiceAnnuel WHERE idIntervenant=:idIntervenantTag ORDER BY millesime DESC";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "idIntervenantTag" => $idIntervenant,
+            );
+            $pdoStatement->execute($values);
+
+            $objetsFormatTableau = $pdoStatement->fetchAll();
+
+            $objets = [];
+            foreach ($objetsFormatTableau as $objetFormatTableau){
+                $objets[] = $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return $objets;
+        } catch (PDOException $exception){
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+
+
     }
 
     /** Construit un objet ServiceAnnuel à partir d'un tableau donné en paramètre.

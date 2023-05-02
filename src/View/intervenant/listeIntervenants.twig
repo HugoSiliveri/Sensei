@@ -6,24 +6,7 @@
     {% set chunks = intervenants|batch(chunkSize) %}
     <div class="titreEtBarreRecherche">
         <h2>Liste des intervenants</h2> {# TODO : A changer en fonction des intervenants du départements et des vacataires #}
-        <form class="barreRecherche" action="#" method="post">
-            <fieldset id="intervenants">
-                <div class="conteneurChamps">
-                    <label for="intervenant_id"></label>
-                    <input class="champsRecherche" type="text" data-inputfun="autocompIntervenant.requeteAJAX()"
-                           placeholder="Rechercher un intervenant"
-                           name="intervenant"
-                           id="intervenant_id" required>
-                    <div class="boutonEnvoie">
-                        <img src="{{ asset("../ressources/img/search.svg") }}" alt="loupe">
-                    </div>
-                </div>
-                <div>
-                    <div class="autocompletion" data-inputfun="autocompIntervenant.requeteAJAX()"
-                         data-htmlvar="autocompIntervenant.suggestions_str"></div>
-                </div>
-            </fieldset>
-        </form>
+        {% include "templates/barreRechercheIntervenant.twig" %}
     </div>
     <div class="liste">
         {% for chunk in chunks %}
