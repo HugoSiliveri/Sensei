@@ -137,6 +137,11 @@ ul {
     color: white;
 }
 
+#intervenants {
+    display: flex;
+    flex-direction: column;
+}
+
 .liste {
     display: flex;
     flex-direction: row;
@@ -179,7 +184,6 @@ ul {
 }
 
 .barreRecherche {
-    display: flex;
     width: 100%;
 }
 
@@ -207,8 +211,6 @@ ul {
     border: 1px solid grey;
     line-height: 1.5;
     position: absolute;
-    top: 32%;
-    height: auto;
     z-index: 1;
     padding-left: 1%;
     display: none;
