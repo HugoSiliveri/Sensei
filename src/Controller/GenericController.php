@@ -21,6 +21,41 @@ use Twig\Error\SyntaxError;
 class GenericController
 {
     /**
+     * Méthode qui affiche un message d'erreur pour un controller et qui affiche la vue erreur.php
+     *
+     * @param $errorMessage
+     * @param $statusCode
+     * @return Response
+     */
+    public static function afficherErreur($errorMessage = "", $statusCode = 400): Response
+    {
+        return self::afficherTwig("erreur.twig", ["errorMessage" => $errorMessage]);
+    }
+
+    /**
+     *  Méthode qui permet d'afficher une vue Twig
+     * @param string $cheminVue chemin de la vue
+     * @param array $parametres liste des éléments qui seront utilisé dans les vues
+     * @throw
+     */
+    protected static function afficherTwig(string $cheminVue, array $parametres = []): Response
+    {
+        try {
+            $conteneur = URLRouter::getConteneur();
+            /** @var Environment $twig */
+            $twig = $conteneur->get("twig");
+            return new Response($twig->render($cheminVue, $parametres));
+        } catch (LoaderError|RuntimeError|SyntaxError $e) {
+            return new Response("Une erreur s'est produite lors du rendu de la vue : " . $e->getMessage(), 500);
+        }
+    }
+
+    public static function afficherAccueil(): Response
+    {
+        return self::afficherTwig("accueil.twig");
+    }
+
+    /**
      * Affiche la vue grâce au chemin avec des paramètres supplémentaires et optionnels.
      *
      * @param string $cheminVue Chemin de la vue qui sera affichée.
@@ -52,39 +87,5 @@ class GenericController
         $urlFinal = "Location: " . $url;
         header($urlFinal);
         return new RedirectResponse($url);
-    }
-
-    /**
-     * Méthode qui affiche un message d'erreur pour un controller et qui affiche la vue erreur.php
-     *
-     * @param $errorMessage
-     * @param $statusCode
-     * @return Response
-     */
-    public static function afficherErreur($errorMessage = "", $statusCode = 400): Response
-    {
-        return self::afficherTwig("erreur.twig", ["errorMessage" => $errorMessage]);
-    }
-
-    /**
-     *  Méthode qui permet d'afficher une vue Twig
-     * @param string $cheminVue chemin de la vue
-     * @param array $parametres liste des éléments qui seront utilisé dans les vues
-     * @throw
-     */
-    protected static function afficherTwig(string $cheminVue, array $parametres = []): Response
-    {
-        try {
-            $conteneur = URLRouter::getConteneur();
-            /** @var Environment $twig */
-            $twig = $conteneur->get("twig");
-            return new Response($twig->render($cheminVue, $parametres));
-        } catch (LoaderError|RuntimeError|SyntaxError $e) {
-            return new Response("Une erreur s'est produite lors du rendu de la vue : " . $e->getMessage(), 500);
-        }
-    }
-
-    public static function afficherAccueil(): Response {
-        return self::afficherTwig("accueil.twig");
     }
 }

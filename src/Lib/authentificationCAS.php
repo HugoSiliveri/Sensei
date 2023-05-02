@@ -34,7 +34,7 @@ require_once __DIR__ . "/../../vendor/apereo/phpcas/source/CAS.php";
 phpCAS::setLogger();
 // Initialize phpCAS
 // phpCAS::client(CAS_VERSION_2_0, $cas_host, $cas_port, $cas_context);
-phpCAS::client(CAS_VERSION_3_0,'cas.umontpellier.fr',443,'/cas/', false);
+phpCAS::client(CAS_VERSION_3_0, 'cas.umontpellier.fr', 443, '/cas/', false);
 // For production use set the CA certificate that is the issuer of the cert
 // on the CAS server and uncomment the line below
 //phpCAS::setCasServerCACert($cas_server_ca_cert_path);
@@ -53,24 +53,23 @@ $e = phpCAS::getAttributes();
 $uid = $e['uid'];
 $email = $e['mail'];
 
-if($uid != null) {
+if ($uid != null) {
     $intervenantController = new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB()));
     $intervenant = $intervenantController->recupererParUID($uid);
     $connexionUtilisateur = new ConnexionUtilisateur();
-    if (!$connexionUtilisateur->estConnecte()){
+    if (!$connexionUtilisateur->estConnecte()) {
         $connexionUtilisateur->connecter($intervenant->getIdIntervenant());
     }
-} else if($email != null){
+} else if ($email != null) {
     $intervenantController = new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB()));
     $intervenant = $intervenantController->recupererParEmailInstitutionnel($email);
     $connexionUtilisateur = new ConnexionUtilisateur();
-    if (!$connexionUtilisateur->estConnecte()){
+    if (!$connexionUtilisateur->estConnecte()) {
         $connexionUtilisateur->connecter($intervenant->getIdIntervenant());
     }
 } else {
     die("Vous n'êtes pas autorisé à accéder à l'application !");
 }
-
 
 
 // at this step, the user has been authenticated by the CAS server

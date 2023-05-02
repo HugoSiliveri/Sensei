@@ -2,7 +2,6 @@
 
 namespace App\Sensei\Service;
 
-use App\Sensei\Model\DataObject\AbstractDataObject;
 use App\Sensei\Model\Repository\ServiceAnnuelRepository;
 use App\Sensei\Service\Exception\ServiceException;
 
@@ -21,7 +20,7 @@ class ServiceAnnuelService implements ServiceAnnuelServiceInterface
      */
     public function recupererParIntervenant(int $idIntervenant): array
     {
-        if (!isset($idIntervenant)){
+        if (!isset($idIntervenant)) {
             throw new ServiceException("L'identifiant n'est pas défini !");
         } else {
             return $this->serviceAnnuelRepository->recupererParIntervenant($idIntervenant);

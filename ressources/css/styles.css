@@ -19,7 +19,7 @@ html {
     height: 100%;
 }
 
-html, body{
+html, body {
     width: 100%;
     margin: 0;
 }
@@ -30,7 +30,7 @@ header {
     z-index: 2;
 }
 
-main{
+main {
     margin-top: 4%;
 }
 
@@ -59,7 +59,7 @@ a {
     text-decoration: none;
 }
 
-nav  a {
+nav a {
     color: white;
 }
 
@@ -97,7 +97,7 @@ ul {
     padding: 10% 0;
 }
 
-#deconnexion, #onglets, #departementHeader, #anneeHeader, #footer > p  {
+#deconnexion, #onglets, #departementHeader, #anneeHeader, #footer > p {
     font-family: var(--semibold-font);
     font-size: large;
 }
@@ -118,7 +118,7 @@ ul {
     font-size: medium;
 }
 
-#vague{
+#vague {
     display: block;
     background-image: url("../img/wave.svg");
     width: 100%;
@@ -200,12 +200,13 @@ ul {
     width: 100%;
     height: 100%;
 }
+
 .conteneurChamps {
     display: flex;
     width: 100%;
 }
 
-.autocompletion{
+.autocompletion {
     width: 22%;
     background-color: white;
     border: 1px solid grey;
@@ -267,12 +268,12 @@ ul {
     padding-left: 1%;
 }
 
-.coteGauche h2 , .coteDroit h2{
+.coteGauche h2, .coteDroit h2 {
     width: 100%;
     text-align: center;
 }
 
-.coteGauche li , .coteDroit  li {
+.coteGauche li, .coteDroit li {
     display: block;
 }
 

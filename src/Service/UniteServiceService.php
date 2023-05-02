@@ -12,11 +12,13 @@ class UniteServiceService implements UniteServiceServiceInterface
     {
     }
 
-    public function recupererUnitesServices(): array{
+    public function recupererUnitesServices(): array
+    {
         return $this->uniteServiceRepository->recuperer();
     }
 
-    public function recupererRequeteUniteService(): array{
+    public function recupererRequeteUniteService(): array
+    {
         $uniteService = $_GET["uniteService"];
         $tab = [
             "libUS" => $uniteService,

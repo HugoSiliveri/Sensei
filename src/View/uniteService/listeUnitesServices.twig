@@ -5,7 +5,8 @@
     {% set chunkSize = (nbUS / 2)|round(0, 'ceil') %}
     {% set chunks = unitesServices|batch(chunkSize) %}
     <div class="titreEtBarreRecherche">
-        <h2>Liste des unités de services</h2> {# TODO : A changer en fonction des intervenants du départements et des vacataires #}
+        <h2>Liste des unités de
+            services</h2> {# TODO : A changer en fonction des intervenants du départements et des vacataires #}
         {% include "templates/barreRechercheUniteService.twig" %}
     </div>
     <div class="liste">

@@ -16,12 +16,12 @@ class IntervenantController extends GenericController
 {
 
     public function __construct(
-        private readonly IntervenantServiceInterface $intervenantService,
-        private readonly StatutServiceInterface $statutService,
-        private readonly DroitServiceInterface $droitService,
+        private readonly IntervenantServiceInterface   $intervenantService,
+        private readonly StatutServiceInterface        $statutService,
+        private readonly DroitServiceInterface         $droitService,
         private readonly ServiceAnnuelServiceInterface $serviceAnnuelService,
-        private readonly EmploiServiceInterface $emploiService,
-        private readonly DepartementServiceInterface $departementService,
+        private readonly EmploiServiceInterface        $emploiService,
+        private readonly DepartementServiceInterface   $departementService,
         private readonly ConnexionUtilisateurInterface $connexionUtilisateur
     )
     {
@@ -43,8 +43,9 @@ class IntervenantController extends GenericController
      *
      * @return Response
      */
-    public function afficherDetail(): Response{
-        try{
+    public function afficherDetail(): Response
+    {
+        try {
             $idIntervenant = 3637;
             $intervenant = $this->intervenantService->recupererParIdentifiant($idIntervenant);
             $statut = $this->statutService->recupererParIdentifiant($intervenant->getIdStatut());
@@ -53,7 +54,7 @@ class IntervenantController extends GenericController
             $servicesAnnuels = $this->serviceAnnuelService->recupererParIntervenant($idIntervenant);
             $emplois = [];
             $departements = [];
-            foreach ($servicesAnnuels as $serviceAnnuel){
+            foreach ($servicesAnnuels as $serviceAnnuel) {
                 $emplois[] = $this->emploiService->recupererParIdentifiant($serviceAnnuel->getIdEmploi());
                 $departements[] = $this->departementService->recupererParIdentifiant($serviceAnnuel->getIdDepartement());
             }
@@ -67,7 +68,7 @@ class IntervenantController extends GenericController
                 "departements" => $departements];
 
             return GenericController::afficherTwig("intervenant/detailIntervenant.twig", $parametres);
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 //MessageFlash::ajouter("danger", $e->getMessage());
             } else {

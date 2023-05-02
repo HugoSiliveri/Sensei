@@ -18,6 +18,31 @@ use PDOException;
 class UniteServiceRepository extends AbstractRepository
 {
 
+    public function recupererPourAutoCompletion(array $uniteServiceArray, $limit = 5): array
+    {
+        try {
+            $sql = "SELECT * from UniteService 
+             WHERE idUSReferentiel LIKE :idUSReferentielTag OR libUS LIKE :libUSTag 
+             ORDER BY idUSReferentiel, libUS
+             LIMIT $limit";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "idUSReferentielTag" => $uniteServiceArray["idUSReferentiel"] . "%",
+                "libUSTag" => $uniteServiceArray["libUS"] . "%",
+            );
+            $pdoStatement->execute($values);
+            $pdoStatement->setFetchMode(PDO::FETCH_OBJ);
+            return $pdoStatement->fetchAll();
+
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+
+    }
+
     /**
      * Retourne le nom de la table contenant les données de UniteService.
      * @return string
@@ -43,31 +68,7 @@ class UniteServiceRepository extends AbstractRepository
     protected function getNomsColonnes(): array
     {
         return ["idUniteService", "idUSReferentiel", "libUS", "nature", "ancetre", "anneeOuverture", "anneeCloture", "ECTS",
-        "heuresCM", "heuresTD", "heuresTP", "heuresStage", "heuresTerrain", "semestre", "saison", "payeur", "validite", "deleted"];
-    }
-
-    public function recupererPourAutoCompletion(array $uniteServiceArray, $limit = 5): array {
-        try {
-            $sql = "SELECT * from UniteService 
-             WHERE idUSReferentiel LIKE :idUSReferentielTag OR libUS LIKE :libUSTag 
-             ORDER BY idUSReferentiel, libUS
-             LIMIT $limit";
-
-            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
-
-            $values = array(
-                "idUSReferentielTag" => $uniteServiceArray["idUSReferentiel"] . "%",
-                "libUSTag" => $uniteServiceArray["libUS"] . "%",
-            );
-            $pdoStatement->execute($values);
-            $pdoStatement->setFetchMode(PDO::FETCH_OBJ);
-            return $pdoStatement->fetchAll();
-
-        } catch (PDOException $exception){
-            echo $exception->getMessage();
-            die("Erreur lors de la recherche dans la base de données.");
-        }
-
+            "heuresCM", "heuresTD", "heuresTP", "heuresStage", "heuresTerrain", "semestre", "saison", "payeur", "validite", "deleted"];
     }
 
     /** Construit un objet UniteService à partir d'un tableau donné en paramètre.

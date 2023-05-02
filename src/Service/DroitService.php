@@ -22,11 +22,11 @@ class DroitService implements DroitServiceInterface
      */
     public function recupererParIdentifiant(int $idDroit): AbstractDataObject
     {
-        if (!isset($idDroit)){
+        if (!isset($idDroit)) {
             throw new ServiceException("L'identifiant n'est pas défini !");
         } else {
             $droit = $this->droitRepository->recupererParClePrimaire($idDroit);
-            if (!isset($droit)){
+            if (!isset($droit)) {
                 throw new ServiceException("L'identifiant est inconnu !");
             } else {
                 return $droit;

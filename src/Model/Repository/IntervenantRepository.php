@@ -19,40 +19,14 @@ class IntervenantRepository extends AbstractRepository
 {
 
     /**
-     * Retourne le nom de la table contenant les données d'Intervenant.
-     * @return string
-     */
-    protected function getNomTable(): string
-    {
-        return "Intervenant";
-    }
-
-    /**
-     * Retourne la clé primaire de la table Intervenant.
-     * @return string
-     */
-    protected function getNomClePrimaire(): string
-    {
-        return "idIntervenant";
-    }
-
-    /**
-     * Retourne le nom de tous les attributs de la table Intervenant.
-     * @return string[] le tableau contenant tous les noms des attributs
-     */
-    protected function getNomsColonnes(): array
-    {
-        return ["idIntervenant", "nom", "prenom", "idStatut", "idDroit", "emailInstitutionnel", "emailUsage", "idIntervenantReferentiel", "deleted"];
-    }
-
-    /**
      * Retourne l'intervenant qui possède le même idIntervenantReferentiel que celui en paramètre.
      * Retourne null s'il ne trouve pas
      *
      * @param $idIntervenantReferentiel
      * @return AbstractDataObject|null
      */
-    public function recupererParUID($idIntervenantReferentiel): ?AbstractDataObject{
+    public function recupererParUID($idIntervenantReferentiel): ?AbstractDataObject
+    {
         try {
             $sql = "SELECT * from Intervenant WHERE idIntervenantReferentiel=:uidTag";
 
@@ -77,13 +51,34 @@ class IntervenantRepository extends AbstractRepository
     }
 
     /**
+     * Construit un objet Intervenant à partir d'un tableau donné en paramètre.
+     * @param array $objetFormatTableau
+     * @return Intervenant
+     */
+    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
+    {
+        return new Intervenant(
+            $objetFormatTableau["idIntervenant"],
+            $objetFormatTableau["nom"],
+            $objetFormatTableau["prenom"],
+            $objetFormatTableau["idStatut"],
+            $objetFormatTableau["idDroit"],
+            $objetFormatTableau["emailInstitutionnel"],
+            $objetFormatTableau["emailUsage"],
+            $objetFormatTableau["idIntervenantReferentiel"],
+            $objetFormatTableau["deleted"]
+        );
+    }
+
+    /**
      * Retourne l'intervenant qui possède le même emailInstitutionnel que celui en paramètre.
      * Retourne null s'il ne trouve pas
      *
      * @param $emailInstitutionnel
      * @return AbstractDataObject|null
      */
-    public function recupererParEmailInstitutionnel($emailInstitutionnel): ?AbstractDataObject{
+    public function recupererParEmailInstitutionnel($emailInstitutionnel): ?AbstractDataObject
+    {
         try {
             $sql = "SELECT * from Intervenant WHERE emailInstitutionnel=:uidTag";
 
@@ -106,7 +101,8 @@ class IntervenantRepository extends AbstractRepository
         }
     }
 
-    public function recupererPourAutoCompletion(array $intervenantArray, $limit = 5): array {
+    public function recupererPourAutoCompletion(array $intervenantArray, $limit = 5): array
+    {
         try {
             $sql = "SELECT * from Intervenant 
              WHERE nom LIKE :nomTag OR prenom LIKE :prenomTag OR idIntervenantReferentiel LIKE :idIntervenantReferentielTag
@@ -124,7 +120,7 @@ class IntervenantRepository extends AbstractRepository
             $pdoStatement->setFetchMode(PDO::FETCH_OBJ);
             return $pdoStatement->fetchAll();
 
-        } catch (PDOException $exception){
+        } catch (PDOException $exception) {
             echo $exception->getMessage();
             die("Erreur lors de la recherche dans la base de données.");
         }
@@ -132,22 +128,29 @@ class IntervenantRepository extends AbstractRepository
     }
 
     /**
-     * Construit un objet Intervenant à partir d'un tableau donné en paramètre.
-     * @param array $objetFormatTableau
-     * @return Intervenant
+     * Retourne le nom de la table contenant les données d'Intervenant.
+     * @return string
      */
-    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
+    protected function getNomTable(): string
     {
-        return new Intervenant(
-            $objetFormatTableau["idIntervenant"],
-            $objetFormatTableau["nom"],
-            $objetFormatTableau["prenom"],
-            $objetFormatTableau["idStatut"],
-            $objetFormatTableau["idDroit"],
-            $objetFormatTableau["emailInstitutionnel"],
-            $objetFormatTableau["emailUsage"],
-            $objetFormatTableau["idIntervenantReferentiel"],
-            $objetFormatTableau["deleted"]
-        );
+        return "Intervenant";
+    }
+
+    /**
+     * Retourne la clé primaire de la table Intervenant.
+     * @return string
+     */
+    protected function getNomClePrimaire(): string
+    {
+        return "idIntervenant";
+    }
+
+    /**
+     * Retourne le nom de tous les attributs de la table Intervenant.
+     * @return string[] le tableau contenant tous les noms des attributs
+     */
+    protected function getNomsColonnes(): array
+    {
+        return ["idIntervenant", "nom", "prenom", "idStatut", "idDroit", "emailInstitutionnel", "emailUsage", "idIntervenantReferentiel", "deleted"];
     }
 }

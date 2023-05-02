@@ -227,18 +227,18 @@ class URLRouter
     }
 
     /**
-     * @param mixed $conteneur
-     */
-    public static function setConteneur($conteneur): void
-    {
-        self::$conteneur = $conteneur;
-    }
-
-    /**
      * @return mixed
      */
     public static function getConteneur()
     {
         return self::$conteneur;
+    }
+
+    /**
+     * @param mixed $conteneur
+     */
+    public static function setConteneur($conteneur): void
+    {
+        self::$conteneur = $conteneur;
     }
 }

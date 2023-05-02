@@ -19,6 +19,19 @@ class Session
         }
     }
 
+    /** Crée une instance de la classe Session et la retourne. Si une instance est déjà créée, la méthode la retourne
+     * @return Session
+     */
+    public static function getInstance(): Session
+    {
+        if (is_null(Session::$instance)) {
+            Session::$instance = new Session();
+            $dureeExpiration = Configuration::getDureeExpirationSession();
+            Session::$instance->verifierDerniereActivite($dureeExpiration);
+        }
+        return Session::$instance;
+    }
+
     /** Calcule la durée entre la dernière activité de l'utilsateur sur le site et le temps actuel.
      * Si celle-ci dépasse la durée d'expiration de la session, la méthode supprime celle-ci.
      * @param int $dureeExpiration
@@ -41,19 +54,6 @@ class Session
         }
 
         $_SESSION['derniereActivite'] = time(); // update last activity time stamp
-    }
-
-    /** Crée une instance de la classe Session et la retourne. Si une instance est déjà créée, la méthode la retourne
-     * @return Session
-     */
-    public static function getInstance(): Session
-    {
-        if (is_null(Session::$instance)) {
-            Session::$instance = new Session();
-            $dureeExpiration = Configuration::getDureeExpirationSession();
-            Session::$instance->verifierDerniereActivite($dureeExpiration);
-        }
-        return Session::$instance;
     }
 
     /** Vérifie si la clé de la session en paramètre existe
@@ -87,16 +87,6 @@ class Session
     }
 
     /**
-     * Supprime la session
-     * @param $cle
-     * @return void
-     */
-    public function supprimer($name): void
-    {
-        unset($_SESSION[$name]);
-    }
-
-    /**
      * Détruit la session.
      * À la différence de la méthode supprimer, cette méthode supprime aussi les données de la session du disque dur du serveur.
      * @return void
@@ -108,6 +98,16 @@ class Session
         Cookie::supprimer(session_name()); // deletes the session cookie
         // Il faudra reconstruire la session au prochain appel de getInstance()
         $instance = null;
+    }
+
+    /**
+     * Supprime la session
+     * @param $cle
+     * @return void
+     */
+    public function supprimer($name): void
+    {
+        unset($_SESSION[$name]);
     }
 
 }

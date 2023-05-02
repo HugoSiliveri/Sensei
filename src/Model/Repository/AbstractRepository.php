@@ -21,14 +21,6 @@ abstract class AbstractRepository implements AbstractRepositoryInterface
     }
 
     /**
-     * Ci-dessous sont regroupées toutes les méthodes à redéfinir dans les sous-classes d'AbstractRepository.
-     */
-    protected abstract function getNomTable(): string;
-    protected abstract function getNomClePrimaire(): string;
-    protected abstract function getNomsColonnes(): array;
-    protected abstract function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject;
-
-    /**
      * @inheritDoc
      */
     public function recuperer($limit = 200): array
@@ -47,6 +39,15 @@ abstract class AbstractRepository implements AbstractRepositoryInterface
         }
         return $objets;
     }
+
+    /**
+     * Ci-dessous sont regroupées toutes les méthodes à redéfinir dans les sous-classes d'AbstractRepository.
+     */
+    protected abstract function getNomTable(): string;
+
+    protected abstract function getNomsColonnes(): array;
+
+    protected abstract function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject;
 
     /**
      * @inheritDoc
@@ -99,6 +100,8 @@ abstract class AbstractRepository implements AbstractRepositoryInterface
         }
         return null;
     }
+
+    protected abstract function getNomClePrimaire(): string;
 
     /**
      * @inheritDoc

@@ -3,7 +3,6 @@
 namespace App\Sensei\Lib;
 
 use App\Sensei\Model\HTTP\Session;
-use App\Sensei\Model\Repository\AbstractRepositoryInterface;
 
 /**
  * @name ConnexionUtilisateur
@@ -33,17 +32,6 @@ class ConnexionUtilisateur implements ConnexionUtilisateurInterface
     }
 
     /**
-     * Méthode qui va renvoyer un booléen sur la connexion de l'utilisateur.
-     *
-     * @return bool <code>true</code> si l'utilisateur est déjà connecté, <code>false</code> sinon
-     */
-    public function estConnecte(): bool
-    {
-        $session = Session::getInstance();
-        return $session->existeCle($this->cleConnexion);
-    }
-
-    /**
      * Méthode qui va déconnecter l'utilisateur de la session
      *
      * @return void
@@ -52,6 +40,30 @@ class ConnexionUtilisateur implements ConnexionUtilisateurInterface
     {
         $session = Session::getInstance();
         $session->supprimer($this->cleConnexion);
+    }
+
+    /**
+     * Méthode qui va voir si le <code>$login</code> est un utilisateur
+     *
+     * @param $id
+     * @return bool <code>true</code> si <code>$login</code> est un utilisateur, <code>false</code> sinon.
+     */
+    public function estUtilisateur($id): bool
+    {
+        return (ConnexionUtilisateur::estConnecte() &&
+            ConnexionUtilisateur::getIdUtilisateurConnecte() == $id
+        );
+    }
+
+    /**
+     * Méthode qui va renvoyer un booléen sur la connexion de l'utilisateur.
+     *
+     * @return bool <code>true</code> si l'utilisateur est déjà connecté, <code>false</code> sinon
+     */
+    public function estConnecte(): bool
+    {
+        $session = Session::getInstance();
+        return $session->existeCle($this->cleConnexion);
     }
 
     /**
@@ -67,19 +79,6 @@ class ConnexionUtilisateur implements ConnexionUtilisateurInterface
             return $session->lire($this->cleConnexion);
         } else
             return null;
-    }
-
-    /**
-     * Méthode qui va voir si le <code>$login</code> est un utilisateur
-     *
-     * @param $id
-     * @return bool <code>true</code> si <code>$login</code> est un utilisateur, <code>false</code> sinon.
-     */
-    public function estUtilisateur($id): bool
-    {
-        return (ConnexionUtilisateur::estConnecte() &&
-            ConnexionUtilisateur::getIdUtilisateurConnecte() == $id
-        );
     }
 
 }

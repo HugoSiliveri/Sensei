@@ -5,7 +5,8 @@
     {% set chunkSize = (nbIntervenants / 3)|round(0, 'ceil') %}
     {% set chunks = intervenants|batch(chunkSize) %}
     <div class="titreEtBarreRecherche">
-        <h2>Liste des intervenants</h2> {# TODO : A changer en fonction des intervenants du départements et des vacataires #}
+        <h2>Liste des
+            intervenants</h2> {# TODO : A changer en fonction des intervenants du départements et des vacataires #}
         {% include "templates/barreRechercheIntervenant.twig" %}
     </div>
     <div class="liste">

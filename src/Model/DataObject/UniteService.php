@@ -16,9 +16,9 @@ class UniteService extends AbstractDataObject
 
     public function __construct(
         private int     $idUniteService,
-        private ?string    $idUSReferentiel,
+        private ?string $idUSReferentiel,
         private ?string $libUS,
-        private ?string  $nature,
+        private ?string $nature,
         private ?int    $ancetre,
         private ?int    $anneeOuverture,
         private ?int    $anneeCloture,
@@ -31,8 +31,8 @@ class UniteService extends AbstractDataObject
         private int     $semestre,
         private int     $saison,
         private ?string $payeur,
-        private ?int     $validite,
-        private ?int     $deleted
+        private ?int    $validite,
+        private ?int    $deleted
     )
     {
     }
