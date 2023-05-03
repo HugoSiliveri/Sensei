@@ -15,8 +15,9 @@
             </ul>
             <div class="optionsSupplémentaires">
                 {% include "templates/barreRechercheIntervenant.twig" %}
-                <div class="creationNouvelObjet">
-                    <a href="#">Créer un nouvel intervenant</a>
+                <div class="optionsSurObjet">
+                    <a href="#"><b>Modification des informations</b></a> {# TODO : Option disponible uniquement pour les admins et chefs de département #}
+                    <a href="#"><b>Créer un nouvel intervenant</b></a>
                 </div>
             </div>
         </div>
@@ -42,9 +43,44 @@
                             <li>Delta : {{ serviceAnnuel.getDelta }}</li>
                         </ul>
                     </div>
+                    <div class="menuDeroulant">
+                        <span class="boutonSousMenuAnneeService boutonMenuDeroulant">
+                            <img class="arrow-down arrowDownAnneeService" src="{{ asset("../ressources/img/down-arrow.svg") }}" alt="down-arrow">
+                            <img class="arrow-up arrowUpAnneeService" src="{{ asset("../ressources/img/up-arrow.svg") }}" alt="up-arrow">
+                        </span>
+                        <div class="sousMenuAnneeService menuDeroulantAnneeService">
+{#                            {% set j = 0 %}#}
+{#                            {% for voeu in voeux %}#}
+{#                                {% set millesime2 = unitesServicesAnnees[j].getMillesime %}#}
+{#                                    {% if millesime == millesime2 %}#}
+{#                                        <div class="infosSupplementaires">#}
+{#                                            <p><b>Code :</b> {{ unitesServices[j].getIdUSReferentiel }}</p>#}
+{#                                            <p><b>Libellé :</b> {{ unitesServices[j].getLibUS }}</p>#}
+{#                                            <p><b>Groupe d'intervention :</b> {{ interventions[j].getNumeroGroupeIntervention }}</p>#}
+{#                                            <p><b>Volume horaire :</b> {{ interventions[j].getVolumeHoraire }}</p>#}
+{#                                        </div>#}
+{#                                    {% endif %}#}
+{#                                {% set j = j + 1 %}#}
+{#                            {% endfor %}#}
+                            {% set j = 0 %}
+                            {% for voeu in voeux %}
+                                {% set millesime2 = voeu.millesime %}
+                                {% if millesime == millesime2 %}
+                                    <div class="infosSupplementaires">
+                                        <p><b>Code :</b> {{ voeu.idUSReferentiel }}</p>
+                                        <p><b>Libellé :</b> {{ voeu.libUS }}</p>
+                                        <p><b>Groupe d'intervention :</b> {{ voeu.numeroGroupeIntervention }}</p>
+                                        <p><b>Volume horaire :</b> {{ voeu.volumeHoraire }}</p>
+                                    </div>
+                                {% endif %}
+                                {% set j = j + 1 %}
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
                 {% set i = i + 1 %}
             {% endfor %}
+            {% include "templates/exportCSVServiceAnnuel.twig" %}
         </div>
     </div>
 {% endblock %}

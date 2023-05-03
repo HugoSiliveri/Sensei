@@ -231,14 +231,14 @@ ul {
 
 .coteDroit {
     overflow: auto;
-    height: 600px;
+    height: 700px;
 }
 
 .serviceAnnuel {
     display: flex;
     flex-direction: column;
     width: 50%;
-    padding: 1%;
+    padding: 1% 1% 0 1%;
     border: solid black;
     border-radius: 10px;
     margin-bottom: 3%;
@@ -280,8 +280,12 @@ ul {
 .optionsSupplémentaires {
     display: flex;
     flex-direction: row;
-    align-items: center;
     width: 100%;
+    margin-top: 3%;
+}
+
+.coteGauche .conteneurChamps{
+    justify-content: center;
 }
 
 .coteGauche .champsRecherche {
@@ -292,7 +296,47 @@ ul {
     width: 18.5%;
 }
 
-.creationNouvelObjet {
+.optionsSurObjet {
     display: flex;
+    flex-direction: column;
     width: 100%;
+    align-items: center;
+}
+
+.optionsSurObjet > a {
+    margin: 3% 0 10% 0;
+}
+
+.menuDeroulant, .boutonSousMenuAnneeService, .sousMenuAnneeService {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.sousMenuAnneeService{
+    display: none;
+}
+
+.arrowUpAnneeService  {
+    display: none;
+}
+
+.boutonSousMenuAnneeService {
+    align-items: center;
+    padding: 1% 0;
+}
+
+.arrow-down, .arrow-up {
+    width: 5%;
+}
+
+.infosSupplementaires {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3%;
+    padding-left: 2%;
+}
+
+.infosSupplementaires > p {
+    margin: 0;
 }

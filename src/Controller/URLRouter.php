@@ -4,21 +4,28 @@ namespace App\Sensei\Controller;
 
 use App\Sensei\Configuration\ConfigurationBDDMariaDB;
 use App\Sensei\Lib\ConnexionUtilisateur;
+use App\Sensei\Model\DataObject\Intervention;
 use App\Sensei\Model\Repository\ConnexionBaseDeDonnees;
 use App\Sensei\Model\Repository\DepartementRepository;
 use App\Sensei\Model\Repository\DroitRepository;
 use App\Sensei\Model\Repository\EmploiRepository;
 use App\Sensei\Model\Repository\IntervenantRepository;
+use App\Sensei\Model\Repository\InterventionRepository;
 use App\Sensei\Model\Repository\ServiceAnnuelRepository;
 use App\Sensei\Model\Repository\StatutRepository;
+use App\Sensei\Model\Repository\UniteServiceAnneeRepository;
 use App\Sensei\Model\Repository\UniteServiceRepository;
+use App\Sensei\Model\Repository\VoeuRepository;
 use App\Sensei\Service\DepartementService;
 use App\Sensei\Service\DroitService;
 use App\Sensei\Service\EmploiService;
 use App\Sensei\Service\IntervenantService;
+use App\Sensei\Service\InterventionService;
 use App\Sensei\Service\ServiceAnnuelService;
 use App\Sensei\Service\StatutService;
+use App\Sensei\Service\UniteServiceAnneeService;
 use App\Sensei\Service\UniteServiceService;
+use App\Sensei\Service\VoeuService;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
@@ -77,6 +84,9 @@ class URLRouter
         $uniteServiceRepository = $conteneur->register('unite_service_repository', UniteServiceRepository::class);
         $uniteServiceRepository->setArguments([new Reference('connexion_base')]);
 
+        $uniteServiceAnneeRepository = $conteneur->register('unite_service_annee_repository', UniteServiceAnneeRepository::class);
+        $uniteServiceAnneeRepository->setArguments([new Reference('connexion_base')]);
+
         $statutRepository = $conteneur->register('statut_repository', StatutRepository::class);
         $statutRepository->setArguments([new Reference('connexion_base')]);
 
@@ -92,20 +102,32 @@ class URLRouter
         $departementRepository = $conteneur->register('departement_repository', DepartementRepository::class);
         $departementRepository->setArguments([new Reference('connexion_base')]);
 
+        $interventionRepository = $conteneur->register('intervention_repository', InterventionRepository::class);
+        $interventionRepository->setArguments([new Reference('connexion_base')]);
+
+        $voeuRepository = $conteneur->register('voeu_repository', VoeuRepository::class);
+        $voeuRepository->setArguments([new Reference('connexion_base')]);
+
         $connexionUtilisateur = $conteneur->register('connexion_utilisateur', ConnexionUtilisateur::class);
         $connexionUtilisateur->setArguments([new Reference('intervenant_repository')]);
 
         $intervenantController = $conteneur->register('intervenant_controller', IntervenantController::class);
-        $intervenantController->setArguments([new Reference('intervenant_service'), new Reference('statut_service'), new Reference('droit_service'), new Reference('service_annuel_service'), new Reference('emploi_service'), new Reference('departement_service'), new Reference('connexion_utilisateur')]);
-
-        $intervenantService = $conteneur->register('intervenant_service', IntervenantService::class);
-        $intervenantService->setArguments([new Reference("intervenant_repository"), new Reference("connexion_utilisateur")]);
+        $intervenantController->setArguments([new Reference('intervenant_service'), new Reference('statut_service'),
+            new Reference('droit_service'), new Reference('service_annuel_service'), new Reference('emploi_service'),
+            new Reference('departement_service'), new Reference('unite_service_service'),new Reference('unite_service_annee_service'), new Reference('intervention_service'),
+            new Reference('voeu_service'), new Reference('connexion_utilisateur')]);
 
         $uniteServiceController = $conteneur->register('unite_service_controller', UniteServiceController::class);
         $uniteServiceController->setArguments([new Reference('unite_service_service')]);
 
+        $intervenantService = $conteneur->register('intervenant_service', IntervenantService::class);
+        $intervenantService->setArguments([new Reference("intervenant_repository"), new Reference("connexion_utilisateur")]);
+
         $uniteServiceService = $conteneur->register('unite_service_service', UniteServiceService::class);
         $uniteServiceService->setArguments([new Reference('unite_service_repository')]);
+
+        $uniteServiceAnneeService = $conteneur->register('unite_service_annee_service', UniteServiceAnneeService::class);
+        $uniteServiceAnneeService->setArguments([new Reference('unite_service_annee_repository')]);
 
         $statutService = $conteneur->register('statut_service', StatutService::class);
         $statutService->setArguments([new Reference('statut_repository')]);
@@ -122,6 +144,12 @@ class URLRouter
         $departementService = $conteneur->register('departement_service', DepartementService::class);
         $departementService->setArguments([new Reference('departement_repository')]);
 
+        $interventionService = $conteneur->register('intervention_service', InterventionService::class);
+        $interventionService->setArguments([new Reference('intervention_repository')]);
+
+        $voeuService = $conteneur->register('voeu_service', VoeuService::class);
+        $voeuService->setArguments([new Reference('voeu_repository')]);
+
         $genericController = $conteneur->register('generic_controller', GenericController::class);
 
         /* Instantiation d'une collection de routes */
@@ -129,7 +157,7 @@ class URLRouter
 
         /* Création et ajout des routes à la collection */
         $routeParDefaut = new Route("/", [
-            "_controller" => ["intervenant_controller", "afficherListe"]//"generic_controller", "afficherAccueil"]
+            "_controller" => ["intervenant_controller", "afficherDetail"]//"generic_controller", "afficherAccueil"]
         ]);
 
         $routeAfficherListeIntervenants = new Route("/intervenants", [

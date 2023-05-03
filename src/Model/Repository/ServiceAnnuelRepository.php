@@ -46,8 +46,6 @@ class ServiceAnnuelRepository extends AbstractRepository
             echo $exception->getMessage();
             die("Erreur lors de la recherche dans la base de données.");
         }
-
-
     }
 
     /** Construit un objet ServiceAnnuel à partir d'un tableau donné en paramètre.
