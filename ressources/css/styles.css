@@ -10,6 +10,7 @@
 
 :root {
     --bg-color: #31485F;
+    --bg-hover: #273C50;
     --classic-font: Montserrat, serif;
     --semibold-font: Montserrat-SemiBold, serif;
 }
@@ -142,6 +143,27 @@ ul {
     flex-direction: column;
 }
 
+#boutonExportCSV {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: var(--bg-color);
+    border-radius: 10px;
+    width: 260px;
+    margin-top: 5%;
+    padding: 0.8%;
+
+}
+
+#boutonExportCSV > a {
+    color: white;
+}
+
+#download {
+    width: 25px;
+}
+
 .liste {
     display: flex;
     flex-direction: row;
@@ -172,8 +194,8 @@ ul {
     justify-content: center;
 }
 
-.boutonEnvoie:hover {
-    background-color: #273C50;
+#boutonExportCSV:hover, .boutonEnvoie:hover {
+    background-color: var(--bg-hover);
 }
 
 .titreEtBarreRecherche {
@@ -253,11 +275,17 @@ ul {
 
 .miseEnPage {
     display: flex;
+    width: 100%;
+    justify-content: center;
     flex-direction: row;
 }
 
 .miseEnPage ul {
     margin-left: 3%;
+}
+
+.coteGauche ul {
+    margin-left: 6%;
 }
 
 .miseEnPage h2 {
@@ -268,9 +296,14 @@ ul {
     padding-left: 1%;
 }
 
-.coteGauche h2, .coteDroit h2 {
+.coteDroit h2 {
     width: 100%;
     text-align: center;
+}
+
+.coteGauche h2 {
+    text-align: center;
+    width: 70%;
 }
 
 .coteGauche li, .coteDroit li {
@@ -339,4 +372,25 @@ ul {
 
 .infosSupplementaires > p {
     margin: 0;
+}
+
+.miseEnPage2 {
+    display: flex;
+    flex-direction: column;
+}
+
+.boutonExportConteneur {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.infosServiceAnnuel {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.edition {
+    margin-bottom: 5%;
 }

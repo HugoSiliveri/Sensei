@@ -1,86 +1,103 @@
 {% extends "base.twig" %}
 
 {% block page_content %}
-    <div class="miseEnPage">
-        <div class="coteGauche">
-            <h2>Informations sur {{ intervenant.getPrenom }} {{ intervenant.getNom }}</h2>
-            <ul class="description">
-                <li><b>Identifiant d'intervenant référentiel :</b> {{ intervenant.getIdIntervenantReferentiel }}</li>
-                <li><b>Nom :</b> {{ intervenant.getNom }}</li>
-                <li><b>Prénom :</b> {{ intervenant.getPrenom }}</li>
-                <li><b>Statut :</b> {{ statut.getLibStatut }}</li>
-                <li><b>Droit :</b> {{ droit.getTypeDroit }}</li>
-                <li><b>Email institutionnel :</b> {{ intervenant.getEmailInstitutionnel }}</li>
-                <li><b>Email d'usage :</b> {{ intervenant.getEmailUsage }}</li>
-            </ul>
-            <div class="optionsSupplémentaires">
-                {% include "templates/barreRechercheIntervenant.twig" %}
-                <div class="optionsSurObjet">
-                    <a href="#"><b>Modification des informations</b></a> {# TODO : Option disponible uniquement pour les admins et chefs de département #}
-                    <a href="#"><b>Créer un nouvel intervenant</b></a>
+    <div class="miseEnPage2">
+        <div class="miseEnPage">
+            <div class="coteGauche">
+                <div class="miseEnPage">
+                    <h2>Informations sur {{ intervenant.getPrenom }} {{ intervenant.getNom }}</h2>
+                    <a href="#">
+                        <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">
+                    </a>
+                </div>
+                <ul class="description">
+                    <li><b>Identifiant d'intervenant référentiel :</b> {{ intervenant.getIdIntervenantReferentiel }}
+                    </li>
+                    <li><b>Nom :</b> {{ intervenant.getNom }}</li>
+                    <li><b>Prénom :</b> {{ intervenant.getPrenom }}</li>
+                    <li><b>Statut :</b> {{ statut.getLibStatut }}</li>
+                    <li><b>Droit :</b> {{ droit.getTypeDroit }}</li>
+                    <li><b>Email institutionnel :</b> {{ intervenant.getEmailInstitutionnel }}</li>
+                    <li><b>Email d'usage :</b> {{ intervenant.getEmailUsage }}</li>
+                </ul>
+                <div class="optionsSupplémentaires">
+                    {% include "templates/barreRechercheIntervenant.twig" %}
+                    <div class="optionsSurObjet">
+                        <a href="#"><b>Créer un nouvel intervenant</b></a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="coteDroit">
-            {% set i = 0 %}
-            <h2>Services annuels</h2>
-            {% for serviceAnnuel in servicesAnnuels %}
-                <div class="serviceAnnuel">
-                    <div class="infosDepartementEtAnnee">
-                        <div>
-                            <p>Département : {{ departements[i].getLibDepartement }}</p>
+            <div class="coteDroit">
+                {% set i = 0 %}
+                <h2>Services annuels</h2>
+                {% for serviceAnnuel in servicesAnnuels %}
+                    <div class="serviceAnnuel">
+                        <div class="infosDepartementEtAnnee">
+                            <div>
+                                <p>Département : {{ departements[i].getLibDepartement }}</p>
+                            </div>
+                            <div>
+                                {% set millesime = serviceAnnuel.getMillesime %}
+                                <p>Année : {{ millesime-1 }} - {{ millesime }}</p>
+                            </div>
                         </div>
-                        <div>
-                            {% set millesime = serviceAnnuel.getMillesime %}
-                            <p>Année : {{ millesime-1 }} - {{ millesime }}</p>
+                        <div class="infosServiceAnnuel">
+                            <ul>
+                                <li>Emploi : {{ emplois[i].getLibEmploi }}</li>
+                                <li>Service statuaire : {{ serviceAnnuel.getServiceStatuaire }}</li>
+                                <li>Service réalisé : {{ serviceAnnuel.getServiceFait }}</li>
+                                <li>Delta : {{ serviceAnnuel.getDelta }}</li>
+                            </ul>
+                            <a href="#">
+                                <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">
+                            </a>
                         </div>
-                    </div>
-                    <div class="infosServiceAnnuel">
-                        <ul>
-                            <li>Emploi : {{ emplois[i].getLibEmploi }}</li>
-                            <li>Service statuaire : {{ serviceAnnuel.getServiceStatuaire }}</li>
-                            <li>Service réalisé : {{ serviceAnnuel.getServiceFait }}</li>
-                            <li>Delta : {{ serviceAnnuel.getDelta }}</li>
-                        </ul>
-                    </div>
-                    <div class="menuDeroulant">
+                        <div class="menuDeroulant">
                         <span class="boutonSousMenuAnneeService boutonMenuDeroulant">
-                            <img class="arrow-down arrowDownAnneeService" src="{{ asset("../ressources/img/down-arrow.svg") }}" alt="down-arrow">
-                            <img class="arrow-up arrowUpAnneeService" src="{{ asset("../ressources/img/up-arrow.svg") }}" alt="up-arrow">
+                            <img class="arrow-down arrowDownAnneeService"
+                                 src="{{ asset("../ressources/img/down-arrow.svg") }}" alt="down-arrow">
+                            <img class="arrow-up arrowUpAnneeService"
+                                 src="{{ asset("../ressources/img/up-arrow.svg") }}" alt="up-arrow">
                         </span>
-                        <div class="sousMenuAnneeService menuDeroulantAnneeService">
-{#                            {% set j = 0 %}#}
-{#                            {% for voeu in voeux %}#}
-{#                                {% set millesime2 = unitesServicesAnnees[j].getMillesime %}#}
-{#                                    {% if millesime == millesime2 %}#}
-{#                                        <div class="infosSupplementaires">#}
-{#                                            <p><b>Code :</b> {{ unitesServices[j].getIdUSReferentiel }}</p>#}
-{#                                            <p><b>Libellé :</b> {{ unitesServices[j].getLibUS }}</p>#}
-{#                                            <p><b>Groupe d'intervention :</b> {{ interventions[j].getNumeroGroupeIntervention }}</p>#}
-{#                                            <p><b>Volume horaire :</b> {{ interventions[j].getVolumeHoraire }}</p>#}
-{#                                        </div>#}
-{#                                    {% endif %}#}
-{#                                {% set j = j + 1 %}#}
-{#                            {% endfor %}#}
-                            {% set j = 0 %}
-                            {% for voeu in voeux %}
-                                {% set millesime2 = voeu.millesime %}
-                                {% if millesime == millesime2 %}
-                                    <div class="infosSupplementaires">
-                                        <p><b>Code :</b> {{ voeu.idUSReferentiel }}</p>
-                                        <p><b>Libellé :</b> {{ voeu.libUS }}</p>
-                                        <p><b>Groupe d'intervention :</b> {{ voeu.numeroGroupeIntervention }}</p>
-                                        <p><b>Volume horaire :</b> {{ voeu.volumeHoraire }}</p>
-                                    </div>
-                                {% endif %}
-                                {% set j = j + 1 %}
-                            {% endfor %}
+                            <div class="sousMenuAnneeService menuDeroulantAnneeService">
+                                {#                            {% set j = 0 %} #}
+                                {#                            {% for voeu in voeux %} #}
+                                {#                                {% set millesime2 = unitesServicesAnnees[j].getMillesime %} #}
+                                {#                                    {% if millesime == millesime2 %} #}
+                                {#                                        <div class="infosSupplementaires"> #}
+                                {#                                            <p><b>Code :</b> {{ unitesServices[j].getIdUSReferentiel }}</p> #}
+                                {#                                            <p><b>Libellé :</b> {{ unitesServices[j].getLibUS }}</p> #}
+                                {#                                            <p><b>Groupe d'intervention :</b> {{ interventions[j].getNumeroGroupeIntervention }}</p> #}
+                                {#                                            <p><b>Volume horaire :</b> {{ interventions[j].getVolumeHoraire }}</p> #}
+                                {#                                        </div> #}
+                                {#                                    {% endif %} #}
+                                {#                                {% set j = j + 1 %} #}
+                                {#                            {% endfor %} #}
+                                {% set j = 0 %}
+                                {% for voeu in voeux %}
+                                    {% set millesime2 = voeu.millesime %}
+                                    {% if millesime == millesime2 %}
+                                        <div class="infosSupplementaires">
+                                            <p><b>Code :</b> {{ voeu.idUSReferentiel }}</p>
+                                            <p><b>Libellé :</b> {{ voeu.libUS }}</p>
+                                            <p><b>Groupe d'intervention :</b> {{ voeu.numeroGroupeIntervention }}</p>
+                                            <p><b>Volume horaire :</b> {{ voeu.volumeHoraire }}</p>
+                                        </div>
+                                    {% endif %}
+                                    {% set j = j + 1 %}
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
-                </div>
-                {% set i = i + 1 %}
-            {% endfor %}
-            {% include "templates/exportCSVServiceAnnuel.twig" %}
+                    {% set i = i + 1 %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="boutonExportConteneur">
+            <div id="boutonExportCSV">
+                <a href="{{ asset("../ressources/php/exportCSV.php") }}">Exporter au format CSV</a>
+                <img id="download" src="{{ asset("../ressources/img/download.svg") }}" alt="download">
+            </div>
         </div>
     </div>
 {% endblock %}
