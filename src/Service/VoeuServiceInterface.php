@@ -12,4 +12,6 @@ interface VoeuServiceInterface
      * @throws ServiceException
      */
     public function recupererVueParIntervenant(int $idIntervenant): array;
+
+    public function creerUnCSV(int $idIntervenant, string $nomFichier);
 }

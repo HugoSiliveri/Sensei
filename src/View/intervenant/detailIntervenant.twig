@@ -80,7 +80,7 @@
                                         <div class="infosSupplementaires">
                                             <p><b>Code :</b> {{ voeu.idUSReferentiel }}</p>
                                             <p><b>Libellé :</b> {{ voeu.libUS }}</p>
-                                            <p><b>Groupe d'intervention :</b> {{ voeu.numeroGroupeIntervention }}</p>
+                                            <p><b>Type d'intervention :</b> {{ voeu.typeIntervention }}</p>
                                             <p><b>Volume horaire :</b> {{ voeu.volumeHoraire }}</p>
                                         </div>
                                     {% endif %}
@@ -95,7 +95,7 @@
         </div>
         <div class="boutonExportConteneur">
             <div id="boutonExportCSV">
-                <a href="{{ asset("../ressources/php/exportCSV.php") }}">Exporter au format CSV</a>
+                <a href="{{ route("exporterEnCSV") }} }}">Exporter au format CSV</a>
                 <img id="download" src="{{ asset("../ressources/img/download.svg") }}" alt="download">
             </div>
         </div>

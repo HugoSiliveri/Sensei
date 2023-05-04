@@ -53,7 +53,7 @@ class VoeuRepository extends AbstractRepository
     public function recupererVueParIntervenant($idIntervenant): array
     {
         try {
-            $sql = "SELECT millesime, idUSReferentiel, libUS, numeroGroupeIntervention, volumeHoraire
+            $sql = "SELECT millesime, idUSReferentiel, libUS, numGroupe, volumeHoraire, typeIntervention
             FROM vueVoeuPourServiceAnnuel WHERE idIntervenant=:idIntervenantTag
             ORDER BY millesime DESC";
 
@@ -65,12 +65,6 @@ class VoeuRepository extends AbstractRepository
             $pdoStatement->execute($values);
 
             return $pdoStatement->fetchAll();
-
-//            $objets = [];
-//            foreach ($objetsFormatTableau as $objetFormatTableau) {
-//                $objets[] = $this->construireDepuisTableau($objetFormatTableau);
-//            }
-//            return $objets;
         } catch (PDOException $exception) {
             echo $exception->getMessage();
             die("Erreur lors de la recherche dans la base de données.");

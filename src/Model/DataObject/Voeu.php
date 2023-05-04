@@ -68,5 +68,4 @@ class Voeu extends AbstractDataObject
             "idIntervention" => $this->idIntervention
         ];
     }
-
 }

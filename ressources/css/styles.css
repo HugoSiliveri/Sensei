@@ -394,3 +394,9 @@ ul {
 .edition {
     margin-bottom: 5%;
 }
+
+.conteneurAutoComp{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
