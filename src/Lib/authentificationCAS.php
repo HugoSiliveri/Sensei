@@ -58,14 +58,14 @@ if ($uid != null) {
     $intervenant = $intervenantController->recupererParUID($uid);
     $connexionUtilisateur = new ConnexionUtilisateur();
     if (!$connexionUtilisateur->estConnecte()) {
-        $connexionUtilisateur->connecter($intervenant->getIdIntervenant());
+        $connexionUtilisateur->connecter($intervenant->getIdIntervention());
     }
 } else if ($email != null) {
     $intervenantController = new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB()));
     $intervenant = $intervenantController->recupererParEmailInstitutionnel($email);
     $connexionUtilisateur = new ConnexionUtilisateur();
     if (!$connexionUtilisateur->estConnecte()) {
-        $connexionUtilisateur->connecter($intervenant->getIdIntervenant());
+        $connexionUtilisateur->connecter($intervenant->getIdIntervention());
     }
 } else {
     die("Vous n'êtes pas autorisé à accéder à l'application !");

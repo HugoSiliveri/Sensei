@@ -32,4 +32,18 @@ class UniteServiceAnneeService implements UniteServiceAnneeServiceInterface
             }
         }
     }
+
+    /**
+     * @param int $idUniteService
+     * @return array
+     * @throws ServiceException
+     */
+    public function recupererParUniteService(int $idUniteService): array
+    {
+        if (!isset($idUniteService)) {
+            throw new ServiceException("L'identifiant n'est pas défini !");
+        } else {
+            return $this->uniteServiceAnneeRepository->recupererParUniteService($idUniteService);
+        }
+    }
 }

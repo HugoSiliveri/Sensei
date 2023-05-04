@@ -4,7 +4,6 @@ namespace App\Sensei\Controller;
 
 use App\Sensei\Configuration\ConfigurationBDDMariaDB;
 use App\Sensei\Lib\ConnexionUtilisateur;
-use App\Sensei\Model\DataObject\Intervention;
 use App\Sensei\Model\Repository\ConnexionBaseDeDonnees;
 use App\Sensei\Model\Repository\DepartementRepository;
 use App\Sensei\Model\Repository\DroitRepository;
@@ -118,7 +117,8 @@ class URLRouter
             new Reference('voeu_service'), new Reference('connexion_utilisateur')]);
 
         $uniteServiceController = $conteneur->register('unite_service_controller', UniteServiceController::class);
-        $uniteServiceController->setArguments([new Reference('unite_service_service')]);
+        $uniteServiceController->setArguments([new Reference('unite_service_service'), new Reference('unite_service_annee_service'),
+            new Reference('voeu_service'), new Reference('intervenant_service'), new Reference('intervention_service')]);
 
         $voeuController =  $conteneur->register('voeu_controller', VoeuController::class);
         $voeuController->setArguments([new Reference('voeu_service')]);
@@ -160,7 +160,7 @@ class URLRouter
 
         /* Création et ajout des routes à la collection */
         $routeParDefaut = new Route("/", [
-            "_controller" => ["voeu_controller", "exporterEnCSV"]//"generic_controller", "afficherAccueil"]
+            "_controller" => ["unite_service_controller", "afficherDetail"]//"generic_controller", "afficherAccueil"]
         ]);
 
         $routeAfficherListeIntervenants = new Route("/intervenants", [
@@ -183,13 +183,18 @@ class URLRouter
         ]);
         $routeExporterEnCSVIntervenant->setMethods(["GET"]);
 
+        $routeAfficherDetailUniteService = new Route("/unitesServices/{idUniteService}", [
+            "_controller" => ["unite_service_controller", "afficherDetail"]
+        ]);
+        $routeAfficherDetailUniteService->setMethods(["GET"]);
+
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
         $routes->add("afficherListeIntervenants", $routeAfficherListeIntervenants);
         $routes->add("afficherListeUnitesServices", $routeAfficherListeUniteServices);
         $routes->add("afficherDetailIntervenant", $routeAfficherDetailIntervenant);
         $routes->add("exporterEnCSV", $routeExporterEnCSVIntervenant);
-
+        //$routes->add("afficherDetailUniteService", $routeAfficherDetailUniteService);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 

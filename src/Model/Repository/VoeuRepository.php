@@ -71,6 +71,31 @@ class VoeuRepository extends AbstractRepository
         }
     }
 
+    public function recupererParIdUSA(int $idUniteServiceAnnee)
+    {
+        try {
+            $sql = "SELECT DISTINCT * FROM Voeu WHERE idUniteServiceAnnee=:idUniteServiceAnneeTag";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "idUniteServiceAnneeTag" => $idUniteServiceAnnee,
+            );
+            $pdoStatement->execute($values);
+
+            $objetsFormatTableau = $pdoStatement->fetchAll();
+
+            $objets = [];
+            foreach ($objetsFormatTableau as $objetFormatTableau) {
+                $objets[] = $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return $objets;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
     /** Construit un objet Voeu à partir d'un tableau donné en paramètre.
      * @param array $objetFormatTableau
      * @return Voeu

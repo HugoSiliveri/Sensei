@@ -31,17 +31,17 @@
                 {% set i = 0 %}
                 <h2>Services annuels</h2>
                 {% for serviceAnnuel in servicesAnnuels %}
-                    <div class="serviceAnnuel">
+                    <div class="annuel">
                         <div class="infosDepartementEtAnnee">
                             <div>
                                 <p>Département : {{ departements[i].getLibDepartement }}</p>
                             </div>
                             <div>
                                 {% set millesime = serviceAnnuel.getMillesime %}
-                                <p>Année : {{ millesime-1 }} - {{ millesime }}</p>
+                                <p>Année : {{ millesime }} - {{ millesime +1 }}</p>
                             </div>
                         </div>
-                        <div class="infosServiceAnnuel">
+                        <div class="infosAnnuel">
                             <ul>
                                 <li>Emploi : {{ emplois[i].getLibEmploi }}</li>
                                 <li>Service statuaire : {{ serviceAnnuel.getServiceStatuaire }}</li>
@@ -60,19 +60,6 @@
                                  src="{{ asset("../ressources/img/up-arrow.svg") }}" alt="up-arrow">
                         </span>
                             <div class="sousMenuAnneeService menuDeroulantAnneeService">
-                                {#                            {% set j = 0 %} #}
-                                {#                            {% for voeu in voeux %} #}
-                                {#                                {% set millesime2 = unitesServicesAnnees[j].getMillesime %} #}
-                                {#                                    {% if millesime == millesime2 %} #}
-                                {#                                        <div class="infosSupplementaires"> #}
-                                {#                                            <p><b>Code :</b> {{ unitesServices[j].getIdUSReferentiel }}</p> #}
-                                {#                                            <p><b>Libellé :</b> {{ unitesServices[j].getLibUS }}</p> #}
-                                {#                                            <p><b>Groupe d'intervention :</b> {{ interventions[j].getNumeroGroupeIntervention }}</p> #}
-                                {#                                            <p><b>Volume horaire :</b> {{ interventions[j].getVolumeHoraire }}</p> #}
-                                {#                                        </div> #}
-                                {#                                    {% endif %} #}
-                                {#                                {% set j = j + 1 %} #}
-                                {#                            {% endfor %} #}
                                 {% set j = 0 %}
                                 {% for voeu in voeux %}
                                     {% set millesime2 = voeu.millesime %}

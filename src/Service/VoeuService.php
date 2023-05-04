@@ -30,6 +30,20 @@ class VoeuService implements VoeuServiceInterface
         }
     }
 
+    /**
+     * @param int $idUniteServiceAnnee
+     * @return array
+     * @throws ServiceException
+     */
+    public function recupererParIdUSA(int $idUniteServiceAnnee): array
+    {
+        if (!isset($idUniteServiceAnnee)) {
+            throw new ServiceException("L'identifiant n'est pas défini !");
+        } else {
+            return $this->voeuRepository->recupererParIdUSA($idUniteServiceAnnee);
+        }
+    }
+
     public function creerUnCSV(int $idIntervenant, string $nomFichier){
         $voeux = $this->recupererVueParIntervenant($idIntervenant);
 
@@ -55,7 +69,7 @@ class VoeuService implements VoeuServiceInterface
             //$response = new Response(stream_get_contents($f));
             fclose($f);
 
-            return new BinaryFileResponse("../ressources/temp/temp.csv");
+            return new BinaryFileResponse(__DIR__ . "/../../ressources/temp/temp.csv");
         } else {
             return new Response("", 404);
         }

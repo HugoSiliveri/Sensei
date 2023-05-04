@@ -67,16 +67,6 @@ class IntervenantController extends GenericController
             }
 
             $voeux = $this->voeuService->recupererVueParIntervenant($idIntervenant);
-//            $interventions = []; $usa = []; $us = [];
-//            $i = 0;
-//            foreach ($voeux as $voeu) {
-//                $interventions[] = $this->interventionService->recupererParIdentifiant($voeu->getIdIntervention());
-//                $usa[] = $this->uniteServiceAnneeService->recupererParIdentifiant($voeu->getIdUniteServiceAnnee());
-//                if (isset($usa[$i])){
-//                    $us[] = $this->uniteServiceService->recupererParIdentifiant($usa[$i]->getIdUniteService());
-//                }
-//                $i++;
-//            }
 
             $parametres = [
                 "intervenant" => $intervenant,
@@ -85,11 +75,7 @@ class IntervenantController extends GenericController
                 "servicesAnnuels" => $servicesAnnuels,
                 "emplois" => $emplois,
                 "departements" => $departements,
-                "voeux" => $voeux,
-//                "interventions" => $interventions,
-//                "unitesServices" => $us,
-//                "unitesServicesAnnees" => $usa
-];
+                "voeux" => $voeux];
 
             return GenericController::afficherTwig("intervenant/detailIntervenant.twig", $parametres);
         } catch (ServiceException $exception) {

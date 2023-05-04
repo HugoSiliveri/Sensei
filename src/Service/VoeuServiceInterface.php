@@ -14,4 +14,6 @@ interface VoeuServiceInterface
     public function recupererVueParIntervenant(int $idIntervenant): array;
 
     public function creerUnCSV(int $idIntervenant, string $nomFichier);
+
+    public function recupererParIdUSA(int $idUniteServiceAnnee): array;
 }

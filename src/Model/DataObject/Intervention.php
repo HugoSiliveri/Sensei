@@ -18,7 +18,7 @@ class Intervention extends AbstractDataObject
 {
 
     public function __construct(
-        private int     $idIntervenant,
+        private int     $idIntervention,
         private ?string $typeIntervention,
         private ?int    $numeroGroupeIntervention,
         private ?float  $volumeHoraire
@@ -29,9 +29,9 @@ class Intervention extends AbstractDataObject
     /**
      * @return int
      */
-    public function getIdIntervenant(): int
+    public function getIdIntervention(): int
     {
-        return $this->idIntervenant;
+        return $this->idIntervention;
     }
 
     /**
@@ -64,7 +64,7 @@ class Intervention extends AbstractDataObject
     public function recupererFormatTableau(): array
     {
         return [
-            "idIntervenant" => $this->idIntervenant,
+            "idIntervenant" => $this->idIntervention,
             "typeIntervention" => $this->typeIntervention,
             "numeroGroupeIntervention" => $this->numeroGroupeIntervention,
             "volumeHoraire" => $this->volumeHoraire

@@ -1,0 +1,113 @@
+{% extends "base.twig" %}
+
+{% block page_content %}
+    <div class="miseEnPage2">
+        <div class="miseEnPage">
+            <div class="coteGauche">
+                <div class="miseEnPage">
+                    <h2>Informations sur {{ uniteService.getIdUSReferentiel }}</h2>
+                    <a href="#">
+                        <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">
+                    </a>
+                </div>
+                <ul class="description">
+                    <li><b>Identifiant :</b> {{ uniteService.getIdUSReferentiel }}
+                    </li>
+                    <li><b>Libellé :</b> {{ uniteService.getLibUS }}</li>
+                    <li><b>Nature :</b> {{ uniteService.getNature }}</li>
+                    <li><b>Ancêtre :</b> {{ uniteService.getAncetre }}</li>
+                    <li><b>Année d'ouverture :</b> {{ uniteService.getAnneeOuverture }}</li>
+                    <li><b>Année de clôture :</b> {{ uniteService.getAnneeCloture }}</li>
+                    <li><b>ECTS :</b> {{ uniteService.getECTS }}</li>
+                    <li><b>Heures de CM :</b> {{ uniteService.getHeuresCM }}</li>
+                    <li><b>Heures de TD :</b> {{ uniteService.getHeuresTD }}</li>
+                    <li><b>Heures de TP :</b> {{ uniteService.getHeuresTP }}</li>
+                    <li><b>Heures de stage :</b> {{ uniteService.getHeuresStage }}</li>
+                    <li><b>Heures de terrain :</b> {{ uniteService.getHeuresTerrain }}</li>
+                    <li><b>Saison : </b> {{ uniteService.getSaison }}</li>
+                    <li><b>Semestre :</b> {{ uniteService.getSemestre }}</li>
+                    <li><b>Payeur :</b> {{ uniteService.getPayeur }}</li>
+                </ul>
+                <div class="optionsSupplémentaires">
+                    {% include "templates/barreRechercheUniteService.twig" %}
+                    <div class="optionsSurObjet">
+                        <a href="#"><b>Créer une nouvelle unité de service</b></a>
+                    </div>
+                </div>
+            </div>
+            <div class="coteDroit">
+                {% set i = 0 %}
+                <h2>Unités de services annuels</h2>
+                {% for uniteServiceAnnee in unitesServicesAnnees %}
+                    <div class="annuel2">
+                        <div class="infosDepartementEtAnnee">
+                            <div>
+                                {% set millesime = uniteServiceAnnee.getMillesime %}
+                                <p>Année : {{ millesime }} - {{ millesime+1 }}</p>
+                            </div>
+                        </div>
+                        <div class="infosAnnuel">
+                            <ul>
+                                <li><b>Identifiant :</b> {{ uniteService.getIdUSReferentiel }}</li>
+                                {% if uniteServiceAnnee.getLibUSA %}
+                                    <li><b>Libellé :</b> {{ uniteServiceAnnee.getLibUSA }}</li>
+                                {% else %}
+                                    <li><b>Libellé :</b> {{ uniteService.getLibUS }}</li>
+                                {% endif %}
+                                <li><b>Heures de CM :</b> {{ uniteServiceAnnee.getHeuresCM }} <b> / Nb groupes
+                                        :</b> {{ uniteServiceAnnee.getNbGroupesCM }} </li>
+                                <li><b>Heures de TD :</b> {{ uniteServiceAnnee.getHeuresTD }}<b> / Nb groupes
+                                        :</b> {{ uniteServiceAnnee.getNbGroupesTD }}</li>
+                                <li><b>Heures de TP :</b> {{ uniteServiceAnnee.getHeuresTP }}<b> / Nb groupes
+                                        :</b> {{ uniteServiceAnnee.getNbGroupesTP }}</li>
+                                <li><b>Heures de stage :</b> {{ uniteServiceAnnee.getHeuresStage }}<b> / Nb groupes
+                                        :</b> {{ uniteServiceAnnee.getNbGroupesStage }}</li>
+                                <li><b>Heures de terrain :</b> {{ uniteServiceAnnee.getHeuresTerrain }}<b> / Nb groupes
+                                        :</b> {{ uniteServiceAnnee.getNbGroupesTerrain }}</li>
+                            </ul>
+                            <a href="#">
+                                <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">
+                            </a>
+                        </div>
+                        <div class="menuDeroulant">
+                        <span class="boutonSousMenuAnneeService boutonMenuDeroulant">
+                            <img class="arrow-down arrowDownAnneeService"
+                                 src="{{ asset("../ressources/img/down-arrow.svg") }}" alt="down-arrow">
+                            <img class="arrow-up arrowUpAnneeService"
+                                 src="{{ asset("../ressources/img/up-arrow.svg") }}" alt="up-arrow">
+                        </span>
+                            <div class="sousMenuAnneeService menuDeroulantAnneeService">
+                                {% for intervenantParAnnee in intervenants[i] %}
+                                    <p>{{ intervenantParAnnee.getPrenom }} {{ intervenantParAnnee.getNom }}</p>
+                                    <div class="infosSupplementaires">
+                                        {% for voeuParAnnee in voeux[i] %}
+                                            {% if voeuParAnnee.getIdIntervenant == intervenantParAnnee.getIdIntervenant %}
+                                                <ul>
+                                                    {% for interventionParAnnee in interventions[i] %}
+                                                        {% if interventionParAnnee.getIdIntervention == voeuParAnnee.getIdIntervention %}
+                                                            <li><b>Numéro de groupe :</b> {{ interventionParAnnee.getNumeroGroupeIntervention }}</li>
+                                                            <li><b>Type d'intervention
+                                                                    :</b> {{ interventionParAnnee.getTypeIntervention }}</li>
+                                                            <li><b>Volume horaire :</b> {{ interventionParAnnee.getVolumeHoraire }}</li>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% set i = i + 1 %}
+                {% endfor %}
+            </div>
+        </div>
+        {#        <div class="boutonExportConteneur"> #}
+        {#            <div id="boutonExportCSV"> #}
+        {#                <a href="{{ route("exporterEnCSV") }} }}">Exporter au format CSV</a> #}
+        {#                <img id="download" src="{{ asset("../ressources/img/download.svg") }}" alt="download"> #}
+        {#            </div> #}
+        {#        </div> #}
+    </div>
+{% endblock %}

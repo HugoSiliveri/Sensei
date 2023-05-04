@@ -4,6 +4,7 @@ namespace App\Sensei\Model\Repository;
 
 use App\Sensei\Model\DataObject\AbstractDataObject;
 use App\Sensei\Model\DataObject\UniteServiceAnnee;
+use PDOException;
 
 /**
  * @name UniteServiceAnneeRepository
@@ -15,7 +16,6 @@ use App\Sensei\Model\DataObject\UniteServiceAnnee;
  */
 class UniteServiceAnneeRepository extends AbstractRepository
 {
-
     /**
      * Retourne le nom de la table contenant les données de UniteServiceAnnee.
      * @return string
@@ -44,6 +44,34 @@ class UniteServiceAnneeRepository extends AbstractRepository
             "heuresTD", "nbGroupesTD", "heuresTP", "nbGroupesTP", "heuresStage", "nbGroupesStage", "heuresTerrain",
             "nbGroupesTerrain", "validite", "deleted"];
     }
+
+    public function recupererParUniteService(int $idUniteService)
+    {
+        try {
+            $sql = "SELECT DISTINCT *
+            FROM UniteServiceAnnee WHERE idUniteService =:idUniteServiceTag
+            ORDER BY millesime DESC";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "idUniteServiceTag" => $idUniteService,
+            );
+            $pdoStatement->execute($values);
+
+            $objetsFormatTableau = $pdoStatement->fetchAll();
+
+            $objets = [];
+            foreach ($objetsFormatTableau as $objetFormatTableau) {
+                $objets[] = $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return $objets;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
 
     /** Construit un objet UniteServiceAnnee à partir d'un tableau donné en paramètre.
      * @param array $objetFormatTableau

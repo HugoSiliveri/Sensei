@@ -138,7 +138,7 @@ ul {
     color: white;
 }
 
-#intervenants {
+#intervenants, #unitesServices {
     display: flex;
     flex-direction: column;
 }
@@ -256,7 +256,7 @@ ul {
     height: 700px;
 }
 
-.serviceAnnuel {
+.annuel, .annuel2 {
     display: flex;
     flex-direction: column;
     width: 50%;
@@ -264,6 +264,10 @@ ul {
     border: solid black;
     border-radius: 10px;
     margin-bottom: 3%;
+}
+
+.annuel2{
+    width: 70%;
 }
 
 .infosDepartementEtAnnee {
@@ -292,7 +296,7 @@ ul {
     margin-bottom: 5%;
 }
 
-.description > ul, .infosServiceAnnuel > ul {
+.description > ul, .infosAnnuel > ul {
     padding-left: 1%;
 }
 
@@ -385,7 +389,7 @@ ul {
     justify-content: center;
 }
 
-.infosServiceAnnuel {
+.infosAnnuel {
     display: flex;
     flex-direction: row;
     align-items: center;
