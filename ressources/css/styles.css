@@ -404,3 +404,66 @@ ul {
     width: 100%;
     justify-content: center;
 }
+
+/* Bootstrap alerts */
+/* https://getbootstrap.com/docs/3.4/components/#alerts */
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+.alert-info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+
+.alert-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
+
+.alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+#messagesFlash {
+    animation: flashes-animation 5s 1;
+    -webkit-animation: flashes-animation 5s 1;
+    animation-fill-mode: forwards;
+    animation-delay: 3s;
+    -webkit-animation-delay: 1s;
+    -webkit-animation-fill-mode: forwards;
+    position: absolute;
+}
+
+@-webkit-keyframes flashes-animation {
+    0% {
+        opacity: 1;
+        position: absolute;
+    }
+    50% {
+        opacity: 1;
+        position: absolute;
+    }
+    90% {
+        opacity: 0;
+        position: absolute;
+    }
+    100% {
+        opacity: 0;
+        position: absolute;
+    }
+}

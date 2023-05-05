@@ -4,6 +4,7 @@ namespace App\Sensei\Controller;
 
 use App\Sensei\Configuration\ConfigurationBDDMariaDB;
 use App\Sensei\Lib\ConnexionUtilisateur;
+use App\Sensei\Lib\MessageFlash;
 use App\Sensei\Model\Repository\ConnexionBaseDeDonnees;
 use App\Sensei\Model\Repository\DepartementRepository;
 use App\Sensei\Model\Repository\DroitRepository;
@@ -160,7 +161,7 @@ class URLRouter
 
         /* Création et ajout des routes à la collection */
         $routeParDefaut = new Route("/", [
-            "_controller" => ["intervenant_controller", "afficherDetail"]//"generic_controller", "afficherAccueil"]
+            "_controller" => ["generic_controller", "afficherAccueil"]
         ]);
 
         $routeAfficherListeIntervenants = new Route("/intervenants", [
@@ -224,7 +225,7 @@ class URLRouter
         $twig->addFunction(new TwigFunction("asset", $callable2));
 
         /* Ajout de variables globales */
-        //$twig->addGlobal('messagesFlash', new MessageFlash());
+        $twig->addGlobal('messagesFlash', new MessageFlash());
 
         $conteneur->set("assistantURl", $assistantUrl);
         $conteneur->set("generateurURL", $generateurUrl);

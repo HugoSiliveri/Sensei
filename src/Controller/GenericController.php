@@ -2,6 +2,7 @@
 
 namespace App\Sensei\Controller;
 
+use App\Sensei\Lib\MessageFlash;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
@@ -52,6 +53,7 @@ class GenericController
 
     public static function afficherAccueil(): Response
     {
+        MessageFlash::ajouter("info", "test");
         return self::afficherTwig("accueil.twig");
     }
 

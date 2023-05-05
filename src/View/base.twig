@@ -20,7 +20,7 @@
         </div>
         <div id="onglets">
             <a href="{{ route("accueil") }}">Services</a>
-            <a href="#">Unités de Services</a>
+            <a href={{ route("afficherListeUnitesServices") }}>Unités de Services</a>
             <a href="{{ route("afficherListeIntervenants") }}">Intervenants</a>
             <a href="#">Gestion</a>
             <a href="#">Aide</a>
@@ -38,6 +38,13 @@
     <div id="anneeHeader">
         <p>Année en cours : 2023-2024</p> {# TODO : Changer en fonction de l'utilisateur connecté #}
     </div>
+</div>
+<div id="messagesFlash">
+    {% for type in ["success", "info", "warning", "danger"] %}
+        {% for message in messagesFlash.lireMessages(type) %}
+            <div class="alert alert-{{ type }}">{{ message }}</div>
+        {% endfor %}
+    {% endfor %}
 </div>
 <main>
     {% block page_content %}{% endblock %}
