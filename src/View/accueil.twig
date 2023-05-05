@@ -11,12 +11,24 @@
         </div>
         <div id="conteneurAccueil">
             <div class="titreEtBarreRecherche2">
-                <h2>Bonjour testPrenom testNom !</h2> {#TODO : A changer avec l'utilisateur connecté #}
+                <h2>Bonjour {{ utilisateur.getPrenom }} {{ utilisateur.getNom }} !</h2>
                 {% include "templates/barreRechercheUsurpation.twig" %}
             </div>
             <div class="conteneurResponsable">
                 <h2>Liste des unités de services dont vous êtes responsable</h2>
                 {#TODO : rajouter la liste des US dont l'utilisateur est responsable #}
+                <ul>
+                    {% set i = 0 %}
+                    {% for uniteServiceAnnee in unitesServicesAnnees %}
+                        <li><b>Identifiant :</b> {{ unitesServices[i].getIdUSReferentiel }}</li>
+                        {% if uniteServiceAnnee.getLibUSA %}
+                            <li><b>Libellé :</b> {{ uniteServiceAnnee.getLibUSA }}</li>
+                        {% else %}
+                            <li><b>Libellé :</b> {{ unitesServices[i].getLibUS }}</li>
+                        {% endif %}
+                        {% set i = i + 1 %}
+                    {% endfor %}
+                </ul>
             </div>
         </div>
     </div>

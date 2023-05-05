@@ -10,6 +10,7 @@ use App\Sensei\Service\EmploiServiceInterface;
 use App\Sensei\Service\Exception\ServiceException;
 use App\Sensei\Service\IntervenantServiceInterface;
 use App\Sensei\Service\InterventionServiceInterface;
+use App\Sensei\Service\ResponsableUSServiceInterface;
 use App\Sensei\Service\ServiceAnnuelServiceInterface;
 use App\Sensei\Service\StatutServiceInterface;
 use App\Sensei\Service\UniteServiceAnneeServiceInterface;
@@ -31,6 +32,7 @@ class IntervenantController extends GenericController
         private readonly UniteServiceAnneeServiceInterface $uniteServiceAnneeService,
         private readonly InterventionServiceInterface      $interventionService,
         private readonly VoeuServiceInterface              $voeuService,
+        private readonly ResponsableUSServiceInterface     $responsableUSService,
         private readonly ConnexionUtilisateurInterface     $connexionUtilisateur
     )
     {
@@ -90,4 +92,37 @@ class IntervenantController extends GenericController
         }
     }
 
+    public function afficherAccueil(): Response
+    {
+        try {
+            $uid = 3637; // TODO : A changer
+            $anneeEnCours = 2023;
+            $utilisateur = $this->intervenantService->recupererParIdentifiant($uid);
+            $responsabilitesAnnuel = $this->responsableUSService->recupererParIdIntervenantAnnuel($uid, $anneeEnCours);
+
+            $us = []; $usa = []; $i = 0;
+            foreach ($responsabilitesAnnuel as $responsabilite){
+                $usa[] = $this->uniteServiceAnneeService->recupererParIdentifiant($responsabilite->getIdUniteServiceAnnee());
+                $us[] = $this->uniteServiceService->recupererParIdentifiant($usa[$i]->getIdUniteService());
+                $i++;
+            }
+
+            $parametres = [
+                "utilisateur" => $utilisateur,
+                "responsabilites" => $responsabilitesAnnuel,
+                "unitesServicesAnnees" => $usa,
+                "unitesServices" => $us
+            ];
+
+            return GenericController::afficherTwig("accueil.twig", $parametres);
+        } catch (ServiceException $exception){
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+            return IntervenantController::rediriger("accueil");
+        }
+
+    }
 }

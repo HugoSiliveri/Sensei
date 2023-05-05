@@ -4,6 +4,7 @@ namespace App\Sensei\Model\Repository;
 
 use App\Sensei\Model\DataObject\AbstractDataObject;
 use App\Sensei\Model\DataObject\ResponsableUS;
+use PDOException;
 
 /**
  * @name ResponsableUSRepository
@@ -15,6 +16,35 @@ use App\Sensei\Model\DataObject\ResponsableUS;
  */
 class ResponsableUSRepository extends AbstractRepository
 {
+
+    public function recupererParIdIntervenantAnnuel(int $idIntervenant, int $millesime)
+    {
+        try {
+            $sql = "SELECT DISTINCT * FROM ResponsableUS r
+                  JOIN UniteServiceAnnee usa ON r.idUniteServiceAnnee = usa.idUniteServiceAnnee
+                  WHERE idIntervenant =:idIntervenantTag AND millesime =:millesimeTag";
+
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "idIntervenantTag" => $idIntervenant,
+                "millesimeTag" => $millesime
+            );
+            $pdoStatement->execute($values);
+
+            $objetsFormatTableau = $pdoStatement->fetchAll();
+
+            $objets = [];
+            foreach ($objetsFormatTableau as $objetFormatTableau) {
+                $objets[] = $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return $objets;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
 
     /**
      * Retourne le nom de la table contenant les données de ResponsableUS.

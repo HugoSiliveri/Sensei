@@ -51,28 +51,6 @@ class GenericController
         }
     }
 
-    public static function afficherAccueil(): Response
-    {
-        return self::afficherTwig("accueil.twig");
-    }
-
-    /**
-     * Affiche la vue grâce au chemin avec des paramètres supplémentaires et optionnels.
-     *
-     * @param string $cheminVue Chemin de la vue qui sera affichée.
-     * @param array $parametres Liste des paramètres qui seront envoyés dans la vue
-     * @return Response
-     */
-    protected static function afficherVue(string $cheminVue, array $parametres = []): Response
-    {
-        extract($parametres);
-        $messagesFlash = MessageFlash::lireTousMessages();
-        ob_start();
-        require __DIR__ . "/../vue/$cheminVue";
-        $corpsReponse = ob_get_clean();
-        return new Response($corpsReponse);
-    }
-
     /**
      * Méthode qui permet de rediriger l'utilisateur vers une différente page
      *

@@ -11,6 +11,7 @@ use App\Sensei\Model\Repository\DroitRepository;
 use App\Sensei\Model\Repository\EmploiRepository;
 use App\Sensei\Model\Repository\IntervenantRepository;
 use App\Sensei\Model\Repository\InterventionRepository;
+use App\Sensei\Model\Repository\ResponsableUSRepository;
 use App\Sensei\Model\Repository\ServiceAnnuelRepository;
 use App\Sensei\Model\Repository\StatutRepository;
 use App\Sensei\Model\Repository\UniteServiceAnneeRepository;
@@ -21,6 +22,7 @@ use App\Sensei\Service\DroitService;
 use App\Sensei\Service\EmploiService;
 use App\Sensei\Service\IntervenantService;
 use App\Sensei\Service\InterventionService;
+use App\Sensei\Service\ResponsableUSService;
 use App\Sensei\Service\ServiceAnnuelService;
 use App\Sensei\Service\StatutService;
 use App\Sensei\Service\UniteServiceAnneeService;
@@ -108,6 +110,9 @@ class URLRouter
         $voeuRepository = $conteneur->register('voeu_repository', VoeuRepository::class);
         $voeuRepository->setArguments([new Reference('connexion_base')]);
 
+        $responsableUSRepository = $conteneur->register('responsable_us_repository', ResponsableUSRepository::class);
+        $responsableUSRepository->setArguments([new Reference('connexion_base')]);
+
         $connexionUtilisateur = $conteneur->register('connexion_utilisateur', ConnexionUtilisateur::class);
         $connexionUtilisateur->setArguments([new Reference('intervenant_repository')]);
 
@@ -115,7 +120,7 @@ class URLRouter
         $intervenantController->setArguments([new Reference('intervenant_service'), new Reference('statut_service'),
             new Reference('droit_service'), new Reference('service_annuel_service'), new Reference('emploi_service'),
             new Reference('departement_service'), new Reference('unite_service_service'), new Reference('unite_service_annee_service'), new Reference('intervention_service'),
-            new Reference('voeu_service'), new Reference('connexion_utilisateur')]);
+            new Reference('voeu_service'), new Reference('responsable_us_service'), new Reference('connexion_utilisateur')]);
 
         $uniteServiceController = $conteneur->register('unite_service_controller', UniteServiceController::class);
         $uniteServiceController->setArguments([new Reference('unite_service_service'), new Reference('unite_service_annee_service'),
@@ -154,14 +159,15 @@ class URLRouter
         $voeuService = $conteneur->register('voeu_service', VoeuService::class);
         $voeuService->setArguments([new Reference('voeu_repository')]);
 
-        $genericController = $conteneur->register('generic_controller', GenericController::class);
+        $responsableUSService = $conteneur->register('responsable_us_service', ResponsableUSService::class);
+        $responsableUSService->setArguments([new Reference('responsable_us_repository')]);
 
         /* Instantiation d'une collection de routes */
         $routes = new RouteCollection();
 
         /* Création et ajout des routes à la collection */
         $routeParDefaut = new Route("/", [
-            "_controller" => ["generic_controller", "afficherAccueil"]
+            "_controller" => ["intervenant_controller", "afficherAccueil"]
         ]);
 
         $routeAfficherListeIntervenants = new Route("/intervenants", [
