@@ -15,15 +15,60 @@
     --semibold-font: Montserrat-SemiBold, serif;
 }
 
+#logoEtTitre, #onglets, #footer, .boutonContainer, .boutonEnvoie, .champsRecherche, .barreRecherche > fieldset, .conteneurChamps,
+.boutonExportConteneur, .conteneurAutoComp, .conteneurResponsable{
+    display: flex;
+}
+
+footer, ul, #intervenants, #unitesServices, #usurpation,.coteGauche, .coteDroit, .annuel, .annuel2, .optionsSurObjet, .menuDeroulant,
+.boutonSousMenuAnneeService, .sousMenuAnneeService, .infosSupplementaires, .miseEnPage2, #conteneurAccueil, .conteneurAlerte {
+    display: flex;
+    flex-direction: column;
+}
+
+nav, #logoEtTitre > a, #informationsHeader, #boutonExportCSV, .liste, .titreEtBarreRecherche, .infosDepartementEtAnnee, .miseEnPage,
+.optionsSupplémentaires, .infosAnnuel, .titreEtBarreRecherche2 {
+    display: flex;
+    flex-direction: row;
+}
+
+.autocompletion, .sousMenuAnneeService, .arrowUpAnneeService {
+    display: none;
+}
+
+html, body, ul, #vague, .barreRecherche, .barreRecherche > fieldset, .conteneurChamps, .coteGauche, .coteDroit, .miseEnPage,
+.coteDroit h2, .optionsSupplémentaires, .optionsSurObjet, .menuDeroulant, .boutonSousMenuAnneeService, .sousMenuAnneeService,
+.boutonExportConteneur, .conteneurAutoComp, .titreEtBarreRecherche2 > h2, .conteneurResponsable > h2{
+    width: 100%;
+}
+
+#footer, .boutonEnvoie, .miseEnPage, .coteGauche .conteneurChamps, .boutonExportConteneur, .conteneurAutoComp{
+    justify-content: center;
+}
+
+nav, #onglets, .liste, .boutonContainer, .infosDepartementEtAnnee, #conteneurAccueil, .titreEtBarreRecherche2 {
+    justify-content: space-between;
+}
+
+nav, #logoEtTitre, #logoEtTitre > a, #footer, #boutonExportCSV, .boutonEnvoie, .titreEtBarreRecherche, .coteGauche,
+.coteDroit, .optionsSurObjet, .boutonSousMenuAnneeService, .infosAnnuel, .conteneurAlerte, .titreEtBarreRecherche2 {
+    align-items: center;
+}
+
+#deconnexion, #onglets, #departementHeader, #anneeHeader, #footer > p {
+    font-family: var(--semibold-font);
+    font-size: large;
+}
+
+html, body, h2, .infosSupplementaires > p{
+    margin: 0;
+}
+
 html {
     font-family: var(--classic-font);
     height: 100%;
 }
 
-html, body {
-    width: 100%;
-    margin: 0;
-}
 
 header {
     position: sticky;
@@ -35,21 +80,13 @@ main {
     margin-top: 4%;
 }
 
-footer {
-    display: flex;
-    flex-direction: column;
-}
-
 nav {
-    display: flex;
-    flex-direction: row;
     border-bottom: black;
-    justify-content: space-between;
-    align-items: center;
     padding: 0 2%;
     color: white;
     background-color: var(--bg-color);
 }
+
 
 table {
     width: 8rem;
@@ -66,21 +103,12 @@ nav a {
 
 h2 {
     font-family: var(--semibold-font);
-    margin: 0;
     width: 50%;
 }
 
 ul {
     padding: 0;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
     align-items: start;
-}
-
-#logoEtTitre {
-    display: flex;
-    align-items: center;
 }
 
 #logo {
@@ -92,26 +120,14 @@ ul {
 #logoEtTitre > a {
     font-family: var(--semibold-font);
     font-size: xx-large;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     padding: 10% 0;
 }
 
-#deconnexion, #onglets, #departementHeader, #anneeHeader, #footer > p {
-    font-family: var(--semibold-font);
-    font-size: large;
-}
-
 #onglets {
-    display: flex;
-    justify-content: space-between;
     width: 50%;
 }
 
 #informationsHeader {
-    display: flex;
-    flex-direction: row;
     justify-content: space-evenly;
 }
 
@@ -122,32 +138,20 @@ ul {
 #vague {
     display: block;
     background-image: url("../img/wave.svg");
-    width: 100%;
     height: 40rem;
 }
 
 #footer {
     background-color: var(--bg-color);
     padding: 0 4% 4% 4%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 #footer > p {
     color: white;
 }
 
-#intervenants, #unitesServices {
-    display: flex;
-    flex-direction: column;
-}
-
 #boutonExportCSV {
-    display: flex;
-    flex-direction: row;
     justify-content: space-evenly;
-    align-items: center;
     background-color: var(--bg-color);
     border-radius: 10px;
     width: 260px;
@@ -165,17 +169,11 @@ ul {
 }
 
 .liste {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     margin: 0 5%;
 }
 
-
 .boutonContainer {
-    display: flex;
     padding: 1rem 2rem;
-    justify-content: space-between;
     cursor: pointer;
 }
 
@@ -189,43 +187,25 @@ ul {
     height: 35px;
     width: 35px;
     border-radius: 0 20% 20% 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 #boutonExportCSV:hover, .boutonEnvoie:hover {
     background-color: var(--bg-hover);
 }
 
-.titreEtBarreRecherche {
-    display: flex;
-    flex-direction: row;
+.titreEtBarreRecherche, .titreEtBarreRecherche2 {
     margin: 0 5%;
-    align-items: center;
-}
-
-.barreRecherche {
-    width: 100%;
 }
 
 .champsRecherche {
-    display: flex;
     border-radius: 7px 0 0 7px;
     width: 300px;
 }
 
 .barreRecherche > fieldset {
-    display: flex;
     border: 0;
     padding: 1%;
-    width: 100%;
     height: 100%;
-}
-
-.conteneurChamps {
-    display: flex;
-    width: 100%;
 }
 
 .autocompletion {
@@ -236,15 +216,6 @@ ul {
     position: absolute;
     z-index: 1;
     padding-left: 1%;
-    display: none;
-}
-
-
-.coteGauche, .coteDroit {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    align-items: center;
 }
 
 .coteGauche {
@@ -257,8 +228,6 @@ ul {
 }
 
 .annuel, .annuel2 {
-    display: flex;
-    flex-direction: column;
     width: 50%;
     padding: 1% 1% 0 1%;
     border: solid black;
@@ -271,17 +240,7 @@ ul {
 }
 
 .infosDepartementEtAnnee {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     font-family: var(--semibold-font);
-}
-
-.miseEnPage {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    flex-direction: row;
 }
 
 .miseEnPage ul {
@@ -300,13 +259,11 @@ ul {
     padding-left: 1%;
 }
 
-.coteDroit h2 {
-    width: 100%;
+.coteDroit h2, .coteGauche h2 {
     text-align: center;
 }
 
 .coteGauche h2 {
-    text-align: center;
     width: 70%;
 }
 
@@ -315,14 +272,7 @@ ul {
 }
 
 .optionsSupplémentaires {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
     margin-top: 3%;
-}
-
-.coteGauche .conteneurChamps {
-    justify-content: center;
 }
 
 .coteGauche .champsRecherche {
@@ -333,33 +283,11 @@ ul {
     width: 18.5%;
 }
 
-.optionsSurObjet {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    align-items: center;
-}
-
 .optionsSurObjet > a {
     margin: 3% 0 10% 0;
 }
 
-.menuDeroulant, .boutonSousMenuAnneeService, .sousMenuAnneeService {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-.sousMenuAnneeService {
-    display: none;
-}
-
-.arrowUpAnneeService {
-    display: none;
-}
-
 .boutonSousMenuAnneeService {
-    align-items: center;
     padding: 1% 0;
 }
 
@@ -368,41 +296,24 @@ ul {
 }
 
 .infosSupplementaires {
-    display: flex;
-    flex-direction: column;
     margin-bottom: 3%;
     padding-left: 2%;
-}
-
-.infosSupplementaires > p {
-    margin: 0;
-}
-
-.miseEnPage2 {
-    display: flex;
-    flex-direction: column;
-}
-
-.boutonExportConteneur {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-}
-
-.infosAnnuel {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
 }
 
 .edition {
     margin-bottom: 5%;
 }
 
-.conteneurAutoComp {
-    display: flex;
-    width: 100%;
-    justify-content: center;
+#conteneurAccueil, .alertVoeux{
+    width: 70%;
+}
+
+.alertVoeux{
+    text-align: center;
+}
+
+.conteneurResponsable {
+    margin-top: 5%;
 }
 
 /* Bootstrap alerts */
@@ -437,6 +348,10 @@ ul {
     color: #a94442;
     background-color: #f2dede;
     border-color: #ebccd1;
+}
+
+.titreEtBarreRecherche2 .conteneurChamps, .titreEtBarreRecherche2 .conteneurAutoComp {
+    justify-content: end;
 }
 
 #messagesFlash {

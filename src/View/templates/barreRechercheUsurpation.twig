@@ -1,0 +1,20 @@
+{% block barre_recherche_usurpation %}
+    <form class="barreRecherche" action="#" method="post">
+        <fieldset id="usurpation">
+            <div class="conteneurChamps">
+                <label for="usurpation_id"></label>
+                <input class="champsRecherche" type="text" data-inputfun="autocompIntervenant.requeteAJAX()"
+                       placeholder="Rechercher une personne à usurper"
+                       name="intervenant"
+                       id="usurpation_id" required>
+                <div class="boutonEnvoie">
+                    <img src="{{ asset("../ressources/img/search.svg") }}" alt="loupe">
+                </div>
+            </div>
+            <div class="conteneurAutoComp">
+                <div class="autocompletion" data-inputfun="autocompIntervenant.requeteAJAX()"
+                     data-htmlvar="autocompIntervenant.suggestions_str"></div>
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}

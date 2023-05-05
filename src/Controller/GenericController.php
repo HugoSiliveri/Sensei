@@ -53,7 +53,6 @@ class GenericController
 
     public static function afficherAccueil(): Response
     {
-        MessageFlash::ajouter("info", "test");
         return self::afficherTwig("accueil.twig");
     }
 

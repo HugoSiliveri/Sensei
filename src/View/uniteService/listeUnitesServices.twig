@@ -14,7 +14,8 @@
             <ul>
                 {% for uniteService in chunk %}
                     <li class="boutonContainer">
-                        <a href="#">{{ uniteService.getNature }}   {{ uniteService.getLibUS }}   {{ uniteService.getIdUSReferentiel }}</a>
+                        <a href="{{ route("afficherDetailUniteService", {"idUniteService": uniteService.getIdUniteService}) }}">
+                            {{ uniteService.getNature }}   {{ uniteService.getLibUS }}   {{ uniteService.getIdUSReferentiel }}</a>
                     </li>
                 {% endfor %}
             </ul>

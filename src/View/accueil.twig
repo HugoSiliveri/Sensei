@@ -1,4 +1,23 @@
 {% extends "base.twig" %}
 
 {% block page_content %}
+    <div class="conteneurAlerte">
+        <div class="alert alert-info alertVoeux">
+            <div>
+                <p>Les vœux sont actuellement ouverts dans votre département !</p>
+                {# TODO : rajouter un lien vers la partie d'édition de voeux #}
+            </div>
+            {# TODO : rajouter divers messages est choisir le bon en fonction de l'état #}
+        </div>
+        <div id="conteneurAccueil">
+            <div class="titreEtBarreRecherche2">
+                <h2>Bonjour testPrenom testNom !</h2> {#TODO : A changer avec l'utilisateur connecté #}
+                {% include "templates/barreRechercheUsurpation.twig" %}
+            </div>
+            <div class="conteneurResponsable">
+                <h2>Liste des unités de services dont vous êtes responsable</h2>
+                {#TODO : rajouter la liste des US dont l'utilisateur est responsable #}
+            </div>
+        </div>
+    </div>
 {% endblock %}
