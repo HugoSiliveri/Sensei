@@ -16,35 +16,6 @@ use PDOException;
  */
 class UniteServiceAnneeRepository extends AbstractRepository
 {
-    /**
-     * Retourne le nom de la table contenant les données de UniteServiceAnnee.
-     * @return string
-     */
-    protected function getNomTable(): string
-    {
-        return "UniteServiceAnnee";
-    }
-
-    /**
-     * Retourne la clé primaire de la table UniteServiceAnnee.
-     * @return string
-     */
-    protected function getNomClePrimaire(): string
-    {
-        return "idUniteServiceAnnee";
-    }
-
-    /**
-     * Retourne le nom de tous les attributs de la table UniteServiceAnnee.
-     * @return string[] le tableau contenant tous les noms des attributs
-     */
-    protected function getNomsColonnes(): array
-    {
-        return ["idUniteServiceAnnee", "idDepartement", "idUniteService", "libUSA", "millesime", "heuresCM", "nbGroupesCM",
-            "heuresTD", "nbGroupesTD", "heuresTP", "nbGroupesTP", "heuresStage", "nbGroupesStage", "heuresTerrain",
-            "nbGroupesTerrain", "validite", "deleted"];
-    }
-
     public function recupererParUniteService(int $idUniteService)
     {
         try {
@@ -72,7 +43,6 @@ class UniteServiceAnneeRepository extends AbstractRepository
         }
     }
 
-
     /** Construit un objet UniteServiceAnnee à partir d'un tableau donné en paramètre.
      * @param array $objetFormatTableau
      * @return UniteServiceAnnee
@@ -98,5 +68,34 @@ class UniteServiceAnneeRepository extends AbstractRepository
             $objetFormatTableau["validite"],
             $objetFormatTableau["deleted"],
         );
+    }
+
+    /**
+     * Retourne le nom de la table contenant les données de UniteServiceAnnee.
+     * @return string
+     */
+    protected function getNomTable(): string
+    {
+        return "UniteServiceAnnee";
+    }
+
+    /**
+     * Retourne la clé primaire de la table UniteServiceAnnee.
+     * @return string
+     */
+    protected function getNomClePrimaire(): string
+    {
+        return "idUniteServiceAnnee";
+    }
+
+    /**
+     * Retourne le nom de tous les attributs de la table UniteServiceAnnee.
+     * @return string[] le tableau contenant tous les noms des attributs
+     */
+    protected function getNomsColonnes(): array
+    {
+        return ["idUniteServiceAnnee", "idDepartement", "idUniteService", "libUSA", "millesime", "heuresCM", "nbGroupesCM",
+            "heuresTD", "nbGroupesTD", "heuresTP", "nbGroupesTP", "heuresStage", "nbGroupesStage", "heuresTerrain",
+            "nbGroupesTerrain", "validite", "deleted"];
     }
 }

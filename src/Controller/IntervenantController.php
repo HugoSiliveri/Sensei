@@ -60,7 +60,8 @@ class IntervenantController extends GenericController
             $droit = $this->droitService->recupererParIdentifiant($intervenant->getIdDroit());
 
             $servicesAnnuels = $this->serviceAnnuelService->recupererParIntervenant($idIntervenant);
-            $emplois = []; $departements = [];
+            $emplois = [];
+            $departements = [];
             foreach ($servicesAnnuels as $serviceAnnuel) {
                 $emplois[] = $this->emploiService->recupererParIdentifiant($serviceAnnuel->getIdEmploi());
                 $departements[] = $this->departementService->recupererParIdentifiant($serviceAnnuel->getIdDepartement());

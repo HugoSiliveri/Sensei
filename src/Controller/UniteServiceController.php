@@ -13,11 +13,11 @@ use Symfony\Component\HttpFoundation\Response;
 class UniteServiceController extends GenericController
 {
     public function __construct(
-        private readonly UniteServiceServiceInterface $uniteServiceService,
+        private readonly UniteServiceServiceInterface      $uniteServiceService,
         private readonly UniteServiceAnneeServiceInterface $uniteServiceAnneeService,
-        private readonly VoeuServiceInterface $voeuService,
-        private readonly IntervenantServiceInterface $intervenantService,
-        private readonly InterventionServiceInterface $interventionService,
+        private readonly VoeuServiceInterface              $voeuService,
+        private readonly IntervenantServiceInterface       $intervenantService,
+        private readonly InterventionServiceInterface      $interventionService,
     )
     {
     }
@@ -45,13 +45,16 @@ class UniteServiceController extends GenericController
             $uniteService = $this->uniteServiceService->recupererParIdentifiant($idUniteService);
             $unitesServicesAnnees = $this->uniteServiceAnneeService->recupererParUniteService($idUniteService);
 
-            $voeux = []; $intervenants = []; $interventions = [];
+            $voeux = [];
+            $intervenants = [];
+            $interventions = [];
             $i = 0;
-            foreach($unitesServicesAnnees as $uniteServiceAnnee){
-                $intervenantsParAnnee = []; $interventionsParAnnee = [];
+            foreach ($unitesServicesAnnees as $uniteServiceAnnee) {
+                $intervenantsParAnnee = [];
+                $interventionsParAnnee = [];
                 $voeuxParAnnee = $this->voeuService->recupererParIdUSA($uniteServiceAnnee->getIdUniteServiceAnnee());
 
-                foreach ($voeuxParAnnee as $voeuxAnnuel){
+                foreach ($voeuxParAnnee as $voeuxAnnuel) {
                     $intervenantsParAnnee[] = $this->intervenantService->recupererParIdentifiant($voeuxAnnuel->getIdIntervenant());
                     $interventionsParAnnee[] = $this->interventionService->recupererParIdentifiant($voeuxAnnuel->getIdIntervention());
                 }

@@ -113,14 +113,14 @@ class URLRouter
         $intervenantController = $conteneur->register('intervenant_controller', IntervenantController::class);
         $intervenantController->setArguments([new Reference('intervenant_service'), new Reference('statut_service'),
             new Reference('droit_service'), new Reference('service_annuel_service'), new Reference('emploi_service'),
-            new Reference('departement_service'), new Reference('unite_service_service'),new Reference('unite_service_annee_service'), new Reference('intervention_service'),
+            new Reference('departement_service'), new Reference('unite_service_service'), new Reference('unite_service_annee_service'), new Reference('intervention_service'),
             new Reference('voeu_service'), new Reference('connexion_utilisateur')]);
 
         $uniteServiceController = $conteneur->register('unite_service_controller', UniteServiceController::class);
         $uniteServiceController->setArguments([new Reference('unite_service_service'), new Reference('unite_service_annee_service'),
             new Reference('voeu_service'), new Reference('intervenant_service'), new Reference('intervention_service')]);
 
-        $voeuController =  $conteneur->register('voeu_controller', VoeuController::class);
+        $voeuController = $conteneur->register('voeu_controller', VoeuController::class);
         $voeuController->setArguments([new Reference('voeu_service')]);
 
         $intervenantService = $conteneur->register('intervenant_service', IntervenantService::class);
@@ -160,7 +160,7 @@ class URLRouter
 
         /* Création et ajout des routes à la collection */
         $routeParDefaut = new Route("/", [
-            "_controller" => ["unite_service_controller", "afficherDetail"]//"generic_controller", "afficherAccueil"]
+            "_controller" => ["intervenant_controller", "afficherDetail"]//"generic_controller", "afficherAccueil"]
         ]);
 
         $routeAfficherListeIntervenants = new Route("/intervenants", [
@@ -178,7 +178,7 @@ class URLRouter
         ]);
         $routeAfficherDetailIntervenant->setMethods(["GET"]);
 
-        $routeExporterEnCSVIntervenant = new Route("/intervenants/{idIntervenant}", [
+        $routeExporterEnCSVIntervenant = new Route("/export", [
             "_controller" => ["voeu_controller", "exporterEnCSV"]
         ]);
         $routeExporterEnCSVIntervenant->setMethods(["GET"]);
@@ -194,7 +194,7 @@ class URLRouter
         $routes->add("afficherListeUnitesServices", $routeAfficherListeUniteServices);
         $routes->add("afficherDetailIntervenant", $routeAfficherDetailIntervenant);
         $routes->add("exporterEnCSV", $routeExporterEnCSVIntervenant);
-        //$routes->add("afficherDetailUniteService", $routeAfficherDetailUniteService);
+        $routes->add("afficherDetailUniteService", $routeAfficherDetailUniteService);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 

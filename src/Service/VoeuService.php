@@ -2,7 +2,6 @@
 
 namespace App\Sensei\Service;
 
-use App\Sensei\Model\DataObject\AbstractDataObject;
 use App\Sensei\Model\Repository\VoeuRepository;
 use App\Sensei\Service\Exception\ServiceException;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -14,20 +13,6 @@ class VoeuService implements VoeuServiceInterface
         private VoeuRepository $voeuRepository,
     )
     {
-    }
-
-    /**
-     * @param int $idIntervenant
-     * @return array
-     * @throws ServiceException
-     */
-    public function recupererVueParIntervenant(int $idIntervenant): array
-    {
-        if (!isset($idIntervenant)) {
-            throw new ServiceException("L'identifiant n'est pas défini !");
-        } else {
-            return $this->voeuRepository->recupererVueParIntervenant($idIntervenant);
-        }
     }
 
     /**
@@ -44,16 +29,18 @@ class VoeuService implements VoeuServiceInterface
         }
     }
 
-    public function creerUnCSV(int $idIntervenant, string $nomFichier){
+    public function creerUnCSV(int $idIntervenant, string $nomFichier)
+    {
+        $chemin = __DIR__ . '/../../ressources/temp/temp.csv';
         $voeux = $this->recupererVueParIntervenant($idIntervenant);
+        $f = fopen($chemin, 'w');
 
-        $f = fopen('../ressources/temp/temp.csv', 'w');
-        if ($f){
+        if ($f) {
             $entete = ["millesime", "idUSReferentiel", "libUS", "typeIntervention", "volumeHoraire"];
 
             fputcsv($f, $entete, ";");
 
-            foreach ($voeux as $voeu){
+            foreach ($voeux as $voeu) {
                 $voeuSansId = [
                     $voeu["millesime"],
                     $voeu["idUSReferentiel"],
@@ -61,23 +48,27 @@ class VoeuService implements VoeuServiceInterface
                     $voeu["typeIntervention"],
                     $voeu["volumeHoraire"]
                 ];
-
                 fputcsv($f, $voeuSansId, ";");
             }
 
-            rewind($f);
-            //$response = new Response(stream_get_contents($f));
             fclose($f);
-
-            return new BinaryFileResponse(__DIR__ . "/../../ressources/temp/temp.csv");
+            return new BinaryFileResponse($chemin);
         } else {
             return new Response("", 404);
         }
+    }
 
-
-//        $response->headers->set('Content Type', 'text/csv');
-//        $response->headers->set('Content Disposition', 'attachment; filename="testing.csv"');
-//        var_dump($response);
-
+    /**
+     * @param int $idIntervenant
+     * @return array
+     * @throws ServiceException
+     */
+    public function recupererVueParIntervenant(int $idIntervenant): array
+    {
+        if (!isset($idIntervenant)) {
+            throw new ServiceException("L'identifiant n'est pas défini !");
+        } else {
+            return $this->voeuRepository->recupererVueParIntervenant($idIntervenant);
+        }
     }
 }

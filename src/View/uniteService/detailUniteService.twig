@@ -85,10 +85,15 @@
                                                 <ul>
                                                     {% for interventionParAnnee in interventions[i] %}
                                                         {% if interventionParAnnee.getIdIntervention == voeuParAnnee.getIdIntervention %}
-                                                            <li><b>Numéro de groupe :</b> {{ interventionParAnnee.getNumeroGroupeIntervention }}</li>
+                                                            <li><b>Numéro de groupe
+                                                                    :</b> {{ interventionParAnnee.getNumeroGroupeIntervention }}
+                                                            </li>
                                                             <li><b>Type d'intervention
-                                                                    :</b> {{ interventionParAnnee.getTypeIntervention }}</li>
-                                                            <li><b>Volume horaire :</b> {{ interventionParAnnee.getVolumeHoraire }}</li>
+                                                                    :</b> {{ interventionParAnnee.getTypeIntervention }}
+                                                            </li>
+                                                            <li><b>Volume horaire
+                                                                    :</b> {{ interventionParAnnee.getVolumeHoraire }}
+                                                            </li>
                                                         {% endif %}
                                                     {% endfor %}
                                                 </ul>

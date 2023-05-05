@@ -266,7 +266,7 @@ ul {
     margin-bottom: 3%;
 }
 
-.annuel2{
+.annuel2 {
     width: 70%;
 }
 
@@ -321,7 +321,7 @@ ul {
     margin-top: 3%;
 }
 
-.coteGauche .conteneurChamps{
+.coteGauche .conteneurChamps {
     justify-content: center;
 }
 
@@ -350,11 +350,11 @@ ul {
     width: 100%;
 }
 
-.sousMenuAnneeService{
+.sousMenuAnneeService {
     display: none;
 }
 
-.arrowUpAnneeService  {
+.arrowUpAnneeService {
     display: none;
 }
 
@@ -399,7 +399,7 @@ ul {
     margin-bottom: 5%;
 }
 
-.conteneurAutoComp{
+.conteneurAutoComp {
     display: flex;
     width: 100%;
     justify-content: center;
