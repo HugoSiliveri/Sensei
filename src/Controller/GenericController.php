@@ -67,7 +67,7 @@ class GenericController
     protected static function afficherVue(string $cheminVue, array $parametres = []): Response
     {
         extract($parametres);
-        //$messagesFlash = MessageFlash::lireTousMessages();
+        $messagesFlash = MessageFlash::lireTousMessages();
         ob_start();
         require __DIR__ . "/../vue/$cheminVue";
         $corpsReponse = ob_get_clean();

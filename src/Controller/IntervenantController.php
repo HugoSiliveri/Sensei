@@ -3,6 +3,7 @@
 namespace App\Sensei\Controller;
 
 use App\Sensei\Lib\ConnexionUtilisateurInterface;
+use App\Sensei\Lib\MessageFlash;
 use App\Sensei\Service\DepartementServiceInterface;
 use App\Sensei\Service\DroitServiceInterface;
 use App\Sensei\Service\EmploiServiceInterface;
@@ -81,9 +82,9 @@ class IntervenantController extends GenericController
             return GenericController::afficherTwig("intervenant/detailIntervenant.twig", $parametres);
         } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
-                //MessageFlash::ajouter("danger", $e->getMessage());
+                MessageFlash::ajouter("danger", $exception->getMessage());
             } else {
-                //MessageFlash::ajouter("warning", $e->getMessage());
+                MessageFlash::ajouter("warning", $exception->getMessage());
             }
             return IntervenantController::rediriger("afficherListeIntervenants");
         }

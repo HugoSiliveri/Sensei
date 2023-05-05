@@ -2,6 +2,7 @@
 
 namespace App\Sensei\Controller;
 
+use App\Sensei\Lib\MessageFlash;
 use App\Sensei\Service\Exception\ServiceException;
 use App\Sensei\Service\IntervenantServiceInterface;
 use App\Sensei\Service\InterventionServiceInterface;
@@ -76,9 +77,9 @@ class UniteServiceController extends GenericController
             return GenericController::afficherTwig("uniteService/detailUniteService.twig", $parametres);
         } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
-                //MessageFlash::ajouter("danger", $e->getMessage());
+                MessageFlash::ajouter("danger", $exception->getMessage());
             } else {
-                //MessageFlash::ajouter("warning", $e->getMessage());
+                MessageFlash::ajouter("warning", $exception->getMessage());
             }
             return IntervenantController::rediriger("afficherListeIntervenants");
         }
