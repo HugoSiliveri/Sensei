@@ -18,7 +18,7 @@ use PDOException;
 class UniteServiceRepository extends AbstractRepository
 {
 
-    public function recupererPourAutoCompletion(array $uniteServiceArray, $limit = 5): array
+    public function recupererPourAutoCompletion(array $uniteServiceArray, $limit = 10): array
     {
         try {
             $sql = "SELECT * from UniteService 
@@ -29,8 +29,8 @@ class UniteServiceRepository extends AbstractRepository
             $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
 
             $values = array(
-                "idUSReferentielTag" => $uniteServiceArray["idUSReferentiel"] . "%",
-                "libUSTag" => $uniteServiceArray["libUS"] . "%",
+                "idUSReferentielTag" => "%" . $uniteServiceArray["uniteService"] . "%",
+                "libUSTag" => "%" . $uniteServiceArray["uniteService"] . "%",
             );
             $pdoStatement->execute($values);
             $pdoStatement->setFetchMode(PDO::FETCH_OBJ);

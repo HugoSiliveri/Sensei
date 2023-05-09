@@ -52,12 +52,12 @@ class IntervenantController extends GenericController
     /**
      * Méthode qui affiche le détail d'un intervenant.
      *
+     * @param int $idIntervenant
      * @return Response
      */
-    public function afficherDetail(): Response
+    public function afficherDetail(int $idIntervenant): Response
     {
         try {
-            $idIntervenant = 3637;// TODO : A changer
             $intervenant = $this->intervenantService->recupererParIdentifiant($idIntervenant);
             $statut = $this->statutService->recupererParIdentifiant($intervenant->getIdStatut());
             $droit = $this->droitService->recupererParIdentifiant($intervenant->getIdDroit());

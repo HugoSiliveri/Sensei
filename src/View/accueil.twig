@@ -1,10 +1,11 @@
 {% extends "base.twig" %}
 
 {% block page_content %}
-    <div class="conteneurAlerte">
+    <div class="miseEnPage2 centrer">
         <div class="alert alert-info alertVoeux">
             <div>
                 <p>Les vœux sont actuellement ouverts dans votre département !</p>
+                <a class="boutonAvecLien" href="#">Formuler ses voeux</a>
                 {# TODO : rajouter un lien vers la partie d'édition de voeux #}
             </div>
             {# TODO : rajouter divers messages est choisir le bon en fonction de l'état #}
@@ -15,17 +16,17 @@
                 {% include "templates/barreRechercheUsurpation.twig" %}
             </div>
             <div class="conteneurResponsable">
-                <h2>Liste des unités de services dont vous êtes responsable</h2>
+                <h3>Liste des unités de services dont vous êtes responsable</h3>
                 {#TODO : rajouter la liste des US dont l'utilisateur est responsable #}
                 <ul>
                     {% set i = 0 %}
                     {% for uniteServiceAnnee in unitesServicesAnnees %}
-                        <li><b>Identifiant :</b> {{ unitesServices[i].getIdUSReferentiel }}</li>
-                        {% if uniteServiceAnnee.getLibUSA %}
-                            <li><b>Libellé :</b> {{ uniteServiceAnnee.getLibUSA }}</li>
-                        {% else %}
-                            <li><b>Libellé :</b> {{ unitesServices[i].getLibUS }}</li>
-                        {% endif %}
+                        <li class="boutonContainer">
+                            {% set lib = uniteServiceAnnee.getLibUSA ? uniteServiceAnnee.getLibUSA : unitesServices[i].getLibUS %}
+                            <a href="{{ route("afficherDetailUniteService", {idUniteService: unitesServices[i].getIdUniteService}) }}">
+                                {{ unitesServices[i].getIdUSReferentiel }} {{ lib }}
+                            </a>
+                        </li>
                         {% set i = i + 1 %}
                     {% endfor %}
                 </ul>

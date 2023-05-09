@@ -37,12 +37,12 @@ class UniteServiceController extends GenericController
     /**
      * Méthode qui affiche le détail d'un intervenant.
      *
+     * @param int $idUniteService
      * @return Response
      */
-    public function afficherDetail(): Response
+    public function afficherDetail(int $idUniteService): Response
     {
         try {
-            $idUniteService = 2263;// TODO : A changer
             $uniteService = $this->uniteServiceService->recupererParIdentifiant($idUniteService);
             $unitesServicesAnnees = $this->uniteServiceAnneeService->recupererParUniteService($idUniteService);
 

@@ -22,10 +22,7 @@ class UniteServiceService implements UniteServiceServiceInterface
     public function recupererRequeteUniteService(): array
     {
         $uniteService = $_GET["uniteService"];
-        $tab = [
-            "libUS" => $uniteService,
-            "idUSReferentiel" => $uniteService
-        ];
+        $tab = ["uniteService" => $uniteService,];
         return $this->uniteServiceRepository->recupererPourAutoCompletion($tab);
     }
 

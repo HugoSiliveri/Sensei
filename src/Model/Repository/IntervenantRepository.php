@@ -101,7 +101,7 @@ class IntervenantRepository extends AbstractRepository
         }
     }
 
-    public function recupererPourAutoCompletion(array $intervenantArray, $limit = 5): array
+    public function recupererPourAutoCompletion(array $intervenantArray, $limit = 10): array
     {
         try {
             $sql = "SELECT * from Intervenant 
@@ -109,14 +109,15 @@ class IntervenantRepository extends AbstractRepository
              ORDER BY nom, prenom, idIntervenantReferentiel
              LIMIT $limit";
 
-            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
-
             $values = array(
-                "nomTag" => $intervenantArray["nom"] . "%",
-                "prenomTag" => $intervenantArray["prenom"] . "%",
-                "idIntervenantReferentielTag" => $intervenantArray["idIntervenantReferentiel"] . "%"
+                "nomTag" => "%". $intervenantArray["intervenant"] ."%",
+                "prenomTag" => "%". $intervenantArray["intervenant"] ."%",
+                "idIntervenantReferentielTag" => "%". $intervenantArray["intervenant"] ."%",
             );
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
             $pdoStatement->execute($values);
+
             $pdoStatement->setFetchMode(PDO::FETCH_OBJ);
             return $pdoStatement->fetchAll();
 

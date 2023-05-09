@@ -42,11 +42,7 @@ class IntervenantService implements IntervenantServiceInterface
     public function recupererRequeteIntervenant(): array
     {
         $intervenant = $_GET["intervenant"];
-        $tab = [
-            "nom" => $intervenant,
-            "prenom" => $intervenant,
-            "idIntervenantReferentiel" => $intervenant
-        ];
+        $tab = ["intervenant" => $intervenant];
         return $this->intervenantRepository->recupererPourAutoCompletion($tab);
     }
 }

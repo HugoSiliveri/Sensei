@@ -16,18 +16,19 @@
 }
 
 #logoEtTitre, #onglets, #footer, .boutonContainer, .boutonEnvoie, .champsRecherche, .barreRecherche > fieldset, .conteneurChamps,
-.boutonExportConteneur, .conteneurAutoComp, .conteneurResponsable{
+.boutonExportConteneur, .conteneurAutoComp, .colIdentifiant, .colLib{
     display: flex;
 }
 
-footer, ul, #intervenants, #unitesServices, #usurpation,.coteGauche, .coteDroit, .annuel, .annuel2, .optionsSurObjet, .menuDeroulant,
-.boutonSousMenuAnneeService, .sousMenuAnneeService, .infosSupplementaires, .miseEnPage2, #conteneurAccueil, .conteneurAlerte {
+footer, ul, tbody, #intervenants, #unitesServices, #usurpation,.coteGauche, .coteDroit, .annuel, .annuel2, .optionsSurObjet, .menuDeroulant,
+.boutonSousMenuAnneeService, .sousMenuAnneeService, .infosSupplementaires, .miseEnPage2, #conteneurAccueil, .conteneurAlerte,
+.conteneurResponsable{
     display: flex;
     flex-direction: column;
 }
 
 nav, #logoEtTitre > a, #informationsHeader, #boutonExportCSV, .liste, .titreEtBarreRecherche, .infosDepartementEtAnnee, .miseEnPage,
-.optionsSupplémentaires, .infosAnnuel, .titreEtBarreRecherche2 {
+.optionsSupplémentaires, .infosAnnuel, .titreEtBarreRecherche2, thead, thead > tr, .boutonTable {
     display: flex;
     flex-direction: row;
 }
@@ -37,7 +38,7 @@ nav, #logoEtTitre > a, #informationsHeader, #boutonExportCSV, .liste, .titreEtBa
 }
 
 html, body, ul, #vague, .barreRecherche, .barreRecherche > fieldset, .conteneurChamps, .coteGauche, .coteDroit, .miseEnPage,
-.coteDroit h2, .optionsSupplémentaires, .optionsSurObjet, .menuDeroulant, .boutonSousMenuAnneeService, .sousMenuAnneeService,
+.coteDroit h2, h3,.optionsSupplémentaires, .optionsSurObjet, .menuDeroulant, .boutonSousMenuAnneeService, .sousMenuAnneeService,
 .boutonExportConteneur, .conteneurAutoComp, .titreEtBarreRecherche2 > h2, .conteneurResponsable > h2{
     width: 100%;
 }
@@ -51,7 +52,7 @@ nav, #onglets, .liste, .boutonContainer, .infosDepartementEtAnnee, #conteneurAcc
 }
 
 nav, #logoEtTitre, #logoEtTitre > a, #footer, #boutonExportCSV, .boutonEnvoie, .titreEtBarreRecherche, .coteGauche,
-.coteDroit, .optionsSurObjet, .boutonSousMenuAnneeService, .infosAnnuel, .conteneurAlerte, .titreEtBarreRecherche2 {
+.coteDroit, .optionsSurObjet, .boutonSousMenuAnneeService, .infosAnnuel, .centrer, .titreEtBarreRecherche2 {
     align-items: center;
 }
 
@@ -87,11 +88,6 @@ nav {
     background-color: var(--bg-color);
 }
 
-
-table {
-    width: 8rem;
-}
-
 a {
     color: black;
     text-decoration: none;
@@ -101,8 +97,11 @@ nav a {
     color: white;
 }
 
-h2 {
+h2, h3 {
     font-family: var(--semibold-font);
+}
+
+h2 {
     width: 50%;
 }
 
@@ -177,7 +176,7 @@ ul {
     cursor: pointer;
 }
 
-.boutonContainer:hover {
+.boutonContainer:hover, .boutonTable:hover {
     background-color: lightblue;
     border-radius: 5px;
 }
@@ -308,12 +307,16 @@ ul {
     width: 70%;
 }
 
-.alertVoeux{
+.alertVoeux, .colIdentifiant{
     text-align: center;
 }
 
 .conteneurResponsable {
     margin-top: 5%;
+}
+
+.boutonAvecLien {
+    
 }
 
 /* Bootstrap alerts */
