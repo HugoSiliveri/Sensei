@@ -44,4 +44,17 @@ class UniteServiceService implements UniteServiceServiceInterface
             }
         }
     }
+
+    /**
+     * @throws ServiceException
+     */
+    public function rechercherUniteService(string $recherche): AbstractDataObject
+    {
+        if (count(explode(" ", $recherche)) < 1){
+            throw new ServiceException("La recherche est incomplète !");
+        }
+        $tab = explode(" ", $recherche);
+        $id = (int) $tab[0];
+        return $this->uniteServiceRepository->recupererParClePrimaire($id);
+    }
 }

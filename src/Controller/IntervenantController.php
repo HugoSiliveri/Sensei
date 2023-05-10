@@ -46,7 +46,7 @@ class IntervenantController extends GenericController
     public function afficherListe(): Response
     {
         $intervenants = $this->intervenantService->recupererIntervenants();
-        return GenericController::afficherTwig("intervenant/listeIntervenants.twig", ["intervenants" => $intervenants]);
+        return IntervenantController::afficherTwig("intervenant/listeIntervenants.twig", ["intervenants" => $intervenants]);
     }
 
     /**
@@ -81,7 +81,7 @@ class IntervenantController extends GenericController
                 "departements" => $departements,
                 "voeux" => $voeux];
 
-            return GenericController::afficherTwig("intervenant/detailIntervenant.twig", $parametres);
+            return IntervenantController::afficherTwig("intervenant/detailIntervenant.twig", $parametres);
         } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
@@ -114,15 +114,30 @@ class IntervenantController extends GenericController
                 "unitesServices" => $us
             ];
 
-            return GenericController::afficherTwig("accueil.twig", $parametres);
+            return IntervenantController::afficherTwig("accueil.twig", $parametres);
         } catch (ServiceException $exception){
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
-            return IntervenantController::rediriger("accueil");
+            return IntervenantController::rediriger("afficherListeIntervenants");
         }
+    }
 
+    public function chercherIntervenant(): Response
+    {
+        try {
+            $recherche = $_POST["intervenant"];
+            $intervenant = $this->intervenantService->rechercherIntervenant($recherche);
+            return IntervenantController::rediriger("afficherDetailIntervenant", ["idIntervenant" => $intervenant->getIdIntervenant()]);
+        } catch (ServiceException $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+            return IntervenantController::rediriger("afficherListeIntervenants");
+        }
     }
 }

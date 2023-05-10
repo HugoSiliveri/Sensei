@@ -31,7 +31,7 @@ class UniteServiceController extends GenericController
     public function afficherListe(): Response
     {
         $unitesServices = $this->uniteServiceService->recupererUnitesServices();
-        return GenericController::afficherTwig("uniteService/listeUnitesServices.twig", ["unitesServices" => $unitesServices]);
+        return UniteServiceController::afficherTwig("uniteService/listeUnitesServices.twig", ["unitesServices" => $unitesServices]);
     }
 
     /**
@@ -74,14 +74,30 @@ class UniteServiceController extends GenericController
                 "interventions" => $interventions
             ];
 
-            return GenericController::afficherTwig("uniteService/detailUniteService.twig", $parametres);
+            return UniteServiceController::afficherTwig("uniteService/detailUniteService.twig", $parametres);
         } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
-            return IntervenantController::rediriger("afficherListeIntervenants");
+            return UniteServiceController::rediriger("afficherListeUnitesServices");
+        }
+    }
+
+    public function chercherUniteService(): Response
+    {
+        try {
+            $recherche = $_POST["uniteService"];
+            $uniteService = $this->uniteServiceService->rechercherUniteService($recherche);
+            return UniteServiceController::rediriger("afficherDetailUniteService", ["idUniteService" => $uniteService->getIdUniteService()]);
+        } catch (ServiceException $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+            return UniteServiceController::rediriger("afficherListeUnitesServices");
         }
     }
 }

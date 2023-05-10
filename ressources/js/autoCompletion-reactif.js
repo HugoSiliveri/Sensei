@@ -21,7 +21,7 @@ let autocompIntervenant = reactive({
         let tabIntervenants = JSON.parse(req.responseText);
         for (let intervenant of tabIntervenants) {
 
-            this.suggestions.push(`${intervenant.nom ? intervenant.nom : ""} ${intervenant.prenom ? intervenant.prenom : ""} ${intervenant.idIntervenantReferentiel ? intervenant.idIntervenantReferentiel : ""}`);
+            this.suggestions.push(`${intervenant.idIntervenant ? intervenant.idIntervenant : ""} ${intervenant.nom ? intervenant.nom : ""} ${intervenant.prenom ? intervenant.prenom : ""} ${intervenant.idIntervenantReferentiel ? intervenant.idIntervenantReferentiel : ""}`);
         }
         this.afficheIntervenants();
     },
@@ -61,7 +61,7 @@ let autocompUS = reactive({
     callbackUS: function (req) {
         let tabUS = JSON.parse(req.responseText);
         for (let uniteService of tabUS) {
-            this.suggestions.push(`${uniteService.idUSReferentiel ? uniteService.idUSReferentiel : ""} ${uniteService.libUS ? uniteService.libUS : ""}`);
+            this.suggestions.push(`${uniteService.idUniteService ? uniteService.idUniteService : ""} ${uniteService.idUSReferentiel ? uniteService.idUSReferentiel : ""} ${uniteService.libUS ? uniteService.libUS : ""}`);
         }
         this.afficheUS();
     },

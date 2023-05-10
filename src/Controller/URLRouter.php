@@ -175,10 +175,20 @@ class URLRouter
         ]);
         $routeAfficherListeIntervenants->setMethods(["GET"]);
 
+        $routeChercherIntervenant = new Route("/intervenants", [
+            "_controller" => ["intervenant_controller", "chercherIntervenant"]
+        ]);
+        $routeChercherIntervenant->setMethods(["POST"]);
+
         $routeAfficherListeUniteServices = new Route("/unitesServices", [
             "_controller" => ["unite_service_controller", "afficherListe"]
         ]);
         $routeAfficherListeUniteServices->setMethods(["GET"]);
+
+        $routeChercherUniteService = new Route("/unitesServices", [
+            "_controller" => ["unite_service_controller", "chercherUniteService"]
+        ]);
+        $routeChercherUniteService->setMethods(["POST"]);
 
         $routeAfficherDetailIntervenant = new Route("/intervenants/{idIntervenant}", [
             "_controller" => ["intervenant_controller", "afficherDetail"]
@@ -202,6 +212,8 @@ class URLRouter
         $routes->add("afficherDetailIntervenant", $routeAfficherDetailIntervenant);
         $routes->add("exporterEnCSV", $routeExporterEnCSVIntervenant);
         $routes->add("afficherDetailUniteService", $routeAfficherDetailUniteService);
+        $routes->add("chercherIntervenant", $routeChercherIntervenant);
+        $routes->add("chercherUniteService", $routeChercherUniteService);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 
@@ -233,8 +245,8 @@ class URLRouter
         /* Ajout de variables globales */
         $twig->addGlobal('messagesFlash', new MessageFlash());
 
-        $conteneur->set("assistantURl", $assistantUrl);
-        $conteneur->set("generateurURL", $generateurUrl);
+        $conteneur->set("assistantUrl", $assistantUrl);
+        $conteneur->set("generateurUrl", $generateurUrl);
         $conteneur->set("twig", $twig);
 
         self::setConteneur($conteneur);

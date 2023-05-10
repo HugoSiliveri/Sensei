@@ -1,5 +1,5 @@
 {% block barre_recherche_intervenant %}
-    <form class="barreRecherche" action="#" method="post">
+    <form class="barreRecherche" action="{{ route("chercherIntervenant") }}" method="post">
         <fieldset id="intervenants">
             <div class="conteneurChamps">
                 <label for="intervenant_id"></label>
@@ -7,9 +7,9 @@
                        placeholder="Rechercher un intervenant"
                        name="intervenant"
                        id="intervenant_id" required>
-                <div class="boutonEnvoie">
+                <button type="submit" name="btnEnvoieRecherche" class="boutonEnvoie">
                     <img src="{{ asset("../ressources/img/search.svg") }}" alt="loupe">
-                </div>
+                </button>
             </div>
             <div class="conteneurAutoComp">
                 <div class="autocompletion" data-inputfun="autocompIntervenant.requeteAJAX()"

@@ -20,13 +20,13 @@
 }
 
 #logoEtTitre, #onglets, #footer, .boutonContainer, .boutonEnvoie, .champsRecherche, .barreRecherche > fieldset, .conteneurChamps,
-.boutonExportConteneur, .conteneurAutoComp, .colIdentifiant, .colLib, .alertVoeux{
+.boutonExportConteneur, .conteneurAutoComp, .colIdentifiant, .colLib, .alertVoeux, #messagesFlash > div{
     display: flex;
 }
 
 footer, ul, tbody, #intervenants, #unitesServices, #usurpation,.coteGauche, .coteDroit, .annuel, .annuel2, .optionsSurObjet, .menuDeroulant,
 .boutonSousMenuAnneeService, .sousMenuAnneeService, .infosSupplementaires, .miseEnPage2, #conteneurAccueil, .conteneurAlerte,
-.conteneurResponsable, .alertVoeux > div{
+.conteneurResponsable, .alertVoeux > div, #messagesFlash{
     display: flex;
     flex-direction: column;
 }
@@ -43,12 +43,12 @@ nav, #logoEtTitre > a, #informationsHeader, #boutonExportCSV, .liste, .titreEtBa
 
 html, body, ul, #vague, .barreRecherche, .barreRecherche > fieldset, .conteneurChamps, .coteGauche, .coteDroit, .miseEnPage,
 .coteDroit h2, h3,.optionsSupplémentaires, .optionsSurObjet, .menuDeroulant, .boutonSousMenuAnneeService, .sousMenuAnneeService,
-.boutonExportConteneur, .conteneurAutoComp, .titreEtBarreRecherche2 > h2, .conteneurResponsable > h2{
+.boutonExportConteneur, .conteneurAutoComp, .titreEtBarreRecherche2 > h2, .conteneurResponsable > h2, #messagesFlash{
     width: 100%;
 }
 
 #footer, .boutonEnvoie, .miseEnPage, .coteGauche .conteneurChamps, .boutonExportConteneur, .optionsSupplémentaires .conteneurAutoComp,
-.alertVoeux{
+.alertVoeux, #messagesFlash > div {
     justify-content: center;
 }
 
@@ -57,7 +57,8 @@ nav, #onglets, .liste, .boutonContainer, .infosDepartementEtAnnee, #conteneurAcc
 }
 
 nav, #logoEtTitre, #logoEtTitre > a, #footer, #boutonExportCSV, .boutonEnvoie, .titreEtBarreRecherche, .coteGauche,
-.coteDroit, .optionsSurObjet, .boutonSousMenuAnneeService, .infosAnnuel, .centrer, .titreEtBarreRecherche2, .alertVoeux > div {
+.coteDroit, .optionsSurObjet, .boutonSousMenuAnneeService, .infosAnnuel, .centrer, .titreEtBarreRecherche2, .alertVoeux > div,
+#messagesFlash{
     align-items: center;
 }
 
@@ -379,6 +380,10 @@ ul {
     -webkit-animation-delay: 1s;
     -webkit-animation-fill-mode: forwards;
     position: absolute;
+}
+
+#messagesFlash > div {
+    width: 50%;
 }
 
 @-webkit-keyframes flashes-animation {

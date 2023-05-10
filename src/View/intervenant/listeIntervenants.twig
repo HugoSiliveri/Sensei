@@ -15,7 +15,7 @@
                 {% for intervenant in chunk %}
                     <li class="boutonContainer">
                         <a href="{{ route("afficherDetailIntervenant", {"idIntervenant": intervenant.getIdIntervenant}) }}">
-                            {{ intervenant.getNom }}   {{ intervenant.getPrenom }}   {{ intervenant.getIdIntervenantReferentiel }}</a>
+                            {{ intervenant.getIdIntervenant }} {{ intervenant.getNom }}   {{ intervenant.getPrenom }}   {{ intervenant.getIdIntervenantReferentiel }}</a>
                     </li>
                 {% endfor %}
             </ul>

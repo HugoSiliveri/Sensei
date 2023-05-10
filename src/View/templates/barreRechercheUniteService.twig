@@ -1,5 +1,5 @@
 {% block barre_recherche_unite_service %}
-    <form class="barreRecherche" action="#" method="post">
+    <form class="barreRecherche" action="{{ route("chercherUniteService") }}" method="post">
         <fieldset id="unitesServices">
             <div class="conteneurChamps">
                 <label for="uniteService_id"></label>
@@ -7,9 +7,9 @@
                        placeholder="Rechercher une unité de service"
                        name="uniteService"
                        id="uniteService_id" required>
-                <div class="boutonEnvoie">
+                <button type="submit" name="btnEnvoieRecherche" class="boutonEnvoie">
                     <img src="{{ asset("../ressources/img/search.svg") }}" alt="loupe">
-                </div>
+                </button>
             </div>
             <div class="conteneurAutoComp">
                 <div class="autocompletion" data-inputfun="autocompUS.requeteAJAX()"
