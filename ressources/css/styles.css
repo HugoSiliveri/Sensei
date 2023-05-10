@@ -13,16 +13,20 @@
     --bg-hover: #273C50;
     --classic-font: Montserrat, serif;
     --semibold-font: Montserrat-SemiBold, serif;
+    --color-info: #31708f;
+    --color-success: #3c763d;
+    --color-warning: #8a6d3b;
+    --color-danger: #a94442;
 }
 
 #logoEtTitre, #onglets, #footer, .boutonContainer, .boutonEnvoie, .champsRecherche, .barreRecherche > fieldset, .conteneurChamps,
-.boutonExportConteneur, .conteneurAutoComp, .colIdentifiant, .colLib{
+.boutonExportConteneur, .conteneurAutoComp, .colIdentifiant, .colLib, .alertVoeux{
     display: flex;
 }
 
 footer, ul, tbody, #intervenants, #unitesServices, #usurpation,.coteGauche, .coteDroit, .annuel, .annuel2, .optionsSurObjet, .menuDeroulant,
 .boutonSousMenuAnneeService, .sousMenuAnneeService, .infosSupplementaires, .miseEnPage2, #conteneurAccueil, .conteneurAlerte,
-.conteneurResponsable{
+.conteneurResponsable, .alertVoeux > div{
     display: flex;
     flex-direction: column;
 }
@@ -43,7 +47,8 @@ html, body, ul, #vague, .barreRecherche, .barreRecherche > fieldset, .conteneurC
     width: 100%;
 }
 
-#footer, .boutonEnvoie, .miseEnPage, .coteGauche .conteneurChamps, .boutonExportConteneur, .conteneurAutoComp{
+#footer, .boutonEnvoie, .miseEnPage, .coteGauche .conteneurChamps, .boutonExportConteneur, .optionsSupplémentaires .conteneurAutoComp,
+.alertVoeux{
     justify-content: center;
 }
 
@@ -52,7 +57,7 @@ nav, #onglets, .liste, .boutonContainer, .infosDepartementEtAnnee, #conteneurAcc
 }
 
 nav, #logoEtTitre, #logoEtTitre > a, #footer, #boutonExportCSV, .boutonEnvoie, .titreEtBarreRecherche, .coteGauche,
-.coteDroit, .optionsSurObjet, .boutonSousMenuAnneeService, .infosAnnuel, .centrer, .titreEtBarreRecherche2 {
+.coteDroit, .optionsSurObjet, .boutonSousMenuAnneeService, .infosAnnuel, .centrer, .titreEtBarreRecherche2, .alertVoeux > div {
     align-items: center;
 }
 
@@ -315,8 +320,17 @@ ul {
     margin-top: 5%;
 }
 
-.boutonAvecLien {
-    
+.boutonAvecLienInfo {
+    color: var(--color-info);
+    border: solid 1px var(--color-info);
+    border-radius: 5px;
+    padding: 0.5rem;
+    width: 50%
+}
+
+.boutonAvecLienInfo:hover {
+    background-color: var(--color-info);
+    color: white;
 }
 
 /* Bootstrap alerts */
@@ -324,31 +338,31 @@ ul {
 
 .alert {
     padding: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     border: 1px solid transparent;
     border-radius: 4px;
 }
 
 .alert-success {
-    color: #3c763d;
+    color: var(--color-success);
     background-color: #dff0d8;
     border-color: #d6e9c6;
 }
 
 .alert-info {
-    color: #31708f;
+    color: var(--color-info);
     background-color: #d9edf7;
     border-color: #bce8f1;
 }
 
 .alert-warning {
-    color: #8a6d3b;
+    color: var(--color-warning);
     background-color: #fcf8e3;
     border-color: #faebcc;
 }
 
 .alert-danger {
-    color: #a94442;
+    color: var(--color-danger);
     background-color: #f2dede;
     border-color: #ebccd1;
 }

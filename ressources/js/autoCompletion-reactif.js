@@ -1,5 +1,7 @@
 import {applyAndRegister, reactive, startReactiveDom} from "./reactive.js";
 
+const urlAbsolu = 'http://eratosthene.imag.umontpellier.fr/Sensei/';
+
 let autocompIntervenant = reactive({
     suggestions: [],
     suggestions_str: "",
@@ -25,7 +27,7 @@ let autocompIntervenant = reactive({
     },
     requeteAJAX: function (stringIntervenant) {
         let intervenant = encodeURI(stringIntervenant);
-        let url = `../ressources/php/requeteIntervenant.php?intervenant=${intervenant}`;
+        let url = `${urlAbsolu}ressources/php/requeteIntervenant.php?intervenant=${intervenant}`;
         let requete = new XMLHttpRequest();
         requete.open("GET", url, true);
         requete.addEventListener("load", function () {
@@ -59,14 +61,13 @@ let autocompUS = reactive({
     callbackUS: function (req) {
         let tabUS = JSON.parse(req.responseText);
         for (let uniteService of tabUS) {
-
             this.suggestions.push(`${uniteService.idUSReferentiel ? uniteService.idUSReferentiel : ""} ${uniteService.libUS ? uniteService.libUS : ""}`);
         }
         this.afficheUS();
     },
     requeteAJAX: function (stringUS) {
         let uniteService = encodeURI(stringUS);
-        let url = `../ressources/php/requeteUS.php?uniteService=${uniteService}`;
+        let url = `${urlAbsolu}ressources/php/requeteUS.php?uniteService=${uniteService}`;
         let requete = new XMLHttpRequest();
         requete.open("GET", url, true);
         requete.addEventListener("load", function () {
