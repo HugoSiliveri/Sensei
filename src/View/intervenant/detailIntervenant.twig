@@ -23,7 +23,7 @@
                 <div class="optionsSupplémentaires">
                     {% include "templates/barreRechercheIntervenant.twig" %}
                     <div class="optionsSurObjet">
-                        <a href="#"><b>Créer un nouvel intervenant</b></a>
+                        <a href="{{ route("afficherFormulaireCreationIntervenant") }}"><b>Créer un nouvel intervenant</b></a>
                     </div>
                 </div>
             </div>
@@ -80,8 +80,8 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="boutonExportConteneur">
-            <div id="boutonExportCSV">
+        <div class="boutonValidationConteneur">
+            <div class="boutonValidation">
                 <a href="{{ route("exporterEnCSV") }}">Exporter au format CSV</a>
                 <img id="download" src="{{ asset("../ressources/img/download.svg") }}" alt="download">
             </div>

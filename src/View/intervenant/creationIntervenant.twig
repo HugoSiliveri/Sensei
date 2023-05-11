@@ -1,0 +1,52 @@
+{% extends "base.twig" %}
+
+{% block page_content %}
+    <div class="miseEnPage">
+        <form class="formCreation" method="post" action="#" enctype="multipart/form-data">
+            <fieldset class="fieldsetCreation">
+                <div>
+                    <label class="labelCreation" for="idIntervenantReferentiel_id">Identifiant référentiel</label>
+                    <input class="inputCreation" type="text" placeholder="p000000XXXXX" name="idIntervenantReferentiel" id="idIntervenantReferentiel_id">
+                </div>
+                <div>
+                    <label class="labelCreation" for="nom_id">Nom</label>
+                    <input class="inputCreation" type="text" placeholder="Bonbeurre" name="nom" id="nom_id">
+                </div>
+                <div>
+                    <label class="labelCreation" for="prenom_id">Prenom</label>
+                    <input class="inputCreation" type="text" placeholder="Jean" name="prenom" id="prenom_id">
+                </div>
+                <div>
+                    <label class="labelCreation" for="statut_id">Statut</label>
+                    <select class="inputCreation" name="statut" id="statut_id">
+                        <option value="1" selected>permanent</option>
+                        <option value="2">vacataire</option>
+                        <option value="3">gestionnaire</option>
+                        <option value="4">UM hors FdS</option>
+                        <option value="5">hors UM</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="labelCreation" for="droit_id">Droit</label>
+                    <select class="inputCreation" name=droit id="droit_id">
+                        {# TODO : Le champs sera uniquement disponible pour les admins #}
+                        <option value="1">administrateur</option>
+                        <option value="2">chef de département</option>
+                        <option value="3" selected>enseignant</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="labelCreation" for="emailInstitutionnel_id">Email institutionnel</label>
+                    <input class="inputCreation" type="text" placeholder="jean.bonbeurre@umontpellier.fr" name="emailInstitutionnel" id="emailInstitutionnel_id">
+                </div>
+                <div>
+                    <label class="labelCreation" for="emailUsage_id">Email d'usage</label>
+                    <input class="inputCreation" type="text" placeholder="jean.bonbeurre@email.fr" name="emailUsage" id="emailUsage_id">
+                </div>
+                <div class="boutonValidationConteneur conteneur">
+                    <input class="boutonValidation bouton" type="submit" value="Envoyer">
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

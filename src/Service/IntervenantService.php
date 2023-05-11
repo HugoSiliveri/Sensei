@@ -62,4 +62,8 @@ class IntervenantService implements IntervenantServiceInterface
         }
         return $intervenant;
     }
+
+    public function creerIntervenant(array $intervenant) {
+        $this->intervenantRepository->ajouterSansIdIntervenant($intervenant);
+    }
 }

@@ -180,6 +180,21 @@ class URLRouter
         ]);
         $routeChercherIntervenant->setMethods(["POST"]);
 
+        $routeAfficherFormulaireCreationIntervenant = new Route("/creerIntervenant", [
+           "_controller" => ["intervenant_controller", "afficherFormulaireCreation"]
+        ]);
+        $routeAfficherFormulaireCreationIntervenant->setMethods(["GET"]);
+
+        $routeCreerIntervenantDepuisFormulaire = new Route("/creerIntervenant", [
+            "_controller" => ["intervenant_controller", "creerDepuisFormulaire"]
+        ]);
+        $routeCreerIntervenantDepuisFormulaire->setMethods(["POST"]);
+
+        $routeAfficherDetailIntervenant = new Route("/intervenants/{idIntervenant}", [
+            "_controller" => ["intervenant_controller", "afficherDetail"]
+        ]);
+        $routeAfficherDetailIntervenant->setMethods(["GET"]);
+
         $routeAfficherListeUniteServices = new Route("/unitesServices", [
             "_controller" => ["unite_service_controller", "afficherListe"]
         ]);
@@ -190,20 +205,15 @@ class URLRouter
         ]);
         $routeChercherUniteService->setMethods(["POST"]);
 
-        $routeAfficherDetailIntervenant = new Route("/intervenants/{idIntervenant}", [
-            "_controller" => ["intervenant_controller", "afficherDetail"]
+        $routeAfficherDetailUniteService = new Route("/unitesServices/{idUniteService}", [
+            "_controller" => ["unite_service_controller", "afficherDetail"]
         ]);
-        $routeAfficherDetailIntervenant->setMethods(["GET"]);
+        $routeAfficherDetailUniteService->setMethods(["GET"]);
 
         $routeExporterEnCSVIntervenant = new Route("/export", [
             "_controller" => ["voeu_controller", "exporterEnCSV"]
         ]);
         $routeExporterEnCSVIntervenant->setMethods(["GET"]);
-
-        $routeAfficherDetailUniteService = new Route("/unitesServices/{idUniteService}", [
-            "_controller" => ["unite_service_controller", "afficherDetail"]
-        ]);
-        $routeAfficherDetailUniteService->setMethods(["GET"]);
 
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
@@ -214,6 +224,8 @@ class URLRouter
         $routes->add("afficherDetailUniteService", $routeAfficherDetailUniteService);
         $routes->add("chercherIntervenant", $routeChercherIntervenant);
         $routes->add("chercherUniteService", $routeChercherUniteService);
+        $routes->add("afficherFormulaireCreationIntervenant", $routeAfficherFormulaireCreationIntervenant);
+        $routes->add("creerIntervenantDepuisFormulaire", $routeCreerIntervenantDepuisFormulaire);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 

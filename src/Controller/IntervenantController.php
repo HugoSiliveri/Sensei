@@ -2,6 +2,7 @@
 
 namespace App\Sensei\Controller;
 
+use App\Sensei\Configuration\Configuration;
 use App\Sensei\Lib\ConnexionUtilisateurInterface;
 use App\Sensei\Lib\MessageFlash;
 use App\Sensei\Service\DepartementServiceInterface;
@@ -89,8 +90,30 @@ class IntervenantController extends GenericController
             } else {
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
-            return IntervenantController::rediriger("afficherListeIntervenants");
+            return IntervenantController::rediriger("afficherFormulaireCreationIntervenant");
         }
+    }
+
+    public function afficherFormulaireCreation(): Response {
+        return IntervenantController::afficherTwig("intervenant/creationIntervenant.twig");
+    }
+
+    public function creerDepuisFormulaire(): Response {
+        $intervenant = [
+            "nom" => $_POST["nom"] ?? null,
+            "prenom" => $_POST["prenom"] ?? null,
+            "idIntervenantReferentiel" => $_POST["idIntervenantReferentiel"] ?? null,
+            "idStatut" => $_POST["statut"],
+            "idDroit" => $_POST["droit"],
+            "emailInstitutionnel" => $_POST["emailInstitutionnel"] ?? null,
+            "emailUsage" => $_POST["emailUsage"] ?? null,
+            "deleted" => 0
+        ];
+
+        $this->intervenantService->creerIntervenant($intervenant);
+
+        MessageFlash::ajouter("success", "L'intervenant a bien été créé !");
+        return IntervenantController::rediriger("accueil");
     }
 
     public function afficherAccueil(): Response

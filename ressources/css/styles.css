@@ -20,18 +20,18 @@
 }
 
 #logoEtTitre, #onglets, #footer, .boutonContainer, .boutonEnvoie, .champsRecherche, .barreRecherche > fieldset, .conteneurChamps,
-.boutonExportConteneur, .conteneurAutoComp, .colIdentifiant, .colLib, .alertVoeux, #messagesFlash > div{
+.boutonValidationConteneur, .conteneurAutoComp, .colIdentifiant, .colLib, .alertVoeux, #messagesFlash > div, .formCreation{
     display: flex;
 }
 
 footer, ul, tbody, #intervenants, #unitesServices, #usurpation,.coteGauche, .coteDroit, .annuel, .annuel2, .optionsSurObjet, .menuDeroulant,
 .boutonSousMenuAnneeService, .sousMenuAnneeService, .infosSupplementaires, .miseEnPage2, #conteneurAccueil, .conteneurAlerte,
-.conteneurResponsable, .alertVoeux > div, #messagesFlash{
+.conteneurResponsable, .alertVoeux > div, #messagesFlash, .fieldsetCreation, .fieldsetCreation > div{
     display: flex;
     flex-direction: column;
 }
 
-nav, #logoEtTitre > a, #informationsHeader, #boutonExportCSV, .liste, .titreEtBarreRecherche, .infosDepartementEtAnnee, .miseEnPage,
+nav, #logoEtTitre > a, #informationsHeader, .boutonValidation, .liste, .titreEtBarreRecherche, .infosDepartementEtAnnee, .miseEnPage,
 .optionsSupplémentaires, .infosAnnuel, .titreEtBarreRecherche2, thead, thead > tr, .boutonTable {
     display: flex;
     flex-direction: row;
@@ -43,12 +43,12 @@ nav, #logoEtTitre > a, #informationsHeader, #boutonExportCSV, .liste, .titreEtBa
 
 html, body, ul, #vague, .barreRecherche, .barreRecherche > fieldset, .conteneurChamps, .coteGauche, .coteDroit, .miseEnPage,
 .coteDroit h2, h3,.optionsSupplémentaires, .optionsSurObjet, .menuDeroulant, .boutonSousMenuAnneeService, .sousMenuAnneeService,
-.boutonExportConteneur, .conteneurAutoComp, .titreEtBarreRecherche2 > h2, .conteneurResponsable > h2, #messagesFlash{
+.boutonValidationConteneur, .conteneurAutoComp, .titreEtBarreRecherche2 > h2, .conteneurResponsable > h2, #messagesFlash, .formCreation{
     width: 100%;
 }
 
-#footer, .boutonEnvoie, .miseEnPage, .coteGauche .conteneurChamps, .boutonExportConteneur, .optionsSupplémentaires .conteneurAutoComp,
-.alertVoeux, #messagesFlash > div {
+#footer, .boutonEnvoie, .miseEnPage, .coteGauche .conteneurChamps, .boutonValidationConteneur, .optionsSupplémentaires .conteneurAutoComp,
+.alertVoeux, #messagesFlash > div, .formCreation {
     justify-content: center;
 }
 
@@ -56,9 +56,9 @@ nav, #onglets, .liste, .boutonContainer, .infosDepartementEtAnnee, #conteneurAcc
     justify-content: space-between;
 }
 
-nav, #logoEtTitre, #logoEtTitre > a, #footer, #boutonExportCSV, .boutonEnvoie, .titreEtBarreRecherche, .coteGauche,
+nav, #logoEtTitre, #logoEtTitre > a, #footer, .boutonValidation, .boutonEnvoie, .titreEtBarreRecherche, .coteGauche,
 .coteDroit, .optionsSurObjet, .boutonSousMenuAnneeService, .infosAnnuel, .centrer, .titreEtBarreRecherche2, .alertVoeux > div,
-#messagesFlash{
+#messagesFlash, .conteneur{
     align-items: center;
 }
 
@@ -155,7 +155,7 @@ ul {
     color: white;
 }
 
-#boutonExportCSV {
+.boutonValidation {
     justify-content: space-evenly;
     background-color: var(--bg-color);
     border-radius: 10px;
@@ -165,7 +165,7 @@ ul {
 
 }
 
-#boutonExportCSV > a {
+.boutonValidation > a {
     color: white;
 }
 
@@ -194,7 +194,7 @@ ul {
     border-radius: 0 20% 20% 0;
 }
 
-#boutonExportCSV:hover, .boutonEnvoie:hover {
+.boutonValidation:hover, .boutonEnvoie:hover {
     background-color: var(--bg-hover);
 }
 
@@ -333,6 +333,50 @@ ul {
     background-color: var(--color-info);
     color: white;
 }
+
+.fieldsetCreation{
+    border: none;
+    width: 40%;
+}
+
+.labelCreation {
+    margin: 2% 0 1% 0;
+    font-family: var(--semibold-font);
+}
+
+
+.inputCreation {
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 14px;
+    vertical-align: baseline;
+    font-weight: 400;
+    line-height: 1.29;
+    letter-spacing: .16px;
+    border-radius: 0;
+    outline: 2px solid transparent;
+    outline-offset: -2px;
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-bottom: 1px solid #8d8d8d;
+    background-color: #f4f4f4;
+    padding: 0 16px;
+    color: #161616;
+    transition: background-color 70ms cubic-bezier(.2, 0, .38, .9), outline 70ms cubic-bezier(.2, 0, .38, .9);
+}
+
+.inputCreation:focus {
+    outline: 2px solid #0f62fe;
+    outline-offset: -2px;
+}
+
+.bouton {
+    color: white;
+    padding: 2% 0;
+    width: 200px
+}
+
 
 /* Bootstrap alerts */
 /* https://getbootstrap.com/docs/3.4/components/#alerts */

@@ -55,7 +55,7 @@ class IntervenantRepository extends AbstractRepository
      * @param array $objetFormatTableau
      * @return Intervenant
      */
-    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
+    public function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
     {
         return new Intervenant(
             $objetFormatTableau["idIntervenant"],
@@ -68,6 +68,33 @@ class IntervenantRepository extends AbstractRepository
             $objetFormatTableau["idIntervenantReferentiel"],
             $objetFormatTableau["deleted"]
         );
+    }
+
+    public function ajouterSansIdIntervenant(array $intervenant){
+        try {
+            $sql = "INSERT INTO Intervenant(nom, prenom, idStatut, idDroit, emailInstitutionnel, emailUsage, idIntervenantReferentiel, deleted)
+            VALUES (:nomTag, :prenomTag, :idStatutTag, :idDroitTag, :emailInstitutionnelTag, :emailUsageTag, :idIntervenantReferentielTag,
+                    :deletedTag)";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "nomTag" => $intervenant["nom"],
+                "prenomTag" => $intervenant["prenom"],
+                "idStatutTag" => $intervenant["idStatut"],
+                "idDroitTag" => $intervenant["idDroit"],
+                "emailInstitutionnelTag" => $intervenant["emailInstitutionnel"],
+                "emailUsageTag" => $intervenant["emailUsage"],
+                "idIntervenantReferentielTag" => $intervenant["idIntervenantReferentiel"],
+                "deletedTag" => $intervenant["deleted"]
+            );
+            $pdoStatement->execute($values);
+
+            return null;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors d'insertion dans la base de données.");
+        }
     }
 
     /**
