@@ -33,15 +33,11 @@ class UniteServiceService implements UniteServiceServiceInterface
      */
     public function recupererParIdentifiant(int $idUniteService): AbstractDataObject
     {
-        if (!isset($idUniteService)) {
-            throw new ServiceException("L'identifiant n'est pas défini !");
+        $uniteService = $this->uniteServiceRepository->recupererParClePrimaire($idUniteService);
+        if (!isset($uniteService)) {
+            throw new ServiceException("L'identifiant est inconnu !");
         } else {
-            $uniteService = $this->uniteServiceRepository->recupererParClePrimaire($idUniteService);
-            if (!isset($uniteService)) {
-                throw new ServiceException("L'identifiant est inconnu !");
-            } else {
-                return $uniteService;
-            }
+            return $uniteService;
         }
     }
 
@@ -50,11 +46,17 @@ class UniteServiceService implements UniteServiceServiceInterface
      */
     public function rechercherUniteService(string $recherche): AbstractDataObject
     {
-        if (count(explode(" ", $recherche)) < 1){
+        if ($recherche == "" || count(explode(" ", $recherche)) < 1){
             throw new ServiceException("La recherche est incomplète !");
         }
         $tab = explode(" ", $recherche);
         $id = (int) $tab[0];
-        return $this->uniteServiceRepository->recupererParClePrimaire($id);
+
+        $uniteService = $this->uniteServiceRepository->recupererParClePrimaire($id);
+
+        if (!isset($uniteService)){
+            throw new ServiceException("L'identifiant est incorrect !");
+        }
+        return $uniteService;
     }
 }

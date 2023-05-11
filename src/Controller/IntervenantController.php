@@ -17,6 +17,7 @@ use App\Sensei\Service\UniteServiceAnneeServiceInterface;
 use App\Sensei\Service\UniteServiceServiceInterface;
 use App\Sensei\Service\VoeuServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
+use TypeError;
 
 class IntervenantController extends GenericController
 {
@@ -82,7 +83,7 @@ class IntervenantController extends GenericController
                 "voeux" => $voeux];
 
             return IntervenantController::afficherTwig("intervenant/detailIntervenant.twig", $parametres);
-        } catch (ServiceException $exception) {
+        } catch (ServiceException|TypeError $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {
@@ -115,7 +116,7 @@ class IntervenantController extends GenericController
             ];
 
             return IntervenantController::afficherTwig("accueil.twig", $parametres);
-        } catch (ServiceException $exception){
+        } catch (ServiceException|TypeError $exception){
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {
@@ -131,7 +132,7 @@ class IntervenantController extends GenericController
             $recherche = $_POST["intervenant"];
             $intervenant = $this->intervenantService->rechercherIntervenant($recherche);
             return IntervenantController::rediriger("afficherDetailIntervenant", ["idIntervenant" => $intervenant->getIdIntervenant()]);
-        } catch (ServiceException $exception) {
+        } catch (ServiceException|TypeError $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {

@@ -10,6 +10,7 @@ use App\Sensei\Service\UniteServiceAnneeServiceInterface;
 use App\Sensei\Service\UniteServiceServiceInterface;
 use App\Sensei\Service\VoeuServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
+use TypeError;
 
 class UniteServiceController extends GenericController
 {
@@ -75,7 +76,7 @@ class UniteServiceController extends GenericController
             ];
 
             return UniteServiceController::afficherTwig("uniteService/detailUniteService.twig", $parametres);
-        } catch (ServiceException $exception) {
+        } catch (ServiceException|TypeError $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {
@@ -91,7 +92,7 @@ class UniteServiceController extends GenericController
             $recherche = $_POST["uniteService"];
             $uniteService = $this->uniteServiceService->rechercherUniteService($recherche);
             return UniteServiceController::rediriger("afficherDetailUniteService", ["idUniteService" => $uniteService->getIdUniteService()]);
-        } catch (ServiceException $exception) {
+        } catch (ServiceException|TypeError $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {

@@ -21,15 +21,11 @@ class EmploiService implements EmploiServiceInterface
      */
     public function recupererParIdentifiant(int $idEmploi): AbstractDataObject
     {
-        if (!isset($idEmploi)) {
-            throw new ServiceException("L'identifiant n'est pas défini !");
+        $emploi = $this->emploiRepository->recupererParClePrimaire($idEmploi);
+        if (!isset($emploi)) {
+            throw new ServiceException("L'identifiant est inconnu !");
         } else {
-            $emploi = $this->emploiRepository->recupererParClePrimaire($idEmploi);
-            if (!isset($emploi)) {
-                throw new ServiceException("L'identifiant est inconnu !");
-            } else {
-                return $emploi;
-            }
+            return $emploi;
         }
     }
 }

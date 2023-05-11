@@ -16,14 +16,9 @@ class ServiceAnnuelService implements ServiceAnnuelServiceInterface
     /**
      * @param int $idIntervenant
      * @return array
-     * @throws ServiceException
      */
     public function recupererParIntervenant(int $idIntervenant): array
     {
-        if (!isset($idIntervenant)) {
-            throw new ServiceException("L'identifiant n'est pas défini !");
-        } else {
-            return $this->serviceAnnuelRepository->recupererParIntervenant($idIntervenant);
-        }
+        return $this->serviceAnnuelRepository->recupererParIntervenant($idIntervenant);
     }
 }

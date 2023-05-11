@@ -16,20 +16,17 @@ class ResponsableUSService implements ResponsableUSServiceInterface
 
     /**
      * @param int $idIntervenant
+     * @param int $millesime
      * @return array
      * @throws ServiceException
      */
     public function recupererParIdIntervenantAnnuel(int $idIntervenant, int $millesime): array
     {
-        if (!isset($idIntervenant) || !isset($millesime)) {
-            throw new ServiceException("L'identifiant ou la date ne sont pas défini !");
+        $responsableUS = $this->responsableUSRepository->recupererParIdIntervenantAnnuel($idIntervenant, $millesime);
+        if (!isset($responsableUS)) {
+            throw new ServiceException("L'identifiant est inconnu !");
         } else {
-            $responsableUS = $this->responsableUSRepository->recupererParIdIntervenantAnnuel($idIntervenant, $millesime);
-            if (!isset($responsableUS)) {
-                throw new ServiceException("L'identifiant est inconnu !");
-            } else {
-                return $responsableUS;
-            }
+            return $responsableUS;
         }
     }
 }

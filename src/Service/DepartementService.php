@@ -21,15 +21,12 @@ class DepartementService implements DepartementServiceInterface
      */
     public function recupererParIdentifiant(int $idDepartement): AbstractDataObject
     {
-        if (!isset($idDepartement)) {
-            throw new ServiceException("L'identifiant n'est pas défini !");
+        $departement = $this->departementRepository->recupererParClePrimaire($idDepartement);
+        if (!isset($departement)) {
+            throw new ServiceException("L'identifiant est inconnu !");
         } else {
-            $departement = $this->departementRepository->recupererParClePrimaire($idDepartement);
-            if (!isset($departement)) {
-                throw new ServiceException("L'identifiant est inconnu !");
-            } else {
-                return $departement;
-            }
+            return $departement;
         }
+
     }
 }

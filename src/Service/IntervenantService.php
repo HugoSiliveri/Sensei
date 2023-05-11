@@ -28,15 +28,11 @@ class IntervenantService implements IntervenantServiceInterface
      */
     public function recupererParIdentifiant(int $idIntervenant): AbstractDataObject
     {
-        if (!isset($idIntervenant)) {
-            throw new ServiceException("L'identifiant n'est pas défini !");
+        $intervenant = $this->intervenantRepository->recupererParClePrimaire($idIntervenant);
+        if (!isset($intervenant)) {
+            throw new ServiceException("L'identifiant est inconnu !");
         } else {
-            $intervenant = $this->intervenantRepository->recupererParClePrimaire($idIntervenant);
-            if (!isset($intervenant)) {
-                throw new ServiceException("L'identifiant est inconnu !");
-            } else {
-                return $intervenant;
-            }
+            return $intervenant;
         }
     }
 
@@ -53,11 +49,17 @@ class IntervenantService implements IntervenantServiceInterface
      */
     public function rechercherIntervenant(string $recherche): AbstractDataObject
     {
-        if (count(explode(" ", $recherche)) < 1){
+        if ($recherche == "" || count(explode(" ", $recherche)) < 1){
             throw new ServiceException("La recherche est incomplète !");
         }
         $tab = explode(" ", $recherche);
         $id = (int) $tab[0];
-        return $this->intervenantRepository->recupererParClePrimaire($id);
+
+        $intervenant = $this->intervenantRepository->recupererParClePrimaire($id);
+
+        if (!isset($intervenant)){
+            throw new ServiceException("L'identifiant est incorrect !");
+        }
+        return $intervenant;
     }
 }

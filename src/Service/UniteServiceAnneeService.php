@@ -21,15 +21,11 @@ class UniteServiceAnneeService implements UniteServiceAnneeServiceInterface
      */
     public function recupererParIdentifiant(int $idUniteServiceAnnee): AbstractDataObject
     {
-        if (!isset($idUniteServiceAnnee)) {
-            throw new ServiceException("L'identifiant n'est pas défini !");
+        $uniteServiceAnnee = $this->uniteServiceAnneeRepository->recupererParClePrimaire($idUniteServiceAnnee);
+        if (!isset($uniteServiceAnnee)) {
+            throw new ServiceException("L'identifiant est inconnu !");
         } else {
-            $uniteServiceAnnee = $this->uniteServiceAnneeRepository->recupererParClePrimaire($idUniteServiceAnnee);
-            if (!isset($uniteServiceAnnee)) {
-                throw new ServiceException("L'identifiant est inconnu !");
-            } else {
-                return $uniteServiceAnnee;
-            }
+            return $uniteServiceAnnee;
         }
     }
 
@@ -40,10 +36,6 @@ class UniteServiceAnneeService implements UniteServiceAnneeServiceInterface
      */
     public function recupererParUniteService(int $idUniteService): array
     {
-        if (!isset($idUniteService)) {
-            throw new ServiceException("L'identifiant n'est pas défini !");
-        } else {
-            return $this->uniteServiceAnneeRepository->recupererParUniteService($idUniteService);
-        }
+        return $this->uniteServiceAnneeRepository->recupererParUniteService($idUniteService);
     }
 }

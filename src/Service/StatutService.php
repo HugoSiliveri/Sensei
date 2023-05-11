@@ -21,15 +21,11 @@ class StatutService implements StatutServiceInterface
      */
     public function recupererParIdentifiant(int $idStatut): AbstractDataObject
     {
-        if (!isset($idStatut)) {
-            throw new ServiceException("L'identifiant n'est pas défini !");
+        $statut = $this->statutRepository->recupererParClePrimaire($idStatut);
+        if (!isset($statut)) {
+            throw new ServiceException("L'identifiant est inconnu !");
         } else {
-            $statut = $this->statutRepository->recupererParClePrimaire($idStatut);
-            if (!isset($statut)) {
-                throw new ServiceException("L'identifiant est inconnu !");
-            } else {
-                return $statut;
-            }
+            return $statut;
         }
     }
 }

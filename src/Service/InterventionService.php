@@ -21,15 +21,11 @@ class InterventionService implements InterventionServiceInterface
      */
     public function recupererParIdentifiant(int $idIntervention): AbstractDataObject
     {
-        if (!isset($idIntervention)) {
-            throw new ServiceException("L'identifiant n'est pas défini !");
+        $intervention = $this->interventionRepository->recupererParClePrimaire($idIntervention);
+        if (!isset($intervention)) {
+            throw new ServiceException("L'identifiant est inconnu !");
         } else {
-            $intervention = $this->interventionRepository->recupererParClePrimaire($idIntervention);
-            if (!isset($intervention)) {
-                throw new ServiceException("L'identifiant est inconnu !");
-            } else {
-                return $intervention;
-            }
+            return $intervention;
         }
     }
 }
