@@ -59,4 +59,16 @@ class UniteServiceService implements UniteServiceServiceInterface
         }
         return $uniteService;
     }
+
+    /**
+     * @throws ServiceException
+     */
+    public function creerUniteService(array $uniteService) {
+        if ($uniteService["anneeOuverture"] > $uniteService["anneeCloture"]){
+            throw new ServiceException("L'année d'ouverture est plus récente que l'année de clôture !");
+        }
+        $this->uniteServiceRepository->ajouterSansIdUniteService($uniteService);
+    }
+
+
 }

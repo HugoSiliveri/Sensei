@@ -1,0 +1,85 @@
+{% extends "base.twig" %}
+
+{% block page_content %}
+    <div class="miseEnPage">
+        <form class="formCreation" method="post" action="#" enctype="multipart/form-data">
+            <fieldset class="fieldsetCreation">
+                <div>
+                    <label class="labelCreation" for="idUSReferentiel_id">Identifiant référentiel</label>
+                    <input class="inputCreation" type="text" placeholder="HAXXXXX" name="idUSReferentiel" id="idUSReferentiel_id">
+                </div>
+                <div>
+                    <label class="labelCreation" for="libUS_id">Libellé</label>
+                    <input class="inputCreation" type="text" placeholder="Module d'enseignement" name="libUS" id="libUS_id">
+                </div>
+                <div>
+                    <label class="labelCreation" for="nature_id">Nature</label>
+                    <select class="inputCreation" name="nature" id="nature_id">
+                        <option value="UE" selected>UE (Unité d'Enseignement)</option>
+                        <option value="DE">DE (Décharge)</option>
+                        <option value="UR">UR (Unité référentiel)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="labelCreation" for="ancetre_id">Ancêtre</label>
+                    <input class="inputCreation" type="text" placeholder="Chercher une unité de service" name="ancetre" id="ancetre_id" data-inputfun="autocompUS.requeteAJAX()">
+                    <div class="conteneurAutoComp">
+                        <div class="autocompletion" data-inputfun="autocompUS.requeteAJAX()"
+                             data-htmlvar="autocompUS.suggestions_str"></div>
+                    </div>
+                </div>
+                <div>
+                    <label class="labelCreation" for="anneeOuverture_id">Année d'ouverture</label>
+                    <input class="inputCreation" type="text" placeholder="2020" name="anneeOuverture" id="anneeOuverture_id">
+                </div>
+                <div>
+                    <label class="labelCreation" for="anneeCloture_id">Année de clôture</label>
+                    <input class="inputCreation" type="text" placeholder="2023" name="anneeCloture" id="anneeCloture_id">
+                </div>
+                <div>
+                    <label class="labelCreation" for="ECTS_id">ECTS</label>
+                    <input class="inputCreation" type="number" value="0" name="ECTS" id="ECTS_id">
+                </div>
+                <div>
+                    <label class="labelCreation" for="heuresCM_id">heuresCM</label>
+                    <input class="inputCreation" type="number" value="0" name="heuresCM" id="heuresCM_id" required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="heuresTD_id">heuresTD</label>
+                    <input class="inputCreation" type="number" value="0" name="heuresTD" id="heuresTD_id" required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="heuresTP_id">heuresTP</label>
+                    <input class="inputCreation" type="number" value="0" name="heuresTP" id="heuresTP_id" required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="heuresStage_id">heuresStage</label>
+                    <input class="inputCreation" type="number" value="0" name="heuresStage" id="heuresStage_id" required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="heuresTerrain_id">heuresTerrain</label>
+                    <input class="inputCreation" type="number" value="0" name="heuresTerrain" id="heuresTerrain_id" required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="semestre_id">Semestre</label>
+                    <input class="inputCreation" type="number" value="0" name="semestre" id="semestre_id" required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="saison_id">Saison</label>
+                    <input class="inputCreation" type="number" value="0" name="saison" id="saison_id" required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="payeur_id">Payeur</label>
+                    <input class="inputCreation" type="text" name="payeur" id="payeur_id">
+                </div>
+                <div>
+                    <label class="labelCreation" for="validite_id">Validite</label>
+                    <input class="inputCreation" type="number" value="3" name="validite" id="validite_id">
+                </div>
+                <div class="boutonValidationConteneur conteneur">
+                    <input class="boutonValidation bouton" type="submit" value="Envoyer">
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

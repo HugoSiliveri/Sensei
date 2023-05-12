@@ -3,6 +3,7 @@
 namespace App\Sensei\Controller;
 
 use App\Sensei\Lib\MessageFlash;
+use App\Sensei\Model\DataObject\UniteService;
 use App\Sensei\Service\Exception\ServiceException;
 use App\Sensei\Service\IntervenantServiceInterface;
 use App\Sensei\Service\InterventionServiceInterface;
@@ -83,6 +84,64 @@ class UniteServiceController extends GenericController
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
             return UniteServiceController::rediriger("afficherListeUnitesServices");
+        }
+    }
+
+    public function afficherFormulaireCreation(): Response {
+        return UniteServiceController::afficherTwig("uniteService/creationUniteService.twig");
+    }
+
+    public function creerDepuisFormulaire(): Response {
+        try {
+            $ancetre = $_POST["ancetre"];
+
+            if ($ancetre != ""){
+                $idAncetre = $this->uniteServiceService->rechercherUniteService($ancetre)->getIdUniteService();
+            } else {
+                $idAncetre = null;
+            }
+            $idUSReferentiel = $_POST["idUSReferentiel"];
+            $libUS = $_POST["libUS"];
+            $nature =  $_POST["nature"];
+            $anneeOuverture = $_POST["anneeOuverture"];
+            $anneeCloture = $_POST["anneeCloture"];
+            $ECTS = $_POST["ECTS"];
+            $payeur = $_POST["payeur"];
+            $validite = $_POST["validite"];
+
+
+            $uniteService = [
+                "idUSReferentiel" => strcmp($idUSReferentiel, "") == 0 ? null : $idUSReferentiel,
+                "libUS" =>  strcmp($libUS, "") == 0 ? null : $libUS,
+                "nature" =>  strcmp($nature, "") == 0 ? null : $nature,
+                "ancetre" => $idAncetre,
+                "anneeOuverture" =>  strcmp($anneeOuverture, "") == 0 ? null : $anneeOuverture,
+                "anneeCloture" =>  strcmp($anneeCloture, "") == 0 ? null : $anneeCloture,
+                "ECTS" =>  strcmp($ECTS, "") == 0 ? null : $ECTS,
+                "heuresCM" => $_POST["heuresCM"],
+                "heuresTD" => $_POST["heuresTD"],
+                "heuresTP" => $_POST["heuresTP"],
+                "heuresStage" => $_POST["heuresStage"],
+                "heuresTerrain" => $_POST["heuresTerrain"],
+                "semestre" => $_POST["semestre"],
+                "saison" => $_POST["saison"],
+                "payeur" =>  strcmp($payeur, "") == 0 ? null : $payeur,
+                "validite" =>  strcmp($validite, "") == 0 ? null : $validite,
+                "deleted" => 0,
+            ];
+
+            $this->uniteServiceService->creerUniteService($uniteService);
+
+            MessageFlash::ajouter("success", "L'unité de service a bien été créé !");
+            return UniteServiceController::rediriger("accueil");
+
+        } catch (ServiceException $exception){
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+            return UniteServiceController::rediriger("afficherFormulaireCreationUniteService");
         }
     }
 

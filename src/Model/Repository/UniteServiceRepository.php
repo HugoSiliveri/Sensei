@@ -40,7 +40,46 @@ class UniteServiceRepository extends AbstractRepository
             echo $exception->getMessage();
             die("Erreur lors de la recherche dans la base de données.");
         }
+    }
 
+    public function ajouterSansIdUniteService(array $uniteService){
+        try {
+            $sql = "INSERT INTO UniteService
+            (idUSReferentiel, libUS, nature, ancetre, anneeOuverture, anneeCloture, ECTS,
+            heuresCM, heuresTD, heuresTP, heuresStage, heuresTerrain, semestre, saison, payeur, validite, deleted)
+            VALUES 
+            (:idUSReferentielTag, :libUSTag, :natureTag, :ancetreTag, :anneeOuvertureTag, :anneeClotureTag, :ECTSTag,
+            :heuresCMTag, :heuresTDTag, :heuresTPTag, :heuresStageTag, :heuresTerrainTag, :semestreTag, :saisonTag, :payeurTag, 
+             :validiteTag, :deletedTag)";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "idUSReferentielTag" => $uniteService["idUSReferentiel"],
+                "libUSTag" => $uniteService["libUS"],
+                "natureTag" => $uniteService["nature"],
+                "ancetreTag" => $uniteService["ancetre"],
+                "anneeOuvertureTag" => $uniteService["anneeOuverture"],
+                "anneeClotureTag" => $uniteService["anneeCloture"],
+                "ECTSTag" => $uniteService["ECTS"],
+                "heuresCMTag" => $uniteService["heuresCM"],
+                "heuresTDTag" => $uniteService["heuresTD"],
+                "heuresTPTag" => $uniteService["heuresTP"],
+                "heuresStageTag" => $uniteService["heuresStage"],
+                "heuresTerrainTag" => $uniteService["heuresTerrain"],
+                "semestreTag" => $uniteService["semestre"],
+                "saisonTag" => $uniteService["saison"],
+                "payeurTag" => $uniteService["payeur"],
+                "validiteTag" => $uniteService["validite"],
+                "deletedTag" => $uniteService["deleted"],
+            );
+            $pdoStatement->execute($values);
+
+            return null;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors d'insertion dans la base de données.");
+        }
     }
 
     /**

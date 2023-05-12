@@ -190,6 +190,16 @@ class URLRouter
         ]);
         $routeCreerIntervenantDepuisFormulaire->setMethods(["POST"]);
 
+        $routeAfficherFormulaireCreationUniteService = new Route("/creerUniteService", [
+            "_controller" => ["unite_service_controller", "afficherFormulaireCreation"]
+        ]);
+        $routeAfficherFormulaireCreationUniteService->setMethods(["GET"]);
+
+        $routeCreerUniteServiceDepuisFormulaire = new Route("/creerUniteService", [
+            "_controller" => ["unite_service_controller", "creerDepuisFormulaire"]
+        ]);
+        $routeCreerUniteServiceDepuisFormulaire->setMethods(["POST"]);
+
         $routeAfficherDetailIntervenant = new Route("/intervenants/{idIntervenant}", [
             "_controller" => ["intervenant_controller", "afficherDetail"]
         ]);
@@ -226,6 +236,8 @@ class URLRouter
         $routes->add("chercherUniteService", $routeChercherUniteService);
         $routes->add("afficherFormulaireCreationIntervenant", $routeAfficherFormulaireCreationIntervenant);
         $routes->add("creerIntervenantDepuisFormulaire", $routeCreerIntervenantDepuisFormulaire);
+        $routes->add("afficherFormulaireCreationUniteService", $routeAfficherFormulaireCreationUniteService);
+        $routes->add("creerUniteServiceDepuisFormulaire", $routeCreerUniteServiceDepuisFormulaire);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 
@@ -233,7 +245,7 @@ class URLRouter
         $associateurUrl = new UrlMatcher($routes, $contexteRequete);
         /* URLHelper va générer des URL absolues, elle sera utilisée pour les ressources */
         $assistantUrl = new UrlHelper(new RequestStack(), $contexteRequete);
-
+            
         $generateurUrl = new UrlGenerator($routes, $contexteRequete);
 
         $twigLoader = new FilesystemLoader(__DIR__ . '/../View/');

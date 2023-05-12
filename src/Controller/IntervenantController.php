@@ -99,14 +99,21 @@ class IntervenantController extends GenericController
     }
 
     public function creerDepuisFormulaire(): Response {
+
+        $nom = $_POST["nom"];
+        $prenom = $_POST["prenom"];
+        $idIntervenantReferentiel = $_POST["idIntervenantReferentiel"];
+        $emailInstitutionnel = $_POST["emailInstitutionnel"];
+        $emailUsage = $_POST["emailUsage"];
+
         $intervenant = [
-            "nom" => $_POST["nom"] ?? null,
-            "prenom" => $_POST["prenom"] ?? null,
-            "idIntervenantReferentiel" => $_POST["idIntervenantReferentiel"] ?? null,
+            "nom" => strcmp($nom, "") == 0 ? null : $nom,
+            "prenom" => strcmp($prenom, "") == 0 ? null : $prenom,
+            "idIntervenantReferentiel" => strcmp($idIntervenantReferentiel, "") == 0 ? null : $idIntervenantReferentiel,
             "idStatut" => $_POST["statut"],
             "idDroit" => $_POST["droit"],
-            "emailInstitutionnel" => $_POST["emailInstitutionnel"] ?? null,
-            "emailUsage" => $_POST["emailUsage"] ?? null,
+            "emailInstitutionnel" => strcmp($emailInstitutionnel, "") == 0 ? null : $emailInstitutionnel,
+            "emailUsage" => strcmp($emailUsage, "") == 0 ? null : $emailUsage,
             "deleted" => 0
         ];
 
