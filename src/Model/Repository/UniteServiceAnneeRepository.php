@@ -47,11 +47,12 @@ class UniteServiceAnneeRepository extends AbstractRepository
         try {
             $sql = "INSERT INTO UniteServiceAnnee
             (idDepartement, idUniteService, libUSA, millesime, heuresCM, nbGroupesCM, heuresTD, nbGroupesTD,
-            heuresTP, nbGroupesTP, heuresStage, nbGroupesStage, heuresTerrain, nbGroupesTerrain, validite, deleted)
+            heuresTP, nbGroupesTP, heuresStage, nbGroupesStage, heuresTerrain, nbGroupesTerrain, heuresInnovationPedagogique, 
+             nbGroupesInnovationPedagogique, validite, deleted)
             VALUES 
             (:idDepartementTag, :idUniteServiceTag, :libUSATag, :millesimeTag, :heuresCMTag, :nbGroupesCMTag, :heuresTDTag, 
              :nbGroupesTDTag, :heuresTPTag, :nbGroupesTPTag, :heuresStageTag, :nbGroupesStageTag, :heuresTerrainTag, :nbGroupesTerrainTag,
-             :validiteTag, :deletedTag)";
+             :heuresInnovationPedagogiqueTag, :nbGroupesInnovationPedagogiqueTag, :validiteTag, :deletedTag)";
 
             $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
 
@@ -72,6 +73,8 @@ class UniteServiceAnneeRepository extends AbstractRepository
                 "nbGroupesTerrainTag" => $uniteService["nbGroupesTerrain"],
                 "validiteTag" => $uniteService["validite"],
                 "deletedTag" => $uniteService["deleted"],
+                "heuresInnovationPedagogiqueTag" => $uniteService["heuresInnovationPedagogique"],
+                "nbGroupesInnovationPedagogiqueTag" => $uniteService["nbGroupesInnovationPedagogique"]
             );
             $pdoStatement->execute($values);
 
@@ -104,6 +107,8 @@ class UniteServiceAnneeRepository extends AbstractRepository
             $objetFormatTableau["nbGroupesStage"],
             $objetFormatTableau["heuresTerrain"],
             $objetFormatTableau["nbGroupesTerrain"],
+            $objetFormatTableau["heuresInnovationPedagogique"],
+            $objetFormatTableau["nbGroupesInnovationPedagogique"],
             $objetFormatTableau["validite"],
             $objetFormatTableau["deleted"],
         );
@@ -135,6 +140,6 @@ class UniteServiceAnneeRepository extends AbstractRepository
     {
         return ["idUniteServiceAnnee", "idDepartement", "idUniteService", "libUSA", "millesime", "heuresCM", "nbGroupesCM",
             "heuresTD", "nbGroupesTD", "heuresTP", "nbGroupesTP", "heuresStage", "nbGroupesStage", "heuresTerrain",
-            "nbGroupesTerrain", "validite", "deleted"];
+            "heuresInnovationPedagogique", "nbGroupesInnovationPedagogique", "nbGroupesTerrain", "validite", "deleted"];
     }
 }

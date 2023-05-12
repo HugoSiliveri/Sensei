@@ -28,6 +28,7 @@ class UniteService extends AbstractDataObject
         private float  $heuresTP,
         private float  $heuresStage,
         private float  $heuresTerrain,
+        private float $heuresInnovationPedagogique,
         private int    $semestre,
         private int    $saison,
         private int    $idPayeur,
@@ -182,6 +183,14 @@ class UniteService extends AbstractDataObject
     }
 
     /**
+     * @return float
+     */
+    public function getHeuresInnovationPedagogique(): float
+    {
+        return $this->heuresInnovationPedagogique;
+    }
+
+    /**
      * @inheritDoc
      */
     public function recupererFormatTableau(): array
@@ -200,6 +209,7 @@ class UniteService extends AbstractDataObject
             "heuresTP" => $this->heuresTP,
             "heuresStage" => $this->heuresStage,
             "heuresTerrain" => $this->heuresTerrain,
+            "heuresInnovationPedagogique" => $this->heuresInnovationPedagogique,
             "semestre" => $this->semestre,
             "saison" => $this->saison,
             "idPayeur" => $this->idPayeur,

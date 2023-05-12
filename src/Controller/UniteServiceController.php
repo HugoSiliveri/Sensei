@@ -131,6 +131,7 @@ class UniteServiceController extends GenericController
                 "heuresTP" => $_POST["heuresTP"],
                 "heuresStage" => $_POST["heuresStage"],
                 "heuresTerrain" => $_POST["heuresTerrain"],
+                "heuresInnovationPedagogique" => $_POST["heuresInnovationPedagogique"],
                 "semestre" => $_POST["semestre"],
                 "saison" => $_POST["saison"],
                 "idPayeur" => $_POST["idPayeur"],
@@ -159,6 +160,8 @@ class UniteServiceController extends GenericController
                     "nbGroupesStage" => $_POST["nbGroupesStage"],
                     "heuresTerrain" => $_POST["heuresTerrain"],
                     "nbGroupesTerrain" => $_POST["nbGroupesTerrain"],
+                    "heuresInnovationPedagogique" => $_POST["heuresInnovationPedagogique"],
+                    "nbGroupesInnovationPedagogique" => $_POST["nbGroupesInnovationPedagogique"],
                     "validite" => strcmp($validite, "") == 0 ? null : $validite,
                     "deleted" => 0
                 ];

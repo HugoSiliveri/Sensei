@@ -24,6 +24,7 @@
                     <li><b>Heures de TP :</b> {{ uniteService.getHeuresTP }}</li>
                     <li><b>Heures de stage :</b> {{ uniteService.getHeuresStage }}</li>
                     <li><b>Heures de terrain :</b> {{ uniteService.getHeuresTerrain }}</li>
+                    <li><b>Heures d'innovation pédagogique :</b> {{ uniteService.getHeuresInnovationPedagogique }}</li>
                     <li><b>Saison : </b> {{ uniteService.getSaison }}</li>
                     <li><b>Semestre :</b> {{ uniteService.getSemestre }}</li>
                     <li><b>Payeur :</b> {{ payeur.getLibPayeur }}</li>
@@ -64,6 +65,8 @@
                                         :</b> {{ uniteServiceAnnee.getNbGroupesStage }}</li>
                                 <li><b>Heures de terrain :</b> {{ uniteServiceAnnee.getHeuresTerrain }}<b> / Nb groupes
                                         :</b> {{ uniteServiceAnnee.getNbGroupesTerrain }}</li>
+                                <li><b>Heures d'innovation pédagogique :</b> {{ uniteServiceAnnee.getHeuresInnovationPedagogique }}<b> / Nb groupes
+                                        :</b> {{ uniteServiceAnnee.getNbGroupesInnovationPedagogique }}</li>
                             </ul>
                             <a href="#">
                                 <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">

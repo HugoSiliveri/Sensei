@@ -22,17 +22,19 @@ class UniteServiceAnnee extends AbstractDataObject
         private ?string $libUSA,
         private ?int    $millesime,
         private float   $heuresCM,
-        private int     $nbGroupesCM,
-        private float   $heuresTD,
-        private int     $nbGroupesTD,
-        private float   $heuresTP,
-        private int     $nbGroupesTP,
-        private float   $heuresStage,
-        private int     $nbGroupesStage,
-        private float   $heuresTerrain,
-        private int     $nbGroupesTerrain,
-        private ?int    $validite,
-        private ?int    $deleted
+        private int   $nbGroupesCM,
+        private float $heuresTD,
+        private int   $nbGroupesTD,
+        private float $heuresTP,
+        private int   $nbGroupesTP,
+        private float $heuresStage,
+        private int   $nbGroupesStage,
+        private float $heuresTerrain,
+        private int   $nbGroupesTerrain,
+        private float $heuresInnovationPedagogique,
+        private int   $nbGroupesInnovationPedagogique,
+        private ?int  $validite,
+        private ?int  $deleted
     )
     {
     }
@@ -174,6 +176,22 @@ class UniteServiceAnnee extends AbstractDataObject
     }
 
     /**
+     * @return float
+     */
+    public function getHeuresInnovationPedagogique(): float
+    {
+        return $this->heuresInnovationPedagogique;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNbGroupesInnovationPedagogique(): int
+    {
+        return $this->nbGroupesInnovationPedagogique;
+    }
+
+    /**
      * @inheritDoc
      */
     public function recupererFormatTableau(): array
@@ -194,6 +212,8 @@ class UniteServiceAnnee extends AbstractDataObject
             "nbGroupesStage" => $this->nbGroupesStage,
             "heuresTerrain" => $this->heuresTerrain,
             "nbGroupesTerrain" => $this->nbGroupesTerrain,
+            "heuresInnovationPedagogique" => $this->heuresInnovationPedagogique,
+            "nbGroupesInnovationPedahogique" => $this->nbGroupesInnovationPedagogique,
             "validite" => $this->validite,
             "deleted" => $this->deleted
         ];

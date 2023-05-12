@@ -68,10 +68,10 @@ class UniteServiceRepository extends AbstractRepository
         try {
             $sql = "INSERT INTO UniteService
             (idUSReferentiel, libUS, nature, ancetre, anneeOuverture, anneeCloture, ECTS,
-            heuresCM, heuresTD, heuresTP, heuresStage, heuresTerrain, semestre, saison, idPayeur, validite, deleted)
+            heuresCM, heuresTD, heuresTP, heuresStage, heuresTerrain, heuresInnovationPedagogique,semestre, saison, idPayeur, validite, deleted)
             VALUES 
             (:idUSReferentielTag, :libUSTag, :natureTag, :ancetreTag, :anneeOuvertureTag, :anneeClotureTag, :ECTSTag,
-            :heuresCMTag, :heuresTDTag, :heuresTPTag, :heuresStageTag, :heuresTerrainTag, :semestreTag, :saisonTag, :idPayeurTag, 
+            :heuresCMTag, :heuresTDTag, :heuresTPTag, :heuresStageTag, :heuresTerrainTag, :heuresInnovationPedagogiqueTag, :semestreTag, :saisonTag, :idPayeurTag, 
              :validiteTag, :deletedTag)";
 
             $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
@@ -89,6 +89,7 @@ class UniteServiceRepository extends AbstractRepository
                 "heuresTPTag" => $uniteService["heuresTP"],
                 "heuresStageTag" => $uniteService["heuresStage"],
                 "heuresTerrainTag" => $uniteService["heuresTerrain"],
+                "heuresInnovationPedagogiqueTag" => $uniteService["heuresInnovationPedagogique"],
                 "semestreTag" => $uniteService["semestre"],
                 "saisonTag" => $uniteService["saison"],
                 "idPayeurTag" => $uniteService["idPayeur"],
@@ -129,7 +130,8 @@ class UniteServiceRepository extends AbstractRepository
     protected function getNomsColonnes(): array
     {
         return ["idUniteService", "idUSReferentiel", "libUS", "nature", "ancetre", "anneeOuverture", "anneeCloture", "ECTS",
-            "heuresCM", "heuresTD", "heuresTP", "heuresStage", "heuresTerrain", "semestre", "saison", "idPayeur", "validite", "deleted"];
+            "heuresCM", "heuresTD", "heuresTP", "heuresStage", "heuresTerrain", "heuresInnovationPedagogique",
+            "semestre", "saison", "idPayeur", "validite", "deleted"];
     }
 
     /** Construit un objet UniteService à partir d'un tableau donné en paramètre.
@@ -152,6 +154,7 @@ class UniteServiceRepository extends AbstractRepository
             $objetFormatTableau["heuresTP"],
             $objetFormatTableau["heuresStage"],
             $objetFormatTableau["heuresTerrain"],
+            $objetFormatTableau["heuresInnovationPedagogique"],
             $objetFormatTableau["semestre"],
             $objetFormatTableau["saison"],
             $objetFormatTableau["idPayeur"],
