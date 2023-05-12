@@ -43,6 +43,45 @@ class UniteServiceAnneeRepository extends AbstractRepository
         }
     }
 
+    public function ajouterSansIdUniteServiceAnnee(array $uniteService){
+        try {
+            $sql = "INSERT INTO UniteServiceAnnee
+            (idDepartement, idUniteService, libUSA, millesime, heuresCM, nbGroupesCM, heuresTD, nbGroupesTD,
+            heuresTP, nbGroupesTP, heuresStage, nbGroupesStage, heuresTerrain, nbGroupesTerrain, validite, deleted)
+            VALUES 
+            (:idDepartementTag, :idUniteServiceTag, :libUSATag, :millesimeTag, :heuresCMTag, :nbGroupesCMTag, :heuresTDTag, 
+             :nbGroupesTDTag, :heuresTPTag, :nbGroupesTPTag, :heuresStageTag, :nbGroupesStageTag, :heuresTerrainTag, :nbGroupesTerrainTag,
+             :validiteTag, :deletedTag)";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "idDepartementTag" => $uniteService["idDepartement"],
+                "idUniteServiceTag" => $uniteService["idUniteService"],
+                "libUSATag" => $uniteService["libUSA"],
+                "millesimeTag" => $uniteService["millesime"],
+                "heuresCMTag" => $uniteService["heuresCM"],
+                "nbGroupesCMTag" => $uniteService["nbGroupesCM"],
+                "heuresTDTag" => $uniteService["heuresTD"],
+                "nbGroupesTDTag" => $uniteService["nbGroupesTD"],
+                "heuresTPTag" => $uniteService["heuresTP"],
+                "nbGroupesTPTag" => $uniteService["nbGroupesTP"],
+                "heuresStageTag" => $uniteService["heuresStage"],
+                "nbGroupesStageTag" => $uniteService["nbGroupesStage"],
+                "heuresTerrainTag" => $uniteService["heuresTerrain"],
+                "nbGroupesTerrainTag" => $uniteService["nbGroupesTerrain"],
+                "validiteTag" => $uniteService["validite"],
+                "deletedTag" => $uniteService["deleted"],
+            );
+            $pdoStatement->execute($values);
+
+            return null;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors d'insertion dans la base de données.");
+        }
+    }
+
     /** Construit un objet UniteServiceAnnee à partir d'un tableau donné en paramètre.
      * @param array $objetFormatTableau
      * @return UniteServiceAnnee

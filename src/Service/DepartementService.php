@@ -29,4 +29,8 @@ class DepartementService implements DepartementServiceInterface
         }
 
     }
+
+    public function recupererDepartements(){
+        return $this->departementRepository->recuperer();
+    }
 }

@@ -42,14 +42,36 @@ class UniteServiceRepository extends AbstractRepository
         }
     }
 
+    public function recupererDernierElement(): ?AbstractDataObject
+    {
+        try {
+            $sql = "SELECT * from UniteService WHERE idUniteService = (
+            SELECT MAX(idUniteService)
+            FROM UniteService)";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+            $pdoStatement->execute();
+
+            $objetFormatTableau = $pdoStatement->fetch();
+
+            if ($objetFormatTableau !== false) {
+                return $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return null;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
     public function ajouterSansIdUniteService(array $uniteService){
         try {
             $sql = "INSERT INTO UniteService
             (idUSReferentiel, libUS, nature, ancetre, anneeOuverture, anneeCloture, ECTS,
-            heuresCM, heuresTD, heuresTP, heuresStage, heuresTerrain, semestre, saison, payeur, validite, deleted)
+            heuresCM, heuresTD, heuresTP, heuresStage, heuresTerrain, semestre, saison, idPayeur, validite, deleted)
             VALUES 
             (:idUSReferentielTag, :libUSTag, :natureTag, :ancetreTag, :anneeOuvertureTag, :anneeClotureTag, :ECTSTag,
-            :heuresCMTag, :heuresTDTag, :heuresTPTag, :heuresStageTag, :heuresTerrainTag, :semestreTag, :saisonTag, :payeurTag, 
+            :heuresCMTag, :heuresTDTag, :heuresTPTag, :heuresStageTag, :heuresTerrainTag, :semestreTag, :saisonTag, :idPayeurTag, 
              :validiteTag, :deletedTag)";
 
             $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
@@ -69,7 +91,7 @@ class UniteServiceRepository extends AbstractRepository
                 "heuresTerrainTag" => $uniteService["heuresTerrain"],
                 "semestreTag" => $uniteService["semestre"],
                 "saisonTag" => $uniteService["saison"],
-                "payeurTag" => $uniteService["payeur"],
+                "idPayeurTag" => $uniteService["idPayeur"],
                 "validiteTag" => $uniteService["validite"],
                 "deletedTag" => $uniteService["deleted"],
             );
@@ -107,7 +129,7 @@ class UniteServiceRepository extends AbstractRepository
     protected function getNomsColonnes(): array
     {
         return ["idUniteService", "idUSReferentiel", "libUS", "nature", "ancetre", "anneeOuverture", "anneeCloture", "ECTS",
-            "heuresCM", "heuresTD", "heuresTP", "heuresStage", "heuresTerrain", "semestre", "saison", "payeur", "validite", "deleted"];
+            "heuresCM", "heuresTD", "heuresTP", "heuresStage", "heuresTerrain", "semestre", "saison", "idPayeur", "validite", "deleted"];
     }
 
     /** Construit un objet UniteService à partir d'un tableau donné en paramètre.
@@ -132,7 +154,7 @@ class UniteServiceRepository extends AbstractRepository
             $objetFormatTableau["heuresTerrain"],
             $objetFormatTableau["semestre"],
             $objetFormatTableau["saison"],
-            $objetFormatTableau["payeur"],
+            $objetFormatTableau["idPayeur"],
             $objetFormatTableau["validite"],
             $objetFormatTableau["deleted"]
         );

@@ -1,85 +1,170 @@
 {% extends "base.twig" %}
 
 {% block page_content %}
-    <div class="miseEnPage">
-        <form class="formCreation" method="post" action="#" enctype="multipart/form-data">
-            <fieldset class="fieldsetCreation">
-                <div>
-                    <label class="labelCreation" for="idUSReferentiel_id">Identifiant référentiel</label>
-                    <input class="inputCreation" type="text" placeholder="HAXXXXX" name="idUSReferentiel" id="idUSReferentiel_id">
-                </div>
-                <div>
-                    <label class="labelCreation" for="libUS_id">Libellé</label>
-                    <input class="inputCreation" type="text" placeholder="Module d'enseignement" name="libUS" id="libUS_id">
-                </div>
-                <div>
-                    <label class="labelCreation" for="nature_id">Nature</label>
-                    <select class="inputCreation" name="nature" id="nature_id">
-                        <option value="UE" selected>UE (Unité d'Enseignement)</option>
-                        <option value="DE">DE (Décharge)</option>
-                        <option value="UR">UR (Unité référentiel)</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="labelCreation" for="ancetre_id">Ancêtre</label>
-                    <input class="inputCreation" type="text" placeholder="Chercher une unité de service" name="ancetre" id="ancetre_id" data-inputfun="autocompUS.requeteAJAX()">
-                    <div class="conteneurAutoComp">
-                        <div class="autocompletion" data-inputfun="autocompUS.requeteAJAX()"
-                             data-htmlvar="autocompUS.suggestions_str"></div>
+    <div class="miseEnPage2">
+        <div class="miseEnPage">
+            <form class="formCreation" method="post" action="#" enctype="multipart/form-data">
+                <fieldset class="fieldsetCreation">
+                    <div class="coteGauche start">
+                        <div>
+                            <h3>Création d'une unité de service</h3>
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="idUSReferentiel_id">Identifiant référentiel</label>
+                            <input class="inputCreation" type="text" placeholder="HAXXXXX" name="idUSReferentiel"
+                                   id="idUSReferentiel_id">
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="libUS_id">Libellé</label>
+                            <input class="inputCreation" type="text" placeholder="Module d'enseignement" name="libUS"
+                                   id="libUS_id">
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="nature_id">Nature</label>
+                            <select class="inputCreation" name="nature" id="nature_id">
+                                <option value="UE" selected>UE (Unité d'Enseignement)</option>
+                                <option value="DE">DE (Décharge)</option>
+                                <option value="UR">UR (Unité référentiel)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="ancetre_id">Ancêtre</label>
+                            <input class="inputCreation" type="text" placeholder="Chercher une unité de service"
+                                   name="ancetre" id="ancetre_id" data-inputfun="autocompUS.requeteAJAX()">
+                            <div class="conteneurAutoComp">
+                                <div class="autocompletion" data-inputfun="autocompUS.requeteAJAX()"
+                                     data-htmlvar="autocompUS.suggestions_str"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="anneeOuverture_id">Année d'ouverture</label>
+                            <input class="inputCreation" type="text" placeholder="2020" name="anneeOuverture"
+                                   id="anneeOuverture_id">
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="anneeCloture_id">Année de clôture</label>
+                            <input class="inputCreation" type="text" placeholder="2023" name="anneeCloture"
+                                   id="anneeCloture_id">
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="ECTS_id">ECTS</label>
+                            <input class="inputCreation" type="number" value="0" name="ECTS" id="ECTS_id">
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="heuresCM_id">heuresCM</label>
+                            <input class="inputCreation" type="number" value="0" name="heuresCM" id="heuresCM_id"
+                                   required>
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="heuresTD_id">heuresTD</label>
+                            <input class="inputCreation" type="number" value="0" name="heuresTD" id="heuresTD_id"
+                                   required>
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="heuresTP_id">heuresTP</label>
+                            <input class="inputCreation" type="number" value="0" name="heuresTP" id="heuresTP_id"
+                                   required>
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="heuresStage_id">heuresStage</label>
+                            <input class="inputCreation" type="number" value="0" name="heuresStage" id="heuresStage_id"
+                                   required>
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="heuresTerrain_id">heuresTerrain</label>
+                            <input class="inputCreation" type="number" value="0" name="heuresTerrain"
+                                   id="heuresTerrain_id" required>
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="semestre_id">Semestre</label>
+                            <select class="inputCreation" name="semestre" id="semestre_id">
+                                <option value="0">LS1</option>
+                                <option value="1">LS2</option>
+                                <option value="2">LS3</option>
+                                <option value="3">LS4</option>
+                                <option value="4">LS5</option>
+                                <option value="5">LS6</option>
+                                <option value="6">MS1</option>
+                                <option value="7">MS2</option>
+                                <option value="8">MS3</option>
+                                <option value="9">MS4</option>
+                                <option value="12" selected>N/A</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="saison_id">Saison</label>
+                            <select class="inputCreation" name="saison" id="saison_id">
+                                <option value="0">Printemps</option>
+                                <option value="1">Automne</option>
+                                <option value="2" selected>Annuel</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="payeur_id">Payeur</label>
+                            <select class="inputCreation" name="idPayeur" id="payeur_id">
+                                {% set i = 1 %}
+                                {% for payeur in payeurs %}
+                                    <option value="{{ i }}">{{ payeur.getLibPayeur }}</option>
+                                    {% set i = i + 1 %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="validite_id">Validite</label>
+                            <input class="inputCreation" type="number" value="3" name="validite" id="validite_id">
+                        </div>
+                        <div class="boutonValidationConteneur conteneur">
+                            <input class="boutonValidation bouton" type="submit" value="Envoyer">
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <label class="labelCreation" for="anneeOuverture_id">Année d'ouverture</label>
-                    <input class="inputCreation" type="text" placeholder="2020" name="anneeOuverture" id="anneeOuverture_id">
-                </div>
-                <div>
-                    <label class="labelCreation" for="anneeCloture_id">Année de clôture</label>
-                    <input class="inputCreation" type="text" placeholder="2023" name="anneeCloture" id="anneeCloture_id">
-                </div>
-                <div>
-                    <label class="labelCreation" for="ECTS_id">ECTS</label>
-                    <input class="inputCreation" type="number" value="0" name="ECTS" id="ECTS_id">
-                </div>
-                <div>
-                    <label class="labelCreation" for="heuresCM_id">heuresCM</label>
-                    <input class="inputCreation" type="number" value="0" name="heuresCM" id="heuresCM_id" required>
-                </div>
-                <div>
-                    <label class="labelCreation" for="heuresTD_id">heuresTD</label>
-                    <input class="inputCreation" type="number" value="0" name="heuresTD" id="heuresTD_id" required>
-                </div>
-                <div>
-                    <label class="labelCreation" for="heuresTP_id">heuresTP</label>
-                    <input class="inputCreation" type="number" value="0" name="heuresTP" id="heuresTP_id" required>
-                </div>
-                <div>
-                    <label class="labelCreation" for="heuresStage_id">heuresStage</label>
-                    <input class="inputCreation" type="number" value="0" name="heuresStage" id="heuresStage_id" required>
-                </div>
-                <div>
-                    <label class="labelCreation" for="heuresTerrain_id">heuresTerrain</label>
-                    <input class="inputCreation" type="number" value="0" name="heuresTerrain" id="heuresTerrain_id" required>
-                </div>
-                <div>
-                    <label class="labelCreation" for="semestre_id">Semestre</label>
-                    <input class="inputCreation" type="number" value="0" name="semestre" id="semestre_id" required>
-                </div>
-                <div>
-                    <label class="labelCreation" for="saison_id">Saison</label>
-                    <input class="inputCreation" type="number" value="0" name="saison" id="saison_id" required>
-                </div>
-                <div>
-                    <label class="labelCreation" for="payeur_id">Payeur</label>
-                    <input class="inputCreation" type="text" name="payeur" id="payeur_id">
-                </div>
-                <div>
-                    <label class="labelCreation" for="validite_id">Validite</label>
-                    <input class="inputCreation" type="number" value="3" name="validite" id="validite_id">
-                </div>
-                <div class="boutonValidationConteneur conteneur">
-                    <input class="boutonValidation bouton" type="submit" value="Envoyer">
-                </div>
-            </fieldset>
-        </form>
+                    <div class="coteDroit start">
+                        <div class="titreEtBarreRecherche">
+                            <h3>Création d'une unité de service pour l'année 2023</h3>
+                            <label for="check_id"></label>
+                            <input type="checkbox" name="checkbox" id="check_id" checked>
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="departement_id">Département</label>
+                            <select class="inputCreation" name="idDepartement" id="departement_id">
+                                {% set i = 1 %}
+                                {% for departement in departements %}
+                                    <option value="{{ i }}">{{ departement.getLibDepartement }}</option>
+                                    {% set i = i + 1 %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="nbGroupesCM_id">Nb groupes CM</label>
+                            <input class="inputCreation" type="number" value="0" name="nbGroupesCM" id="nbGroupesCM_id"
+                                   required>
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="nbGroupesTD_id">Nb groupes TD</label>
+                            <input class="inputCreation" type="number" value="0" name="nbGroupesTD" id="nbGroupesTD_id"
+                                   required>
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="nbGroupesTP_id">Nb groupes TP</label>
+                            <input class="inputCreation" type="number" value="0" name="nbGroupesTP" id="nbGroupesTP_id"
+                                   required>
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="nbGroupesStage_id">Nb groupes stage</label>
+                            <input class="inputCreation" type="number" value="0" name="nbGroupesStage" id="nbGroupesStage_id"
+                                   required>
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="nbGroupesTerrain_id">Nb groupes terrain</label>
+                            <input class="inputCreation" type="number" value="0" name="nbGroupesTerrain" id="nbGroupesTerrain_id"
+                                   required>
+                        </div>
+                        <div>
+                            {# TODO : A changer avec l'année en cours #}
+                            <input type="hidden" value="2023" name="millesime">
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
     </div>
 {% endblock %}

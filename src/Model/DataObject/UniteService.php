@@ -20,19 +20,19 @@ class UniteService extends AbstractDataObject
         private ?string $libUS,
         private ?string $nature,
         private ?int    $ancetre,
-        private ?int    $anneeOuverture,
-        private ?int    $anneeCloture,
-        private ?float  $ECTS,
-        private float   $heuresCM,
-        private float   $heuresTD,
-        private float   $heuresTP,
-        private float   $heuresStage,
-        private float   $heuresTerrain,
-        private int     $semestre,
-        private int     $saison,
-        private ?string $payeur,
-        private ?int    $validite,
-        private ?int    $deleted
+        private ?int   $anneeOuverture,
+        private ?int   $anneeCloture,
+        private ?float $ECTS,
+        private float  $heuresCM,
+        private float  $heuresTD,
+        private float  $heuresTP,
+        private float  $heuresStage,
+        private float  $heuresTerrain,
+        private int    $semestre,
+        private int    $saison,
+        private int    $idPayeur,
+        private ?int   $validite,
+        private ?int   $deleted
     )
     {
     }
@@ -160,9 +160,9 @@ class UniteService extends AbstractDataObject
     /**
      * @return string|null
      */
-    public function getPayeur(): ?string
+    public function getIdPayeur(): ?string
     {
-        return $this->payeur;
+        return $this->idPayeur;
     }
 
     /**
@@ -202,7 +202,7 @@ class UniteService extends AbstractDataObject
             "heuresTerrain" => $this->heuresTerrain,
             "semestre" => $this->semestre,
             "saison" => $this->saison,
-            "payeur" => $this->payeur,
+            "idPayeur" => $this->idPayeur,
             "validite" => $this->validite,
             "deleted" => $this->deleted,
         ];

@@ -377,6 +377,23 @@ ul {
     width: 200px
 }
 
+.miseEnPage2  .formCreation {
+    display: block;
+}
+
+.miseEnPage2 .fieldsetCreation {
+    flex-direction: row;
+    width: auto;
+}
+
+.start {
+    align-items: start;
+}
+
+.start > div {
+    margin: 2% 0 0 2%;
+    width: 90%;
+}
 
 /* Bootstrap alerts */
 /* https://getbootstrap.com/docs/3.4/components/#alerts */

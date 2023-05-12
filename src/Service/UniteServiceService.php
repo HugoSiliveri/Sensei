@@ -70,5 +70,12 @@ class UniteServiceService implements UniteServiceServiceInterface
         $this->uniteServiceRepository->ajouterSansIdUniteService($uniteService);
     }
 
+    public function recupererDernierUniteService(): AbstractDataObject {
+        $result = $this->uniteServiceRepository->recupererDernierElement();
+        if (!isset($result)){
+            throw new ServiceException("La table est vide !");
+        }
+        return $result;
+    }
 
 }
