@@ -54,6 +54,13 @@
                             <div>
                                 {% set millesime = uniteServiceAnnee.getMillesime %}
                                 <p>Année : {{ millesime }} - {{ millesime+1 }}</p>
+                                {% if not colorations[i] is empty %}
+                                    <p>Coloration :
+                                        {% for departement in colorations[i] %}
+                                            {{ departement.getLibDepartement }}
+                                        {% endfor %}
+                                    </p>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="infosAnnuel">

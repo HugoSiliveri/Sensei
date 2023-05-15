@@ -4,6 +4,7 @@ namespace App\Sensei\Controller;
 
 use App\Sensei\Lib\MessageFlash;
 use App\Sensei\Service\AppartenirServiceInterface;
+use App\Sensei\Service\ColorationServiceInterface;
 use App\Sensei\Service\DepartementServiceInterface;
 use App\Sensei\Service\Exception\ServiceException;
 use App\Sensei\Service\IntervenantServiceInterface;
@@ -27,7 +28,8 @@ class UniteServiceController extends GenericController
         private readonly PayeurServiceInterface            $payeurService,
         private readonly DepartementServiceInterface       $departementService,
         private readonly AppartenirServiceInterface        $appartenirService,
-        private readonly NatureServiceInterface            $natureService
+        private readonly NatureServiceInterface            $natureService,
+        private readonly ColorationServiceInterface $colorationService
     )
     {
     }
@@ -58,6 +60,7 @@ class UniteServiceController extends GenericController
             $appartenirTab = $this->appartenirService->recupererParIdUniteService($uniteService->getIdUniteService());
             $nature = $this->natureService->recupererParIdentifiant($uniteService->getNature());
 
+
             $departements = [];
             foreach ($appartenirTab as $appartenir) {
                 $departements[] = $this->departementService->recupererParIdentifiant($appartenir->getIdDepartement());
@@ -66,10 +69,20 @@ class UniteServiceController extends GenericController
             $voeux = [];
             $intervenants = [];
             $interventions = [];
+            $colorations = [];
+            $colorationsParAnnee = [];
             $i = 0;
+            $j = 0;
             foreach ($unitesServicesAnnees as $uniteServiceAnnee) {
                 $intervenantsParAnnee = [];
                 $interventionsParAnnee = [];
+
+                $departementsColoration = [];
+                $colorationsParAnnee[] = $this->colorationService->recupererParIdUniteServiceAnnee($uniteServiceAnnee->getIdUniteServiceAnnee());
+
+                foreach ($colorationsParAnnee[$j] as $coloration){
+                    $departementsColoration[] = $this->departementService->recupererParIdentifiant($coloration->getIdDepartement());
+                }
                 $voeuxParAnnee = $this->voeuService->recupererParIdUSA($uniteServiceAnnee->getIdUniteServiceAnnee());
 
                 foreach ($voeuxParAnnee as $voeuxAnnuel) {
@@ -80,7 +93,9 @@ class UniteServiceController extends GenericController
                 $voeux[] = $voeuxParAnnee;
                 $intervenants[] = array_unique($intervenantsParAnnee, SORT_REGULAR);
                 $interventions[] = array_unique($interventionsParAnnee, SORT_REGULAR);
+                $colorations[] = array_unique($departementsColoration, SORT_REGULAR);
                 $i++;
+                $j++;
             }
 
             $parametres = [
@@ -91,7 +106,8 @@ class UniteServiceController extends GenericController
                 "interventions" => $interventions,
                 "payeur" => $payeur,
                 "departements" => $departements,
-                "nature" => $nature
+                "nature" => $nature,
+                "colorations" => $colorations
             ];
 
             return UniteServiceController::afficherTwig("uniteService/detailUniteService.twig", $parametres);

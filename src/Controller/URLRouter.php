@@ -6,6 +6,7 @@ use App\Sensei\Configuration\ConfigurationBDDMariaDB;
 use App\Sensei\Lib\ConnexionUtilisateur;
 use App\Sensei\Lib\MessageFlash;
 use App\Sensei\Model\Repository\AppartenirRepository;
+use App\Sensei\Model\Repository\ColorationRepository;
 use App\Sensei\Model\Repository\ConnexionBaseDeDonnees;
 use App\Sensei\Model\Repository\DepartementRepository;
 use App\Sensei\Model\Repository\DroitRepository;
@@ -21,6 +22,7 @@ use App\Sensei\Model\Repository\UniteServiceAnneeRepository;
 use App\Sensei\Model\Repository\UniteServiceRepository;
 use App\Sensei\Model\Repository\VoeuRepository;
 use App\Sensei\Service\AppartenirService;
+use App\Sensei\Service\ColorationService;
 use App\Sensei\Service\DepartementService;
 use App\Sensei\Service\DroitService;
 use App\Sensei\Service\EmploiService;
@@ -128,6 +130,9 @@ class URLRouter
         $natureRepository = $conteneur->register('nature_repository', NatureRepository::class);
         $natureRepository->setArguments([new Reference('connexion_base')]);
 
+        $colorationRepository = $conteneur->register('coloration_repository', ColorationRepository::class);
+        $colorationRepository->setArguments([new Reference('connexion_base')]);
+
         $connexionUtilisateur = $conteneur->register('connexion_utilisateur', ConnexionUtilisateur::class);
         $connexionUtilisateur->setArguments([new Reference('intervenant_repository')]);
 
@@ -141,7 +146,7 @@ class URLRouter
         $uniteServiceController->setArguments([new Reference('unite_service_service'), new Reference('unite_service_annee_service'),
             new Reference('voeu_service'), new Reference('intervenant_service'), new Reference('intervention_service'),
             new Reference('payeur_service'), new Reference('departement_service'), new Reference('appartenir_service'),
-            new Reference('nature_service')]);
+            new Reference('nature_service'), new Reference('coloration_service')]);
 
         $voeuController = $conteneur->register('voeu_controller', VoeuController::class);
         $voeuController->setArguments([new Reference('voeu_service')]);
@@ -187,6 +192,9 @@ class URLRouter
 
         $natureService = $conteneur->register('nature_service', NatureService::class);
         $natureService->setArguments([new Reference('nature_repository')]);
+
+        $colorationService = $conteneur->register('coloration_service', ColorationService::class);
+        $colorationService->setArguments([new Reference('coloration_repository')]);
 
         /* Instantiation d'une collection de routes */
         $routes = new RouteCollection();

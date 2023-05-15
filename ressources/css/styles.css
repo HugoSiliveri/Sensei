@@ -404,6 +404,19 @@ ul {
     height: 20px;
 }
 
+.titreEtBarreRecherche .optionsSurObjet {
+    display: block;
+    justify-content: center;
+}
+
+.titreEtBarreRecherche .conteneurChamps, .titreEtBarreRecherche .conteneurAutoComp {
+    justify-content: center;
+}
+
+.titreEtBarreRecherche h2 {
+    width: 100%;
+}
+
 /* Bootstrap alerts */
 /* https://getbootstrap.com/docs/3.4/components/#alerts */
 

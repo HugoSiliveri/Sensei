@@ -8,6 +8,10 @@
         <h2>Liste des unités de
             services</h2> {# TODO : A changer en fonction des intervenants du départements et des vacataires #}
         {% include "templates/barreRechercheUniteService.twig" %}
+        <div class="optionsSurObjet">
+            <a href="{{ route("afficherFormulaireCreationIntervenant") }}"><b>Créer un nouvel
+                    intervenant</b></a>
+        </div>
     </div>
     <div class="liste">
         {% for chunk in chunks %}

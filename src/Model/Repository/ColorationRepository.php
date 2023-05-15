@@ -4,6 +4,7 @@ namespace App\Sensei\Model\Repository;
 
 use App\Sensei\Model\DataObject\AbstractDataObject;
 use App\Sensei\Model\DataObject\Coloration;
+use PDOException;
 
 /**
  * @name ColorationRepository
@@ -15,6 +16,31 @@ use App\Sensei\Model\DataObject\Coloration;
  */
 class ColorationRepository extends AbstractRepository
 {
+
+    public function recupererParIdUniteServiceAnnee(int $idUniteServiceAnnee)
+    {
+        try {
+            $sql = "SELECT * FROM Coloration WHERE idUniteServiceAnnee =:idUniteServiceAnneeTag";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "idUniteServiceAnneeTag" => $idUniteServiceAnnee,
+            );
+            $pdoStatement->execute($values);
+
+            $objetsFormatTableau = $pdoStatement->fetchALl();
+
+            $objets = [];
+            foreach ($objetsFormatTableau as $objetFormatTableau) {
+                $objets[] = $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return $objets;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
 
     /**
      * Retourne le nom de la table contenant les données de Coloration.
