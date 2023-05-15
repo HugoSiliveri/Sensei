@@ -20,13 +20,13 @@
 }
 
 #logoEtTitre, #onglets, #footer, .boutonContainer, .boutonEnvoie, .champsRecherche, .barreRecherche > fieldset, .conteneurChamps,
-.boutonValidationConteneur, .conteneurAutoComp, .colIdentifiant, .colLib, .alertVoeux, #messagesFlash > div, .formCreation{
+.boutonValidationConteneur, .conteneurAutoComp, .colIdentifiant, .colLib, .alertVoeux, #messagesFlash > div, .formCreation {
     display: flex;
 }
 
-footer, ul, tbody, #intervenants, #unitesServices, #usurpation,.coteGauche, .coteDroit, .annuel, .annuel2, .optionsSurObjet, .menuDeroulant,
+footer, ul, tbody, #intervenants, #unitesServices, #usurpation, .coteGauche, .coteDroit, .annuel, .annuel2, .optionsSurObjet, .menuDeroulant,
 .boutonSousMenuAnneeService, .sousMenuAnneeService, .infosSupplementaires, .miseEnPage2, #conteneurAccueil, .conteneurAlerte,
-.conteneurResponsable, .alertVoeux > div, #messagesFlash, .fieldsetCreation, .fieldsetCreation > div{
+.conteneurResponsable, .alertVoeux > div, #messagesFlash, .fieldsetCreation, .fieldsetCreation > div {
     display: flex;
     flex-direction: column;
 }
@@ -42,8 +42,8 @@ nav, #logoEtTitre > a, #informationsHeader, .boutonValidation, .liste, .titreEtB
 }
 
 html, body, ul, #vague, .barreRecherche, .barreRecherche > fieldset, .conteneurChamps, .coteGauche, .coteDroit, .miseEnPage,
-.coteDroit h2, h3,.optionsSupplémentaires, .optionsSurObjet, .menuDeroulant, .boutonSousMenuAnneeService, .sousMenuAnneeService,
-.boutonValidationConteneur, .conteneurAutoComp, .titreEtBarreRecherche2 > h2, .conteneurResponsable > h2, #messagesFlash, .formCreation{
+.coteDroit h2, h3, .optionsSupplémentaires, .optionsSurObjet, .menuDeroulant, .boutonSousMenuAnneeService, .sousMenuAnneeService,
+.boutonValidationConteneur, .conteneurAutoComp, .titreEtBarreRecherche2 > h2, .conteneurResponsable > h2, #messagesFlash, .formCreation {
     width: 100%;
 }
 
@@ -58,7 +58,7 @@ nav, #onglets, .liste, .boutonContainer, .infosDepartementEtAnnee, #conteneurAcc
 
 nav, #logoEtTitre, #logoEtTitre > a, #footer, .boutonValidation, .boutonEnvoie, .titreEtBarreRecherche, .coteGauche,
 .coteDroit, .optionsSurObjet, .boutonSousMenuAnneeService, .infosAnnuel, .centrer, .titreEtBarreRecherche2, .alertVoeux > div,
-#messagesFlash, .conteneur{
+#messagesFlash, .conteneur {
     align-items: center;
 }
 
@@ -67,7 +67,7 @@ nav, #logoEtTitre, #logoEtTitre > a, #footer, .boutonValidation, .boutonEnvoie, 
     font-size: large;
 }
 
-html, body, h2, .infosSupplementaires > p{
+html, body, h2, .infosSupplementaires > p {
     margin: 0;
 }
 
@@ -309,11 +309,11 @@ ul {
     margin-bottom: 5%;
 }
 
-#conteneurAccueil, .alertVoeux{
+#conteneurAccueil, .alertVoeux {
     width: 70%;
 }
 
-.alertVoeux, .colIdentifiant{
+.alertVoeux, .colIdentifiant {
     text-align: center;
 }
 
@@ -334,7 +334,7 @@ ul {
     color: white;
 }
 
-.fieldsetCreation{
+.fieldsetCreation {
     border: none;
     width: 40%;
 }
@@ -377,7 +377,7 @@ ul {
     width: 200px
 }
 
-.miseEnPage2  .formCreation {
+.miseEnPage2 .formCreation {
     display: block;
 }
 
@@ -393,6 +393,15 @@ ul {
 .start > div {
     margin: 2% 0 0 2%;
     width: 90%;
+}
+
+.start input, .start select {
+    margin-top: 1%
+}
+
+#check_id {
+    width: 20px;
+    height: 20px;
 }
 
 /* Bootstrap alerts */

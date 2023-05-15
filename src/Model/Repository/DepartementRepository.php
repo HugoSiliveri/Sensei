@@ -4,6 +4,7 @@ namespace App\Sensei\Model\Repository;
 
 use App\Sensei\Model\DataObject\AbstractDataObject;
 use App\Sensei\Model\DataObject\Departement;
+use PDOException;
 
 /**
  * @name DepartementRepository
@@ -15,6 +16,46 @@ use App\Sensei\Model\DataObject\Departement;
  */
 class DepartementRepository extends AbstractRepository
 {
+
+    public function recupererParLibelle(string $lib): array
+    {
+        try {
+            $sql = "SELECT * from Departement WHERE libDepartement=:libDepartementTag";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "libDepartementTag" => $lib,
+            );
+            $pdoStatement->execute($values);
+
+            $objetsFormatTableau = $pdoStatement->fetchAll();
+            $objets = [];
+            foreach ($objetsFormatTableau as $objetFormatTableau) {
+                $objets[] = $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return $objets;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
+    /** Construit un objet Departement à partir d'un tableau donné en paramètre.
+     * @param array $objetFormatTableau
+     * @return Departement
+     */
+    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
+    {
+        return new Departement(
+            $objetFormatTableau["idDepartement"],
+            $objetFormatTableau["libDepartement"],
+            $objetFormatTableau["codeLettre"],
+            $objetFormatTableau["reportMax"],
+            $objetFormatTableau["idComposante"],
+            $objetFormatTableau["idEtat"]
+        );
+    }
 
     /**
      * Retourne le nom de la table contenant les données de Departement.
@@ -41,21 +82,5 @@ class DepartementRepository extends AbstractRepository
     protected function getNomsColonnes(): array
     {
         return ["idDepartement", "libDepartement", "codeLettre", "reportMax", "idComposante", "idEtat"];
-    }
-
-    /** Construit un objet Departement à partir d'un tableau donné en paramètre.
-     * @param array $objetFormatTableau
-     * @return Departement
-     */
-    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
-    {
-        return new Departement(
-            $objetFormatTableau["idDepartement"],
-            $objetFormatTableau["libDepartement"],
-            $objetFormatTableau["codeLettre"],
-            $objetFormatTableau["reportMax"],
-            $objetFormatTableau["idComposante"],
-            $objetFormatTableau["idEtat"]
-        );
     }
 }

@@ -43,7 +43,37 @@ class UniteServiceAnneeRepository extends AbstractRepository
         }
     }
 
-    public function ajouterSansIdUniteServiceAnnee(array $uniteService){
+    /** Construit un objet UniteServiceAnnee à partir d'un tableau donné en paramètre.
+     * @param array $objetFormatTableau
+     * @return UniteServiceAnnee
+     */
+    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
+    {
+        return new UniteServiceAnnee(
+            $objetFormatTableau["idUniteServiceAnnee"],
+            $objetFormatTableau["idDepartement"],
+            $objetFormatTableau["idUniteService"],
+            $objetFormatTableau["libUSA"],
+            $objetFormatTableau["millesime"],
+            $objetFormatTableau["heuresCM"],
+            $objetFormatTableau["nbGroupesCM"],
+            $objetFormatTableau["heuresTD"],
+            $objetFormatTableau["nbGroupesTD"],
+            $objetFormatTableau["heuresTP"],
+            $objetFormatTableau["nbGroupesTP"],
+            $objetFormatTableau["heuresStage"],
+            $objetFormatTableau["nbGroupesStage"],
+            $objetFormatTableau["heuresTerrain"],
+            $objetFormatTableau["nbGroupesTerrain"],
+            $objetFormatTableau["heuresInnovationPedagogique"],
+            $objetFormatTableau["nbGroupesInnovationPedagogique"],
+            $objetFormatTableau["validite"],
+            $objetFormatTableau["deleted"],
+        );
+    }
+
+    public function ajouterSansIdUniteServiceAnnee(array $uniteService)
+    {
         try {
             $sql = "INSERT INTO UniteServiceAnnee
             (idDepartement, idUniteService, libUSA, millesime, heuresCM, nbGroupesCM, heuresTD, nbGroupesTD,
@@ -83,35 +113,6 @@ class UniteServiceAnneeRepository extends AbstractRepository
             echo $exception->getMessage();
             die("Erreur lors d'insertion dans la base de données.");
         }
-    }
-
-    /** Construit un objet UniteServiceAnnee à partir d'un tableau donné en paramètre.
-     * @param array $objetFormatTableau
-     * @return UniteServiceAnnee
-     */
-    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
-    {
-        return new UniteServiceAnnee(
-            $objetFormatTableau["idUniteServiceAnnee"],
-            $objetFormatTableau["idDepartement"],
-            $objetFormatTableau["idUniteService"],
-            $objetFormatTableau["libUSA"],
-            $objetFormatTableau["millesime"],
-            $objetFormatTableau["heuresCM"],
-            $objetFormatTableau["nbGroupesCM"],
-            $objetFormatTableau["heuresTD"],
-            $objetFormatTableau["nbGroupesTD"],
-            $objetFormatTableau["heuresTP"],
-            $objetFormatTableau["nbGroupesTP"],
-            $objetFormatTableau["heuresStage"],
-            $objetFormatTableau["nbGroupesStage"],
-            $objetFormatTableau["heuresTerrain"],
-            $objetFormatTableau["nbGroupesTerrain"],
-            $objetFormatTableau["heuresInnovationPedagogique"],
-            $objetFormatTableau["nbGroupesInnovationPedagogique"],
-            $objetFormatTableau["validite"],
-            $objetFormatTableau["deleted"],
-        );
     }
 
     /**

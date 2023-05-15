@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Sensei\Test\ServiceTest;
+namespace App\Sensei\Test;
 
 use App\Sensei\Model\DataObject\Intervenant;
 use App\Sensei\Model\Repository\IntervenantRepository;
@@ -11,68 +11,77 @@ use TypeError;
 
 class IntervenantServiceTest extends TestCase
 {
-    protected function setUp(): void
+    public function testRecupererParIdentifiantNull()
     {
-        parent::setUp();
-        $this->intervenantRepositoryMock = $this->createMock(IntervenantRepository::class);
-        $this->service = new IntervenantService($this->intervenantRepositoryMock);
-    }
-
-    public function testRecupererParIdentifiantNull(){
         $this->expectException(TypeError::class);
         $this->intervenantRepositoryMock->method("recupererParClePrimaire")->with(null)->willReturn(null);
         $this->service->recupererParIdentifiant(null);
     }
 
-    public function testRecupererParIdentifiantInexistant(){
+    public function testRecupererParIdentifiantInexistant()
+    {
         $this->expectException(ServiceException::class);
         $this->expectExceptionMessage("L'identifiant est inconnu !");
         $this->intervenantRepositoryMock->method("recupererParClePrimaire")->with(0)->willReturn(null);
         self::assertEquals([], $this->service->recupererParIdentifiant(0));
     }
 
-    public function testRecupererParIdentifiantExistant(){
+    public function testRecupererParIdentifiantExistant()
+    {
         $fakeIntervenant = new Intervenant(6184, "Siliveri", "Hugo", 4, 1, "hugo.siliveri@etu.umontpellier.fr", null, "e20210002781", 0);
         $this->intervenantRepositoryMock->method("recupererParClePrimaire")->with(1702)->willReturn($fakeIntervenant);
         self::assertEquals($fakeIntervenant, $this->service->recupererParIdentifiant(1702));
     }
 
-    public function testRechercherIntervenantNull(){
+    public function testRechercherIntervenantNull()
+    {
         $this->expectException(TypeError::class);
         $this->intervenantRepositoryMock->method("recupererParClePrimaire")->with(null)->willReturn(null);
         $this->service->recupererParIdentifiant(null);
     }
 
-    public function testRechercherIntervenantIncomplete(){
+    public function testRechercherIntervenantIncomplete()
+    {
         $this->expectException(ServiceException::class);
         $this->expectExceptionMessage("La recherche est incomplète !");
         $this->intervenantRepositoryMock->method("recupererParClePrimaire")->with(0)->willReturn(null);
         $this->service->rechercherIntervenant("");
     }
 
-    public function testRechercherIntervenantInexistant(){
+    public function testRechercherIntervenantInexistant()
+    {
         $this->expectException(ServiceException::class);
         $this->expectExceptionMessage("L'identifiant est incorrect !");
         $this->intervenantRepositoryMock->method("recupererParClePrimaire")->with(1903201)->willReturn(null);
         $this->service->rechercherIntervenant("1903201 Toto Titi");
     }
 
-    public function testRechercherIntervenantAvecUniquementNomEtPrenom(){
+    public function testRechercherIntervenantAvecUniquementNomEtPrenom()
+    {
         $this->expectException(\Exception::class);
         $this->intervenantRepositoryMock->method("recupererParClePrimaire")->with(0)->willReturn(null);
-        self::assertEquals(null, $this->service->rechercherIntervenant( "Toto Titi"));
+        self::assertEquals(null, $this->service->rechercherIntervenant("Toto Titi"));
     }
 
-    public function testRechercherIntervenantExistantAvecUniquementIdentifiant(){
+    public function testRechercherIntervenantExistantAvecUniquementIdentifiant()
+    {
         $fakeIntervenant = new Intervenant(4903, "Andre", "Jean Baptiste", 2, 3, null, null, null, 0);
         $this->intervenantRepositoryMock->method("recupererParClePrimaire")->with(4903)->willReturn($fakeIntervenant);
         self::assertEquals($fakeIntervenant, $this->service->rechercherIntervenant("4903"));
     }
 
-    public function testRechercherIntervenantExistantAvecChaine(){
+    public function testRechercherIntervenantExistantAvecChaine()
+    {
         $fakeIntervenant = new Intervenant(4903, "Andre", "Jean Baptiste", 2, 3, null, null, null, 0);
         $this->intervenantRepositoryMock->method("recupererParClePrimaire")->with(4903)->willReturn($fakeIntervenant);
         self::assertEquals($fakeIntervenant, $this->service->rechercherIntervenant("4903 Andre Jean Baptiste"));
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->intervenantRepositoryMock = $this->createMock(IntervenantRepository::class);
+        $this->service = new IntervenantService($this->intervenantRepositoryMock);
     }
 
     //Nécessite Laravel pour simuler $_GET

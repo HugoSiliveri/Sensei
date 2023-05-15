@@ -2,7 +2,6 @@
 
 namespace App\Sensei\Controller;
 
-use App\Sensei\Lib\MessageFlash;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;

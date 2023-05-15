@@ -4,6 +4,7 @@ namespace App\Sensei\Model\Repository;
 
 use App\Sensei\Model\DataObject\AbstractDataObject;
 use App\Sensei\Model\DataObject\Appartenir;
+use PDOException;
 
 /**
  * @name AppartenirRepository
@@ -15,6 +16,63 @@ use App\Sensei\Model\DataObject\Appartenir;
  */
 class AppartenirRepository extends AbstractRepository
 {
+    public function recupererParIdUniteService(int $idUniteService)
+    {
+        try {
+            $sql = "SELECT * FROM Appartenir WHERE idUniteService =:idUniteServiceTag";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "idUniteServiceTag" => $idUniteService,
+            );
+            $pdoStatement->execute($values);
+
+            $objetsFormatTableau = $pdoStatement->fetchALl();
+
+            $objets = [];
+            foreach ($objetsFormatTableau as $objetFormatTableau) {
+                $objets[] = $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return $objets;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
+    /** Construit un objet Appartenir à partir d'un tableau donné en paramètre.
+     * @param array $objetFormatTableau
+     * @return Appartenir
+     */
+    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
+    {
+        return new Appartenir(
+            $objetFormatTableau["idAppartenir"],
+            $objetFormatTableau["idDepartement"],
+            $objetFormatTableau["idUniteService"]
+        );
+    }
+
+    public function ajouterSansIdAppartenir(array $uniteService)
+    {
+        try {
+            $sql = "INSERT INTO Appartenir(idDepartement, idUniteService) VALUES (:idDepartementTag, :idUniteServiceTag)";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "idDepartementTag" => $uniteService["idDepartement"],
+                "idUniteServiceTag" => $uniteService["idUniteService"],
+            );
+            $pdoStatement->execute($values);
+
+            return null;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors d'insertion dans la base de données.");
+        }
+    }
 
     /**
      * Retourne le nom de la table contenant les données de Appartenir.
@@ -41,18 +99,5 @@ class AppartenirRepository extends AbstractRepository
     protected function getNomsColonnes(): array
     {
         return ["idAppartenir", "idDepartement, idUniteService"];
-    }
-
-    /** Construit un objet Appartenir à partir d'un tableau donné en paramètre.
-     * @param array $objetFormatTableau
-     * @return Appartenir
-     */
-    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
-    {
-        return new Appartenir(
-            $objetFormatTableau["idAppartenir"],
-            $objetFormatTableau["idDepartement"],
-            $objetFormatTableau["idUniteService"]
-        );
     }
 }

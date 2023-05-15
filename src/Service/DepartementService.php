@@ -30,7 +30,24 @@ class DepartementService implements DepartementServiceInterface
 
     }
 
-    public function recupererDepartements(){
+    public function recupererDepartements()
+    {
         return $this->departementRepository->recuperer();
+    }
+
+    /**
+     * @throws ServiceException
+     */
+    public function recupererParLibelle(string $lib)
+    {
+        if (strcmp("", $lib) || strcmp(" ", $lib)) {
+            throw new ServiceException("Le département n'est spécifié !");
+        } else {
+            $departement = $this->departementRepository->recupererParLibelle($lib);
+            if (count($departement) != 1) {
+                throw new ServiceException("Aucun/plusieurs département(s) n'a/ont été trouvé !");
+            }
+            return $departement[0];
+        }
     }
 }

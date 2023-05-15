@@ -14,7 +14,8 @@ class PayeurService implements PayeurServiceInterface
     {
     }
 
-    public function recupererPayeurs(){
+    public function recupererPayeurs()
+    {
         return $this->payeurRepository->recuperer();
     }
 

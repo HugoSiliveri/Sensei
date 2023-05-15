@@ -3,9 +3,6 @@
 namespace App\Sensei\Service;
 
 use App\Sensei\Model\Repository\VoeuRepository;
-use App\Sensei\Service\Exception\ServiceException;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 class VoeuService implements VoeuServiceInterface
 {

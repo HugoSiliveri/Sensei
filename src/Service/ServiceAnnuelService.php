@@ -3,7 +3,6 @@
 namespace App\Sensei\Service;
 
 use App\Sensei\Model\Repository\ServiceAnnuelRepository;
-use App\Sensei\Service\Exception\ServiceException;
 
 class ServiceAnnuelService implements ServiceAnnuelServiceInterface
 {

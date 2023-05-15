@@ -5,12 +5,14 @@ namespace App\Sensei\Controller;
 use App\Sensei\Configuration\ConfigurationBDDMariaDB;
 use App\Sensei\Lib\ConnexionUtilisateur;
 use App\Sensei\Lib\MessageFlash;
+use App\Sensei\Model\Repository\AppartenirRepository;
 use App\Sensei\Model\Repository\ConnexionBaseDeDonnees;
 use App\Sensei\Model\Repository\DepartementRepository;
 use App\Sensei\Model\Repository\DroitRepository;
 use App\Sensei\Model\Repository\EmploiRepository;
 use App\Sensei\Model\Repository\IntervenantRepository;
 use App\Sensei\Model\Repository\InterventionRepository;
+use App\Sensei\Model\Repository\NatureRepository;
 use App\Sensei\Model\Repository\PayeurRepository;
 use App\Sensei\Model\Repository\ResponsableUSRepository;
 use App\Sensei\Model\Repository\ServiceAnnuelRepository;
@@ -18,11 +20,13 @@ use App\Sensei\Model\Repository\StatutRepository;
 use App\Sensei\Model\Repository\UniteServiceAnneeRepository;
 use App\Sensei\Model\Repository\UniteServiceRepository;
 use App\Sensei\Model\Repository\VoeuRepository;
+use App\Sensei\Service\AppartenirService;
 use App\Sensei\Service\DepartementService;
 use App\Sensei\Service\DroitService;
 use App\Sensei\Service\EmploiService;
 use App\Sensei\Service\IntervenantService;
 use App\Sensei\Service\InterventionService;
+use App\Sensei\Service\NatureService;
 use App\Sensei\Service\PayeurService;
 use App\Sensei\Service\ResponsableUSService;
 use App\Sensei\Service\ServiceAnnuelService;
@@ -118,6 +122,12 @@ class URLRouter
         $payeurRepository = $conteneur->register('payeur_repository', PayeurRepository::class);
         $payeurRepository->setArguments([new Reference('connexion_base')]);
 
+        $appartenirRepository = $conteneur->register('appartenir_repository', AppartenirRepository::class);
+        $appartenirRepository->setArguments([new Reference('connexion_base')]);
+
+        $natureRepository = $conteneur->register('nature_repository', NatureRepository::class);
+        $natureRepository->setArguments([new Reference('connexion_base')]);
+
         $connexionUtilisateur = $conteneur->register('connexion_utilisateur', ConnexionUtilisateur::class);
         $connexionUtilisateur->setArguments([new Reference('intervenant_repository')]);
 
@@ -130,7 +140,8 @@ class URLRouter
         $uniteServiceController = $conteneur->register('unite_service_controller', UniteServiceController::class);
         $uniteServiceController->setArguments([new Reference('unite_service_service'), new Reference('unite_service_annee_service'),
             new Reference('voeu_service'), new Reference('intervenant_service'), new Reference('intervention_service'),
-            new Reference('payeur_service'), new Reference('departement_service')]);
+            new Reference('payeur_service'), new Reference('departement_service'), new Reference('appartenir_service'),
+            new Reference('nature_service')]);
 
         $voeuController = $conteneur->register('voeu_controller', VoeuController::class);
         $voeuController->setArguments([new Reference('voeu_service')]);
@@ -171,6 +182,12 @@ class URLRouter
         $payeurService = $conteneur->register('payeur_service', PayeurService::class);
         $payeurService->setArguments([new Reference('payeur_repository')]);
 
+        $appartenirService = $conteneur->register('appartenir_service', AppartenirService::class);
+        $appartenirService->setArguments([new Reference('appartenir_repository')]);
+
+        $natureService = $conteneur->register('nature_service', NatureService::class);
+        $natureService->setArguments([new Reference('nature_repository')]);
+
         /* Instantiation d'une collection de routes */
         $routes = new RouteCollection();
 
@@ -190,7 +207,7 @@ class URLRouter
         $routeChercherIntervenant->setMethods(["POST"]);
 
         $routeAfficherFormulaireCreationIntervenant = new Route("/creerIntervenant", [
-           "_controller" => ["intervenant_controller", "afficherFormulaireCreation"]
+            "_controller" => ["intervenant_controller", "afficherFormulaireCreation"]
         ]);
         $routeAfficherFormulaireCreationIntervenant->setMethods(["GET"]);
 
@@ -254,7 +271,7 @@ class URLRouter
         $associateurUrl = new UrlMatcher($routes, $contexteRequete);
         /* URLHelper va générer des URL absolues, elle sera utilisée pour les ressources */
         $assistantUrl = new UrlHelper(new RequestStack(), $contexteRequete);
-            
+
         $generateurUrl = new UrlGenerator($routes, $contexteRequete);
 
         $twigLoader = new FilesystemLoader(__DIR__ . '/../View/');

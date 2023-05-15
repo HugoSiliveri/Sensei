@@ -64,7 +64,37 @@ class UniteServiceRepository extends AbstractRepository
         }
     }
 
-    public function ajouterSansIdUniteService(array $uniteService){
+    /** Construit un objet UniteService à partir d'un tableau donné en paramètre.
+     * @param array $objetFormatTableau
+     * @return UniteService
+     */
+    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
+    {
+        return new UniteService(
+            $objetFormatTableau["idUniteService"],
+            $objetFormatTableau["idUSReferentiel"],
+            $objetFormatTableau["libUS"],
+            $objetFormatTableau["nature"],
+            $objetFormatTableau["ancetre"],
+            $objetFormatTableau["anneeOuverture"],
+            $objetFormatTableau["anneeCloture"],
+            $objetFormatTableau["ECTS"],
+            $objetFormatTableau["heuresCM"],
+            $objetFormatTableau["heuresTD"],
+            $objetFormatTableau["heuresTP"],
+            $objetFormatTableau["heuresStage"],
+            $objetFormatTableau["heuresTerrain"],
+            $objetFormatTableau["heuresInnovationPedagogique"],
+            $objetFormatTableau["semestre"],
+            $objetFormatTableau["saison"],
+            $objetFormatTableau["idPayeur"],
+            $objetFormatTableau["validite"],
+            $objetFormatTableau["deleted"]
+        );
+    }
+
+    public function ajouterSansIdUniteService(array $uniteService)
+    {
         try {
             $sql = "INSERT INTO UniteService
             (idUSReferentiel, libUS, nature, ancetre, anneeOuverture, anneeCloture, ECTS,
@@ -132,34 +162,5 @@ class UniteServiceRepository extends AbstractRepository
         return ["idUniteService", "idUSReferentiel", "libUS", "nature", "ancetre", "anneeOuverture", "anneeCloture", "ECTS",
             "heuresCM", "heuresTD", "heuresTP", "heuresStage", "heuresTerrain", "heuresInnovationPedagogique",
             "semestre", "saison", "idPayeur", "validite", "deleted"];
-    }
-
-    /** Construit un objet UniteService à partir d'un tableau donné en paramètre.
-     * @param array $objetFormatTableau
-     * @return UniteService
-     */
-    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
-    {
-        return new UniteService(
-            $objetFormatTableau["idUniteService"],
-            $objetFormatTableau["idUSReferentiel"],
-            $objetFormatTableau["libUS"],
-            $objetFormatTableau["nature"],
-            $objetFormatTableau["ancetre"],
-            $objetFormatTableau["anneeOuverture"],
-            $objetFormatTableau["anneeCloture"],
-            $objetFormatTableau["ECTS"],
-            $objetFormatTableau["heuresCM"],
-            $objetFormatTableau["heuresTD"],
-            $objetFormatTableau["heuresTP"],
-            $objetFormatTableau["heuresStage"],
-            $objetFormatTableau["heuresTerrain"],
-            $objetFormatTableau["heuresInnovationPedagogique"],
-            $objetFormatTableau["semestre"],
-            $objetFormatTableau["saison"],
-            $objetFormatTableau["idPayeur"],
-            $objetFormatTableau["validite"],
-            $objetFormatTableau["deleted"]
-        );
     }
 }

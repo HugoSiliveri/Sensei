@@ -5,7 +5,7 @@ namespace App\Sensei\Model\DataObject;
 class Payeur extends AbstractDataObject
 {
     public function __construct(
-        private int $idPayeur,
+        private int    $idPayeur,
         private string $libPayeur
     )
     {

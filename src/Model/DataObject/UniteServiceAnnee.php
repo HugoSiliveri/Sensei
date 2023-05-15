@@ -22,19 +22,19 @@ class UniteServiceAnnee extends AbstractDataObject
         private ?string $libUSA,
         private ?int    $millesime,
         private float   $heuresCM,
-        private int   $nbGroupesCM,
-        private float $heuresTD,
-        private int   $nbGroupesTD,
-        private float $heuresTP,
-        private int   $nbGroupesTP,
-        private float $heuresStage,
-        private int   $nbGroupesStage,
-        private float $heuresTerrain,
-        private int   $nbGroupesTerrain,
-        private float $heuresInnovationPedagogique,
-        private int   $nbGroupesInnovationPedagogique,
-        private ?int  $validite,
-        private ?int  $deleted
+        private int     $nbGroupesCM,
+        private float   $heuresTD,
+        private int     $nbGroupesTD,
+        private float   $heuresTP,
+        private int     $nbGroupesTP,
+        private float   $heuresStage,
+        private int     $nbGroupesStage,
+        private float   $heuresTerrain,
+        private int     $nbGroupesTerrain,
+        private float   $heuresInnovationPedagogique,
+        private int     $nbGroupesInnovationPedagogique,
+        private ?int    $validite,
+        private ?int    $deleted
     )
     {
     }

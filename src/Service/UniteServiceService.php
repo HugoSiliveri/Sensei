@@ -46,15 +46,15 @@ class UniteServiceService implements UniteServiceServiceInterface
      */
     public function rechercherUniteService(string $recherche): AbstractDataObject
     {
-        if ($recherche == "" || count(explode(" ", $recherche)) < 1){
+        if ($recherche == "" || count(explode(" ", $recherche)) < 1) {
             throw new ServiceException("La recherche est incomplète !");
         }
         $tab = explode(" ", $recherche);
-        $id = (int) $tab[0];
+        $id = (int)$tab[0];
 
         $uniteService = $this->uniteServiceRepository->recupererParClePrimaire($id);
 
-        if (!isset($uniteService)){
+        if (!isset($uniteService)) {
             throw new ServiceException("L'identifiant est incorrect !");
         }
         return $uniteService;
@@ -63,16 +63,18 @@ class UniteServiceService implements UniteServiceServiceInterface
     /**
      * @throws ServiceException
      */
-    public function creerUniteService(array $uniteService) {
-        if ($uniteService["anneeOuverture"] > $uniteService["anneeCloture"]){
+    public function creerUniteService(array $uniteService)
+    {
+        if ($uniteService["anneeOuverture"] > $uniteService["anneeCloture"]) {
             throw new ServiceException("L'année d'ouverture est plus récente que l'année de clôture !");
         }
         $this->uniteServiceRepository->ajouterSansIdUniteService($uniteService);
     }
 
-    public function recupererDernierUniteService(): AbstractDataObject {
+    public function recupererDernierUniteService(): AbstractDataObject
+    {
         $result = $this->uniteServiceRepository->recupererDernierElement();
-        if (!isset($result)){
+        if (!isset($result)) {
             throw new ServiceException("La table est vide !");
         }
         return $result;

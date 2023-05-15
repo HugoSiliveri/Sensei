@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Sensei\Test\ServiceTest;
+namespace App\Sensei\Test;
 
 use App\Sensei\Model\DataObject\UniteServiceAnnee;
 use App\Sensei\Model\Repository\UniteServiceAnneeRepository;
@@ -11,20 +11,15 @@ use TypeError;
 
 class UniteServiceAnneeServiceTest extends TestCase
 {
-    protected function setUp(): void
+    public function testRecupererIdentifiantNull()
     {
-        parent::setUp();
-        $this->uniteServiceAnneeRepositoryMock = $this->createMock(UniteServiceAnneeRepository::class);
-        $this->service = new UniteServiceAnneeService($this->uniteServiceAnneeRepositoryMock);
-    }
-
-    public function testRecupererIdentifiantNull(){
         $this->expectException(TypeError::class);
         $this->uniteServiceAnneeRepositoryMock->method("recupererParClePrimaire")->with(null)->willReturn(null);
         $this->service->recupererParIdentifiant(null);
     }
 
-    public function testRecupererIdentifiantInexistant(){
+    public function testRecupererIdentifiantInexistant()
+    {
         $this->expectException(ServiceException::class);
         $this->expectExceptionMessage("L'identifiant est inconnu !");
         $this->uniteServiceAnneeRepositoryMock->method("recupererParClePrimaire")->with(0)->willReturn(null);
@@ -38,21 +33,31 @@ class UniteServiceAnneeServiceTest extends TestCase
         self::assertEquals($fakeUniteServiceAnnee, $this->service->recupererParIdentifiant(3));
     }
 
-    public function testRecupererUniteServiceNull(){
+    public function testRecupererUniteServiceNull()
+    {
         $this->expectException(TypeError::class);
         $this->uniteServiceAnneeRepositoryMock->method("recupererParUniteService")->with(null)->willReturn(null);
         $this->service->recupererParUniteService(null);
     }
 
-    public function testRecupererUniteServiceInexistant(){
+    public function testRecupererUniteServiceInexistant()
+    {
         $this->uniteServiceAnneeRepositoryMock->method("recupererParUniteService")->with(0)->willReturn([]);
         self::assertEquals([], $this->service->recupererParUniteService(0));
     }
 
-    public function testRecupererUniteServiceExistant(){
+    public function testRecupererUniteServiceExistant()
+    {
         $tab = [];
-        $tab[] = new UniteServiceAnnee(224, 1, 2, null, 2006, 0, 0, 0, 0, 0, 0, 0,0,0,0,3,0);
+        $tab[] = new UniteServiceAnnee(224, 1, 2, null, 2006, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0);
         $this->uniteServiceAnneeRepositoryMock->method("recupererParUniteService")->with(3)->willReturn($tab);
         self::assertEquals($tab, $this->service->recupererParUniteService(3));
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->uniteServiceAnneeRepositoryMock = $this->createMock(UniteServiceAnneeRepository::class);
+        $this->service = new UniteServiceAnneeService($this->uniteServiceAnneeRepositoryMock);
     }
 }

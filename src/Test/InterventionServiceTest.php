@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Sensei\Test\ServiceTest;
+namespace App\Sensei\Test;
 
 use App\Sensei\Model\DataObject\Intervention;
 use App\Sensei\Model\Repository\InterventionRepository;
@@ -11,29 +11,32 @@ use TypeError;
 
 class InterventionServiceTest extends TestCase
 {
-    protected function setUp(): void
+    public function testRecupererIdentifiantNull()
     {
-        parent::setUp();
-        $this->interventionRepositoryMock = $this->createMock(InterventionRepository::class);
-        $this->service = new InterventionService($this->interventionRepositoryMock);
-    }
-
-    public function testRecupererIdentifiantNull(){
         $this->expectException(TypeError::class);
         $this->interventionRepositoryMock->method("recupererParClePrimaire")->with(null)->willReturn(null);
         $this->service->recupererParIdentifiant(null);
     }
 
-    public function testRecupererIdentifiantInexistant(){
+    public function testRecupererIdentifiantInexistant()
+    {
         $this->expectException(ServiceException::class);
         $this->expectExceptionMessage("L'identifiant est inconnu !");
         $this->interventionRepositoryMock->method("recupererParClePrimaire")->with(0)->willReturn(null);
         $this->service->recupererParIdentifiant(0);
     }
 
-    public function testRecupererIdentifiantExistant(){
+    public function testRecupererIdentifiantExistant()
+    {
         $fakeIntervention = new Intervention(23, "Stage", 1, 4.2);
         $this->interventionRepositoryMock->method("recupererParClePrimaire")->with(23)->willReturn($fakeIntervention);
         self::assertEquals($fakeIntervention, $this->service->recupererParIdentifiant(23));
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->interventionRepositoryMock = $this->createMock(InterventionRepository::class);
+        $this->service = new InterventionService($this->interventionRepositoryMock);
     }
 }

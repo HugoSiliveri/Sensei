@@ -2,8 +2,6 @@
 
 namespace App\Sensei\Service;
 
-use App\Sensei\Model\DataObject\AbstractDataObject;
-
 interface ResponsableUSServiceInterface
 {
     /**

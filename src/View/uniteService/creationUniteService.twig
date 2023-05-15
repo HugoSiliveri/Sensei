@@ -22,9 +22,10 @@
                         <div>
                             <label class="labelCreation" for="nature_id">Nature</label>
                             <select class="inputCreation" name="nature" id="nature_id">
-                                <option value="UE" selected>UE (Unité d'Enseignement)</option>
-                                <option value="DE">DE (Décharge)</option>
-                                <option value="UR">UR (Unité référentiel)</option>
+                                <option value="1" selected>UE (Unité d'enseignement)</option>
+                                <option value="2">UR (Unité référentiel)</option>
+                                <option value="4">DE (Décharge)</option>
+
                             </select>
                         </div>
                         <div>
@@ -76,7 +77,8 @@
                                    id="heuresTerrain_id" required>
                         </div>
                         <div>
-                            <label class="labelCreation" for="heuresInnovationPedagogique_id">Nb heures d'innovation pédagogique</label>
+                            <label class="labelCreation" for="heuresInnovationPedagogique_id">Nb heures d'innovation
+                                pédagogique</label>
                             <input class="inputCreation" type="number" value="0" name="heuresInnovationPedagogique"
                                    id="heuresInnovationPedagogique_id" required>
                         </div>
@@ -110,6 +112,16 @@
                                 {% set i = 1 %}
                                 {% for payeur in payeurs %}
                                     <option value="{{ i }}">{{ payeur.getLibPayeur }}</option>
+                                    {% set i = i + 1 %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div>
+                            <label class="labelCreation" for="appartenir_id">Affiliation de l'unité</label>
+                            <select class="inputCreation" name="appartenir" id="appartenir_id">
+                                {% set i = 1 %}
+                                {% for departement in departements %}
+                                    <option value="{{ i }}">{{ departement.getLibDepartement }}</option>
                                     {% set i = i + 1 %}
                                 {% endfor %}
                             </select>
@@ -155,17 +167,21 @@
                         </div>
                         <div>
                             <label class="labelCreation" for="nbGroupesStage_id">Nb groupes de stage</label>
-                            <input class="inputCreation" type="number" value="0" name="nbGroupesStage" id="nbGroupesStage_id"
+                            <input class="inputCreation" type="number" value="0" name="nbGroupesStage"
+                                   id="nbGroupesStage_id"
                                    required>
                         </div>
                         <div>
                             <label class="labelCreation" for="nbGroupesTerrain_id">Nb groupes de terrain</label>
-                            <input class="inputCreation" type="number" value="0" name="nbGroupesTerrain" id="nbGroupesTerrain_id"
+                            <input class="inputCreation" type="number" value="0" name="nbGroupesTerrain"
+                                   id="nbGroupesTerrain_id"
                                    required>
                         </div>
                         <div>
-                            <label class="labelCreation" for="nbGroupesInnovationPedagogique_id">Nb groupes d'innovation pédagogique</label>
-                            <input class="inputCreation" type="number" value="0" name="nbGroupesInnovationPedagogique" id="nbGroupesInnovationPedagogique_id"
+                            <label class="labelCreation" for="nbGroupesInnovationPedagogique_id">Nb groupes d'innovation
+                                pédagogique</label>
+                            <input class="inputCreation" type="number" value="0" name="nbGroupesInnovationPedagogique"
+                                   id="nbGroupesInnovationPedagogique_id"
                                    required>
                         </div>
                         <div>

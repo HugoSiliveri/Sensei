@@ -35,17 +35,17 @@ class MessageFlash
     }
 
     /**
-     * Méthode qui vérifie si pour un certain type <code>$type</code> il existe un message
+     * Méthode qui va lire tous les messages de chaques types puis renvoyer la liste des messages lus.
      *
-     * @param string $type parmi "success", "info", "warning" ou "danger"
-     * @return bool <code>true</code> si le type contient un message, <code>false</code> sinon
+     * @return array
      */
-    public static function contientMessage(string $type): bool
+    public static function lireTousMessages(): array
     {
-        $session = Session::getInstance();
-        return $session->existeCle(MessageFlash::$cleFlash) &&
-            array_key_exists($type, $session->lire(MessageFlash::$cleFlash)) &&
-            !empty($session->lire(MessageFlash::$cleFlash)[$type]);
+        $tousMessages = [];
+        foreach (["success", "info", "warning", "danger"] as $type) {
+            $tousMessages[$type] = MessageFlash::lireMessages($type);
+        }
+        return $tousMessages;
     }
 
     /**
@@ -56,6 +56,7 @@ class MessageFlash
      * @return array
      */
     // Attention : la lecture doit détruire le message
+
     public static function lireMessages(string $type): array
     {
         $session = Session::getInstance();
@@ -71,17 +72,17 @@ class MessageFlash
     }
 
     /**
-     * Méthode qui va lire tous les messages de chaques types puis renvoyer la liste des messages lus.
+     * Méthode qui vérifie si pour un certain type <code>$type</code> il existe un message
      *
-     * @return array
+     * @param string $type parmi "success", "info", "warning" ou "danger"
+     * @return bool <code>true</code> si le type contient un message, <code>false</code> sinon
      */
-    public static function lireTousMessages(): array
+    public static function contientMessage(string $type): bool
     {
-        $tousMessages = [];
-        foreach (["success", "info", "warning", "danger"] as $type) {
-            $tousMessages[$type] = MessageFlash::lireMessages($type);
-        }
-        return $tousMessages;
+        $session = Session::getInstance();
+        return $session->existeCle(MessageFlash::$cleFlash) &&
+            array_key_exists($type, $session->lire(MessageFlash::$cleFlash)) &&
+            !empty($session->lire(MessageFlash::$cleFlash)[$type]);
     }
 
 }

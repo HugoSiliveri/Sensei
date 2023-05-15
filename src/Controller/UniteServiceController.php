@@ -3,10 +3,12 @@
 namespace App\Sensei\Controller;
 
 use App\Sensei\Lib\MessageFlash;
+use App\Sensei\Service\AppartenirServiceInterface;
 use App\Sensei\Service\DepartementServiceInterface;
 use App\Sensei\Service\Exception\ServiceException;
 use App\Sensei\Service\IntervenantServiceInterface;
 use App\Sensei\Service\InterventionServiceInterface;
+use App\Sensei\Service\NatureServiceInterface;
 use App\Sensei\Service\PayeurServiceInterface;
 use App\Sensei\Service\UniteServiceAnneeServiceInterface;
 use App\Sensei\Service\UniteServiceServiceInterface;
@@ -22,8 +24,10 @@ class UniteServiceController extends GenericController
         private readonly VoeuServiceInterface              $voeuService,
         private readonly IntervenantServiceInterface       $intervenantService,
         private readonly InterventionServiceInterface      $interventionService,
-        private readonly PayeurServiceInterface $payeurService,
-        private readonly DepartementServiceInterface $departementService,
+        private readonly PayeurServiceInterface            $payeurService,
+        private readonly DepartementServiceInterface       $departementService,
+        private readonly AppartenirServiceInterface        $appartenirService,
+        private readonly NatureServiceInterface            $natureService
     )
     {
     }
@@ -51,6 +55,13 @@ class UniteServiceController extends GenericController
             $uniteService = $this->uniteServiceService->recupererParIdentifiant($idUniteService);
             $unitesServicesAnnees = $this->uniteServiceAnneeService->recupererParUniteService($idUniteService);
             $payeur = $this->payeurService->recupererParIdentifiant($uniteService->getIdPayeur());
+            $appartenirTab = $this->appartenirService->recupererParIdUniteService($uniteService->getIdUniteService());
+            $nature = $this->natureService->recupererParIdentifiant($uniteService->getNature());
+
+            $departements = [];
+            foreach ($appartenirTab as $appartenir) {
+                $departements[] = $this->departementService->recupererParIdentifiant($appartenir->getIdDepartement());
+            }
 
             $voeux = [];
             $intervenants = [];
@@ -78,7 +89,9 @@ class UniteServiceController extends GenericController
                 "voeux" => $voeux,
                 "intervenants" => $intervenants,
                 "interventions" => $interventions,
-                "payeur" => $payeur
+                "payeur" => $payeur,
+                "departements" => $departements,
+                "nature" => $nature
             ];
 
             return UniteServiceController::afficherTwig("uniteService/detailUniteService.twig", $parametres);
@@ -92,40 +105,41 @@ class UniteServiceController extends GenericController
         }
     }
 
-    public function afficherFormulaireCreation(): Response {
+    public function afficherFormulaireCreation(): Response
+    {
         $payeurs = $this->payeurService->recupererPayeurs();
-        $departements =  $this->departementService->recupererDepartements();
+        $departements = $this->departementService->recupererDepartements();
         return UniteServiceController::afficherTwig("uniteService/creationUniteService.twig", [
             "payeurs" => $payeurs,
             "departements" => $departements]);
     }
 
-    public function creerDepuisFormulaire(): Response {
+    public function creerDepuisFormulaire(): Response
+    {
         try {
             $ancetre = $_POST["ancetre"];
 
-            if ($ancetre != ""){
+            if ($ancetre != "") {
                 $idAncetre = $this->uniteServiceService->rechercherUniteService($ancetre)->getIdUniteService();
             } else {
                 $idAncetre = null;
             }
             $idUSReferentiel = $_POST["idUSReferentiel"];
             $libUS = $_POST["libUS"];
-            $nature =  $_POST["nature"];
+            $nature = $_POST["nature"];
             $anneeOuverture = $_POST["anneeOuverture"];
             $anneeCloture = $_POST["anneeCloture"];
             $ECTS = $_POST["ECTS"];
             $validite = $_POST["validite"];
 
-
             $uniteService = [
                 "idUSReferentiel" => strcmp($idUSReferentiel, "") == 0 ? null : $idUSReferentiel,
-                "libUS" =>  strcmp($libUS, "") == 0 ? null : $libUS,
-                "nature" =>  strcmp($nature, "") == 0 ? null : $nature,
+                "libUS" => strcmp($libUS, "") == 0 ? null : $libUS,
+                "nature" => strcmp($nature, "") == 0 ? null : $nature,
                 "ancetre" => $idAncetre,
-                "anneeOuverture" =>  strcmp($anneeOuverture, "") == 0 ? null : $anneeOuverture,
-                "anneeCloture" =>  strcmp($anneeCloture, "") == 0 ? null : $anneeCloture,
-                "ECTS" =>  strcmp($ECTS, "") == 0 ? null : $ECTS,
+                "anneeOuverture" => strcmp($anneeOuverture, "") == 0 ? null : $anneeOuverture,
+                "anneeCloture" => strcmp($anneeCloture, "") == 0 ? null : $anneeCloture,
+                "ECTS" => strcmp($ECTS, "") == 0 ? null : $ECTS,
                 "heuresCM" => $_POST["heuresCM"],
                 "heuresTD" => $_POST["heuresTD"],
                 "heuresTP" => $_POST["heuresTP"],
@@ -135,14 +149,21 @@ class UniteServiceController extends GenericController
                 "semestre" => $_POST["semestre"],
                 "saison" => $_POST["saison"],
                 "idPayeur" => $_POST["idPayeur"],
-                "validite" =>  strcmp($validite, "") == 0 ? null : $validite,
+                "validite" => strcmp($validite, "") == 0 ? null : $validite,
                 "deleted" => 0,
             ];
 
             $this->uniteServiceService->creerUniteService($uniteService);
+
+            $appartenir = [
+                "idDepartement" => $this->departementService->recupererParIdentifiant($_POST["appartenir"])->getIdDepartement(),
+                "idUniteService" => $this->uniteServiceService->recupererDernierUniteService()->getIdUniteService()
+            ];
+            $this->appartenirService->creerAppartenir($appartenir);
+
             MessageFlash::ajouter("success", "L'unité de service a bien été créé !");
 
-            if (isset($_POST["checkbox"])){
+            if (isset($_POST["checkbox"])) {
                 $uniteService = $this->uniteServiceService->recupererDernierUniteService();
 
                 $uniteServiceAnnee = [
@@ -167,12 +188,12 @@ class UniteServiceController extends GenericController
                 ];
 
                 $this->uniteServiceAnneeService->creerUniteServiceAnnee($uniteServiceAnnee);
-                MessageFlash::ajouter("success", "L'unité de service pour l'année ". $_POST["millesime"] ." a bien été créé !");
+                MessageFlash::ajouter("success", "L'unité de service pour l'année " . $_POST["millesime"] . " a bien été créé !");
             }
 
             return UniteServiceController::rediriger("accueil");
 
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {

@@ -38,10 +38,8 @@ class UniteServiceAnneeService implements UniteServiceAnneeServiceInterface
         return $this->uniteServiceAnneeRepository->recupererParUniteService($idUniteService);
     }
 
-    /**
-     * @throws ServiceException
-     */
-    public function creerUniteServiceAnnee(array $uniteServiceAnnee) {
+    public function creerUniteServiceAnnee(array $uniteServiceAnnee)
+    {
         $this->uniteServiceAnneeRepository->ajouterSansIdUniteServiceAnnee($uniteServiceAnnee);
     }
 }

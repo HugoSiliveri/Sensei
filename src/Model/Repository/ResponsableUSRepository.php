@@ -46,6 +46,18 @@ class ResponsableUSRepository extends AbstractRepository
         }
     }
 
+    /** Construit un objet ResponsableUS à partir d'un tableau donné en paramètre.
+     * @param array $objetFormatTableau
+     * @return ResponsableUS
+     */
+    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
+    {
+        return new ResponsableUS(
+            $objetFormatTableau["idIntervenant"],
+            $objetFormatTableau["idUniteServiceAnnee"],
+        );
+    }
+
     /**
      * Retourne le nom de la table contenant les données de ResponsableUS.
      * @return string
@@ -71,17 +83,5 @@ class ResponsableUSRepository extends AbstractRepository
     protected function getNomsColonnes(): array
     {
         return ["idIntervenant", "idUniteServiceAnnee"];
-    }
-
-    /** Construit un objet ResponsableUS à partir d'un tableau donné en paramètre.
-     * @param array $objetFormatTableau
-     * @return ResponsableUS
-     */
-    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
-    {
-        return new ResponsableUS(
-            $objetFormatTableau["idIntervenant"],
-            $objetFormatTableau["idUniteServiceAnnee"],
-        );
     }
 }

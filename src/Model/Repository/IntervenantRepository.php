@@ -33,7 +33,7 @@ class IntervenantRepository extends AbstractRepository
             $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
 
             $values = array(
-                "clePrimaireTag" => $$idIntervenantReferentiel,
+                "clePrimaireTag" => $idIntervenantReferentiel,
             );
             $pdoStatement->execute($values);
 
@@ -70,7 +70,8 @@ class IntervenantRepository extends AbstractRepository
         );
     }
 
-    public function ajouterSansIdIntervenant(array $intervenant){
+    public function ajouterSansIdIntervenant(array $intervenant)
+    {
         try {
             $sql = "INSERT INTO Intervenant(nom, prenom, idStatut, idDroit, emailInstitutionnel, emailUsage, idIntervenantReferentiel, deleted)
             VALUES (:nomTag, :prenomTag, :idStatutTag, :idDroitTag, :emailInstitutionnelTag, :emailUsageTag, :idIntervenantReferentielTag,
@@ -137,9 +138,9 @@ class IntervenantRepository extends AbstractRepository
              LIMIT $limit";
 
             $values = array(
-                "nomTag" => "%". $intervenantArray["intervenant"] ."%",
-                "prenomTag" => "%". $intervenantArray["intervenant"] ."%",
-                "idIntervenantReferentielTag" => "%". $intervenantArray["intervenant"] ."%",
+                "nomTag" => "%" . $intervenantArray["intervenant"] . "%",
+                "prenomTag" => "%" . $intervenantArray["intervenant"] . "%",
+                "idIntervenantReferentielTag" => "%" . $intervenantArray["intervenant"] . "%",
             );
 
             $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);

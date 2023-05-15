@@ -2,7 +2,6 @@
 
 namespace App\Sensei\Controller;
 
-use App\Sensei\Configuration\Configuration;
 use App\Sensei\Lib\ConnexionUtilisateurInterface;
 use App\Sensei\Lib\MessageFlash;
 use App\Sensei\Service\DepartementServiceInterface;
@@ -94,11 +93,13 @@ class IntervenantController extends GenericController
         }
     }
 
-    public function afficherFormulaireCreation(): Response {
+    public function afficherFormulaireCreation(): Response
+    {
         return IntervenantController::afficherTwig("intervenant/creationIntervenant.twig");
     }
 
-    public function creerDepuisFormulaire(): Response {
+    public function creerDepuisFormulaire(): Response
+    {
 
         $nom = $_POST["nom"];
         $prenom = $_POST["prenom"];
@@ -131,8 +132,10 @@ class IntervenantController extends GenericController
             $utilisateur = $this->intervenantService->recupererParIdentifiant($uid);
             $responsabilitesAnnuel = $this->responsableUSService->recupererParIdIntervenantAnnuel($uid, $anneeEnCours);
 
-            $us = []; $usa = []; $i = 0;
-            foreach ($responsabilitesAnnuel as $responsabilite){
+            $us = [];
+            $usa = [];
+            $i = 0;
+            foreach ($responsabilitesAnnuel as $responsabilite) {
                 $usa[] = $this->uniteServiceAnneeService->recupererParIdentifiant($responsabilite->getIdUniteServiceAnnee());
                 $us[] = $this->uniteServiceService->recupererParIdentifiant($usa[$i]->getIdUniteService());
                 $i++;
@@ -146,7 +149,7 @@ class IntervenantController extends GenericController
             ];
 
             return IntervenantController::afficherTwig("accueil.twig", $parametres);
-        } catch (ServiceException|TypeError $exception){
+        } catch (ServiceException|TypeError $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {
