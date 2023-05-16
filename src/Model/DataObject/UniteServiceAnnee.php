@@ -194,28 +194,28 @@ class UniteServiceAnnee extends AbstractDataObject
     /**
      * @inheritDoc
      */
-    public function recupererFormatTableau(): array
+    public function exporterEnFormatRequetePreparee(): array
     {
         return [
-            "idUniteServiceAnnee" => $this->idUniteServiceAnnee,
-            "idDepartement" => $this->idDepartement,
-            "idUniteService" => $this->idUniteService,
-            "libelle" => $this->libUSA,
-            "millesime" => $this->millesime,
-            "heuresCM" => $this->heuresCM,
-            "nbGroupesCM" => $this->nbGroupesCM,
-            "heuresTD" => $this->heuresTD,
-            "nbGroupesTD" => $this->nbGroupesTD,
-            "heuresTP" => $this->heuresTP,
-            "nbGroupesTP" => $this->nbGroupesTP,
-            "heuresStage" => $this->heuresStage,
-            "nbGroupesStage" => $this->nbGroupesStage,
-            "heuresTerrain" => $this->heuresTerrain,
-            "nbGroupesTerrain" => $this->nbGroupesTerrain,
-            "heuresInnovationPedagogique" => $this->heuresInnovationPedagogique,
-            "nbGroupesInnovationPedahogique" => $this->nbGroupesInnovationPedagogique,
-            "validite" => $this->validite,
-            "deleted" => $this->deleted
+            "idUniteServiceAnneeTag" => $this->idUniteServiceAnnee,
+            "idDepartementTag" => $this->idDepartement,
+            "idUniteServiceTag" => $this->idUniteService,
+            "libelleTag" => $this->libUSA,
+            "millesimeTag" => $this->millesime,
+            "heuresCMTag" => $this->heuresCM,
+            "nbGroupesCMTag" => $this->nbGroupesCM,
+            "heuresTDTag" => $this->heuresTD,
+            "nbGroupesTDTag" => $this->nbGroupesTD,
+            "heuresTPTag" => $this->heuresTP,
+            "nbGroupesTPTag" => $this->nbGroupesTP,
+            "heuresStageTag" => $this->heuresStage,
+            "nbGroupesStageTag" => $this->nbGroupesStage,
+            "heuresTerrainTag" => $this->heuresTerrain,
+            "nbGroupesTerrainTag" => $this->nbGroupesTerrain,
+            "heuresInnovationPedagogiqueTag" => $this->heuresInnovationPedagogique,
+            "nbGroupesInnovationPedahogiqueTag" => $this->nbGroupesInnovationPedagogique,
+            "validiteTag" => $this->validite,
+            "deletedTag" => $this->deleted
         ];
     }
 }

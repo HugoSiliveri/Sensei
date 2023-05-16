@@ -49,12 +49,12 @@ class Statut extends AbstractDataObject
     /**
      * @inheritDoc
      */
-    public function recupererFormatTableau(): array
+    public function exporterEnFormatRequetePreparee(): array
     {
         return [
-            "idStatut" => $this->idStatut,
-            "libStatut" => $this->libStatut,
-            "nbHeures" => $this->nbHeures
+            "idStatutTag" => $this->idStatut,
+            "libStatutTag" => $this->libStatut,
+            "nbHeuresTag" => $this->nbHeures
         ];
     }
 }

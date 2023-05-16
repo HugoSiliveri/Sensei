@@ -1,0 +1,25 @@
+{% extends "base.twig" %}
+
+{% block page_content %}
+    <div class="gestionListe">
+        <div class="titreEtBarreRecherche">
+            <h2>Liste des
+                natures</h2>
+        </div>
+        <div class="liste">
+            <ul class="description">
+                {% for nature in natures %}
+                    <li>
+                        <p>{{ nature.getIdNature }} {{ nature.getLibNature }}</p>
+                        <a href="{{ route("afficherFormulaireMiseAJourNature", {idNature : nature.getIdNature}) }}">
+                            <img src="{{ asset("../ressources/img/pencil.svg") }}" alt="update">
+                        </a>
+                        <a href="{{ route("supprimerNature", {idNature : nature.getIdNature}) }}">
+                            <img src="{{ asset("../ressources/img/delete.svg") }}" alt="delete">
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

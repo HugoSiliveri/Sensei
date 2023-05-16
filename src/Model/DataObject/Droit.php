@@ -40,11 +40,11 @@ class Droit extends AbstractDataObject
     /**
      * @inheritDoc
      */
-    public function recupererFormatTableau(): array
+    public function exporterEnFormatRequetePreparee(): array
     {
         return [
-            "idDroit" => $this->idDroit,
-            "typeDroit" => $this->typeDroit
+            "idDroitTag" => $this->idDroit,
+            "typeDroitTag" => $this->typeDroit
         ];
     }
 }

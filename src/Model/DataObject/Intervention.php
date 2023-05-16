@@ -61,13 +61,13 @@ class Intervention extends AbstractDataObject
     /**
      * @inheritDoc
      */
-    public function recupererFormatTableau(): array
+    public function exporterEnFormatRequetePreparee(): array
     {
         return [
-            "idIntervenant" => $this->idIntervention,
-            "typeIntervention" => $this->typeIntervention,
-            "numeroGroupeIntervention" => $this->numeroGroupeIntervention,
-            "volumeHoraire" => $this->volumeHoraire
+            "idIntervenantTag" => $this->idIntervention,
+            "typeInterventionTag" => $this->typeIntervention,
+            "numeroGroupeInterventionTag" => $this->numeroGroupeIntervention,
+            "volumeHoraireTag" => $this->volumeHoraire
         ];
     }
 }

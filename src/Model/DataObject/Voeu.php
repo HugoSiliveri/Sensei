@@ -59,13 +59,13 @@ class Voeu extends AbstractDataObject
     /**
      * @inheritDoc
      */
-    public function recupererFormatTableau(): array
+    public function exporterEnFormatRequetePreparee(): array
     {
         return [
-            "idVoeu" => $this->idVoeu,
-            "idIntervenant" => $this->idIntervenant,
-            "idUniteServiceAnnee" => $this->idUniteServiceAnnee,
-            "idIntervention" => $this->idIntervention
+            "idVoeuTag" => $this->idVoeu,
+            "idIntervenantTag" => $this->idIntervenant,
+            "idUniteServiceAnneeTag" => $this->idUniteServiceAnnee,
+            "idInterventionTag" => $this->idIntervention
         ];
     }
 }

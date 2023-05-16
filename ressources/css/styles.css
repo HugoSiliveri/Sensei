@@ -477,6 +477,18 @@ ul {
     height: 100%;
 }
 
+.gestionListe li {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 3%;
+    width: 100%;
+}
+
+.gestionListe li > * {
+    margin-right: 2%;
+}
+
 /* Bootstrap alerts */
 /* https://getbootstrap.com/docs/3.4/components/#alerts */
 

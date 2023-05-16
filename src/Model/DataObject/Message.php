@@ -112,19 +112,19 @@ class Message extends AbstractDataObject
     /**
      * @inheritDoc
      */
-    public function recupererFormatTableau(): array
+    public function exporterEnFormatRequetePreparee(): array
     {
         return [
-            "idMessage" => $this->idMessage,
-            "sujet" => $this->sujet,
-            "texte" => $this->texte,
-            "date" => $this->date,
-            "auteur" => $this->auteur,
-            "destinataires" => $this->destinataires,
-            "priorite" => $this->priorite,
-            "traitement" => $this->traitement,
-            "typeObjet" => $this->typeObjet,
-            "idObjet" => $this->idObjet
+            "idMessageTag" => $this->idMessage,
+            "sujetTag" => $this->sujet,
+            "texteTag" => $this->texte,
+            "dateTag" => $this->date,
+            "auteurTag" => $this->auteur,
+            "destinatairesTag" => $this->destinataires,
+            "prioriteTag" => $this->priorite,
+            "traitementTag" => $this->traitement,
+            "typeObjetTag" => $this->typeObjet,
+            "idObjetTag" => $this->idObjet
         ];
     }
 }

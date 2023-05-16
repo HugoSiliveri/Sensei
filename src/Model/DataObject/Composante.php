@@ -61,13 +61,13 @@ class Composante extends AbstractDataObject
     /**
      * @inheritDoc
      */
-    public function recupererFormatTableau(): array
+    public function exporterEnFormatRequetePreparee(): array
     {
         return [
-            "idComposante" => $this->idComposante,
-            "libComposante" => $this->libComposante,
-            "anneeDeTravail" => $this->anneeDeTravail,
-            "anneeDeValidation" => $this->anneeDeValidation
+            "idComposanteTag" => $this->idComposante,
+            "libComposanteTag" => $this->libComposante,
+            "anneeDeTravailTag" => $this->anneeDeTravail,
+            "anneeDeValidationTag" => $this->anneeDeValidation
         ];
     }
 }

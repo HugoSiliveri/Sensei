@@ -31,11 +31,11 @@ class Payeur extends AbstractDataObject
     /**
      * @inheritDoc
      */
-    public function recupererFormatTableau(): array
+    public function exporterEnFormatRequetePreparee(): array
     {
         return [
-            "idPayeur" => $this->idPayeur,
-            "libPayeur" => $this->libPayeur,
+            "idPayeurTag" => $this->idPayeur,
+            "libPayeurTag" => $this->libPayeur,
         ];
     }
 }

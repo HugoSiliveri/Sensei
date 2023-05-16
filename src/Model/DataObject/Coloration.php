@@ -45,11 +45,11 @@ class Coloration extends AbstractDataObject
     /**
      * @inheritDoc
      */
-    public function recupererFormatTableau(): array
+    public function exporterEnFormatRequetePreparee(): array
     {
         return [
-            "idDepartement" => $this->idDepartement,
-            "idUniteServiceAnnee" => $this->idUniteServiceAnnee
+            "idDepartementTag" => $this->idDepartement,
+            "idUniteServiceAnneeTag" => $this->idUniteServiceAnnee
         ];
     }
 }

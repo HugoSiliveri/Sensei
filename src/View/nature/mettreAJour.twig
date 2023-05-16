@@ -1,0 +1,19 @@
+{% extends "base.twig" %}
+
+{% block page_content %}
+    <div class="miseEnPage">
+        <form class="formCreation" method="post" action="#" enctype="multipart/form-data">
+            <fieldset class="fieldsetCreation">
+                <div>
+                    <label class="labelCreation" for="libNature_id">Libellé</label>
+                    <input class="inputCreation" type="text" value="{{ nature.getLibNature }}" name="libNature"
+                           id="libNature_id">
+                </div>
+                <input type="hidden" name="idNature" value="{{ nature.getIdNature }}">
+                <div class="boutonValidationConteneur conteneur">
+                    <input class="boutonValidation bouton" type="submit" value="Envoyer">
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

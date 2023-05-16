@@ -40,11 +40,11 @@ class ResponsableUS extends AbstractDataObject
     /**
      * @inheritDoc
      */
-    public function recupererFormatTableau(): array
+    public function exporterEnFormatRequetePreparee(): array
     {
         return [
-            "idIntervenant" => $this->idIntervenant,
-            "idUniteServiceAnnee" => $this->idUniteServiceAnnee
+            "idIntervenantTag" => $this->idIntervenant,
+            "idUniteServiceAnneeTag" => $this->idUniteServiceAnnee
         ];
     }
 }

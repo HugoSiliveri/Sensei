@@ -44,11 +44,11 @@ class Emploi extends AbstractDataObject
     /**
      * @inheritDoc
      */
-    public function recupererFormatTableau(): array
+    public function exporterEnFormatRequetePreparee(): array
     {
         return [
-            "idEmploi" => $this->idEmploi,
-            "libEmploi" => $this->libEmploi
+            "idEmploiTag" => $this->idEmploi,
+            "libEmploiTag" => $this->libEmploi
         ];
     }
 }

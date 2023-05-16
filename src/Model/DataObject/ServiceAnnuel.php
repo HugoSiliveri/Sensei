@@ -103,18 +103,18 @@ class ServiceAnnuel extends AbstractDataObject
     /**
      * @inheritDoc
      */
-    public function recupererFormatTableau(): array
+    public function exporterEnFormatRequetePreparee(): array
     {
         return [
-            "idServiceAnnuel" => $this->idServiceAnnuel,
-            "idDepartment" => $this->idDepartement,
-            "idIntervenant" => $this->idIntervenant,
-            "millesime" => $this->millesime,
-            "idEmploi" => $this->idEmploi,
-            "serviceStatuaire" => $this->serviceStatuaire,
-            "serviceFait" => $this->serviceFait,
-            "delta" => $this->delta,
-            "deleted" => $this->deleted
+            "idServiceAnnuelTag" => $this->idServiceAnnuel,
+            "idDepartmentTag" => $this->idDepartement,
+            "idIntervenantTag" => $this->idIntervenant,
+            "millesimeTag" => $this->millesime,
+            "idEmploiTag" => $this->idEmploi,
+            "serviceStatuaireTag" => $this->serviceStatuaire,
+            "serviceFaitTag" => $this->serviceFait,
+            "deltaTag" => $this->delta,
+            "deletedTag" => $this->deleted
         ];
     }
 }

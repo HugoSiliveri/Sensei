@@ -80,15 +80,15 @@ class Departement extends AbstractDataObject
     /**
      * @inheritDoc
      */
-    public function recupererFormatTableau(): array
+    public function exporterEnFormatRequetePreparee(): array
     {
         return [
-            "idDepartement" => $this->idDepartement,
-            "libDepartement" => $this->libDepartement,
-            "codeLettre" => $this->codeLettre,
-            "reportMax" => $this->reportMax,
-            "idComposante" => $this->idComposante,
-            "idEtat" => $this->idEtat
+            "idDepartementTag" => $this->idDepartement,
+            "libDepartementTag" => $this->libDepartement,
+            "codeLettreTag" => $this->codeLettre,
+            "reportMaxTag" => $this->reportMax,
+            "idComposanteTag" => $this->idComposante,
+            "idEtatTag" => $this->idEtat
         ];
     }
 }

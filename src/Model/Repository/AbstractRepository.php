@@ -139,16 +139,16 @@ abstract class AbstractRepository implements AbstractRepositoryInterface
         $nomsColonnes = $this->getNomsColonnes();
 
         $partiesSet = array_map(function ($nomcolonne) {
-            return "$nomcolonne = :{$nomcolonne}_tag";
+            return "$nomcolonne = :{$nomcolonne}Tag";
         }, $nomsColonnes);
         $setString = join(',', $partiesSet);
-        $whereString = "$nomClePrimaire = :{$nomClePrimaire}_tag";
+        $whereString = "$nomClePrimaire = :{$nomClePrimaire}Tag";
 
         $sql = "UPDATE $nomTable SET $setString WHERE $whereString";
-
         $req_prep = $this->connexionBaseDeDonnees->getPDO()->prepare($sql);
 
-        $objetFormatTableau = $object->recupererFormatTableau();
+        $objetFormatTableau = $object->exporterEnFormatRequetePreparee();
+
         $req_prep->execute($objetFormatTableau);
 
     }
@@ -172,7 +172,7 @@ abstract class AbstractRepository implements AbstractRepositoryInterface
 
         $pdoStatement = $this->connexionBaseDeDonnees->getPdo()->prepare($sql);
 
-        $objetFormatTableau = $object->recupererFormatTableau();
+        $objetFormatTableau = $object->exporterEnFormatRequetePreparee();
 
         try {
             $pdoStatement->execute($objetFormatTableau);

@@ -104,18 +104,18 @@ class Intervenant extends AbstractDataObject
     /**
      * @inheritDoc
      */
-    public function recupererFormatTableau(): array
+    public function exporterEnFormatRequetePreparee(): array
     {
         return [
-            "idIntervenant" => $this->idIntervenant,
-            "nom" => $this->nom,
-            "prenom" => $this->prenom,
-            "idStatut" => $this->idStatut,
-            "idDroit" => $this->idDroit,
-            "emailInstitutionnel" => $this->emailInstitutionnel,
-            "emailUsage" => $this->emailUsage,
-            "idIntervenantReferentiel" => $this->idIntervenantReferentiel,
-            "deleted" => $this->deleted
+            "idIntervenantTag" => $this->idIntervenant,
+            "nomTag" => $this->nom,
+            "prenomTag" => $this->prenom,
+            "idStatutTag" => $this->idStatut,
+            "idDroitTag" => $this->idDroit,
+            "emailInstitutionnelTag" => $this->emailInstitutionnel,
+            "emailUsageTag" => $this->emailUsage,
+            "idIntervenantReferentielTag" => $this->idIntervenantReferentiel,
+            "deletedTag" => $this->deleted
         ];
     }
 }

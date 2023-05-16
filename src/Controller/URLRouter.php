@@ -151,6 +151,9 @@ class URLRouter
         $voeuController = $conteneur->register('voeu_controller', VoeuController::class);
         $voeuController->setArguments([new Reference('voeu_service')]);
 
+        $natureController = $conteneur->register('nature_controller', NatureController::class);
+        $natureController->setArguments([new Reference('nature_service')]);
+
         $intervenantService = $conteneur->register('intervenant_service', IntervenantService::class);
         $intervenantService->setArguments([new Reference("intervenant_repository"), new Reference("connexion_utilisateur")]);
 
@@ -263,6 +266,36 @@ class URLRouter
         ]);
         $routeExporterEnCSVIntervenant->setMethods(["GET"]);
 
+        $routeAfficherFormulaireCreationNature = new Route("/creerNature", [
+            "_controller" => ["nature_controller", "afficherFormulaireCreation"]
+        ]);
+        $routeAfficherFormulaireCreationNature->setMethods(["GET"]);
+
+        $routeCreerNatureDepuisFormulaire = new Route("/creerNature", [
+            "_controller" => ["nature_controller", "creerDepuisFormulaire"]
+        ]);
+        $routeCreerNatureDepuisFormulaire->setMethods(["POST"]);
+
+        $routeAfficherListeNatures = new Route("/natures", [
+            "_controller" => ["nature_controller", "afficherListe"]
+        ]);
+        $routeAfficherListeNatures->setMethods(["GET"]);
+
+        $routeAfficherFormulaireMiseAJourNature = new Route("/mettreAJourNature/{idNature}", [
+            "_controller" => ["nature_controller", "afficherFormulaireMiseAJour"]
+        ]);
+        $routeAfficherFormulaireMiseAJourNature->setMethods(["GET"]);
+
+        $routeMettreAJourNature = new Route("/mettreAJourNature/{idNature}", [
+            "_controller" => ["nature_controller", "mettreAJour"]
+        ]);
+        $routeMettreAJourNature->setMethods(["POST"]);
+
+        $routeSupprimerNature = new Route("/supprimerUtilisateur/{idNature}", [
+            "_controller" => ["nature_controller", "supprimer"]
+        ]);
+        $routeSupprimerNature->setMethods(["GET"]);
+
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
         $routes->add("gestion", $routeGestion);
@@ -277,6 +310,12 @@ class URLRouter
         $routes->add("creerIntervenantDepuisFormulaire", $routeCreerIntervenantDepuisFormulaire);
         $routes->add("afficherFormulaireCreationUniteService", $routeAfficherFormulaireCreationUniteService);
         $routes->add("creerUniteServiceDepuisFormulaire", $routeCreerUniteServiceDepuisFormulaire);
+        $routes->add("afficherFormulaireCreationNature", $routeAfficherFormulaireCreationNature);
+        $routes->add("creerNatureDepuisFormulaire", $routeCreerNatureDepuisFormulaire);
+        $routes->add("afficherListeNatures", $routeAfficherListeNatures);
+        $routes->add("afficherFormulaireMiseAJourNature", $routeAfficherFormulaireMiseAJourNature);
+        $routes->add("mettreAJourNature", $routeMettreAJourNature);
+        $routes->add("supprimerNature", $routeSupprimerNature);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 

@@ -45,11 +45,11 @@ class Etat extends AbstractDataObject
     /**
      * @inheritDoc
      */
-    public function recupererFormatTableau(): array
+    public function exporterEnFormatRequetePreparee(): array
     {
         return [
-            "idEtat" => $this->idEtat,
-            "libEtat" => $this->libEtat
+            "idEtatTag" => $this->idEtat,
+            "libEtatTag" => $this->libEtat
         ];
     }
 }

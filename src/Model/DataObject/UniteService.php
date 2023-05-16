@@ -193,28 +193,28 @@ class UniteService extends AbstractDataObject
     /**
      * @inheritDoc
      */
-    public function recupererFormatTableau(): array
+    public function exporterEnFormatRequetePreparee(): array
     {
         return [
-            "idUniteService" => $this->idUniteService,
-            "idUSReferentiel" => $this->idUSReferentiel,
-            "libUS" => $this->libUS,
-            "nature" => $this->nature,
-            "ancetre" => $this->ancetre,
-            "anneeOuverture" => $this->anneeOuverture,
-            "anneeCloture" => $this->anneeCloture,
-            "ECTS" => $this->ECTS,
-            "heuresCM" => $this->heuresCM,
-            "heuresTD" => $this->heuresTD,
-            "heuresTP" => $this->heuresTP,
-            "heuresStage" => $this->heuresStage,
-            "heuresTerrain" => $this->heuresTerrain,
-            "heuresInnovationPedagogique" => $this->heuresInnovationPedagogique,
-            "semestre" => $this->semestre,
-            "saison" => $this->saison,
-            "idPayeur" => $this->idPayeur,
-            "validite" => $this->validite,
-            "deleted" => $this->deleted,
+            "idUniteServiceTag" => $this->idUniteService,
+            "idUSReferentielTag" => $this->idUSReferentiel,
+            "libUSTag" => $this->libUS,
+            "natureTag" => $this->nature,
+            "ancetreTag" => $this->ancetre,
+            "anneeOuvertureTag" => $this->anneeOuverture,
+            "anneeClotureTag" => $this->anneeCloture,
+            "ECTSTag" => $this->ECTS,
+            "heuresCMTag" => $this->heuresCM,
+            "heuresTDTag" => $this->heuresTD,
+            "heuresTPTag" => $this->heuresTP,
+            "heuresStageTag" => $this->heuresStage,
+            "heuresTerrainTag" => $this->heuresTerrain,
+            "heuresInnovationPedagogiqueTag" => $this->heuresInnovationPedagogique,
+            "semestreTag" => $this->semestre,
+            "saisonTag" => $this->saison,
+            "idPayeurTag" => $this->idPayeur,
+            "validiteTag" => $this->validite,
+            "deletedTag" => $this->deleted,
         ];
     }
 }

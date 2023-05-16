@@ -28,13 +28,29 @@ class Nature extends AbstractDataObject
     }
 
     /**
+     * @param int $idNature
+     */
+    public function setIdNature(int $idNature): void
+    {
+        $this->idNature = $idNature;
+    }
+
+    /**
+     * @param string|null $libNature
+     */
+    public function setLibNature(?string $libNature): void
+    {
+        $this->libNature = $libNature;
+    }
+
+    /**
      * @inheritDoc
      */
-    public function recupererFormatTableau(): array
+    public function exporterEnFormatRequetePreparee(): array
     {
         return [
-            "idNature" => $this->idNature,
-            "libNature" => $this->libNature
+            "idNatureTag" => $this->idNature,
+            "libNatureTag" => $this->libNature
         ];
     }
 }

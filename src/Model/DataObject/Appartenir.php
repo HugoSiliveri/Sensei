@@ -49,12 +49,12 @@ class Appartenir extends AbstractDataObject
     /**
      * @inheritDoc
      */
-    public function recupererFormatTableau(): array
+    public function exporterEnFormatRequetePreparee(): array
     {
         return [
-            "idAppartenir" => $this->idAppartenir,
-            "idDepartement" => $this->idDepartement,
-            "idUniteService" => $this->idUniteService
+            "idAppartenirTag" => $this->idAppartenir,
+            "idDepartementTag" => $this->idDepartement,
+            "idUniteServiceTag" => $this->idUniteService
         ];
     }
 

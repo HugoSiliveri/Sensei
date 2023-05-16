@@ -17,5 +17,5 @@ abstract class AbstractDataObject
      * Retourne l'objet sous forme de tableau (à utiliser pour les requêtes préparées)
      * @return array
      */
-    public abstract function recupererFormatTableau(): array;
+    public abstract function exporterEnFormatRequetePreparee(): array;
 }
