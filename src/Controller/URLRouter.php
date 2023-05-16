@@ -7,6 +7,7 @@ use App\Sensei\Lib\ConnexionUtilisateur;
 use App\Sensei\Lib\MessageFlash;
 use App\Sensei\Model\Repository\AppartenirRepository;
 use App\Sensei\Model\Repository\ColorationRepository;
+use App\Sensei\Model\Repository\ComposanteRepository;
 use App\Sensei\Model\Repository\ConnexionBaseDeDonnees;
 use App\Sensei\Model\Repository\DepartementRepository;
 use App\Sensei\Model\Repository\DroitRepository;
@@ -23,6 +24,7 @@ use App\Sensei\Model\Repository\UniteServiceRepository;
 use App\Sensei\Model\Repository\VoeuRepository;
 use App\Sensei\Service\AppartenirService;
 use App\Sensei\Service\ColorationService;
+use App\Sensei\Service\ComposanteService;
 use App\Sensei\Service\DepartementService;
 use App\Sensei\Service\DroitService;
 use App\Sensei\Service\EmploiService;
@@ -133,6 +135,9 @@ class URLRouter
         $colorationRepository = $conteneur->register('coloration_repository', ColorationRepository::class);
         $colorationRepository->setArguments([new Reference('connexion_base')]);
 
+        $composanteRepository = $conteneur->register('composante_repository', ComposanteRepository::class);
+        $composanteRepository->setArguments([new Reference('connexion_base')]);
+
         $connexionUtilisateur = $conteneur->register('connexion_utilisateur', ConnexionUtilisateur::class);
         $connexionUtilisateur->setArguments([new Reference('intervenant_repository')]);
 
@@ -153,6 +158,9 @@ class URLRouter
 
         $natureController = $conteneur->register('nature_controller', NatureController::class);
         $natureController->setArguments([new Reference('nature_service')]);
+
+        $composanteController = $conteneur->register('composante_controller', ComposanteController::class);
+        $composanteController->setArguments([new Reference('composante_service')]);
 
         $intervenantService = $conteneur->register('intervenant_service', IntervenantService::class);
         $intervenantService->setArguments([new Reference("intervenant_repository"), new Reference("connexion_utilisateur")]);
@@ -198,6 +206,9 @@ class URLRouter
 
         $colorationService = $conteneur->register('coloration_service', ColorationService::class);
         $colorationService->setArguments([new Reference('coloration_repository')]);
+
+        $composanteService = $conteneur->register('composante_service', ComposanteService::class);
+        $composanteService->setArguments([new Reference('composante_repository')]);
 
         /* Instantiation d'une collection de routes */
         $routes = new RouteCollection();
@@ -291,10 +302,40 @@ class URLRouter
         ]);
         $routeMettreAJourNature->setMethods(["POST"]);
 
-        $routeSupprimerNature = new Route("/supprimerUtilisateur/{idNature}", [
+        $routeSupprimerNature = new Route("/supprimerNature/{idNature}", [
             "_controller" => ["nature_controller", "supprimer"]
         ]);
         $routeSupprimerNature->setMethods(["GET"]);
+
+        $routeAfficherFormulaireCreationComposante = new Route("/creerComposante", [
+            "_controller" => ["composante_controller", "afficherFormulaireCreation"]
+        ]);
+        $routeAfficherFormulaireCreationComposante->setMethods(["GET"]);
+
+        $routeCreerComposanteDepuisFormulaire = new Route("/creerComposante", [
+            "_controller" => ["composante_controller", "creerDepuisFormulaire"]
+        ]);
+        $routeCreerComposanteDepuisFormulaire->setMethods(["POST"]);
+
+        $routeAfficherListeComposantes = new Route("/composantes", [
+            "_controller" => ["composante_controller", "afficherListe"]
+        ]);
+        $routeAfficherListeComposantes->setMethods(["GET"]);
+
+        $routeAfficherFormulaireMiseAJourComposante = new Route("/mettreAJourComposante/{idComposante}", [
+            "_controller" => ["composante_controller", "afficherFormulaireMiseAJour"]
+        ]);
+        $routeAfficherFormulaireMiseAJourComposante->setMethods(["GET"]);
+
+        $routeMettreAJourComposante = new Route("/mettreAJourComposante/{idComposante}", [
+            "_controller" => ["composante_controller", "mettreAJour"]
+        ]);
+        $routeMettreAJourComposante->setMethods(["POST"]);
+
+        $routeSupprimerComposante = new Route("/supprimerComposante/{idComposante}", [
+            "_controller" => ["composante_controller", "supprimer"]
+        ]);
+        $routeSupprimerComposante->setMethods(["GET"]);
 
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
@@ -316,6 +357,12 @@ class URLRouter
         $routes->add("afficherFormulaireMiseAJourNature", $routeAfficherFormulaireMiseAJourNature);
         $routes->add("mettreAJourNature", $routeMettreAJourNature);
         $routes->add("supprimerNature", $routeSupprimerNature);
+        $routes->add("afficherFormulaireCreationComposante", $routeAfficherFormulaireCreationComposante);
+        $routes->add("creerComposanteDepuisFormulaire", $routeCreerComposanteDepuisFormulaire);
+        $routes->add("afficherListeComposantes", $routeAfficherListeComposantes);
+        $routes->add("afficherFormulaireMiseAJourComposante", $routeAfficherFormulaireMiseAJourComposante);
+        $routes->add("mettreAJourComposante", $routeMettreAJourComposante);
+        $routes->add("supprimerComposante", $routeSupprimerComposante);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 

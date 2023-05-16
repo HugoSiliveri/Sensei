@@ -4,17 +4,17 @@
     <div class="gestionListe">
         <div class="titreEtBarreRecherche">
             <h2>Liste des
-                natures</h2>
+                composantes</h2>
         </div>
         <div class="liste">
             <ul class="description">
-                {% for nature in natures %}
+                {% for composante in composantes %}
                     <li>
-                        <p>{{ nature.getLibNature }}</p>
-                        <a href="{{ route("afficherFormulaireMiseAJourNature", {idNature : nature.getIdNature}) }}">
+                        <p>{{ composante.getLibComposante }}</p>
+                        <a href="{{ route("afficherFormulaireMiseAJourComposante", {idComposante : composante.getIdComposante}) }}">
                             <img src="{{ asset("../ressources/img/pencil.svg") }}" alt="update">
                         </a>
-                        <a href="{{ route("supprimerNature", {idNature : nature.getIdNature}) }}">
+                        <a href="{{ route("supprimerComposante", {idComposante : composante.getIdComposante}) }}">
                             <img src="{{ asset("../ressources/img/delete.svg") }}" alt="delete">
                         </a>
                     </li>

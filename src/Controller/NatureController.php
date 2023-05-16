@@ -4,7 +4,6 @@ namespace App\Sensei\Controller;
 
 use App\Sensei\Lib\MessageFlash;
 use App\Sensei\Service\Exception\ServiceException;
-use App\Sensei\Service\NatureService;
 use App\Sensei\Service\NatureServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,7 +17,7 @@ class NatureController extends GenericController
     }
 
     public function afficherFormulaireCreation(): Response{
-        return NatureController::afficherTwig("nature/creationNature.twig");
+        return NatureController::afficherTwig("nature/creationComposante.twig");
     }
 
     public function creerDepuisFormulaire(): Response {
@@ -36,7 +35,7 @@ class NatureController extends GenericController
 
     public function afficherListe(): Response{
         $natures = $this->natureService->recupererNatures();
-        return NatureController::afficherTwig("nature/listeNatures.twig", ["natures" => $natures]);
+        return NatureController::afficherTwig("nature/listeComposantes.twig", ["natures" => $natures]);
     }
 
     public function supprimer(int $idNature): Response {

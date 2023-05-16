@@ -59,6 +59,38 @@ class Composante extends AbstractDataObject
     }
 
     /**
+     * @param int $idComposante
+     */
+    public function setIdComposante(int $idComposante): void
+    {
+        $this->idComposante = $idComposante;
+    }
+
+    /**
+     * @param string|null $libComposante
+     */
+    public function setLibComposante(?string $libComposante): void
+    {
+        $this->libComposante = $libComposante;
+    }
+
+    /**
+     * @param int $anneeDeTravail
+     */
+    public function setAnneeDeTravail(int $anneeDeTravail): void
+    {
+        $this->anneeDeTravail = $anneeDeTravail;
+    }
+
+    /**
+     * @param int $anneeDeValidation
+     */
+    public function setAnneeDeValidation(int $anneeDeValidation): void
+    {
+        $this->anneeDeValidation = $anneeDeValidation;
+    }
+
+    /**
      * @inheritDoc
      */
     public function exporterEnFormatRequetePreparee(): array

@@ -1,0 +1,28 @@
+{% extends "base.twig" %}
+
+{% block page_content %}
+    <div class="miseEnPage">
+        <form class="formCreation" method="post" action="#" enctype="multipart/form-data">
+            <fieldset class="fieldsetCreation">
+                <div>
+                    <label class="labelCreation" for="libComposante_id">Libellé</label>
+                    <input class="inputCreation" type="text" placeholder="Faculté des Sciences" name="libComposante"
+                           id="libComposante_id">
+                </div>
+                <div>
+                    <label class="labelCreation" for="anneeDeTravail_id">Année de travail</label>
+                    <input class="inputCreation" type="number" value="0" name="anneeDeTravail"
+                           id="anneeDeTravail_id" required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="anneeDeValidation_id">Année de validation</label>
+                    <input class="inputCreation" type="number" value="0" name="anneeDeValidation"
+                           id="anneeDeValidation_id" required>
+                </div>
+                <div class="boutonValidationConteneur conteneur">
+                    <input class="boutonValidation bouton" type="submit" value="Envoyer">
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

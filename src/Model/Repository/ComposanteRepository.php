@@ -4,6 +4,7 @@ namespace App\Sensei\Model\Repository;
 
 use App\Sensei\Model\DataObject\AbstractDataObject;
 use App\Sensei\Model\DataObject\Composante;
+use PDOException;
 
 /**
  * @name ComposanteRepository
@@ -15,6 +16,27 @@ use App\Sensei\Model\DataObject\Composante;
  */
 class ComposanteRepository extends AbstractRepository
 {
+
+    public function ajouterSansIdComposante(array $composante) {
+        try {
+            $sql = "INSERT INTO Composante(libComposante, anneeDeTravail, anneeDeValidation) 
+            VALUES (:libComposanteTag, :anneeDeTravailTag, :anneeDeValidationTag)";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "libComposanteTag" => $composante["libComposante"],
+                "anneeDeTravailTag" => $composante["anneeDeTravail"],
+                "anneeDeValidationTag" => $composante["anneeDeValidation"]
+            );
+            $pdoStatement->execute($values);
+
+            return null;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors d'insertion dans la base de données.");
+        }
+    }
 
     /**
      * Retourne le nom de la table contenant les données de Composante.
