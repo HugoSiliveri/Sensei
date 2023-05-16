@@ -4,6 +4,7 @@ namespace App\Sensei\Model\Repository;
 
 use App\Sensei\Model\DataObject\AbstractDataObject;
 use App\Sensei\Model\DataObject\Droit;
+use PDOException;
 
 /**
  * @name DroitRepository
@@ -15,6 +16,23 @@ use App\Sensei\Model\DataObject\Droit;
  */
 class DroitRepository extends AbstractRepository
 {
+    public function ajouterSansIdDroit(array $droit){
+        try {
+            $sql = "INSERT INTO Droit(typeDroit) VALUES (:typeDroitTag)";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "typeDroitTag" => $droit["typeDroit"],
+            );
+            $pdoStatement->execute($values);
+
+            return null;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors d'insertion dans la base de données.");
+        }
+    }
 
     /**
      * Retourne le nom de la table contenant les données de Droit.

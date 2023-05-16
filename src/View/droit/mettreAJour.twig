@@ -1,0 +1,19 @@
+{% extends "base.twig" %}
+
+{% block page_content %}
+    <div class="miseEnPage">
+        <form class="formCreation" method="post" action="#" enctype="multipart/form-data">
+            <fieldset class="fieldsetCreation">
+                <div>
+                    <label class="labelCreation" for="typeDroit_id">Libellé</label>
+                    <input class="inputCreation" type="text" value="{{ droit.getTypeDroit }}" name="typeDroit"
+                           id="typeDroit_id">
+                </div>
+                <input type="hidden" name="idDroit" value="{{ droit.getIdDroit }}">
+                <div class="boutonValidationConteneur conteneur">
+                    <input class="boutonValidation bouton" type="submit" value="Envoyer">
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

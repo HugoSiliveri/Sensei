@@ -38,6 +38,22 @@ class Droit extends AbstractDataObject
     }
 
     /**
+     * @param int $idDroit
+     */
+    public function setIdDroit(int $idDroit): void
+    {
+        $this->idDroit = $idDroit;
+    }
+
+    /**
+     * @param string $typeDroit
+     */
+    public function setTypeDroit(string $typeDroit): void
+    {
+        $this->typeDroit = $typeDroit;
+    }
+
+    /**
      * @inheritDoc
      */
     public function exporterEnFormatRequetePreparee(): array

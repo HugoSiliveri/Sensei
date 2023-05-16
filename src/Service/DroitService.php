@@ -29,4 +29,31 @@ class DroitService implements DroitServiceInterface
             return $droit;
         }
     }
+
+    public function creerDroit(array $droit) {
+        $this->droitRepository->ajouterSansIdDroit($droit);
+    }
+
+    public function recupererDroits() {
+        return $this->droitRepository->recuperer();
+    }
+
+    public function supprimerDroit(int $idDroit) {
+        $this->droitRepository->supprimer($idDroit);
+    }
+
+    /**
+     * @throws ServiceException
+     */
+    public function modifierDroit(array $droit) {
+        $objet = $this->droitRepository->recupererParClePrimaire($droit["idDroit"]);
+        if (!isset($objet)){
+            throw new ServiceException("Aucun droit trouvé pour cet identifiant !");
+        }
+
+        $objet->setIdDroit($droit["idDroit"]);
+        $objet->setTypeDroit($droit["typeDroit"]);
+
+        $this->droitRepository->mettreAJour($objet);
+    }
 }

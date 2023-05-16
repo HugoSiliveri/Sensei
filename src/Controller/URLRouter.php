@@ -171,6 +171,9 @@ class URLRouter
         $departementController->setArguments([new Reference('departement_service'), new Reference("etat_service"),
             new Reference("composante_service")]);
 
+        $droitController = $conteneur->register('droit_controller', DroitController::class);
+        $droitController->setArguments([new Reference('droit_service')]);
+
         $intervenantService = $conteneur->register('intervenant_service', IntervenantService::class);
         $intervenantService->setArguments([new Reference("intervenant_repository"), new Reference("connexion_utilisateur")]);
 
@@ -379,6 +382,36 @@ class URLRouter
         ]);
         $routeSupprimerDepartement->setMethods(["GET"]);
 
+        $routeAfficherFormulaireCreationDroit = new Route("/creerDroit", [
+            "_controller" => ["droit_controller", "afficherFormulaireCreation"]
+        ]);
+        $routeAfficherFormulaireCreationDroit->setMethods(["GET"]);
+
+        $routeCreerDroitDepuisFormulaire = new Route("/creerDroit", [
+            "_controller" => ["droit_controller", "creerDepuisFormulaire"]
+        ]);
+        $routeCreerDroitDepuisFormulaire->setMethods(["POST"]);
+
+        $routeAfficherListeDroits = new Route("/droits", [
+            "_controller" => ["droit_controller", "afficherListe"]
+        ]);
+        $routeAfficherListeDroits->setMethods(["GET"]);
+
+        $routeAfficherFormulaireMiseAJourDroit = new Route("/mettreAJourDroit/{idDroit}", [
+            "_controller" => ["droit_controller", "afficherFormulaireMiseAJour"]
+        ]);
+        $routeAfficherFormulaireMiseAJourDroit->setMethods(["GET"]);
+
+        $routeMettreAJourDroit = new Route("/mettreAJourDroit/{idDroit}", [
+            "_controller" => ["droit_controller", "mettreAJour"]
+        ]);
+        $routeMettreAJourDroit->setMethods(["POST"]);
+
+        $routeSupprimerDroit = new Route("/supprimerDroit/{idDroit}", [
+            "_controller" => ["droit_controller", "supprimer"]
+        ]);
+        $routeSupprimerDroit->setMethods(["GET"]);
+
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
         $routes->add("gestion", $routeGestion);
@@ -411,6 +444,12 @@ class URLRouter
         $routes->add("afficherFormulaireMiseAJourDepartement", $routeAfficherFormulaireMiseAJourDepartement);
         $routes->add("mettreAJourDepartement", $routeMettreAJourDepartement);
         $routes->add("supprimerDepartement", $routeSupprimerDepartement);
+        $routes->add("afficherFormulaireCreationDroit", $routeAfficherFormulaireCreationDroit);
+        $routes->add("creerDroitDepuisFormulaire", $routeCreerDroitDepuisFormulaire);
+        $routes->add("afficherListeDroits", $routeAfficherListeDroits);
+        $routes->add("afficherFormulaireMiseAJourDroit", $routeAfficherFormulaireMiseAJourDroit);
+        $routes->add("mettreAJourDroit", $routeMettreAJourDroit);
+        $routes->add("supprimerDroit", $routeSupprimerDroit);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 
