@@ -16,6 +16,28 @@ use PDOException;
  */
 class DepartementRepository extends AbstractRepository
 {
+    public function ajouterSansIdDepartement(array $departement) {
+        try {
+            $sql = "INSERT INTO Departement(libDepartement, codeLettre, reportMax, idComposante, idEtat) 
+            VALUES (:libDepartementTag, :codeLettreTag, :reportMaxTag, :idComposanteTag, :idEtatTag)";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "libDepartementTag" => $departement["libDepartement"],
+                "codeLettreTag" => $departement["codeLettre"],
+                "reportMaxTag" => $departement["reportMax"],
+                "idComposanteTag" => $departement["idComposante"],
+                "idEtatTag" => $departement["idEtat"]
+            );
+
+            $pdoStatement->execute($values);
+            return null;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors d'insertion dans la base de données.");
+        }
+    }
 
     public function recupererParLibelle(string $lib): array
     {

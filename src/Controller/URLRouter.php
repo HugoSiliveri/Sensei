@@ -12,6 +12,7 @@ use App\Sensei\Model\Repository\ConnexionBaseDeDonnees;
 use App\Sensei\Model\Repository\DepartementRepository;
 use App\Sensei\Model\Repository\DroitRepository;
 use App\Sensei\Model\Repository\EmploiRepository;
+use App\Sensei\Model\Repository\EtatRepository;
 use App\Sensei\Model\Repository\IntervenantRepository;
 use App\Sensei\Model\Repository\InterventionRepository;
 use App\Sensei\Model\Repository\NatureRepository;
@@ -28,6 +29,7 @@ use App\Sensei\Service\ComposanteService;
 use App\Sensei\Service\DepartementService;
 use App\Sensei\Service\DroitService;
 use App\Sensei\Service\EmploiService;
+use App\Sensei\Service\EtatService;
 use App\Sensei\Service\IntervenantService;
 use App\Sensei\Service\InterventionService;
 use App\Sensei\Service\NatureService;
@@ -138,6 +140,9 @@ class URLRouter
         $composanteRepository = $conteneur->register('composante_repository', ComposanteRepository::class);
         $composanteRepository->setArguments([new Reference('connexion_base')]);
 
+        $etatRepository = $conteneur->register('etat_repository', EtatRepository::class);
+        $etatRepository->setArguments([new Reference('connexion_base')]);
+
         $connexionUtilisateur = $conteneur->register('connexion_utilisateur', ConnexionUtilisateur::class);
         $connexionUtilisateur->setArguments([new Reference('intervenant_repository')]);
 
@@ -161,6 +166,10 @@ class URLRouter
 
         $composanteController = $conteneur->register('composante_controller', ComposanteController::class);
         $composanteController->setArguments([new Reference('composante_service')]);
+
+        $departementController = $conteneur->register('departement_controller', DepartementController::class);
+        $departementController->setArguments([new Reference('departement_service'), new Reference("etat_service"),
+            new Reference("composante_service")]);
 
         $intervenantService = $conteneur->register('intervenant_service', IntervenantService::class);
         $intervenantService->setArguments([new Reference("intervenant_repository"), new Reference("connexion_utilisateur")]);
@@ -209,6 +218,9 @@ class URLRouter
 
         $composanteService = $conteneur->register('composante_service', ComposanteService::class);
         $composanteService->setArguments([new Reference('composante_repository')]);
+
+        $etatService = $conteneur->register('etat_service', EtatService::class);
+        $etatService->setArguments([new Reference('etat_repository')]);
 
         /* Instantiation d'une collection de routes */
         $routes = new RouteCollection();
@@ -337,6 +349,36 @@ class URLRouter
         ]);
         $routeSupprimerComposante->setMethods(["GET"]);
 
+        $routeAfficherFormulaireCreationDepartement = new Route("/creerDepartement", [
+            "_controller" => ["departement_controller", "afficherFormulaireCreation"]
+        ]);
+        $routeAfficherFormulaireCreationDepartement->setMethods(["GET"]);
+
+        $routeCreerDepartementDepuisFormulaire = new Route("/creerDepartement", [
+            "_controller" => ["departement_controller", "creerDepuisFormulaire"]
+        ]);
+        $routeCreerDepartementDepuisFormulaire->setMethods(["POST"]);
+
+        $routeAfficherListeDepartements = new Route("/departements", [
+            "_controller" => ["departement_controller", "afficherListe"]
+        ]);
+        $routeAfficherListeDepartements->setMethods(["GET"]);
+
+        $routeAfficherFormulaireMiseAJourDepartement = new Route("/mettreAJourDepartement/{idDepartement}", [
+            "_controller" => ["departement_controller", "afficherFormulaireMiseAJour"]
+        ]);
+        $routeAfficherFormulaireMiseAJourDepartement->setMethods(["GET"]);
+
+        $routeMettreAJourDepartement = new Route("/mettreAJourDepartement/{idDepartement}", [
+            "_controller" => ["departement_controller", "mettreAJour"]
+        ]);
+        $routeMettreAJourDepartement->setMethods(["POST"]);
+
+        $routeSupprimerDepartement = new Route("/supprimerDepartement/{idDepartement}", [
+            "_controller" => ["departement_controller", "supprimer"]
+        ]);
+        $routeSupprimerDepartement->setMethods(["GET"]);
+
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
         $routes->add("gestion", $routeGestion);
@@ -363,6 +405,12 @@ class URLRouter
         $routes->add("afficherFormulaireMiseAJourComposante", $routeAfficherFormulaireMiseAJourComposante);
         $routes->add("mettreAJourComposante", $routeMettreAJourComposante);
         $routes->add("supprimerComposante", $routeSupprimerComposante);
+        $routes->add("afficherFormulaireCreationDepartement", $routeAfficherFormulaireCreationDepartement);
+        $routes->add("creerDepartementDepuisFormulaire", $routeCreerDepartementDepuisFormulaire);
+        $routes->add("afficherListeDepartements", $routeAfficherListeDepartements);
+        $routes->add("afficherFormulaireMiseAJourDepartement", $routeAfficherFormulaireMiseAJourDepartement);
+        $routes->add("mettreAJourDepartement", $routeMettreAJourDepartement);
+        $routes->add("supprimerDepartement", $routeSupprimerDepartement);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 

@@ -1,0 +1,49 @@
+{% extends "base.twig" %}
+
+{% block page_content %}
+    <div class="miseEnPage">
+        <form class="formCreation" method="post" action="#" enctype="multipart/form-data">
+            <fieldset class="fieldsetCreation">
+                <div>
+                    <label class="labelCreation" for="libDepartement_id">Libellé</label>
+                    <input class="inputCreation" type="text" value="{{ departement.getLibDepartement }}" name="libDepartement"
+                           id="libDepartement_id">
+                </div>
+                <div>
+                    <label class="labelCreation" for="codeLettre_id">Code lettre</label>
+                    <input class="inputCreation" type="text" value="{{ departement.getCodeLettre }}" name="codeLettre"
+                           id="codeLettre_id">
+                </div>
+                <div>
+                    <label class="labelCreation" for="reportMax_id">Report maximum</label>
+                    <input class="inputCreation" type="number" value="{{ departement.getReportMax }}" name="reportMax"
+                           id="reportMax_id" required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="idComposante_id">Composante</label>
+                    <select class="inputCreation" name="idComposante" id="idComposante_id">
+                        {% set i = 1 %}
+                        {% for composante in composantes %}
+                            <option value="{{ i }}">{{ composante.getLibComposante }}</option>
+                            {% set i = i + 1 %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="labelCreation" for="idEtat_id">Etat</label>
+                    <select class="inputCreation" name="idEtat" id="idEtat_id">
+                        {% set i = 1 %}
+                        {% for etat in etats %}
+                            <option value="{{ i }}">{{ etat.getLibEtat }}</option>
+                            {% set i = i + 1 %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <input type="hidden" name="idDepartement" value="{{ departement.getIdDepartement }}">
+                <div class="boutonValidationConteneur conteneur">
+                    <input class="boutonValidation bouton" type="submit" value="Envoyer">
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

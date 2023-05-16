@@ -1,0 +1,25 @@
+{% extends "base.twig" %}
+
+{% block page_content %}
+    <div class="gestionListe">
+        <div class="titreEtBarreRecherche">
+            <h2>Liste des
+                départements</h2>
+        </div>
+        <div class="liste">
+            <ul class="description">
+                {% for departement in departements %}
+                    <li>
+                        <p>{{ departement.getLibDepartement }}</p>
+                        <a href="{{ route("afficherFormulaireMiseAJourDepartement", {idDepartement : departement.getIdDepartement}) }}">
+                            <img src="{{ asset("../ressources/img/pencil.svg") }}" alt="update">
+                        </a>
+                        <a href="{{ route("supprimerDepartement", {idDepartement : departement.getIdDepartement}) }}">
+                            <img src="{{ asset("../ressources/img/delete.svg") }}" alt="delete">
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

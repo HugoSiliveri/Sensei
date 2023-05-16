@@ -78,6 +78,54 @@ class Departement extends AbstractDataObject
     }
 
     /**
+     * @param int $idDepartement
+     */
+    public function setIdDepartement(int $idDepartement): void
+    {
+        $this->idDepartement = $idDepartement;
+    }
+
+    /**
+     * @param string|null $libDepartement
+     */
+    public function setLibDepartement(?string $libDepartement): void
+    {
+        $this->libDepartement = $libDepartement;
+    }
+
+    /**
+     * @param string|null $codeLettre
+     */
+    public function setCodeLettre(?string $codeLettre): void
+    {
+        $this->codeLettre = $codeLettre;
+    }
+
+    /**
+     * @param int|null $reportMax
+     */
+    public function setReportMax(?int $reportMax): void
+    {
+        $this->reportMax = $reportMax;
+    }
+
+    /**
+     * @param int $idComposante
+     */
+    public function setIdComposante(int $idComposante): void
+    {
+        $this->idComposante = $idComposante;
+    }
+
+    /**
+     * @param int $idEtat
+     */
+    public function setIdEtat(int $idEtat): void
+    {
+        $this->idEtat = $idEtat;
+    }
+
+    /**
      * @inheritDoc
      */
     public function exporterEnFormatRequetePreparee(): array

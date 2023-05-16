@@ -17,7 +17,7 @@ class NatureController extends GenericController
     }
 
     public function afficherFormulaireCreation(): Response{
-        return NatureController::afficherTwig("nature/creationComposante.twig");
+        return NatureController::afficherTwig("nature/creationNature.twig");
     }
 
     public function creerDepuisFormulaire(): Response {
@@ -35,7 +35,7 @@ class NatureController extends GenericController
 
     public function afficherListe(): Response{
         $natures = $this->natureService->recupererNatures();
-        return NatureController::afficherTwig("nature/listeComposantes.twig", ["natures" => $natures]);
+        return NatureController::afficherTwig("nature/listeNatures.twig", ["natures" => $natures]);
     }
 
     public function supprimer(int $idNature): Response {
