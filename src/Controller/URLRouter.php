@@ -204,6 +204,10 @@ class URLRouter
             "_controller" => ["intervenant_controller", "afficherAccueil"]
         ]);
 
+        $routeGestion = new Route("/gestion", [
+           "_controller" => ["intervenant_controller", "afficherGestion"]
+        ]);
+
         $routeAfficherListeIntervenants = new Route("/intervenants", [
             "_controller" => ["intervenant_controller", "afficherListe"]
         ]);
@@ -261,6 +265,7 @@ class URLRouter
 
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
+        $routes->add("gestion", $routeGestion);
         $routes->add("afficherListeIntervenants", $routeAfficherListeIntervenants);
         $routes->add("afficherListeUnitesServices", $routeAfficherListeUniteServices);
         $routes->add("afficherDetailIntervenant", $routeAfficherDetailIntervenant);

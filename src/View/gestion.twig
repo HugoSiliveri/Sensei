@@ -1,0 +1,102 @@
+{% extends "base.twig" %}
+
+{% block page_content %}
+    <div class="miseEnPage2">
+        <div class="blockGestion">
+            <form class="formCreation" action="#">
+                <fieldset class="fieldsetCreation">
+                    <div class="miseEnPage">
+                        <label for="departement_id">Changer de département</label>
+                        <select class="inputCreation" name="departement" id="departement_id">
+                            {% set i = 1 %}
+                            {% for departement in departements %}
+                                <option value="{{ i }}">{{ departement.getLibDepartement }}</option>
+                                {% set i = i + 1 %}
+                            {% endfor %}
+                        </select>
+                        {% include "templates/boutonCheck.twig" %}
+                    </div>
+                    <div class="miseEnPage">
+                        <label for="annee_id">Voyager dans le temps</label>
+                        <select class="inputCreation" name="annee" id="annee_id">
+                            <option>test</option>
+                        </select>
+                        {% include "templates/boutonCheck.twig" %}
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="blockGestion">
+            <div class="miseEnPage">
+                <div class="boutonValidationConteneur conteneur">
+                    <a class="boutonValidation bouton" href="#">Gérer l'état du site</a>
+                </div>
+                <div class="boutonValidationConteneur conteneur">
+                    <a class="boutonValidation bouton" href="#">Afficher la liste des états</a>
+                </div>
+            </div>
+            <div class="miseEnPage">
+                <div class="boutonValidationConteneur conteneur">
+                    <a class="boutonValidation bouton" href="#">Créer une nature d'unité</a>
+                </div>
+                <div class="boutonValidationConteneur conteneur">
+                    <a class="boutonValidation bouton" href="#">Accéder à la liste des natures</a>
+                </div>
+            </div>
+        </div>
+        <div class="blockGestion">
+            <div class="miseEnPage">
+                <div class="boutonValidationConteneur conteneur">
+                    <a class="boutonValidation bouton" href="#">Créer une composante</a>
+                </div>
+                <div class="boutonValidationConteneur conteneur">
+                    <a class="boutonValidation bouton" href="#">Accéder à la liste des composantes</a>
+                </div>
+            </div>
+            <div class="miseEnPage">
+                <div class="boutonValidationConteneur conteneur">
+                    <a class="boutonValidation bouton" href="#">Créer un département</a>
+                </div>
+                <div class="boutonValidationConteneur conteneur">
+                    <a class="boutonValidation bouton" href="#">Accéder à la liste des départements</a>
+                </div>
+            </div>
+        </div>
+        <div class="blockGestion">
+            <div class="miseEnPage">
+                <div class="boutonValidationConteneur conteneur">
+                    <a class="boutonValidation bouton" href="#">Créer un droit</a>
+                </div>
+                <div class="boutonValidationConteneur conteneur">
+                    <a class="boutonValidation bouton" href="#">Accéder à la liste des droits</a>
+                </div>
+            </div>
+            <div class="miseEnPage">
+                <div class="boutonValidationConteneur conteneur">
+                    <a class="boutonValidation bouton" href="#">Créer un type d'emploi</a>
+                </div>
+                <div class="boutonValidationConteneur conteneur">
+                    <a class="boutonValidation bouton" href="#">Accéder à la liste des emplois</a>
+                </div>
+            </div>
+        </div>
+        <div class="blockGestion">
+            <div class="miseEnPage">
+                <div class="boutonValidationConteneur conteneur">
+                    <a class="boutonValidation bouton" href="#">Créer un statut</a>
+                </div>
+                <div class="boutonValidationConteneur conteneur">
+                    <a class="boutonValidation bouton" href="#">Accéder à la liste des statuts</a>
+                </div>
+            </div>
+            <div class="miseEnPage">
+                <div class="boutonValidationConteneur conteneur">
+                    <a class="boutonValidation bouton" href="#">Créer un payeur</a>
+                </div>
+                <div class="boutonValidationConteneur conteneur">
+                    <a class="boutonValidation bouton" href="#">Accéder à la liste des payeurs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

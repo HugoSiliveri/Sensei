@@ -19,14 +19,14 @@
     --color-danger: #a94442;
 }
 
-#logoEtTitre, #onglets, #footer, .boutonContainer, .boutonEnvoie, .champsRecherche, .barreRecherche > fieldset, .conteneurChamps,
+#logoEtTitre, #onglets, #footer, .boutonContainer, .boutonEnvoie, .boutonEnvoie2, .champsRecherche, .barreRecherche > fieldset, .conteneurChamps,
 .boutonValidationConteneur, .conteneurAutoComp, .colIdentifiant, .colLib, .alertVoeux, #messagesFlash > div, .formCreation {
     display: flex;
 }
 
 footer, ul, tbody, #intervenants, #unitesServices, #usurpation, .coteGauche, .coteDroit, .annuel, .annuel2, .optionsSurObjet, .menuDeroulant,
 .boutonSousMenuAnneeService, .sousMenuAnneeService, .infosSupplementaires, .miseEnPage2, #conteneurAccueil, .conteneurAlerte,
-.conteneurResponsable, .alertVoeux > div, #messagesFlash, .fieldsetCreation, .fieldsetCreation > div {
+.conteneurResponsable, .alertVoeux > div, #messagesFlash, .fieldsetCreation, .fieldsetCreation > div, .blockGestion {
     display: flex;
     flex-direction: column;
 }
@@ -47,7 +47,7 @@ html, body, ul, #vague, .barreRecherche, .barreRecherche > fieldset, .conteneurC
     width: 100%;
 }
 
-#footer, .boutonEnvoie, .miseEnPage, .coteGauche .conteneurChamps, .boutonValidationConteneur, .optionsSupplémentaires .conteneurAutoComp,
+#footer, .boutonEnvoie, .boutonEnvoie2, .miseEnPage, .coteGauche .conteneurChamps, .boutonValidationConteneur, .optionsSupplémentaires .conteneurAutoComp,
 .alertVoeux, #messagesFlash > div, .formCreation {
     justify-content: center;
 }
@@ -56,7 +56,7 @@ nav, #onglets, .liste, .boutonContainer, .infosDepartementEtAnnee, #conteneurAcc
     justify-content: space-between;
 }
 
-nav, #logoEtTitre, #logoEtTitre > a, #footer, .boutonValidation, .boutonEnvoie, .titreEtBarreRecherche, .coteGauche,
+nav, #logoEtTitre, #logoEtTitre > a, #footer, .boutonValidation, .boutonEnvoie, .boutonEnvoie2, .titreEtBarreRecherche, .coteGauche,
 .coteDroit, .optionsSurObjet, .boutonSousMenuAnneeService, .infosAnnuel, .centrer, .titreEtBarreRecherche2, .alertVoeux > div,
 #messagesFlash, .conteneur {
     align-items: center;
@@ -187,14 +187,24 @@ ul {
     border-radius: 5px;
 }
 
-.boutonEnvoie {
+.boutonEnvoie, .boutonEnvoie2 {
     background-color: var(--bg-color);
     height: 35px;
     width: 35px;
     border-radius: 0 20% 20% 0;
 }
 
-.boutonValidation:hover, .boutonEnvoie:hover {
+.boutonEnvoie2 {
+    height: 40px;
+    width: 40px;
+}
+
+.boutonEnvoie2 > img {
+    width: 100%;
+    height: 100%;
+}
+
+.boutonValidation:hover, .boutonEnvoie:hover, .boutonEnvoie2:hover {
     background-color: var(--bg-hover);
 }
 
@@ -337,6 +347,7 @@ ul {
 .fieldsetCreation {
     border: none;
     width: 40%;
+    padding: 1% 0 1% 1%
 }
 
 .labelCreation {
@@ -415,6 +426,55 @@ ul {
 
 .titreEtBarreRecherche h2 {
     width: 100%;
+}
+
+.blockGestion {
+    margin: 0 0 4% 4%;
+    padding-left: 1%;
+    border-left: solid black;
+    height: 8rem;
+}
+
+.blockGestion .inputCreation {
+    width: 30%;
+    margin-left: 3%;
+}
+
+.blockGestion label {
+    display: flex;
+    align-items: center;
+}
+
+.blockGestion .fieldsetCreation {
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.blockGestion .fieldsetCreation > div {
+    flex-direction: row;
+    justify-content: start;
+}
+
+.blockGestion .formCreation {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.blockGestion .conteneur {
+    align-items: center;
+    justify-content: start;
+}
+
+.blockGestion .conteneur .bouton {
+    width: auto;
+    margin: 0;
+    padding: 1.5%;
+}
+
+.blockGestion .miseEnPage {
+    height: 100%;
 }
 
 /* Bootstrap alerts */

@@ -159,6 +159,13 @@ class IntervenantController extends GenericController
         }
     }
 
+    public function afficherGestion(): Response {
+        $departements = $this->departementService->recupererDepartements();
+        return IntervenantController::afficherTwig("gestion.twig", [
+            "departements" => $departements
+        ]);
+    }
+
     public function chercherIntervenant(): Response
     {
         try {
