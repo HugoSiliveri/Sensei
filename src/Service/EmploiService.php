@@ -28,4 +28,31 @@ class EmploiService implements EmploiServiceInterface
             return $emploi;
         }
     }
+
+    public function creerEmploi(array $emploi) {
+        $this->emploiRepository->ajouterSansIdEmploi($emploi);
+    }
+
+    public function recupererEmplois() {
+        return $this->emploiRepository->recuperer();
+    }
+
+    public function supprimerEmploi(int $idEmploi) {
+        $this->emploiRepository->supprimer($idEmploi);
+    }
+
+    /**
+     * @throws ServiceException
+     */
+    public function modifierEmploi(array $emploi) {
+        $objet = $this->emploiRepository->recupererParClePrimaire($emploi["idEmploi"]);
+        if (!isset($objet)){
+            throw new ServiceException("Aucun emploi trouvé pour cet identifiant !");
+        }
+
+        $objet->setIdEmploi($emploi["idEmploi"]);
+        $objet->setLibEmploi($emploi["libEmploi"]);
+
+        $this->emploiRepository->mettreAJour($objet);
+    }
 }

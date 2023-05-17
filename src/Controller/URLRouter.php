@@ -174,6 +174,9 @@ class URLRouter
         $droitController = $conteneur->register('droit_controller', DroitController::class);
         $droitController->setArguments([new Reference('droit_service')]);
 
+        $emploiController = $conteneur->register('emploi_controller', EmploiController::class);
+        $emploiController->setArguments([new Reference('emploi_service')]);
+
         $intervenantService = $conteneur->register('intervenant_service', IntervenantService::class);
         $intervenantService->setArguments([new Reference("intervenant_repository"), new Reference("connexion_utilisateur")]);
 
@@ -412,6 +415,36 @@ class URLRouter
         ]);
         $routeSupprimerDroit->setMethods(["GET"]);
 
+        $routeAfficherFormulaireCreationEmploi = new Route("/creerEmploi", [
+            "_controller" => ["emploi_controller", "afficherFormulaireCreation"]
+        ]);
+        $routeAfficherFormulaireCreationEmploi->setMethods(["GET"]);
+
+        $routeCreerEmploiDepuisFormulaire = new Route("/creerEmploi", [
+            "_controller" => ["emploi_controller", "creerDepuisFormulaire"]
+        ]);
+        $routeCreerEmploiDepuisFormulaire->setMethods(["POST"]);
+
+        $routeAfficherListeEmplois = new Route("/emplois", [
+            "_controller" => ["emploi_controller", "afficherListe"]
+        ]);
+        $routeAfficherListeEmplois->setMethods(["GET"]);
+
+        $routeAfficherFormulaireMiseAJourEmploi = new Route("/mettreAJourEmploi/{idEmploi}", [
+            "_controller" => ["emploi_controller", "afficherFormulaireMiseAJour"]
+        ]);
+        $routeAfficherFormulaireMiseAJourEmploi->setMethods(["GET"]);
+
+        $routeMettreAJourEmploi = new Route("/mettreAJourEmploi/{idEmploi}", [
+            "_controller" => ["emploi_controller", "mettreAJour"]
+        ]);
+        $routeMettreAJourEmploi->setMethods(["POST"]);
+
+        $routeSupprimerEmploi = new Route("/supprimerEmploi/{idEmploi}", [
+            "_controller" => ["emploi_controller", "supprimer"]
+        ]);
+        $routeSupprimerEmploi->setMethods(["GET"]);
+
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
         $routes->add("gestion", $routeGestion);
@@ -450,6 +483,12 @@ class URLRouter
         $routes->add("afficherFormulaireMiseAJourDroit", $routeAfficherFormulaireMiseAJourDroit);
         $routes->add("mettreAJourDroit", $routeMettreAJourDroit);
         $routes->add("supprimerDroit", $routeSupprimerDroit);
+        $routes->add("afficherFormulaireCreationEmploi", $routeAfficherFormulaireCreationEmploi);
+        $routes->add("creerEmploiDepuisFormulaire", $routeCreerEmploiDepuisFormulaire);
+        $routes->add("afficherListeEmplois", $routeAfficherListeEmplois);
+        $routes->add("afficherFormulaireMiseAJourEmploi", $routeAfficherFormulaireMiseAJourEmploi);
+        $routes->add("mettreAJourEmploi", $routeMettreAJourEmploi);
+        $routes->add("supprimerEmploi", $routeSupprimerEmploi);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 

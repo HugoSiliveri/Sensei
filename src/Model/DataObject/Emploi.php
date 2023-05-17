@@ -42,6 +42,22 @@ class Emploi extends AbstractDataObject
     }
 
     /**
+     * @param int $idEmploi
+     */
+    public function setIdEmploi(int $idEmploi): void
+    {
+        $this->idEmploi = $idEmploi;
+    }
+
+    /**
+     * @param string|null $libEmploi
+     */
+    public function setLibEmploi(?string $libEmploi): void
+    {
+        $this->libEmploi = $libEmploi;
+    }
+
+    /**
      * @inheritDoc
      */
     public function exporterEnFormatRequetePreparee(): array

@@ -4,6 +4,7 @@ namespace App\Sensei\Model\Repository;
 
 use App\Sensei\Model\DataObject\AbstractDataObject;
 use App\Sensei\Model\DataObject\Emploi;
+use PDOException;
 
 /**
  * @name EmploiRepository
@@ -15,6 +16,24 @@ use App\Sensei\Model\DataObject\Emploi;
  */
 class EmploiRepository extends AbstractRepository
 {
+    
+    public function ajouterSansIdEmploi(array $emploi){
+        try {
+            $sql = "INSERT INTO Emploi(libEmploi) VALUES (:libEmploiTag)";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "libEmploiTag" => $emploi["libEmploi"],
+            );
+            $pdoStatement->execute($values);
+
+            return null;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors d'insertion dans la base de données.");
+        }
+    }
 
     /**
      * Retourne le nom de la table contenant les données d'Emploi.
