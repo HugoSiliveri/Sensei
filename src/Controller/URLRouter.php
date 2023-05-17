@@ -180,6 +180,9 @@ class URLRouter
         $statutController = $conteneur->register('statut_controller', StatutController::class);
         $statutController->setArguments([new Reference('statut_service')]);
 
+        $payeurController = $conteneur->register('payeur_controller', PayeurController::class);
+        $payeurController->setArguments([new Reference('payeur_service')]);
+
         $intervenantService = $conteneur->register('intervenant_service', IntervenantService::class);
         $intervenantService->setArguments([new Reference("intervenant_repository"), new Reference("connexion_utilisateur")]);
 
@@ -481,6 +484,36 @@ class URLRouter
         ]);
         $routeSupprimerStatut->setMethods(["GET"]);
 
+        $routeAfficherFormulaireCreationPayeur = new Route("/creerPayeur", [
+            "_controller" => ["payeur_controller", "afficherFormulaireCreation"]
+        ]);
+        $routeAfficherFormulaireCreationPayeur->setMethods(["GET"]);
+
+        $routeCreerPayeurDepuisFormulaire = new Route("/creerPayeur", [
+            "_controller" => ["payeur_controller", "creerDepuisFormulaire"]
+        ]);
+        $routeCreerPayeurDepuisFormulaire->setMethods(["POST"]);
+
+        $routeAfficherListePayeurs = new Route("/payeurs", [
+            "_controller" => ["payeur_controller", "afficherListe"]
+        ]);
+        $routeAfficherListePayeurs->setMethods(["GET"]);
+
+        $routeAfficherFormulaireMiseAJourPayeur = new Route("/mettreAJourPayeur/{idPayeur}", [
+            "_controller" => ["payeur_controller", "afficherFormulaireMiseAJour"]
+        ]);
+        $routeAfficherFormulaireMiseAJourPayeur->setMethods(["GET"]);
+
+        $routeMettreAJourPayeur = new Route("/mettreAJourPayeur/{idPayeur}", [
+            "_controller" => ["payeur_controller", "mettreAJour"]
+        ]);
+        $routeMettreAJourPayeur->setMethods(["POST"]);
+
+        $routeSupprimerPayeur = new Route("/supprimerPayeur/{idPayeur}", [
+            "_controller" => ["payeur_controller", "supprimer"]
+        ]);
+        $routeSupprimerPayeur->setMethods(["GET"]);
+
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
         $routes->add("gestion", $routeGestion);
@@ -531,6 +564,12 @@ class URLRouter
         $routes->add("afficherFormulaireMiseAJourStatut", $routeAfficherFormulaireMiseAJourStatut);
         $routes->add("mettreAJourStatut", $routeMettreAJourStatut);
         $routes->add("supprimerStatut", $routeSupprimerStatut);
+        $routes->add("afficherFormulaireCreationPayeur", $routeAfficherFormulaireCreationPayeur);
+        $routes->add("creerPayeurDepuisFormulaire", $routeCreerPayeurDepuisFormulaire);
+        $routes->add("afficherListePayeurs", $routeAfficherListePayeurs);
+        $routes->add("afficherFormulaireMiseAJourPayeur", $routeAfficherFormulaireMiseAJourPayeur);
+        $routes->add("mettreAJourPayeur", $routeMettreAJourPayeur);
+        $routes->add("supprimerPayeur", $routeSupprimerPayeur);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 

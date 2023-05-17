@@ -1,0 +1,25 @@
+{% extends "base.twig" %}
+
+{% block page_content %}
+    <div class="gestionListe">
+        <div class="titreEtBarreRecherche">
+            <h2>Liste des
+                payeurs</h2>
+        </div>
+        <div class="liste">
+            <ul class="description">
+                {% for payeur in payeurs %}
+                    <li>
+                        <p>{{ payeur.getLibPayeur }}</p>
+                        <a href="{{ route("afficherFormulaireMiseAJourPayeur", {idPayeur : payeur.getIdPayeur}) }}">
+                            <img src="{{ asset("../ressources/img/pencil.svg") }}" alt="update">
+                        </a>
+                        <a href="{{ route("supprimerPayeur", {idPayeur : payeur.getIdPayeur}) }}">
+                            <img src="{{ asset("../ressources/img/delete.svg") }}" alt="delete">
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

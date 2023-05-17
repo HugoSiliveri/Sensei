@@ -27,6 +27,21 @@ class Payeur extends AbstractDataObject
         return $this->libPayeur;
     }
 
+    /**
+     * @param int $idPayeur
+     */
+    public function setIdPayeur(int $idPayeur): void
+    {
+        $this->idPayeur = $idPayeur;
+    }
+
+    /**
+     * @param string $libPayeur
+     */
+    public function setLibPayeur(string $libPayeur): void
+    {
+        $this->libPayeur = $libPayeur;
+    }
 
     /**
      * @inheritDoc

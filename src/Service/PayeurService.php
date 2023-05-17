@@ -33,4 +33,27 @@ class PayeurService implements PayeurServiceInterface
             return $payeur;
         }
     }
+
+    public function creerPayeur(array $payeur) {
+        $this->payeurRepository->ajouterSansIdPayeur($payeur);
+    }
+
+    public function supprimerPayeur(int $idPayeur) {
+        $this->payeurRepository->supprimer($idPayeur);
+    }
+
+    /**
+     * @throws ServiceException
+     */
+    public function modifierPayeur(array $payeur) {
+        $objet = $this->payeurRepository->recupererParClePrimaire($payeur["idPayeur"]);
+        if (!isset($objet)){
+            throw new ServiceException("Aucun payeur trouvé pour cet identifiant !");
+        }
+
+        $objet->setIdPayeur($payeur["idPayeur"]);
+        $objet->setLibPayeur($payeur["libPayeur"]);
+
+        $this->payeurRepository->mettreAJour($objet);
+    }
 }
