@@ -6,7 +6,7 @@
             <div class="coteGauche">
                 <div class="miseEnPage">
                     <h2>Informations sur {{ intervenant.getPrenom }} {{ intervenant.getNom }}</h2>
-                    <a href="#">
+                    <a href="{{ route("afficherFormulaireMiseAJourIntervenant", {idIntervenant : intervenant.getIdIntervenant}) }}">
                         <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">
                     </a>
                 </div>
@@ -83,7 +83,9 @@
         </div>
         <div class="boutonValidationConteneur">
             <div class="boutonValidation">
-                <a href="{{ route("exporterEnCSV") }}">Exporter au format CSV</a>
+                <a href="{{ route("exporterEnCSV", {idIntervenant: intervenant.getIdIntervenant }) }}">
+                    Exporter au format CSV
+                </a>
                 <img id="download" src="{{ asset("../ressources/img/download.svg") }}" alt="download">
             </div>
         </div>

@@ -181,4 +181,43 @@ class IntervenantController extends GenericController
             return IntervenantController::rediriger("afficherListeIntervenants");
         }
     }
+
+    public function afficherFormulaireMiseAJour(int $idIntervenant): Response{
+        try {
+            $intervenant = $this->intervenantService->recupererParIdentifiant($idIntervenant);
+            return IntervenantController::afficherTwig("intervenant/mettreAJour.twig", ["intervenant" => $intervenant]);
+        } catch (ServiceException $exception){
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+            return IntervenantController::rediriger("accueil");
+        }
+    }
+
+    public function mettreAJour(): Response {
+        try {
+            $intervenant = [
+                "idIntervenant" => $_POST["idIntervenant"],
+                "nom" => strcmp($_POST["nom"], "") == 0 ? null : $_POST["nom"],
+                "prenom" => strcmp($_POST["prenom"], "") == 0 ? null : $_POST["prenom"],
+                "idIntervenantReferentiel" => strcmp($_POST["idIntervenantReferentiel"], "") == 0 ? null : $_POST["idIntervenantReferentiel"],
+                "idStatut" => $_POST["statut"],
+                "idDroit" => $_POST["droit"],
+                "emailInstitutionnel" => strcmp($_POST["emailInstitutionnel"], "") == 0 ? null : $_POST["emailInstitutionnel"],
+                "emailUsage" => strcmp($_POST["emailUsage"], "") == 0 ? null : $_POST["emailUsage"],
+                "deleted" => 0
+            ];
+            $this->intervenantService->modifierIntervenant($intervenant);
+            MessageFlash::ajouter("success", "L'intervenant a bien été modifié !");
+        } catch (ServiceException $exception){
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+        }
+        return IntervenantController::rediriger("accueil");
+    }
 }

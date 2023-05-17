@@ -159,7 +159,7 @@ class URLRouter
             new Reference('nature_service'), new Reference('coloration_service')]);
 
         $voeuController = $conteneur->register('voeu_controller', VoeuController::class);
-        $voeuController->setArguments([new Reference('voeu_service')]);
+        $voeuController->setArguments([new Reference('voeu_service'), new Reference('intervenant_service')]);
 
         $natureController = $conteneur->register('nature_controller', NatureController::class);
         $natureController->setArguments([new Reference('nature_service')]);
@@ -284,6 +284,16 @@ class URLRouter
         ]);
         $routeAfficherDetailIntervenant->setMethods(["GET"]);
 
+        $routeAfficherFormulaireMiseAJourIntervenant = new Route("/mettreAJourIntervenant/{idIntervenant}", [
+            "_controller" => ["intervenant_controller", "afficherFormulaireMiseAJour"]
+        ]);
+        $routeAfficherFormulaireMiseAJourIntervenant->setMethods(["GET"]);
+
+        $routeMettreAJourIntervenant = new Route("/mettreAJourIntervenant/{idIntervenant}", [
+            "_controller" => ["intervenant_controller", "mettreAJour"]
+        ]);
+        $routeMettreAJourIntervenant->setMethods(["POST"]);
+
         $routeAfficherListeUniteServices = new Route("/unitesServices", [
             "_controller" => ["unite_service_controller", "afficherListe"]
         ]);
@@ -299,7 +309,7 @@ class URLRouter
         ]);
         $routeAfficherDetailUniteService->setMethods(["GET"]);
 
-        $routeExporterEnCSVIntervenant = new Route("/export", [
+        $routeExporterEnCSVIntervenant = new Route("/export/{idIntervenant}", [
             "_controller" => ["voeu_controller", "exporterEnCSV"]
         ]);
         $routeExporterEnCSVIntervenant->setMethods(["GET"]);
@@ -570,6 +580,8 @@ class URLRouter
         $routes->add("afficherFormulaireMiseAJourPayeur", $routeAfficherFormulaireMiseAJourPayeur);
         $routes->add("mettreAJourPayeur", $routeMettreAJourPayeur);
         $routes->add("supprimerPayeur", $routeSupprimerPayeur);
+        $routes->add("afficherFormulaireMiseAJourIntervenant", $routeAfficherFormulaireMiseAJourIntervenant);
+        $routes->add("mettreAJourIntervenant", $routeMettreAJourIntervenant);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 

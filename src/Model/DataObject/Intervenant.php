@@ -102,6 +102,78 @@ class Intervenant extends AbstractDataObject
     }
 
     /**
+     * @param int $idIntervenant
+     */
+    public function setIdIntervenant(int $idIntervenant): void
+    {
+        $this->idIntervenant = $idIntervenant;
+    }
+
+    /**
+     * @param string|null $nom
+     */
+    public function setNom(?string $nom): void
+    {
+        $this->nom = $nom;
+    }
+
+    /**
+     * @param string|null $prenom
+     */
+    public function setPrenom(?string $prenom): void
+    {
+        $this->prenom = $prenom;
+    }
+
+    /**
+     * @param int|null $idStatut
+     */
+    public function setIdStatut(?int $idStatut): void
+    {
+        $this->idStatut = $idStatut;
+    }
+
+    /**
+     * @param int|null $idDroit
+     */
+    public function setIdDroit(?int $idDroit): void
+    {
+        $this->idDroit = $idDroit;
+    }
+
+    /**
+     * @param string|null $emailInstitutionnel
+     */
+    public function setEmailInstitutionnel(?string $emailInstitutionnel): void
+    {
+        $this->emailInstitutionnel = $emailInstitutionnel;
+    }
+
+    /**
+     * @param string|null $emailUsage
+     */
+    public function setEmailUsage(?string $emailUsage): void
+    {
+        $this->emailUsage = $emailUsage;
+    }
+
+    /**
+     * @param string|null $idIntervenantReferentiel
+     */
+    public function setIdIntervenantReferentiel(?string $idIntervenantReferentiel): void
+    {
+        $this->idIntervenantReferentiel = $idIntervenantReferentiel;
+    }
+
+    /**
+     * @param int|null $deleted
+     */
+    public function setDeleted(?int $deleted): void
+    {
+        $this->deleted = $deleted;
+    }
+
+    /**
      * @inheritDoc
      */
     public function exporterEnFormatRequetePreparee(): array

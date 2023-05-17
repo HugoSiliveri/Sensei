@@ -66,4 +66,26 @@ class IntervenantService implements IntervenantServiceInterface
     {
         $this->intervenantRepository->ajouterSansIdIntervenant($intervenant);
     }
+
+    /**
+     * @throws ServiceException
+     */
+    public function modifierIntervenant(array $intervenant) {
+        $objet = $this->intervenantRepository->recupererParClePrimaire($intervenant["idIntervenant"]);
+        if (!isset($objet)){
+            throw new ServiceException("Aucun intervenant trouvé pour cet identifiant !");
+        }
+
+        $objet->setIdIntervenant($intervenant["idIntervenant"]);
+        $objet->setNom($intervenant["nom"]);
+        $objet->setPrenom($intervenant["prenom"]);
+        $objet->setIdIntervenantReferentiel($intervenant["idIntervenantReferentiel"]);
+        $objet->setIdStatut($intervenant["idStatut"]);
+        $objet->setIdDroit($intervenant["idDroit"]);
+        $objet->setEmailInstitutionnel($intervenant["emailInstitutionnel"]);
+        $objet->setEmailUsage($intervenant["emailUsage"]);
+        $objet->setDeleted($intervenant["deleted"]);
+
+        $this->intervenantRepository->mettreAJour($objet);
+    }
 }
