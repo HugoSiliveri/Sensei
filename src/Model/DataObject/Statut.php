@@ -47,6 +47,30 @@ class Statut extends AbstractDataObject
     }
 
     /**
+     * @param int $idStatut
+     */
+    public function setIdStatut(int $idStatut): void
+    {
+        $this->idStatut = $idStatut;
+    }
+
+    /**
+     * @param string $libStatut
+     */
+    public function setLibStatut(string $libStatut): void
+    {
+        $this->libStatut = $libStatut;
+    }
+
+    /**
+     * @param float|null $nbHeures
+     */
+    public function setNbHeures(?float $nbHeures): void
+    {
+        $this->nbHeures = $nbHeures;
+    }
+
+    /**
      * @inheritDoc
      */
     public function exporterEnFormatRequetePreparee(): array

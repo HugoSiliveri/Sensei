@@ -30,7 +30,7 @@ class NatureController extends GenericController
         $this->natureService->creerNature($nature);
 
         MessageFlash::ajouter("success", "La nature a bien été créée !");
-        return NatureController::rediriger("gestion");
+        return NatureController::rediriger("accueil");
     }
 
     public function afficherListe(): Response{
@@ -49,7 +49,7 @@ class NatureController extends GenericController
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
         }
-        return NatureController::rediriger("afficherListeNatures");
+        return NatureController::rediriger("accueil");
     }
 
     public function afficherFormulaireMiseAJour(int $idNature): Response{
@@ -62,7 +62,7 @@ class NatureController extends GenericController
             } else {
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
-            return NatureController::rediriger("afficherListeNatures");
+            return NatureController::rediriger("accueil");
         }
     }
 
@@ -81,6 +81,6 @@ class NatureController extends GenericController
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
         }
-        return NatureController::rediriger("afficherListeNatures");
+        return NatureController::rediriger("accueil");
     }
 }

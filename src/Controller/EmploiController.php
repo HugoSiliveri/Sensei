@@ -29,7 +29,7 @@ class EmploiController extends GenericController
         $this->emploiService->creerEmploi($emploi);
 
         MessageFlash::ajouter("success", "L'emploi a bien été créé !");
-        return EmploiController::rediriger("gestion");
+        return EmploiController::rediriger("accueil");
     }
 
     public function afficherListe(): Response{
@@ -48,7 +48,7 @@ class EmploiController extends GenericController
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
         }
-        return EmploiController::rediriger("afficherListeEmplois");
+        return EmploiController::rediriger("accueil");
     }
 
     public function afficherFormulaireMiseAJour(int $idEmploi): Response{
@@ -61,7 +61,7 @@ class EmploiController extends GenericController
             } else {
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
-            return EmploiController::rediriger("afficherListeEmplois");
+            return EmploiController::rediriger("accueil");
         }
     }
 
@@ -80,6 +80,6 @@ class EmploiController extends GenericController
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
         }
-        return EmploiController::rediriger("afficherListeEmplois");
+        return EmploiController::rediriger("accueil");
     }
 }

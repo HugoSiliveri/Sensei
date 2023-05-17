@@ -46,7 +46,7 @@ class DepartementController extends GenericController
         $this->departementService->creerDepartement($departement);
 
         MessageFlash::ajouter("success", "Le departement a bien été créé !");
-        return DepartementController::rediriger("gestion");
+        return DepartementController::rediriger("accueil");
     }
 
     public function afficherListe(): Response{
@@ -65,7 +65,7 @@ class DepartementController extends GenericController
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
         }
-        return DepartementController::rediriger("afficherListeDepartements");
+        return DepartementController::rediriger("accueil");
     }
 
     public function afficherFormulaireMiseAJour(int $idDepartement): Response{
@@ -84,7 +84,7 @@ class DepartementController extends GenericController
             } else {
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
-            return DepartementController::rediriger("afficherListeDepartements");
+            return DepartementController::rediriger("accueil");
         }
     }
 
@@ -107,6 +107,6 @@ class DepartementController extends GenericController
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
         }
-        return DepartementController::rediriger("afficherListeDepartements");
+        return DepartementController::rediriger("accueil");
     }
 }

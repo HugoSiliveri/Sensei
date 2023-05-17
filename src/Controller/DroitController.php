@@ -30,7 +30,7 @@ class DroitController extends GenericController
         $this->droitService->creerDroit($droit);
 
         MessageFlash::ajouter("success", "Le droit a bien été créé !");
-        return DroitController::rediriger("gestion");
+        return DroitController::rediriger("accueil");
     }
 
     public function afficherListe(): Response{
@@ -49,7 +49,7 @@ class DroitController extends GenericController
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
         }
-        return DroitController::rediriger("afficherListeDroits");
+        return DroitController::rediriger("accueil");
     }
 
     public function afficherFormulaireMiseAJour(int $idDroit): Response{
@@ -62,7 +62,7 @@ class DroitController extends GenericController
             } else {
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
-            return DroitController::rediriger("afficherListeDroits");
+            return DroitController::rediriger("accueil");
         }
     }
 
@@ -81,6 +81,6 @@ class DroitController extends GenericController
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
         }
-        return DroitController::rediriger("afficherListeDroits");
+        return DroitController::rediriger("accueil");
     }
 }

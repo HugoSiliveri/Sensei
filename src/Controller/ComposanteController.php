@@ -33,7 +33,7 @@ class ComposanteController extends GenericController
         $this->composanteService->creerComposante($composante);
 
         MessageFlash::ajouter("success", "La composante a bien été créée !");
-        return ComposanteController::rediriger("gestion");
+        return ComposanteController::rediriger("accueil");
     }
 
     public function afficherListe(): Response{
@@ -52,7 +52,7 @@ class ComposanteController extends GenericController
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
         }
-        return ComposanteController::rediriger("afficherListeComposantes");
+        return ComposanteController::rediriger("accueil");
     }
 
     public function afficherFormulaireMiseAJour(int $idComposante): Response{
@@ -65,7 +65,7 @@ class ComposanteController extends GenericController
             } else {
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
-            return ComposanteController::rediriger("afficherListeComposantes");
+            return ComposanteController::rediriger("accueil");
         }
     }
 
@@ -86,6 +86,6 @@ class ComposanteController extends GenericController
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
         }
-        return ComposanteController::rediriger("afficherListeComposantes");
+        return ComposanteController::rediriger("accueil");
     }
 }

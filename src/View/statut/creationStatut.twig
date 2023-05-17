@@ -1,0 +1,23 @@
+{% extends "base.twig" %}
+
+{% block page_content %}
+    <div class="miseEnPage">
+        <form class="formCreation" method="post" action="#" enctype="multipart/form-data">
+            <fieldset class="fieldsetCreation">
+                <div>
+                    <label class="labelCreation" for="libStatut_id">Libellé</label>
+                    <input class="inputCreation" type="text" placeholder="permanent" name="libStatut"
+                           id="libStatut_id">
+                </div>
+                <div>
+                    <label class="labelCreation" for="nbHeures_id">Nombre d'heures</label>
+                    <input class="inputCreation" type="number" step="0.01" value="0" name="nbHeures"
+                           id="nbHeures_id">
+                </div>
+                <div class="boutonValidationConteneur conteneur">
+                    <input class="boutonValidation bouton" type="submit" value="Envoyer">
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

@@ -4,6 +4,7 @@ namespace App\Sensei\Model\Repository;
 
 use App\Sensei\Model\DataObject\AbstractDataObject;
 use App\Sensei\Model\DataObject\Statut;
+use PDOException;
 
 /**
  * @name StatutRepository
@@ -15,6 +16,25 @@ use App\Sensei\Model\DataObject\Statut;
  */
 class StatutRepository extends AbstractRepository
 {
+
+    public function ajouterSansIdStatut(array $statut){
+        try {
+            $sql = "INSERT INTO Statut(libStatut, nbHeures) VALUES (:libStatutTag, :nbHeuresTag)";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "libStatutTag" => $statut["libStatut"],
+                "nbHeuresTag" => $statut["nbHeures"]
+            );
+            $pdoStatement->execute($values);
+
+            return null;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors d'insertion dans la base de données.");
+        }
+    }
 
     /**
      * Retourne le nom de la table contenant les données de Statut.

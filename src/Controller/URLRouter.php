@@ -177,6 +177,9 @@ class URLRouter
         $emploiController = $conteneur->register('emploi_controller', EmploiController::class);
         $emploiController->setArguments([new Reference('emploi_service')]);
 
+        $statutController = $conteneur->register('statut_controller', StatutController::class);
+        $statutController->setArguments([new Reference('statut_service')]);
+
         $intervenantService = $conteneur->register('intervenant_service', IntervenantService::class);
         $intervenantService->setArguments([new Reference("intervenant_repository"), new Reference("connexion_utilisateur")]);
 
@@ -227,6 +230,9 @@ class URLRouter
 
         $etatService = $conteneur->register('etat_service', EtatService::class);
         $etatService->setArguments([new Reference('etat_repository')]);
+
+        $statutService = $conteneur->register('statut_service', StatutService::class);
+        $statutService->setArguments([new Reference('statut_repository')]);
 
         /* Instantiation d'une collection de routes */
         $routes = new RouteCollection();
@@ -445,6 +451,36 @@ class URLRouter
         ]);
         $routeSupprimerEmploi->setMethods(["GET"]);
 
+        $routeAfficherFormulaireCreationStatut = new Route("/creerStatut", [
+            "_controller" => ["statut_controller", "afficherFormulaireCreation"]
+        ]);
+        $routeAfficherFormulaireCreationStatut->setMethods(["GET"]);
+
+        $routeCreerStatutDepuisFormulaire = new Route("/creerStatut", [
+            "_controller" => ["statut_controller", "creerDepuisFormulaire"]
+        ]);
+        $routeCreerStatutDepuisFormulaire->setMethods(["POST"]);
+
+        $routeAfficherListeStatuts = new Route("/statuts", [
+            "_controller" => ["statut_controller", "afficherListe"]
+        ]);
+        $routeAfficherListeStatuts->setMethods(["GET"]);
+
+        $routeAfficherFormulaireMiseAJourStatut = new Route("/mettreAJourStatut/{idStatut}", [
+            "_controller" => ["statut_controller", "afficherFormulaireMiseAJour"]
+        ]);
+        $routeAfficherFormulaireMiseAJourStatut->setMethods(["GET"]);
+
+        $routeMettreAJourStatut = new Route("/mettreAJourStatut/{idStatut}", [
+            "_controller" => ["statut_controller", "mettreAJour"]
+        ]);
+        $routeMettreAJourStatut->setMethods(["POST"]);
+
+        $routeSupprimerStatut = new Route("/supprimerStatut/{idStatut}", [
+            "_controller" => ["statut_controller", "supprimer"]
+        ]);
+        $routeSupprimerStatut->setMethods(["GET"]);
+
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
         $routes->add("gestion", $routeGestion);
@@ -489,6 +525,12 @@ class URLRouter
         $routes->add("afficherFormulaireMiseAJourEmploi", $routeAfficherFormulaireMiseAJourEmploi);
         $routes->add("mettreAJourEmploi", $routeMettreAJourEmploi);
         $routes->add("supprimerEmploi", $routeSupprimerEmploi);
+        $routes->add("afficherFormulaireCreationStatut", $routeAfficherFormulaireCreationStatut);
+        $routes->add("creerStatutDepuisFormulaire", $routeCreerStatutDepuisFormulaire);
+        $routes->add("afficherListeStatuts", $routeAfficherListeStatuts);
+        $routes->add("afficherFormulaireMiseAJourStatut", $routeAfficherFormulaireMiseAJourStatut);
+        $routes->add("mettreAJourStatut", $routeMettreAJourStatut);
+        $routes->add("supprimerStatut", $routeSupprimerStatut);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 
