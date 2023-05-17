@@ -1,0 +1,121 @@
+{% extends "base.twig" %}
+
+{% block page_content %}
+    <div class="miseEnPage">
+        <form class="formCreation" method="post" action="#" enctype="multipart/form-data">
+            <fieldset class="fieldsetCreation">
+                <div>
+                    <label class="labelCreation" for="departement_id">Département</label>
+                    <select class="inputCreation" name="idDepartement" id="departement_id">
+                        {% set i = 1 %}
+                        {% for departement in departements %}
+                            <option value="{{ i }}">{{ departement.getLibDepartement }}</option>
+                            {% set i = i + 1 %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="labelCreation" for="lib_id">Unité de service associée</label>
+                    <input class="inputCreation" type="text" value="{{ uniteService.getLibUS }}" name="libUS"
+                           id="libUS_id" readonly>
+                </div>
+                <div>
+                    <label class="labelCreation" for="libUSA_id">Libellé</label>
+                    <input class="inputCreation" type="text" value="{{ uniteServiceAnnee.getLibUSA }}" name="libUSA"
+                           id="libUSA_id">
+                </div>
+                <div>
+                    <label class="labelCreation" for="millesime_id">Millesime</label>
+                    <input class="inputCreation" type="number" value="{{ uniteServiceAnnee.getMillesime }}" name="millesime"
+                           id="millesime_id" readonly>
+                </div>
+                <div>
+                    <label class="labelCreation" for="heuresCM_id">Nb heures de CM</label>
+                    <input class="inputCreation" type="number" step="0.01" value="{{ uniteServiceAnnee.getHeuresCM }}"
+                           name="heuresCM"
+                           id="heuresCM_id"
+                           required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="nbGroupesCM_id">Nb groupes de CM</label>
+                    <input class="inputCreation" type="number" value="{{ uniteServiceAnnee.getNbGroupesCM }}" name="nbGroupesCM" id="nbGroupesCM_id"
+                           required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="heuresTD_id">Nb heures de TD</label>
+                    <input class="inputCreation" type="number" step="0.01" value="{{ uniteServiceAnnee.getHeuresTD }}"
+                           name="heuresTD"
+                           id="heuresTD_id"
+                           required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="nbGroupesTD_id">Nb groupes de TD</label>
+                    <input class="inputCreation" type="number" value="{{ uniteServiceAnnee.getNbGroupesTD }}" name="nbGroupesTD" id="nbGroupesTD_id"
+                           required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="heuresTP_id">Nb heures de TP</label>
+                    <input class="inputCreation" type="number" step="0.01" value="{{ uniteServiceAnnee.getHeuresTP }}"
+                           name="heuresTP"
+                           id="heuresTP_id"
+                           required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="nbGroupesTP_id">Nb groupes de TP</label>
+                    <input class="inputCreation" type="number" value="{{ uniteServiceAnnee.getNbGroupesTP }}" name="nbGroupesTP" id="nbGroupesTP_id"
+                           required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="heuresStage_id">Nb heures de stage</label>
+                    <input class="inputCreation" type="number" step="0.01" value="{{ uniteServiceAnnee.getHeuresStage }}"
+                           name="heuresStage"
+                           id="heuresStage_id"
+                           required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="nbGroupesStage_id">Nb groupes de stage</label>
+                    <input class="inputCreation" type="number" value="{{ uniteServiceAnnee.getNbGroupesStage }}" name="nbGroupesStage"
+                           id="nbGroupesStage_id"
+                           required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="heuresTerrain_id">Nb heures de terrain</label>
+                    <input class="inputCreation" type="number" step="0.01" value="{{ uniteServiceAnnee.getHeuresTerrain }}"
+                           name="heuresTerrain"
+                           id="heuresTerrain_id" required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="nbGroupesTerrain_id">Nb groupes de terrain</label>
+                    <input class="inputCreation" type="number" value="{{ uniteServiceAnnee.getNbGroupesTerrain }}" name="nbGroupesTerrain"
+                           id="nbGroupesTerrain_id"
+                           required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="heuresInnovationPedagogique_id">Nb heures d'innovation
+                        pédagogique</label>
+                    <input class="inputCreation" type="number" value="{{ uniteServiceAnnee.getHeuresInnovationPedagogique }}"
+                           name="heuresInnovationPedagogique"
+                           id="heuresInnovationPedagogique_id" required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="nbGroupesInnovationPedagogique_id">Nb groupes d'innovation
+                        pédagogique</label>
+                    <input class="inputCreation" type="number" value="{{ uniteServiceAnnee.getNbGroupesInnovationPedagogique }}" name="nbGroupesInnovationPedagogique"
+                           id="nbGroupesInnovationPedagogique_id"
+                           required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="validite_id">Validite</label>
+                    <input class="inputCreation" type="number" value="{{ uniteServiceAnnee.getValidite }}" name="validite"
+                           id="validite_id">
+                </div>
+
+                <input type="hidden" name="idUniteServiceAnnee" value="{{ uniteServiceAnnee.getIdUniteServiceAnnee }}">
+                <input type="hidden" name="idUniteService" value="{{ uniteService.getIdUniteService }}">
+                <div class="boutonValidationConteneur conteneur">
+                    <input class="boutonValidation bouton" type="submit" value="Envoyer">
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

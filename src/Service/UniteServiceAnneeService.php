@@ -42,4 +42,36 @@ class UniteServiceAnneeService implements UniteServiceAnneeServiceInterface
     {
         $this->uniteServiceAnneeRepository->ajouterSansIdUniteServiceAnnee($uniteServiceAnnee);
     }
+
+    /**
+     * @throws ServiceException
+     */
+    public function modifierUniteServiceAnnee(array $uniteServiceAnnee) {
+        $objet = $this->uniteServiceAnneeRepository->recupererParClePrimaire($uniteServiceAnnee["idUniteServiceAnnee"]);
+        if (!isset($objet)){
+            throw new ServiceException("Aucune unité de service trouvée pour cet identifiant !");
+        }
+
+        $objet->setIdUniteServiceAnnee($uniteServiceAnnee["idUniteServiceAnnee"]);
+        $objet->setIdDepartement($uniteServiceAnnee["idDepartement"]);
+        $objet->setIdUniteService($uniteServiceAnnee["idUniteService"]);
+        $objet->setLibUSA($uniteServiceAnnee["libUSA"]);
+        $objet->setMillesime($uniteServiceAnnee["millesime"]);
+        $objet->setHeuresCM($uniteServiceAnnee["heuresCM"]);
+        $objet->setNbGroupesCM($uniteServiceAnnee["nbGroupesCM"]);
+        $objet->setHeuresTD($uniteServiceAnnee["heuresTD"]);
+        $objet->setNbGroupesTD($uniteServiceAnnee["nbGroupesTD"]);
+        $objet->setHeuresTP($uniteServiceAnnee["heuresTP"]);
+        $objet->setNbGroupesTP($uniteServiceAnnee["nbGroupesTP"]);
+        $objet->setHeuresStage($uniteServiceAnnee["heuresStage"]);
+        $objet->setNbGroupesStage($uniteServiceAnnee["nbGroupesStage"]);
+        $objet->setHeuresTerrain($uniteServiceAnnee["heuresTerrain"]);
+        $objet->setNbGroupesTerrain($uniteServiceAnnee["nbGroupesTerrain"]);
+        $objet->setHeuresInnovationPedagogique($uniteServiceAnnee["heuresInnovationPedagogique"]);
+        $objet->setNbGroupesInnovationPedagogique($uniteServiceAnnee["nbGroupesInnovationPedagogique"]);
+        $objet->setValidite($uniteServiceAnnee["validite"]);
+        $objet->setDeleted($uniteServiceAnnee["deleted"]);
+
+        $this->uniteServiceAnneeRepository->mettreAJour($objet);
+    }
 }

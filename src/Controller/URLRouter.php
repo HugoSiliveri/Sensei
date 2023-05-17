@@ -183,6 +183,10 @@ class URLRouter
         $payeurController = $conteneur->register('payeur_controller', PayeurController::class);
         $payeurController->setArguments([new Reference('payeur_service')]);
 
+        $uniteServiceAnneeController = $conteneur->register('unite_service_annee_controller', UniteServiceAnneeController::class);
+        $uniteServiceAnneeController->setArguments([new Reference('unite_service_annee_service'),
+            new Reference('unite_service_service'), new Reference('departement_service')]);
+
         $intervenantService = $conteneur->register('intervenant_service', IntervenantService::class);
         $intervenantService->setArguments([new Reference("intervenant_repository"), new Reference("connexion_utilisateur")]);
 
@@ -534,6 +538,16 @@ class URLRouter
         ]);
         $routeSupprimerPayeur->setMethods(["GET"]);
 
+        $routeAfficherFormulaireMiseAJourUniteServiceAnnee = new Route("/mettreAJourUniteServiceAnnee/{idUniteServiceAnnee}", [
+            "_controller" => ["unite_service_annee_controller", "afficherFormulaireMiseAJour"]
+        ]);
+        $routeAfficherFormulaireMiseAJourUniteServiceAnnee->setMethods(["GET"]);
+
+        $routeMettreAJourUniteServiceAnnee = new Route("/mettreAJourUniteServiceAnnee/{idUniteServiceAnnee}", [
+            "_controller" => ["unite_service_annee_controller", "mettreAJour"]
+        ]);
+        $routeMettreAJourUniteServiceAnnee->setMethods(["POST"]);
+
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
         $routes->add("gestion", $routeGestion);
@@ -594,6 +608,8 @@ class URLRouter
         $routes->add("mettreAJourIntervenant", $routeMettreAJourIntervenant);
         $routes->add("afficherFormulaireMiseAJourUniteService", $routeAfficherFormulaireMiseAJourUniteService);
         $routes->add("mettreAJourUniteService", $routeMettreAJourUniteService);
+        $routes->add("afficherFormulaireMiseAJourUniteServiceAnnee", $routeAfficherFormulaireMiseAJourUniteServiceAnnee);
+        $routes->add("mettreAJourUniteServiceAnnee", $routeMettreAJourUniteServiceAnnee);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 

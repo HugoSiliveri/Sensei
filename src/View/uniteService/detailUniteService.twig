@@ -85,7 +85,7 @@
                                         :</b> {{ uniteServiceAnnee.getHeuresInnovationPedagogique }}<b> / Nb groupes
                                         :</b> {{ uniteServiceAnnee.getNbGroupesInnovationPedagogique }}</li>
                             </ul>
-                            <a href="#">
+                            <a href="{{ route("afficherFormulaireMiseAJourUniteServiceAnnee", {idUniteServiceAnnee: uniteServiceAnnee.getIdUniteServiceAnnee}) }}">
                                 <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">
                             </a>
                         </div>

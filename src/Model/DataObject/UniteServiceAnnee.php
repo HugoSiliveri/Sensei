@@ -192,6 +192,158 @@ class UniteServiceAnnee extends AbstractDataObject
     }
 
     /**
+     * @param int $idUniteServiceAnnee
+     */
+    public function setIdUniteServiceAnnee(int $idUniteServiceAnnee): void
+    {
+        $this->idUniteServiceAnnee = $idUniteServiceAnnee;
+    }
+
+    /**
+     * @param int|null $idDepartement
+     */
+    public function setIdDepartement(?int $idDepartement): void
+    {
+        $this->idDepartement = $idDepartement;
+    }
+
+    /**
+     * @param int $idUniteService
+     */
+    public function setIdUniteService(int $idUniteService): void
+    {
+        $this->idUniteService = $idUniteService;
+    }
+
+    /**
+     * @param string|null $libUSA
+     */
+    public function setLibUSA(?string $libUSA): void
+    {
+        $this->libUSA = $libUSA;
+    }
+
+    /**
+     * @param int|null $millesime
+     */
+    public function setMillesime(?int $millesime): void
+    {
+        $this->millesime = $millesime;
+    }
+
+    /**
+     * @param float $heuresCM
+     */
+    public function setHeuresCM(float $heuresCM): void
+    {
+        $this->heuresCM = $heuresCM;
+    }
+
+    /**
+     * @param int $nbGroupesCM
+     */
+    public function setNbGroupesCM(int $nbGroupesCM): void
+    {
+        $this->nbGroupesCM = $nbGroupesCM;
+    }
+
+    /**
+     * @param float $heuresTD
+     */
+    public function setHeuresTD(float $heuresTD): void
+    {
+        $this->heuresTD = $heuresTD;
+    }
+
+    /**
+     * @param int $nbGroupesTD
+     */
+    public function setNbGroupesTD(int $nbGroupesTD): void
+    {
+        $this->nbGroupesTD = $nbGroupesTD;
+    }
+
+    /**
+     * @param float $heuresTP
+     */
+    public function setHeuresTP(float $heuresTP): void
+    {
+        $this->heuresTP = $heuresTP;
+    }
+
+    /**
+     * @param int $nbGroupesTP
+     */
+    public function setNbGroupesTP(int $nbGroupesTP): void
+    {
+        $this->nbGroupesTP = $nbGroupesTP;
+    }
+
+    /**
+     * @param float $heuresStage
+     */
+    public function setHeuresStage(float $heuresStage): void
+    {
+        $this->heuresStage = $heuresStage;
+    }
+
+    /**
+     * @param int $nbGroupesStage
+     */
+    public function setNbGroupesStage(int $nbGroupesStage): void
+    {
+        $this->nbGroupesStage = $nbGroupesStage;
+    }
+
+    /**
+     * @param float $heuresTerrain
+     */
+    public function setHeuresTerrain(float $heuresTerrain): void
+    {
+        $this->heuresTerrain = $heuresTerrain;
+    }
+
+    /**
+     * @param int $nbGroupesTerrain
+     */
+    public function setNbGroupesTerrain(int $nbGroupesTerrain): void
+    {
+        $this->nbGroupesTerrain = $nbGroupesTerrain;
+    }
+
+    /**
+     * @param float $heuresInnovationPedagogique
+     */
+    public function setHeuresInnovationPedagogique(float $heuresInnovationPedagogique): void
+    {
+        $this->heuresInnovationPedagogique = $heuresInnovationPedagogique;
+    }
+
+    /**
+     * @param int $nbGroupesInnovationPedagogique
+     */
+    public function setNbGroupesInnovationPedagogique(int $nbGroupesInnovationPedagogique): void
+    {
+        $this->nbGroupesInnovationPedagogique = $nbGroupesInnovationPedagogique;
+    }
+
+    /**
+     * @param int|null $validite
+     */
+    public function setValidite(?int $validite): void
+    {
+        $this->validite = $validite;
+    }
+
+    /**
+     * @param int|null $deleted
+     */
+    public function setDeleted(?int $deleted): void
+    {
+        $this->deleted = $deleted;
+    }
+
+    /**
      * @inheritDoc
      */
     public function exporterEnFormatRequetePreparee(): array
@@ -200,7 +352,7 @@ class UniteServiceAnnee extends AbstractDataObject
             "idUniteServiceAnneeTag" => $this->idUniteServiceAnnee,
             "idDepartementTag" => $this->idDepartement,
             "idUniteServiceTag" => $this->idUniteService,
-            "libelleTag" => $this->libUSA,
+            "libUSATag" => $this->libUSA,
             "millesimeTag" => $this->millesime,
             "heuresCMTag" => $this->heuresCM,
             "nbGroupesCMTag" => $this->nbGroupesCM,
@@ -213,7 +365,7 @@ class UniteServiceAnnee extends AbstractDataObject
             "heuresTerrainTag" => $this->heuresTerrain,
             "nbGroupesTerrainTag" => $this->nbGroupesTerrain,
             "heuresInnovationPedagogiqueTag" => $this->heuresInnovationPedagogique,
-            "nbGroupesInnovationPedahogiqueTag" => $this->nbGroupesInnovationPedagogique,
+            "nbGroupesInnovationPedagogiqueTag" => $this->nbGroupesInnovationPedagogique,
             "validiteTag" => $this->validite,
             "deletedTag" => $this->deleted
         ];

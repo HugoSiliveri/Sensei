@@ -86,7 +86,7 @@ class UniteServiceService implements UniteServiceServiceInterface
     public function modifierUniteService(array $uniteService) {
         $objet = $this->uniteServiceRepository->recupererParClePrimaire($uniteService["idUniteService"]);
         if (!isset($objet)){
-            throw new ServiceException("Aucun uniteService trouvé pour cet identifiant !");
+            throw new ServiceException("Aucune unité de service trouvée pour cet identifiant !");
         }
 
         $objet->setIdUniteService($uniteService["idUniteService"]);
