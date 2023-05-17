@@ -1,0 +1,150 @@
+{% extends "base.twig" %}
+
+{% block page_content %}
+    <div class="miseEnPage">
+        <form class="formCreation" method="post" action="#" enctype="multipart/form-data">
+            <fieldset class="fieldsetCreation">
+                <div>
+                    <label class="labelCreation" for="idUSReferentiel_id">Identifiant référentiel</label>
+                    <input class="inputCreation" type="text" value="{{ uniteService.getIdUSReferentiel }}"
+                           name="idUSReferentiel"
+                           id="idUSReferentiel_id">
+                </div>
+                <div>
+                    <label class="labelCreation" for="libUS_id">Libellé</label>
+                    <input class="inputCreation" type="text" value="{{ uniteService.getLibUS }}" name="libUS"
+                           id="libUS_id">
+                </div>
+                <div>
+                    <label class="labelCreation" for="nature_id">Nature</label>
+                    <select class="inputCreation" name="nature" id="nature_id">
+                        <option value="1" selected>UE (Unité d'enseignement)</option>
+                        <option value="2">UR (Unité référentiel)</option>
+                        <option value="4">DE (Décharge)</option>
+
+                    </select>
+                </div>
+                <div>
+                    <label class="labelCreation" for="ancetre_id">Ancêtre</label>
+                    <input class="inputCreation" type="text" placeholder="Chercher une unité de service"
+                           name="ancetre" id="ancetre_id" data-inputfun="autocompUS.requeteAJAX()">
+                    <div class="conteneurAutoComp">
+                        <div class="autocompletion" data-inputfun="autocompUS.requeteAJAX()"
+                             data-htmlvar="autocompUS.suggestions_str"></div>
+                    </div>
+                </div>
+                <div>
+                    <label class="labelCreation" for="anneeOuverture_id">Année d'ouverture</label>
+                    <input class="inputCreation" type="text" value="{{ uniteService.getAnneeOuverture }}"
+                           name="anneeOuverture"
+                           id="anneeOuverture_id">
+                </div>
+                <div>
+                    <label class="labelCreation" for="anneeCloture_id">Année de clôture</label>
+                    <input class="inputCreation" type="text" value="{{ uniteService.getAnneeCloture }}"
+                           name="anneeCloture"
+                           id="anneeCloture_id">
+                </div>
+                <div>
+                    <label class="labelCreation" for="ECTS_id">ECTS</label>
+                    <input class="inputCreation" type="number" value="{{ uniteService.getECTS }}" name="ECTS"
+                           id="ECTS_id">
+                </div>
+                <div>
+                    <label class="labelCreation" for="heuresCM_id">Nb heures de CM</label>
+                    <input class="inputCreation" type="number" step="0.01" value="{{ uniteService.getHeuresCM }}"
+                           name="heuresCM"
+                           id="heuresCM_id"
+                           required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="heuresTD_id">Nb heures de TD</label>
+                    <input class="inputCreation" type="number" step="0.01" value="{{ uniteService.getHeuresTD }}"
+                           name="heuresTD"
+                           id="heuresTD_id"
+                           required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="heuresTP_id">Nb heures de TP</label>
+                    <input class="inputCreation" type="number" step="0.01" value="{{ uniteService.getHeuresTP }}"
+                           name="heuresTP"
+                           id="heuresTP_id"
+                           required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="heuresStage_id">Nb heures de stage</label>
+                    <input class="inputCreation" type="number" step="0.01" value="{{ uniteService.getHeuresStage }}"
+                           name="heuresStage"
+                           id="heuresStage_id"
+                           required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="heuresTerrain_id">Nb heures de terrain</label>
+                    <input class="inputCreation" type="number" step="0.01" value="{{ uniteService.getHeuresTerrain }}"
+                           name="heuresTerrain"
+                           id="heuresTerrain_id" required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="heuresInnovationPedagogique_id">Nb heures d'innovation
+                        pédagogique</label>
+                    <input class="inputCreation" type="number" value="{{ uniteService.getHeuresInnovationPedagogique }}"
+                           name="heuresInnovationPedagogique"
+                           id="heuresInnovationPedagogique_id" required>
+                </div>
+                <div>
+                    <label class="labelCreation" for="semestre_id">Semestre</label>
+                    <select class="inputCreation" name="semestre" id="semestre_id">
+                        <option value="0">LS1</option>
+                        <option value="1">LS2</option>
+                        <option value="2">LS3</option>
+                        <option value="3">LS4</option>
+                        <option value="4">LS5</option>
+                        <option value="5">LS6</option>
+                        <option value="6">MS1</option>
+                        <option value="7">MS2</option>
+                        <option value="8">MS3</option>
+                        <option value="9">MS4</option>
+                        <option value="12" selected>N/A</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="labelCreation" for="saison_id">Saison</label>
+                    <select class="inputCreation" name="saison" id="saison_id">
+                        <option value="0">Printemps</option>
+                        <option value="1">Automne</option>
+                        <option value="2" selected>Annuel</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="labelCreation" for="payeur_id">Payeur</label>
+                    <select class="inputCreation" name="idPayeur" id="payeur_id">
+                        {% set i = 1 %}
+                        {% for payeur in payeurs %}
+                            <option value="{{ i }}">{{ payeur.getLibPayeur }}</option>
+                            {% set i = i + 1 %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="labelCreation" for="appartenir_id">Affiliation de l'unité</label>
+                    <select class="inputCreation" name="appartenir" id="appartenir_id">
+                        {% set i = 1 %}
+                        {% for departement in departements %}
+                            <option value="{{ i }}">{{ departement.getLibDepartement }}</option>
+                            {% set i = i + 1 %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="labelCreation" for="validite_id">Validite</label>
+                    <input class="inputCreation" type="number" value="{{ uniteService.getValidite }}" name="validite"
+                           id="validite_id">
+                </div>
+                <input type="hidden" name="idUniteService" value="{{ uniteService.getIdUniteService }}">
+                <div class="boutonValidationConteneur conteneur">
+                    <input class="boutonValidation bouton" type="submit" value="Envoyer">
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

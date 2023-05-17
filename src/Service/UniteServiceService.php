@@ -80,4 +80,36 @@ class UniteServiceService implements UniteServiceServiceInterface
         return $result;
     }
 
+    /**
+     * @throws ServiceException
+     */
+    public function modifierUniteService(array $uniteService) {
+        $objet = $this->uniteServiceRepository->recupererParClePrimaire($uniteService["idUniteService"]);
+        if (!isset($objet)){
+            throw new ServiceException("Aucun uniteService trouvé pour cet identifiant !");
+        }
+
+        $objet->setIdUniteService($uniteService["idUniteService"]);
+        $objet->setIdUSReferentiel($uniteService["idUSReferentiel"]);
+        $objet->setLibUS($uniteService["libUS"]);
+        $objet->setNature($uniteService["nature"]);
+        $objet->setAncetre($uniteService["ancetre"]);
+        $objet->setAnneeOuverture($uniteService["anneeOuverture"]);
+        $objet->setAnneeCloture($uniteService["anneeCloture"]);
+        $objet->setECTS($uniteService["ECTS"]);
+        $objet->setHeuresCM($uniteService["heuresCM"]);
+        $objet->setHeuresTD($uniteService["heuresTD"]);
+        $objet->setHeuresTP($uniteService["heuresTP"]);
+        $objet->setHeuresStage($uniteService["heuresStage"]);
+        $objet->setHeuresTerrain($uniteService["heuresTerrain"]);
+        $objet->setHeuresInnovationPedagogique($uniteService["heuresInnovationPedagogique"]);
+        $objet->setSemestre($uniteService["semestre"]);
+        $objet->setSaison($uniteService["saison"]);
+        $objet->setIdPayeur($uniteService["idPayeur"]);
+        $objet->setValidite($uniteService["validite"]);
+        $objet->setDeleted($uniteService["deleted"]);
+
+        $this->uniteServiceRepository->mettreAJour($objet);
+    }
+
 }

@@ -314,6 +314,16 @@ class URLRouter
         ]);
         $routeExporterEnCSVIntervenant->setMethods(["GET"]);
 
+        $routeAfficherFormulaireMiseAJourUniteService = new Route("/mettreAJourUniteService/{idUniteService}", [
+            "_controller" => ["unite_service_controller", "afficherFormulaireMiseAJour"]
+        ]);
+        $routeAfficherFormulaireMiseAJourUniteService->setMethods(["GET"]);
+
+        $routeMettreAJourUniteService = new Route("/mettreAJourUniteService/{idUniteService}", [
+            "_controller" => ["unite_service_controller", "mettreAJour"]
+        ]);
+        $routeMettreAJourUniteService->setMethods(["POST"]);
+
         $routeAfficherFormulaireCreationNature = new Route("/creerNature", [
             "_controller" => ["nature_controller", "afficherFormulaireCreation"]
         ]);
@@ -582,6 +592,8 @@ class URLRouter
         $routes->add("supprimerPayeur", $routeSupprimerPayeur);
         $routes->add("afficherFormulaireMiseAJourIntervenant", $routeAfficherFormulaireMiseAJourIntervenant);
         $routes->add("mettreAJourIntervenant", $routeMettreAJourIntervenant);
+        $routes->add("afficherFormulaireMiseAJourUniteService", $routeAfficherFormulaireMiseAJourUniteService);
+        $routes->add("mettreAJourUniteService", $routeMettreAJourUniteService);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 

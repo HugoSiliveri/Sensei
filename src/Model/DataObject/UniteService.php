@@ -191,6 +191,158 @@ class UniteService extends AbstractDataObject
     }
 
     /**
+     * @param int $idUniteService
+     */
+    public function setIdUniteService(int $idUniteService): void
+    {
+        $this->idUniteService = $idUniteService;
+    }
+
+    /**
+     * @param string|null $idUSReferentiel
+     */
+    public function setIdUSReferentiel(?string $idUSReferentiel): void
+    {
+        $this->idUSReferentiel = $idUSReferentiel;
+    }
+
+    /**
+     * @param string|null $libUS
+     */
+    public function setLibUS(?string $libUS): void
+    {
+        $this->libUS = $libUS;
+    }
+
+    /**
+     * @param string|null $nature
+     */
+    public function setNature(?string $nature): void
+    {
+        $this->nature = $nature;
+    }
+
+    /**
+     * @param int|null $ancetre
+     */
+    public function setAncetre(?int $ancetre): void
+    {
+        $this->ancetre = $ancetre;
+    }
+
+    /**
+     * @param int|null $anneeOuverture
+     */
+    public function setAnneeOuverture(?int $anneeOuverture): void
+    {
+        $this->anneeOuverture = $anneeOuverture;
+    }
+
+    /**
+     * @param int|null $anneeCloture
+     */
+    public function setAnneeCloture(?int $anneeCloture): void
+    {
+        $this->anneeCloture = $anneeCloture;
+    }
+
+    /**
+     * @param float|null $ECTS
+     */
+    public function setECTS(?float $ECTS): void
+    {
+        $this->ECTS = $ECTS;
+    }
+
+    /**
+     * @param float $heuresCM
+     */
+    public function setHeuresCM(float $heuresCM): void
+    {
+        $this->heuresCM = $heuresCM;
+    }
+
+    /**
+     * @param float $heuresTD
+     */
+    public function setHeuresTD(float $heuresTD): void
+    {
+        $this->heuresTD = $heuresTD;
+    }
+
+    /**
+     * @param float $heuresTP
+     */
+    public function setHeuresTP(float $heuresTP): void
+    {
+        $this->heuresTP = $heuresTP;
+    }
+
+    /**
+     * @param float $heuresStage
+     */
+    public function setHeuresStage(float $heuresStage): void
+    {
+        $this->heuresStage = $heuresStage;
+    }
+
+    /**
+     * @param float $heuresTerrain
+     */
+    public function setHeuresTerrain(float $heuresTerrain): void
+    {
+        $this->heuresTerrain = $heuresTerrain;
+    }
+
+    /**
+     * @param float $heuresInnovationPedagogique
+     */
+    public function setHeuresInnovationPedagogique(float $heuresInnovationPedagogique): void
+    {
+        $this->heuresInnovationPedagogique = $heuresInnovationPedagogique;
+    }
+
+    /**
+     * @param int $semestre
+     */
+    public function setSemestre(int $semestre): void
+    {
+        $this->semestre = $semestre;
+    }
+
+    /**
+     * @param int $saison
+     */
+    public function setSaison(int $saison): void
+    {
+        $this->saison = $saison;
+    }
+
+    /**
+     * @param int $idPayeur
+     */
+    public function setIdPayeur(int $idPayeur): void
+    {
+        $this->idPayeur = $idPayeur;
+    }
+
+    /**
+     * @param int|null $validite
+     */
+    public function setValidite(?int $validite): void
+    {
+        $this->validite = $validite;
+    }
+
+    /**
+     * @param int|null $deleted
+     */
+    public function setDeleted(?int $deleted): void
+    {
+        $this->deleted = $deleted;
+    }
+
+    /**
      * @inheritDoc
      */
     public function exporterEnFormatRequetePreparee(): array

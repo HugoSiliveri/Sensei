@@ -234,4 +234,66 @@ class UniteServiceController extends GenericController
             return UniteServiceController::rediriger("afficherListeUnitesServices");
         }
     }
+
+    public function afficherFormulaireMiseAJour(int $idUniteService): Response
+    {
+        $uniteService = $this->uniteServiceService->recupererParIdentifiant($idUniteService);
+        $payeurs = $this->payeurService->recupererPayeurs();
+        $departements = $this->departementService->recupererDepartements();
+        return UniteServiceController::afficherTwig("uniteService/mettreAJour.twig", [
+            "uniteService" => $uniteService,
+            "payeurs" => $payeurs,
+            "departements" => $departements]);
+    }
+
+    public function mettreAJour(): Response {
+        try {
+            $ancetre = $_POST["ancetre"];
+
+            if ($ancetre != "") {
+                $idAncetre = $this->uniteServiceService->rechercherUniteService($ancetre)->getIdUniteService();
+            } else {
+                $idAncetre = null;
+            }
+
+            $idUSReferentiel = $_POST["idUSReferentiel"];
+            $libUS = $_POST["libUS"];
+            $nature = $_POST["nature"];
+            $anneeOuverture = $_POST["anneeOuverture"];
+            $anneeCloture = $_POST["anneeCloture"];
+            $ECTS = $_POST["ECTS"];
+            $validite = $_POST["validite"];
+
+            $uniteService = [
+                "idUniteService" => $_POST["idUniteService"],
+                "idUSReferentiel" => strcmp($idUSReferentiel, "") == 0 ? null : $idUSReferentiel,
+                "libUS" => strcmp($libUS, "") == 0 ? null : $libUS,
+                "nature" => strcmp($nature, "") == 0 ? null : $nature,
+                "ancetre" => $idAncetre,
+                "anneeOuverture" => strcmp($anneeOuverture, "") == 0 ? null : $anneeOuverture,
+                "anneeCloture" => strcmp($anneeCloture, "") == 0 ? null : $anneeCloture,
+                "ECTS" => strcmp($ECTS, "") == 0 ? null : $ECTS,
+                "heuresCM" => $_POST["heuresCM"],
+                "heuresTD" => $_POST["heuresTD"],
+                "heuresTP" => $_POST["heuresTP"],
+                "heuresStage" => $_POST["heuresStage"],
+                "heuresTerrain" => $_POST["heuresTerrain"],
+                "heuresInnovationPedagogique" => $_POST["heuresInnovationPedagogique"],
+                "semestre" => $_POST["semestre"],
+                "saison" => $_POST["saison"],
+                "idPayeur" => $_POST["idPayeur"],
+                "validite" => strcmp($validite, "") == 0 ? null : $validite,
+                "deleted" => 0,
+            ];
+            $this->uniteServiceService->modifierUniteService($uniteService);
+            MessageFlash::ajouter("success", "L'unite de service a bien été modifiée !");
+        } catch (ServiceException $exception){
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+        }
+        return IntervenantController::rediriger("accueil");
+    }
 }

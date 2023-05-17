@@ -6,7 +6,7 @@
             <div class="coteGauche">
                 <div class="miseEnPage">
                     <h2>Informations sur {{ uniteService.getIdUSReferentiel }}</h2>
-                    <a href="#">
+                    <a href="{{ route("afficherFormulaireMiseAJourUniteService", {idUniteService: uniteService.getIdUniteService}) }}">
                         <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">
                     </a>
                 </div>
