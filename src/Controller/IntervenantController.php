@@ -4,6 +4,7 @@ namespace App\Sensei\Controller;
 
 use App\Sensei\Lib\ConnexionUtilisateurInterface;
 use App\Sensei\Lib\MessageFlash;
+use App\Sensei\Service\DeclarationServiceServiceInterface;
 use App\Sensei\Service\DepartementServiceInterface;
 use App\Sensei\Service\DroitServiceInterface;
 use App\Sensei\Service\EmploiServiceInterface;
@@ -34,6 +35,7 @@ class IntervenantController extends GenericController
         private readonly InterventionServiceInterface      $interventionService,
         private readonly VoeuServiceInterface              $voeuService,
         private readonly ResponsableUSServiceInterface     $responsableUSService,
+        private readonly DeclarationServiceServiceInterface $declarationServiceService,
         private readonly ConnexionUtilisateurInterface     $connexionUtilisateur
     )
     {
@@ -64,6 +66,7 @@ class IntervenantController extends GenericController
             $droit = $this->droitService->recupererParIdentifiant($intervenant->getIdDroit());
 
             $servicesAnnuels = $this->serviceAnnuelService->recupererParIntervenant($idIntervenant);
+
             $emplois = [];
             $departements = [];
             foreach ($servicesAnnuels as $serviceAnnuel) {
@@ -71,7 +74,8 @@ class IntervenantController extends GenericController
                 $departements[] = $this->departementService->recupererParIdentifiant($serviceAnnuel->getIdDepartement());
             }
 
-            $voeux = $this->voeuService->recupererVueParIntervenant($idIntervenant);
+            //$voeux = $this->voeuService->recupererVueParIntervenant($idIntervenant);
+            $declarationsServices = $this->declarationServiceService->recupererVueParIntervenant($idIntervenant);
 
             $parametres = [
                 "intervenant" => $intervenant,
@@ -80,7 +84,8 @@ class IntervenantController extends GenericController
                 "servicesAnnuels" => $servicesAnnuels,
                 "emplois" => $emplois,
                 "departements" => $departements,
-                "voeux" => $voeux];
+                "declarationsServices" => $declarationsServices
+            ];
 
             return IntervenantController::afficherTwig("intervenant/detailIntervenant.twig", $parametres);
         } catch (ServiceException|TypeError $exception) {

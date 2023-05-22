@@ -9,6 +9,7 @@ use App\Sensei\Model\Repository\AppartenirRepository;
 use App\Sensei\Model\Repository\ColorationRepository;
 use App\Sensei\Model\Repository\ComposanteRepository;
 use App\Sensei\Model\Repository\ConnexionBaseDeDonnees;
+use App\Sensei\Model\Repository\DeclarationServiceRepository;
 use App\Sensei\Model\Repository\DepartementRepository;
 use App\Sensei\Model\Repository\DroitRepository;
 use App\Sensei\Model\Repository\EmploiRepository;
@@ -26,6 +27,7 @@ use App\Sensei\Model\Repository\VoeuRepository;
 use App\Sensei\Service\AppartenirService;
 use App\Sensei\Service\ColorationService;
 use App\Sensei\Service\ComposanteService;
+use App\Sensei\Service\DeclarationServiceService;
 use App\Sensei\Service\DepartementService;
 use App\Sensei\Service\DroitService;
 use App\Sensei\Service\EmploiService;
@@ -143,6 +145,9 @@ class URLRouter
         $etatRepository = $conteneur->register('etat_repository', EtatRepository::class);
         $etatRepository->setArguments([new Reference('connexion_base')]);
 
+        $declarationServiceRepository = $conteneur->register('declaration_service_repository', DeclarationServiceRepository::class);
+        $declarationServiceRepository->setArguments([new Reference('connexion_base')]);
+
         $connexionUtilisateur = $conteneur->register('connexion_utilisateur', ConnexionUtilisateur::class);
         $connexionUtilisateur->setArguments([new Reference('intervenant_repository')]);
 
@@ -150,13 +155,14 @@ class URLRouter
         $intervenantController->setArguments([new Reference('intervenant_service'), new Reference('statut_service'),
             new Reference('droit_service'), new Reference('service_annuel_service'), new Reference('emploi_service'),
             new Reference('departement_service'), new Reference('unite_service_service'), new Reference('unite_service_annee_service'), new Reference('intervention_service'),
-            new Reference('voeu_service'), new Reference('responsable_us_service'), new Reference('connexion_utilisateur')]);
+            new Reference('voeu_service'), new Reference('responsable_us_service'), new Reference('declaration_service_service'),
+            new Reference('connexion_utilisateur')]);
 
         $uniteServiceController = $conteneur->register('unite_service_controller', UniteServiceController::class);
         $uniteServiceController->setArguments([new Reference('unite_service_service'), new Reference('unite_service_annee_service'),
             new Reference('voeu_service'), new Reference('intervenant_service'), new Reference('intervention_service'),
             new Reference('payeur_service'), new Reference('departement_service'), new Reference('appartenir_service'),
-            new Reference('nature_service'), new Reference('coloration_service')]);
+            new Reference('nature_service'), new Reference('coloration_service'), new Reference('declaration_service_service')]);
 
         $voeuController = $conteneur->register('voeu_controller', VoeuController::class);
         $voeuController->setArguments([new Reference('voeu_service'), new Reference('intervenant_service')]);
@@ -243,6 +249,9 @@ class URLRouter
 
         $statutService = $conteneur->register('statut_service', StatutService::class);
         $statutService->setArguments([new Reference('statut_repository')]);
+
+        $declarationServiceService = $conteneur->register('declaration_service_service', DeclarationServiceService::class);
+        $declarationServiceService->setArguments([new Reference('declaration_service_repository')]);
 
         /* Instantiation d'une collection de routes */
         $routes = new RouteCollection();
