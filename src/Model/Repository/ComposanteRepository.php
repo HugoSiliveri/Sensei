@@ -17,7 +17,8 @@ use PDOException;
 class ComposanteRepository extends AbstractRepository
 {
 
-    public function ajouterSansIdComposante(array $composante) {
+    public function ajouterSansIdComposante(array $composante)
+    {
         try {
             $sql = "INSERT INTO Composante(libComposante, anneeDeTravail, anneeDeValidation) 
             VALUES (:libComposanteTag, :anneeDeTravailTag, :anneeDeValidationTag)";

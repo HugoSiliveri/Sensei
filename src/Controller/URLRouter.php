@@ -42,6 +42,8 @@ use App\Sensei\Service\StatutService;
 use App\Sensei\Service\UniteServiceAnneeService;
 use App\Sensei\Service\UniteServiceService;
 use App\Sensei\Service\VoeuService;
+use LogicException;
+use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
@@ -164,8 +166,8 @@ class URLRouter
             new Reference('payeur_service'), new Reference('departement_service'), new Reference('appartenir_service'),
             new Reference('nature_service'), new Reference('coloration_service'), new Reference('declaration_service_service')]);
 
-        $voeuController = $conteneur->register('voeu_controller', VoeuController::class);
-        $voeuController->setArguments([new Reference('voeu_service'), new Reference('intervenant_service')]);
+        $declarationServiceController = $conteneur->register('declaration_service_controller', DeclarationServiceController::class);
+        $declarationServiceController->setArguments([new Reference('declaration_service_service'), new Reference('intervenant_service')]);
 
         $natureController = $conteneur->register('nature_controller', NatureController::class);
         $natureController->setArguments([new Reference('nature_service')]);
@@ -193,7 +195,7 @@ class URLRouter
         $uniteServiceAnneeController->setArguments([new Reference('unite_service_annee_service'),
             new Reference('unite_service_service'), new Reference('departement_service')]);
 
-        $etatController =  $conteneur->register('etat_controller', EtatController::class);
+        $etatController = $conteneur->register('etat_controller', EtatController::class);
         $etatController->setArguments([new Reference('etat_service')]);
 
         $intervenantService = $conteneur->register('intervenant_service', IntervenantService::class);
@@ -262,7 +264,7 @@ class URLRouter
         ]);
 
         $routeGestion = new Route("/gestion", [
-           "_controller" => ["intervenant_controller", "afficherGestion"]
+            "_controller" => ["intervenant_controller", "afficherGestion"]
         ]);
 
         $routeAfficherListeIntervenants = new Route("/intervenants", [
@@ -326,7 +328,7 @@ class URLRouter
         $routeAfficherDetailUniteService->setMethods(["GET"]);
 
         $routeExporterEnCSVIntervenant = new Route("/export/{idIntervenant}", [
-            "_controller" => ["voeu_controller", "exporterEnCSV"]
+            "_controller" => ["declaration_service_controller", "exporterEnCSV"]
         ]);
         $routeExporterEnCSVIntervenant->setMethods(["GET"]);
 
@@ -690,7 +692,7 @@ class URLRouter
             $resolveurDeControleur = new ContainerControllerResolver($conteneur);
 
             /**
-             * @throws \LogicException If a controller was found based on the request but it is not callable
+             * @throws LogicException If a controller was found based on the request but it is not callable
              */
             $controleur = $resolveurDeControleur->getController($requete);
 
@@ -698,7 +700,7 @@ class URLRouter
             $resolveurDArguments = new ArgumentResolver();
 
             /**
-             * @throws \RuntimeException When no value could be provided for a required argument
+             * @throws RuntimeException When no value could be provided for a required argument
              */
             $arguments = $resolveurDArguments->getArguments($requete, $controleur);
 

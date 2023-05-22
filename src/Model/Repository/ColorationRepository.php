@@ -42,6 +42,18 @@ class ColorationRepository extends AbstractRepository
         }
     }
 
+    /** Construit un objet Coloration à partir d'un tableau donné en paramètre.
+     * @param array $objetFormatTableau
+     * @return Coloration
+     */
+    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
+    {
+        return new Coloration(
+            $objetFormatTableau["idDepartement"],
+            $objetFormatTableau["idUniteServiceAnnee"]
+        );
+    }
+
     /**
      * Retourne le nom de la table contenant les données de Coloration.
      * @return string
@@ -67,17 +79,5 @@ class ColorationRepository extends AbstractRepository
     protected function getNomsColonnes(): array
     {
         return ["idDepartement", "idUniteServiceAnnee"];
-    }
-
-    /** Construit un objet Coloration à partir d'un tableau donné en paramètre.
-     * @param array $objetFormatTableau
-     * @return Coloration
-     */
-    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
-    {
-        return new Coloration(
-            $objetFormatTableau["idDepartement"],
-            $objetFormatTableau["idUniteServiceAnnee"]
-        );
     }
 }

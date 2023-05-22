@@ -34,20 +34,23 @@ class PayeurService implements PayeurServiceInterface
         }
     }
 
-    public function creerPayeur(array $payeur) {
+    public function creerPayeur(array $payeur)
+    {
         $this->payeurRepository->ajouterSansIdPayeur($payeur);
     }
 
-    public function supprimerPayeur(int $idPayeur) {
+    public function supprimerPayeur(int $idPayeur)
+    {
         $this->payeurRepository->supprimer($idPayeur);
     }
 
     /**
      * @throws ServiceException
      */
-    public function modifierPayeur(array $payeur) {
+    public function modifierPayeur(array $payeur)
+    {
         $objet = $this->payeurRepository->recupererParClePrimaire($payeur["idPayeur"]);
-        if (!isset($objet)){
+        if (!isset($objet)) {
             throw new ServiceException("Aucun payeur trouvé pour cet identifiant !");
         }
 

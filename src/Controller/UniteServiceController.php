@@ -5,6 +5,7 @@ namespace App\Sensei\Controller;
 use App\Sensei\Lib\MessageFlash;
 use App\Sensei\Service\AppartenirServiceInterface;
 use App\Sensei\Service\ColorationServiceInterface;
+use App\Sensei\Service\DeclarationServiceServiceInterface;
 use App\Sensei\Service\DepartementServiceInterface;
 use App\Sensei\Service\Exception\ServiceException;
 use App\Sensei\Service\IntervenantServiceInterface;
@@ -20,16 +21,17 @@ use TypeError;
 class UniteServiceController extends GenericController
 {
     public function __construct(
-        private readonly UniteServiceServiceInterface      $uniteServiceService,
-        private readonly UniteServiceAnneeServiceInterface $uniteServiceAnneeService,
-        private readonly VoeuServiceInterface              $voeuService,
-        private readonly IntervenantServiceInterface       $intervenantService,
-        private readonly InterventionServiceInterface      $interventionService,
-        private readonly PayeurServiceInterface            $payeurService,
-        private readonly DepartementServiceInterface       $departementService,
-        private readonly AppartenirServiceInterface        $appartenirService,
-        private readonly NatureServiceInterface            $natureService,
-        private readonly ColorationServiceInterface $colorationService
+        private readonly UniteServiceServiceInterface       $uniteServiceService,
+        private readonly UniteServiceAnneeServiceInterface  $uniteServiceAnneeService,
+        private readonly VoeuServiceInterface               $voeuService,
+        private readonly IntervenantServiceInterface        $intervenantService,
+        private readonly InterventionServiceInterface       $interventionService,
+        private readonly PayeurServiceInterface             $payeurService,
+        private readonly DepartementServiceInterface        $departementService,
+        private readonly AppartenirServiceInterface         $appartenirService,
+        private readonly NatureServiceInterface             $natureService,
+        private readonly ColorationServiceInterface         $colorationService,
+        private readonly DeclarationServiceServiceInterface $declarationServiceService
     )
     {
     }
@@ -66,7 +68,7 @@ class UniteServiceController extends GenericController
                 $departements[] = $this->departementService->recupererParIdentifiant($appartenir->getIdDepartement());
             }
 
-            $voeux = [];
+            $declarationsServices = [];
             $intervenants = [];
             $interventions = [];
             $colorations = [];
@@ -80,17 +82,17 @@ class UniteServiceController extends GenericController
                 $departementsColoration = [];
                 $colorationsParAnnee[] = $this->colorationService->recupererParIdUniteServiceAnnee($uniteServiceAnnee->getIdUniteServiceAnnee());
 
-                foreach ($colorationsParAnnee[$j] as $coloration){
+                foreach ($colorationsParAnnee[$j] as $coloration) {
                     $departementsColoration[] = $this->departementService->recupererParIdentifiant($coloration->getIdDepartement());
                 }
-                $voeuxParAnnee = $this->voeuService->recupererParIdUSA($uniteServiceAnnee->getIdUniteServiceAnnee());
+                $declarationsParAnnee = $this->declarationServiceService->recupererParIdUSA($uniteServiceAnnee->getIdUniteServiceAnnee());
 
-                foreach ($voeuxParAnnee as $voeuxAnnuel) {
-                    $intervenantsParAnnee[] = $this->intervenantService->recupererParIdentifiant($voeuxAnnuel->getIdIntervenant());
-                    $interventionsParAnnee[] = $this->interventionService->recupererParIdentifiant($voeuxAnnuel->getIdIntervention());
+                foreach ($declarationsParAnnee as $declarationsServicesAnnuel) {
+                    $intervenantsParAnnee[] = $this->intervenantService->recupererParIdentifiant($declarationsServicesAnnuel->getIdIntervenant());
+                    $interventionsParAnnee[] = $this->interventionService->recupererParIdentifiant($declarationsServicesAnnuel->getIdIntervention());
                 }
 
-                $voeux[] = $voeuxParAnnee;
+                $declarationsServices[] = $declarationsParAnnee;
                 $intervenants[] = array_unique($intervenantsParAnnee, SORT_REGULAR);
                 $interventions[] = array_unique($interventionsParAnnee, SORT_REGULAR);
                 $colorations[] = array_unique($departementsColoration, SORT_REGULAR);
@@ -101,7 +103,7 @@ class UniteServiceController extends GenericController
             $parametres = [
                 "uniteService" => $uniteService,
                 "unitesServicesAnnees" => $unitesServicesAnnees,
-                "voeux" => $voeux,
+                "declarationsServices" => $declarationsServices,
                 "intervenants" => $intervenants,
                 "interventions" => $interventions,
                 "payeur" => $payeur,
@@ -246,7 +248,8 @@ class UniteServiceController extends GenericController
             "departements" => $departements]);
     }
 
-    public function mettreAJour(): Response {
+    public function mettreAJour(): Response
+    {
         try {
             $ancetre = $_POST["ancetre"];
 
@@ -287,7 +290,7 @@ class UniteServiceController extends GenericController
             ];
             $this->uniteServiceService->modifierUniteService($uniteService);
             MessageFlash::ajouter("success", "L'unite de service a bien été modifiée !");
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {

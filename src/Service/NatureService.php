@@ -29,24 +29,28 @@ class NatureService implements NatureServiceInterface
         }
     }
 
-    public function creerNature(array $nature) {
+    public function creerNature(array $nature)
+    {
         $this->natureRepository->ajouterSansIdNature($nature);
     }
 
-    public function recupererNatures() {
+    public function recupererNatures()
+    {
         return $this->natureRepository->recuperer();
     }
 
-    public function supprimerNature(int $idNature) {
+    public function supprimerNature(int $idNature)
+    {
         $this->natureRepository->supprimer($idNature);
     }
 
     /**
      * @throws ServiceException
      */
-    public function modifierNature(array $nature) {
+    public function modifierNature(array $nature)
+    {
         $objet = $this->natureRepository->recupererParClePrimaire($nature["idNature"]);
-        if (!isset($objet)){
+        if (!isset($objet)) {
             throw new ServiceException("Aucune nature trouvée pour cet identifiant !");
         }
 

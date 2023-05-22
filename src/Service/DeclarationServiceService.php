@@ -13,7 +13,8 @@ class DeclarationServiceService implements DeclarationServiceServiceInterface
     {
     }
 
-    public function recupererParIdIntervenant(int $idIntervenant): array {
+    public function recupererParIdIntervenant(int $idIntervenant): array
+    {
         return $this->declarationServiceRepository->recupererParIdIntervenant($idIntervenant);
     }
 
@@ -21,9 +22,17 @@ class DeclarationServiceService implements DeclarationServiceServiceInterface
      * @param int $idIntervenant
      * @return array
      */
-    public function recupererVueParIntervenant(int $idIntervenant): array
+    public function recupererVueParIdIntervenant(int $idIntervenant): array
     {
-        return $this->declarationServiceRepository->recupererVueParIntervenant($idIntervenant);
+        return $this->declarationServiceRepository->recupererVueParIdIntervenant($idIntervenant);
     }
 
+    /**
+     * @param int $idUniteServiceAnnee
+     * @return array
+     */
+    public function recupererParIdUSA(int $idUniteServiceAnnee): array
+    {
+        return $this->declarationServiceRepository->recupererParIdUSA($idUniteServiceAnnee);
+    }
 }

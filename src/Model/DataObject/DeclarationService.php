@@ -5,11 +5,11 @@ namespace App\Sensei\Model\DataObject;
 class DeclarationService extends AbstractDataObject
 {
     public function __construct(
-        private int $idDeclarationService,
-        private int $idIntervenant,
-        private int $idUniteServiceAnnee,
+        private int     $idDeclarationService,
+        private int     $idIntervenant,
+        private int     $idUniteServiceAnnee,
         private ?string $mode,
-        private int $idIntervention,
+        private int     $idIntervention,
     )
     {
     }

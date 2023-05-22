@@ -6,6 +6,7 @@ use App\Sensei\Model\DataObject\UniteService;
 use App\Sensei\Model\Repository\UniteServiceRepository;
 use App\Sensei\Service\Exception\ServiceException;
 use App\Sensei\Service\UniteServiceService;
+use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
 
@@ -58,7 +59,7 @@ class UniteServiceServiceTest extends TestCase
 
     public function testRechercherUniteServiceAvecUniquementNomEtPrenom()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->uniteServiceRepositoryMock->method("recupererParClePrimaire")->with(0)->willReturn(null);
         self::assertEquals(null, $this->service->rechercherUniteService("Module Test"));
     }

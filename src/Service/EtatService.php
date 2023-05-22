@@ -29,16 +29,18 @@ class EtatService implements EtatServiceInterface
         }
     }
 
-    public function recupererEtats() {
+    public function recupererEtats()
+    {
         return $this->etatRepository->recuperer();
     }
 
     /**
      * @throws ServiceException
      */
-    public function modifierEtat(array $etat) {
+    public function modifierEtat(array $etat)
+    {
         $objet = $this->etatRepository->recupererParClePrimaire($etat["idEtat"]);
-        if (!isset($objet)){
+        if (!isset($objet)) {
             throw new ServiceException("Aucun etat trouvé pour cet identifiant !");
         }
 

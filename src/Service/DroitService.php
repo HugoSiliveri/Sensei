@@ -30,24 +30,28 @@ class DroitService implements DroitServiceInterface
         }
     }
 
-    public function creerDroit(array $droit) {
+    public function creerDroit(array $droit)
+    {
         $this->droitRepository->ajouterSansIdDroit($droit);
     }
 
-    public function recupererDroits() {
+    public function recupererDroits()
+    {
         return $this->droitRepository->recuperer();
     }
 
-    public function supprimerDroit(int $idDroit) {
+    public function supprimerDroit(int $idDroit)
+    {
         $this->droitRepository->supprimer($idDroit);
     }
 
     /**
      * @throws ServiceException
      */
-    public function modifierDroit(array $droit) {
+    public function modifierDroit(array $droit)
+    {
         $objet = $this->droitRepository->recupererParClePrimaire($droit["idDroit"]);
-        if (!isset($objet)){
+        if (!isset($objet)) {
             throw new ServiceException("Aucun droit trouvé pour cet identifiant !");
         }
 

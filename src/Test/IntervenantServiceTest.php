@@ -6,6 +6,7 @@ use App\Sensei\Model\DataObject\Intervenant;
 use App\Sensei\Model\Repository\IntervenantRepository;
 use App\Sensei\Service\Exception\ServiceException;
 use App\Sensei\Service\IntervenantService;
+use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
 
@@ -58,7 +59,7 @@ class IntervenantServiceTest extends TestCase
 
     public function testRechercherIntervenantAvecUniquementNomEtPrenom()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->intervenantRepositoryMock->method("recupererParClePrimaire")->with(0)->willReturn(null);
         self::assertEquals(null, $this->service->rechercherIntervenant("Toto Titi"));
     }

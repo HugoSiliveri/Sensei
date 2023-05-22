@@ -3,8 +3,8 @@
 namespace App\Sensei\Controller;
 
 use App\Sensei\Lib\MessageFlash;
-use App\Sensei\Service\Exception\ServiceException;
 use App\Sensei\Service\DroitServiceInterface;
+use App\Sensei\Service\Exception\ServiceException;
 use Symfony\Component\HttpFoundation\Response;
 
 class DroitController extends GenericController
@@ -16,11 +16,13 @@ class DroitController extends GenericController
     {
     }
 
-    public function afficherFormulaireCreation(): Response{
+    public function afficherFormulaireCreation(): Response
+    {
         return DroitController::afficherTwig("droit/creationDroit.twig");
     }
 
-    public function creerDepuisFormulaire(): Response {
+    public function creerDepuisFormulaire(): Response
+    {
         $typeDroit = $_POST["typeDroit"];
 
         $droit = [
@@ -33,12 +35,14 @@ class DroitController extends GenericController
         return DroitController::rediriger("accueil");
     }
 
-    public function afficherListe(): Response{
+    public function afficherListe(): Response
+    {
         $droits = $this->droitService->recupererDroits();
         return DroitController::afficherTwig("droit/listeDroits.twig", ["droits" => $droits]);
     }
 
-    public function supprimer(int $idDroit): Response {
+    public function supprimer(int $idDroit): Response
+    {
         try {
             $this->droitService->supprimerDroit($idDroit);
             MessageFlash::ajouter("success", "Le droit a bien été supprimé !");
@@ -52,11 +56,12 @@ class DroitController extends GenericController
         return DroitController::rediriger("accueil");
     }
 
-    public function afficherFormulaireMiseAJour(int $idDroit): Response{
+    public function afficherFormulaireMiseAJour(int $idDroit): Response
+    {
         try {
             $droit = $this->droitService->recupererParIdentifiant($idDroit);
             return DroitController::afficherTwig("droit/mettreAJour.twig", ["droit" => $droit]);
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {
@@ -66,7 +71,8 @@ class DroitController extends GenericController
         }
     }
 
-    public function mettreAJour(): Response {
+    public function mettreAJour(): Response
+    {
         try {
             $droit = [
                 "idDroit" => $_POST["idDroit"],
@@ -74,7 +80,7 @@ class DroitController extends GenericController
             ];
             $this->droitService->modifierDroit($droit);
             MessageFlash::ajouter("success", "Le droit a bien été modifié !");
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {

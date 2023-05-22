@@ -14,8 +14,8 @@ class UniteServiceAnneeController extends GenericController
 
     public function __construct(
         private readonly UniteServiceAnneeServiceInterface $uniteServiceAnneeService,
-        private readonly UniteServiceServiceInterface $uniteServiceService,
-        private readonly DepartementServiceInterface $departementService
+        private readonly UniteServiceServiceInterface      $uniteServiceService,
+        private readonly DepartementServiceInterface       $departementService
     )
     {
     }
@@ -34,7 +34,8 @@ class UniteServiceAnneeController extends GenericController
             "departements" => $departements]);
     }
 
-    public function mettreAJour(): Response {
+    public function mettreAJour(): Response
+    {
         try {
             $uniteServiceAnnee = [
                 "idUniteServiceAnnee" => $_POST["idUniteServiceAnnee"],
@@ -60,7 +61,7 @@ class UniteServiceAnneeController extends GenericController
 
             $this->uniteServiceAnneeService->modifierUniteServiceAnnee($uniteServiceAnnee);
             MessageFlash::ajouter("success", "L'unite de service annuel a bien été modifiée !");
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {

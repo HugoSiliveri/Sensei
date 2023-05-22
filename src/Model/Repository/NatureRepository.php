@@ -9,7 +9,8 @@ use PDOException;
 class NatureRepository extends AbstractRepository
 {
 
-    public function ajouterSansIdNature(array $nature){
+    public function ajouterSansIdNature(array $nature)
+    {
         try {
             $sql = "INSERT INTO Nature(libNature) VALUES (:libNatureTag)";
 

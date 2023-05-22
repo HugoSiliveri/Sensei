@@ -6,17 +6,20 @@
             <fieldset class="fieldsetCreation">
                 <div>
                     <label class="labelCreation" for="libComposante_id">Libellé</label>
-                    <input class="inputCreation" type="text" value="{{ composante.getLibComposante }}" name="libComposante"
+                    <input class="inputCreation" type="text" value="{{ composante.getLibComposante }}"
+                           name="libComposante"
                            id="libComposante_id">
                 </div>
                 <div>
                     <label class="labelCreation" for="anneeDeTravail_id">Année de travail</label>
-                    <input class="inputCreation" type="number" value="{{ composante.getAnneeDeTravail }}" name="anneeDeTravail"
+                    <input class="inputCreation" type="number" value="{{ composante.getAnneeDeTravail }}"
+                           name="anneeDeTravail"
                            id="anneeDeTravail_id" required>
                 </div>
                 <div>
                     <label class="labelCreation" for="anneeDeValidation_id">Année de validation</label>
-                    <input class="inputCreation" type="number" value="{{ composante.getAnneeDeValidation }}" name="anneeDeValidation"
+                    <input class="inputCreation" type="number" value="{{ composante.getAnneeDeValidation }}"
+                           name="anneeDeValidation"
                            id="anneeDeValidation_id" required>
                 </div>
                 <input type="hidden" value="{{ composante.getIdComposante }}" name="idComposante">

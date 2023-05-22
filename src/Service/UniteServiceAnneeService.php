@@ -46,9 +46,10 @@ class UniteServiceAnneeService implements UniteServiceAnneeServiceInterface
     /**
      * @throws ServiceException
      */
-    public function modifierUniteServiceAnnee(array $uniteServiceAnnee) {
+    public function modifierUniteServiceAnnee(array $uniteServiceAnnee)
+    {
         $objet = $this->uniteServiceAnneeRepository->recupererParClePrimaire($uniteServiceAnnee["idUniteServiceAnnee"]);
-        if (!isset($objet)){
+        if (!isset($objet)) {
             throw new ServiceException("Aucune unité de service trouvée pour cet identifiant !");
         }
 

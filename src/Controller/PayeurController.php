@@ -15,11 +15,13 @@ class PayeurController extends GenericController
     {
     }
 
-    public function afficherFormulaireCreation(): Response{
+    public function afficherFormulaireCreation(): Response
+    {
         return PayeurController::afficherTwig("payeur/creationPayeur.twig");
     }
 
-    public function creerDepuisFormulaire(): Response {
+    public function creerDepuisFormulaire(): Response
+    {
         $libPayeur = $_POST["libPayeur"];
 
         $payeur = [
@@ -32,12 +34,14 @@ class PayeurController extends GenericController
         return PayeurController::rediriger("accueil");
     }
 
-    public function afficherListe(): Response{
+    public function afficherListe(): Response
+    {
         $payeurs = $this->payeurService->recupererPayeurs();
         return PayeurController::afficherTwig("payeur/listePayeurs.twig", ["payeurs" => $payeurs]);
     }
 
-    public function supprimer(int $idPayeur): Response {
+    public function supprimer(int $idPayeur): Response
+    {
         try {
             $this->payeurService->supprimerPayeur($idPayeur);
             MessageFlash::ajouter("success", "Le payeur a bien été supprimé !");
@@ -51,11 +55,12 @@ class PayeurController extends GenericController
         return PayeurController::rediriger("accueil");
     }
 
-    public function afficherFormulaireMiseAJour(int $idPayeur): Response{
+    public function afficherFormulaireMiseAJour(int $idPayeur): Response
+    {
         try {
             $payeur = $this->payeurService->recupererParIdentifiant($idPayeur);
             return PayeurController::afficherTwig("payeur/mettreAJour.twig", ["payeur" => $payeur]);
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {
@@ -65,7 +70,8 @@ class PayeurController extends GenericController
         }
     }
 
-    public function mettreAJour(): Response {
+    public function mettreAJour(): Response
+    {
         try {
             $payeur = [
                 "idPayeur" => $_POST["idPayeur"],
@@ -73,7 +79,7 @@ class PayeurController extends GenericController
             ];
             $this->payeurService->modifierPayeur($payeur);
             MessageFlash::ajouter("success", "Le payeur a bien été modifié !");
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {

@@ -15,11 +15,13 @@ class EmploiController extends GenericController
     {
     }
 
-    public function afficherFormulaireCreation(): Response{
+    public function afficherFormulaireCreation(): Response
+    {
         return EmploiController::afficherTwig("emploi/creationEmploi.twig");
     }
 
-    public function creerDepuisFormulaire(): Response {
+    public function creerDepuisFormulaire(): Response
+    {
         $libEmploi = $_POST["libEmploi"];
 
         $emploi = [
@@ -32,12 +34,14 @@ class EmploiController extends GenericController
         return EmploiController::rediriger("accueil");
     }
 
-    public function afficherListe(): Response{
+    public function afficherListe(): Response
+    {
         $emplois = $this->emploiService->recupererEmplois();
         return EmploiController::afficherTwig("emploi/listeEmplois.twig", ["emplois" => $emplois]);
     }
 
-    public function supprimer(int $idEmploi): Response {
+    public function supprimer(int $idEmploi): Response
+    {
         try {
             $this->emploiService->supprimerEmploi($idEmploi);
             MessageFlash::ajouter("success", "L'emploi a bien été supprimé !");
@@ -51,11 +55,12 @@ class EmploiController extends GenericController
         return EmploiController::rediriger("accueil");
     }
 
-    public function afficherFormulaireMiseAJour(int $idEmploi): Response{
+    public function afficherFormulaireMiseAJour(int $idEmploi): Response
+    {
         try {
             $emploi = $this->emploiService->recupererParIdentifiant($idEmploi);
             return EmploiController::afficherTwig("emploi/mettreAJour.twig", ["emploi" => $emploi]);
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {
@@ -65,7 +70,8 @@ class EmploiController extends GenericController
         }
     }
 
-    public function mettreAJour(): Response {
+    public function mettreAJour(): Response
+    {
         try {
             $emploi = [
                 "idEmploi" => $_POST["idEmploi"],
@@ -73,7 +79,7 @@ class EmploiController extends GenericController
             ];
             $this->emploiService->modifierEmploi($emploi);
             MessageFlash::ajouter("success", "L'emploi a bien été modifié !");
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {

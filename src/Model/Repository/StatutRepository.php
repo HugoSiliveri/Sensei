@@ -17,7 +17,8 @@ use PDOException;
 class StatutRepository extends AbstractRepository
 {
 
-    public function ajouterSansIdStatut(array $statut){
+    public function ajouterSansIdStatut(array $statut)
+    {
         try {
             $sql = "INSERT INTO Statut(libStatut, nbHeures) VALUES (:libStatutTag, :nbHeuresTag)";
 

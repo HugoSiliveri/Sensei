@@ -8,8 +8,9 @@ use PDOException;
 
 class PayeurRepository extends AbstractRepository
 {
-    
-    public function ajouterSansIdPayeur(array $payeur){
+
+    public function ajouterSansIdPayeur(array $payeur)
+    {
         try {
             $sql = "INSERT INTO Payeur(libPayeur) VALUES (:libPayeurTag)";
 
@@ -26,7 +27,7 @@ class PayeurRepository extends AbstractRepository
             die("Erreur lors d'insertion dans la base de données.");
         }
     }
-    
+
     /**
      * @inheritDoc
      */

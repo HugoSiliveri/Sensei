@@ -100,11 +100,11 @@
                                 {% for intervenantParAnnee in intervenants[i] %}
                                     <p>{{ intervenantParAnnee.getPrenom }} {{ intervenantParAnnee.getNom }}</p>
                                     <div class="infosSupplementaires">
-                                        {% for voeuParAnnee in voeux[i] %}
-                                            {% if voeuParAnnee.getIdIntervenant == intervenantParAnnee.getIdIntervenant %}
+                                        {% for declarationServiceParAnnee in declarationsServices[i] %}
+                                            {% if declarationServiceParAnnee.getIdIntervenant == intervenantParAnnee.getIdIntervenant %}
                                                 <ul>
                                                     {% for interventionParAnnee in interventions[i] %}
-                                                        {% if interventionParAnnee.getIdIntervention == voeuParAnnee.getIdIntervention %}
+                                                        {% if interventionParAnnee.getIdIntervention == declarationServiceParAnnee.getIdIntervention %}
                                                             <li><b>Numéro de groupe
                                                                     :</b> {{ interventionParAnnee.getNumeroGroupeIntervention }}
                                                             </li>

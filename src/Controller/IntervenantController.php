@@ -24,19 +24,19 @@ class IntervenantController extends GenericController
 {
 
     public function __construct(
-        private readonly IntervenantServiceInterface       $intervenantService,
-        private readonly StatutServiceInterface            $statutService,
-        private readonly DroitServiceInterface             $droitService,
-        private readonly ServiceAnnuelServiceInterface     $serviceAnnuelService,
-        private readonly EmploiServiceInterface            $emploiService,
-        private readonly DepartementServiceInterface       $departementService,
-        private readonly UniteServiceServiceInterface      $uniteServiceService,
-        private readonly UniteServiceAnneeServiceInterface $uniteServiceAnneeService,
-        private readonly InterventionServiceInterface      $interventionService,
-        private readonly VoeuServiceInterface              $voeuService,
-        private readonly ResponsableUSServiceInterface     $responsableUSService,
+        private readonly IntervenantServiceInterface        $intervenantService,
+        private readonly StatutServiceInterface             $statutService,
+        private readonly DroitServiceInterface              $droitService,
+        private readonly ServiceAnnuelServiceInterface      $serviceAnnuelService,
+        private readonly EmploiServiceInterface             $emploiService,
+        private readonly DepartementServiceInterface        $departementService,
+        private readonly UniteServiceServiceInterface       $uniteServiceService,
+        private readonly UniteServiceAnneeServiceInterface  $uniteServiceAnneeService,
+        private readonly InterventionServiceInterface       $interventionService,
+        private readonly VoeuServiceInterface               $voeuService,
+        private readonly ResponsableUSServiceInterface      $responsableUSService,
         private readonly DeclarationServiceServiceInterface $declarationServiceService,
-        private readonly ConnexionUtilisateurInterface     $connexionUtilisateur
+        private readonly ConnexionUtilisateurInterface      $connexionUtilisateur
     )
     {
     }
@@ -75,7 +75,7 @@ class IntervenantController extends GenericController
             }
 
             //$voeux = $this->voeuService->recupererVueParIntervenant($idIntervenant);
-            $declarationsServices = $this->declarationServiceService->recupererVueParIntervenant($idIntervenant);
+            $declarationsServices = $this->declarationServiceService->recupererVueParIdIntervenant($idIntervenant);
 
             $parametres = [
                 "intervenant" => $intervenant,
@@ -164,7 +164,8 @@ class IntervenantController extends GenericController
         }
     }
 
-    public function afficherGestion(): Response {
+    public function afficherGestion(): Response
+    {
         $departements = $this->departementService->recupererDepartements();
         return IntervenantController::afficherTwig("gestion.twig", [
             "departements" => $departements
@@ -187,11 +188,12 @@ class IntervenantController extends GenericController
         }
     }
 
-    public function afficherFormulaireMiseAJour(int $idIntervenant): Response{
+    public function afficherFormulaireMiseAJour(int $idIntervenant): Response
+    {
         try {
             $intervenant = $this->intervenantService->recupererParIdentifiant($idIntervenant);
             return IntervenantController::afficherTwig("intervenant/mettreAJour.twig", ["intervenant" => $intervenant]);
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {
@@ -201,7 +203,8 @@ class IntervenantController extends GenericController
         }
     }
 
-    public function mettreAJour(): Response {
+    public function mettreAJour(): Response
+    {
         try {
             $intervenant = [
                 "idIntervenant" => $_POST["idIntervenant"],
@@ -216,7 +219,7 @@ class IntervenantController extends GenericController
             ];
             $this->intervenantService->modifierIntervenant($intervenant);
             MessageFlash::ajouter("success", "L'intervenant a bien été modifié !");
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {

@@ -16,7 +16,8 @@ use PDOException;
  */
 class DroitRepository extends AbstractRepository
 {
-    public function ajouterSansIdDroit(array $droit){
+    public function ajouterSansIdDroit(array $droit)
+    {
         try {
             $sql = "INSERT INTO Droit(typeDroit) VALUES (:typeDroitTag)";
 

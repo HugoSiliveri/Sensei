@@ -29,7 +29,8 @@ class ColorationService implements ColorationServiceInterface
         }
     }
 
-    public function recupererParIdUniteServiceAnnee(int $idUniteServiceAnnee): array {
+    public function recupererParIdUniteServiceAnnee(int $idUniteServiceAnnee): array
+    {
         return $this->colorationRepository->recupererParIdUniteServiceAnnee($idUniteServiceAnnee);
     }
 }

@@ -29,24 +29,28 @@ class ComposanteService implements ComposanteServiceInterface
         }
     }
 
-    public function creerComposante(array $composante) {
+    public function creerComposante(array $composante)
+    {
         $this->composanteRepository->ajouterSansIdComposante($composante);
     }
 
-    public function recupererComposantes() {
+    public function recupererComposantes()
+    {
         return $this->composanteRepository->recuperer();
     }
 
-    public function supprimerComposante(int $idComposante) {
+    public function supprimerComposante(int $idComposante)
+    {
         $this->composanteRepository->supprimer($idComposante);
     }
 
     /**
      * @throws ServiceException
      */
-    public function modifierComposante(array $composante) {
+    public function modifierComposante(array $composante)
+    {
         $objet = $this->composanteRepository->recupererParClePrimaire($composante["idComposante"]);
-        if (!isset($objet)){
+        if (!isset($objet)) {
             throw new ServiceException("Aucune composante trouvée pour cet identifiant !");
         }
 

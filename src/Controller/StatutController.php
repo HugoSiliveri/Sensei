@@ -15,11 +15,13 @@ class StatutController extends GenericController
     {
     }
 
-    public function afficherFormulaireCreation(): Response{
+    public function afficherFormulaireCreation(): Response
+    {
         return StatutController::afficherTwig("statut/creationStatut.twig");
     }
 
-    public function creerDepuisFormulaire(): Response {
+    public function creerDepuisFormulaire(): Response
+    {
         $libStatut = $_POST["libStatut"];
         $nbHeures = $_POST["nbHeures"];
 
@@ -34,12 +36,14 @@ class StatutController extends GenericController
         return StatutController::rediriger("accueil");
     }
 
-    public function afficherListe(): Response{
+    public function afficherListe(): Response
+    {
         $statuts = $this->statutService->recupererStatuts();
         return StatutController::afficherTwig("statut/listeStatuts.twig", ["statuts" => $statuts]);
     }
 
-    public function supprimer(int $idStatut): Response {
+    public function supprimer(int $idStatut): Response
+    {
         try {
             $this->statutService->supprimerStatut($idStatut);
             MessageFlash::ajouter("success", "Le statut a bien été supprimé !");
@@ -53,11 +57,12 @@ class StatutController extends GenericController
         return StatutController::rediriger("accueil");
     }
 
-    public function afficherFormulaireMiseAJour(int $idStatut): Response{
+    public function afficherFormulaireMiseAJour(int $idStatut): Response
+    {
         try {
             $statut = $this->statutService->recupererParIdentifiant($idStatut);
             return StatutController::afficherTwig("statut/mettreAJour.twig", ["statut" => $statut]);
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {
@@ -67,7 +72,8 @@ class StatutController extends GenericController
         }
     }
 
-    public function mettreAJour(): Response {
+    public function mettreAJour(): Response
+    {
         try {
             $statut = [
                 "idStatut" => $_POST["idStatut"],
@@ -76,7 +82,7 @@ class StatutController extends GenericController
             ];
             $this->statutService->modifierStatut($statut);
             MessageFlash::ajouter("success", "Le statut a bien été modifié !");
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {

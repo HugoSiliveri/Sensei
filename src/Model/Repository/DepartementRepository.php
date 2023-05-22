@@ -16,7 +16,8 @@ use PDOException;
  */
 class DepartementRepository extends AbstractRepository
 {
-    public function ajouterSansIdDepartement(array $departement) {
+    public function ajouterSansIdDepartement(array $departement)
+    {
         try {
             $sql = "INSERT INTO Departement(libDepartement, codeLettre, reportMax, idComposante, idEtat) 
             VALUES (:libDepartementTag, :codeLettreTag, :reportMaxTag, :idComposanteTag, :idEtatTag)";

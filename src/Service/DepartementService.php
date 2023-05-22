@@ -50,21 +50,24 @@ class DepartementService implements DepartementServiceInterface
             return $departement[0];
         }
     }
-    
-    public function creerDepartement(array $departement) {
+
+    public function creerDepartement(array $departement)
+    {
         $this->departementRepository->ajouterSansIdDepartement($departement);
     }
 
-    public function supprimerDepartement(int $idDepartement) {
+    public function supprimerDepartement(int $idDepartement)
+    {
         $this->departementRepository->supprimer($idDepartement);
     }
 
     /**
      * @throws ServiceException
      */
-    public function modifierDepartement(array $departement) {
+    public function modifierDepartement(array $departement)
+    {
         $objet = $this->departementRepository->recupererParClePrimaire($departement["idDepartement"]);
-        if (!isset($objet)){
+        if (!isset($objet)) {
             throw new ServiceException("Aucune departement trouvée pour cet identifiant !");
         }
 

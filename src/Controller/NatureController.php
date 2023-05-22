@@ -16,11 +16,13 @@ class NatureController extends GenericController
     {
     }
 
-    public function afficherFormulaireCreation(): Response{
+    public function afficherFormulaireCreation(): Response
+    {
         return NatureController::afficherTwig("nature/creationNature.twig");
     }
 
-    public function creerDepuisFormulaire(): Response {
+    public function creerDepuisFormulaire(): Response
+    {
         $libNature = $_POST["libNature"];
 
         $nature = [
@@ -33,12 +35,14 @@ class NatureController extends GenericController
         return NatureController::rediriger("accueil");
     }
 
-    public function afficherListe(): Response{
+    public function afficherListe(): Response
+    {
         $natures = $this->natureService->recupererNatures();
         return NatureController::afficherTwig("nature/listeNatures.twig", ["natures" => $natures]);
     }
 
-    public function supprimer(int $idNature): Response {
+    public function supprimer(int $idNature): Response
+    {
         try {
             $this->natureService->supprimerNature($idNature);
             MessageFlash::ajouter("success", "La nature a bien été supprimée !");
@@ -52,11 +56,12 @@ class NatureController extends GenericController
         return NatureController::rediriger("accueil");
     }
 
-    public function afficherFormulaireMiseAJour(int $idNature): Response{
+    public function afficherFormulaireMiseAJour(int $idNature): Response
+    {
         try {
             $nature = $this->natureService->recupererParIdentifiant($idNature);
             return NatureController::afficherTwig("nature/mettreAJour.twig", ["nature" => $nature]);
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {
@@ -66,7 +71,8 @@ class NatureController extends GenericController
         }
     }
 
-    public function mettreAJour(): Response {
+    public function mettreAJour(): Response
+    {
         try {
             $nature = [
                 "idNature" => $_POST["idNature"],
@@ -74,7 +80,7 @@ class NatureController extends GenericController
             ];
             $this->natureService->modifierNature($nature);
             MessageFlash::ajouter("success", "La nature a bien été modifiée !");
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {

@@ -29,24 +29,28 @@ class StatutService implements StatutServiceInterface
         }
     }
 
-    public function creerStatut(array $statut) {
+    public function creerStatut(array $statut)
+    {
         $this->statutRepository->ajouterSansIdStatut($statut);
     }
 
-    public function recupererStatuts() {
+    public function recupererStatuts()
+    {
         return $this->statutRepository->recuperer();
     }
 
-    public function supprimerStatut(int $idStatut) {
+    public function supprimerStatut(int $idStatut)
+    {
         $this->statutRepository->supprimer($idStatut);
     }
 
     /**
      * @throws ServiceException
      */
-    public function modifierStatut(array $statut) {
+    public function modifierStatut(array $statut)
+    {
         $objet = $this->statutRepository->recupererParClePrimaire($statut["idStatut"]);
-        if (!isset($objet)){
+        if (!isset($objet)) {
             throw new ServiceException("Aucun statut trouvé pour cet identifiant !");
         }
 

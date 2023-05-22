@@ -70,9 +70,10 @@ class IntervenantService implements IntervenantServiceInterface
     /**
      * @throws ServiceException
      */
-    public function modifierIntervenant(array $intervenant) {
+    public function modifierIntervenant(array $intervenant)
+    {
         $objet = $this->intervenantRepository->recupererParClePrimaire($intervenant["idIntervenant"]);
-        if (!isset($objet)){
+        if (!isset($objet)) {
             throw new ServiceException("Aucun intervenant trouvé pour cet identifiant !");
         }
 

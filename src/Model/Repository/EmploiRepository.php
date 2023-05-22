@@ -16,8 +16,9 @@ use PDOException;
  */
 class EmploiRepository extends AbstractRepository
 {
-    
-    public function ajouterSansIdEmploi(array $emploi){
+
+    public function ajouterSansIdEmploi(array $emploi)
+    {
         try {
             $sql = "INSERT INTO Emploi(libEmploi) VALUES (:libEmploiTag)";
 

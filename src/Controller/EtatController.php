@@ -15,16 +15,18 @@ class EtatController extends GenericController
     {
     }
 
-    public function afficherListe(): Response{
+    public function afficherListe(): Response
+    {
         $etats = $this->etatService->recupererEtats();
         return EtatController::afficherTwig("etat/listeEtats.twig", ["etats" => $etats]);
     }
 
-    public function afficherFormulaireMiseAJour(int $idEtat): Response{
+    public function afficherFormulaireMiseAJour(int $idEtat): Response
+    {
         try {
             $etat = $this->etatService->recupererParIdentifiant($idEtat);
             return EtatController::afficherTwig("etat/mettreAJour.twig", ["etat" => $etat]);
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {
@@ -34,7 +36,8 @@ class EtatController extends GenericController
         }
     }
 
-    public function mettreAJour(): Response {
+    public function mettreAJour(): Response
+    {
         try {
             $etat = [
                 "idEtat" => $_POST["idEtat"],
@@ -42,7 +45,7 @@ class EtatController extends GenericController
             ];
             $this->etatService->modifierEtat($etat);
             MessageFlash::ajouter("success", "L'état a bien été modifié !");
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {

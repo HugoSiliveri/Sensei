@@ -13,13 +13,14 @@ class DepartementController extends GenericController
 {
     public function __construct(
         private readonly DepartementServiceInterface $departementService,
-        private readonly EtatServiceInterface $etatService,
-        private readonly ComposanteServiceInterface $composanteService
+        private readonly EtatServiceInterface        $etatService,
+        private readonly ComposanteServiceInterface  $composanteService
     )
     {
     }
 
-    public function afficherFormulaireCreation(): Response{
+    public function afficherFormulaireCreation(): Response
+    {
         $etats = $this->etatService->recupererEtats();
         $composantes = $this->composanteService->recupererComposantes();
         return DepartementController::afficherTwig("departement/creationDepartement.twig", [
@@ -28,7 +29,8 @@ class DepartementController extends GenericController
         ]);
     }
 
-    public function creerDepuisFormulaire(): Response {
+    public function creerDepuisFormulaire(): Response
+    {
         $libDepartement = $_POST["libDepartement"];
         $codeLettre = $_POST["codeLettre"];
         $reportMax = $_POST["reportMax"];
@@ -49,12 +51,14 @@ class DepartementController extends GenericController
         return DepartementController::rediriger("accueil");
     }
 
-    public function afficherListe(): Response{
+    public function afficherListe(): Response
+    {
         $departements = $this->departementService->recupererDepartements();
         return DepartementController::afficherTwig("departement/listeDepartements.twig", ["departements" => $departements]);
     }
 
-    public function supprimer(int $idDepartement): Response {
+    public function supprimer(int $idDepartement): Response
+    {
         try {
             $this->departementService->supprimerDepartement($idDepartement);
             MessageFlash::ajouter("success", "Le departement a bien été supprimé !");
@@ -68,7 +72,8 @@ class DepartementController extends GenericController
         return DepartementController::rediriger("accueil");
     }
 
-    public function afficherFormulaireMiseAJour(int $idDepartement): Response{
+    public function afficherFormulaireMiseAJour(int $idDepartement): Response
+    {
         try {
             $departement = $this->departementService->recupererParIdentifiant($idDepartement);
             $composantes = $this->composanteService->recupererComposantes();
@@ -78,7 +83,7 @@ class DepartementController extends GenericController
                 "composantes" => $composantes,
                 "etats" => $etats
             ]);
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {
@@ -88,7 +93,8 @@ class DepartementController extends GenericController
         }
     }
 
-    public function mettreAJour(): Response {
+    public function mettreAJour(): Response
+    {
         try {
             $departement = [
                 "idDepartement" => $_POST["idDepartement"],
@@ -100,7 +106,7 @@ class DepartementController extends GenericController
             ];
             $this->departementService->modifierDepartement($departement);
             MessageFlash::ajouter("success", "Le departement a bien été modifié !");
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {

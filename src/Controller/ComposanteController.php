@@ -15,11 +15,13 @@ class ComposanteController extends GenericController
     {
     }
 
-    public function afficherFormulaireCreation(): Response{
+    public function afficherFormulaireCreation(): Response
+    {
         return ComposanteController::afficherTwig("composante/creationComposante.twig");
     }
 
-    public function creerDepuisFormulaire(): Response {
+    public function creerDepuisFormulaire(): Response
+    {
         $libComposante = $_POST["libComposante"];
         $anneeDeTravail = $_POST["anneeDeTravail"];
         $anneeDeValidation = $_POST["anneeDeValidation"];
@@ -36,12 +38,14 @@ class ComposanteController extends GenericController
         return ComposanteController::rediriger("accueil");
     }
 
-    public function afficherListe(): Response{
+    public function afficherListe(): Response
+    {
         $composantes = $this->composanteService->recupererComposantes();
         return ComposanteController::afficherTwig("composante/listeComposantes.twig", ["composantes" => $composantes]);
     }
 
-    public function supprimer(int $idComposante): Response {
+    public function supprimer(int $idComposante): Response
+    {
         try {
             $this->composanteService->supprimerComposante($idComposante);
             MessageFlash::ajouter("success", "La composante a bien été supprimée !");
@@ -55,11 +59,12 @@ class ComposanteController extends GenericController
         return ComposanteController::rediriger("accueil");
     }
 
-    public function afficherFormulaireMiseAJour(int $idComposante): Response{
+    public function afficherFormulaireMiseAJour(int $idComposante): Response
+    {
         try {
             $composante = $this->composanteService->recupererParIdentifiant($idComposante);
             return ComposanteController::afficherTwig("composante/mettreAJour.twig", ["composante" => $composante]);
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {
@@ -69,7 +74,8 @@ class ComposanteController extends GenericController
         }
     }
 
-    public function mettreAJour(): Response {
+    public function mettreAJour(): Response
+    {
         try {
             $composante = [
                 "idComposante" => $_POST["idComposante"],
@@ -79,7 +85,7 @@ class ComposanteController extends GenericController
             ];
             $this->composanteService->modifierComposante($composante);
             MessageFlash::ajouter("success", "La composante a bien été modifiée !");
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {

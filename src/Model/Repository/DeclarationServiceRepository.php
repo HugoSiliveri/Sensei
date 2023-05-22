@@ -14,7 +14,7 @@ class DeclarationServiceRepository extends AbstractRepository
      * @param $idIntervenant
      * @return array
      */
-    public function recupererVueParIntervenant($idIntervenant): array
+    public function recupererVueParIdIntervenant($idIntervenant): array
     {
         try {
             $sql = "SELECT *
@@ -33,6 +33,42 @@ class DeclarationServiceRepository extends AbstractRepository
             echo $exception->getMessage();
             die("Erreur lors de la recherche dans la base de données.");
         }
+    }
+
+    public function recupererParIdUSA(int $idUniteServiceAnnee)
+    {
+        try {
+            $sql = "SELECT * FROM DeclarationService WHERE idUniteServiceAnnee=:idUniteServiceAnneeTag";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "idUniteServiceAnneeTag" => $idUniteServiceAnnee,
+            );
+            $pdoStatement->execute($values);
+
+            $objetsFormatTableau = $pdoStatement->fetchAll();
+
+            $objets = [];
+            foreach ($objetsFormatTableau as $objetFormatTableau) {
+                $objets[] = $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return $objets;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
+    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
+    {
+        return new DeclarationService(
+            $objetFormatTableau["idDeclarationService"],
+            $objetFormatTableau["idIntervenant"],
+            $objetFormatTableau["idUniteServiceAnnee"],
+            $objetFormatTableau["mode"],
+            $objetFormatTableau["idIntervention"]
+        );
     }
 
     public function recupererParIdIntervenant(int $idIntervenant)
@@ -59,7 +95,7 @@ class DeclarationServiceRepository extends AbstractRepository
             die("Erreur lors de la recherche dans la base de données.");
         }
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -71,17 +107,6 @@ class DeclarationServiceRepository extends AbstractRepository
     protected function getNomsColonnes(): array
     {
         return ["idDeclarationService", "idIntervenant", "idUniteServiceAnnee", "mode", "idIntervention"];
-    }
-
-    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
-    {
-        return new DeclarationService(
-            $objetFormatTableau["idDeclarationService"],
-            $objetFormatTableau["idIntervenant"],
-            $objetFormatTableau["idUniteServiceAnnee"],
-            $objetFormatTableau["mode"],
-            $objetFormatTableau["idIntervention"]
-        );
     }
 
     protected function getNomClePrimaire(): string
