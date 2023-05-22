@@ -1,0 +1,19 @@
+{% extends "base.twig" %}
+
+{% block page_content %}
+    <div class="gestionListe">
+        <div class="titreEtBarreRecherche">
+            <h2>Liste des
+                états</h2>
+        </div>
+        <div class="liste">
+            <ul class="description">
+                {% for etat in etats %}
+                    <li>
+                        <p>{{ etat.getLibEtat }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

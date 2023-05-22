@@ -187,6 +187,9 @@ class URLRouter
         $uniteServiceAnneeController->setArguments([new Reference('unite_service_annee_service'),
             new Reference('unite_service_service'), new Reference('departement_service')]);
 
+        $etatController =  $conteneur->register('etat_controller', EtatController::class);
+        $etatController->setArguments([new Reference('etat_service')]);
+
         $intervenantService = $conteneur->register('intervenant_service', IntervenantService::class);
         $intervenantService->setArguments([new Reference("intervenant_repository"), new Reference("connexion_utilisateur")]);
 
@@ -548,6 +551,22 @@ class URLRouter
         ]);
         $routeMettreAJourUniteServiceAnnee->setMethods(["POST"]);
 
+        $routeAfficherListeEtats = new Route("/etats", [
+            "_controller" => ["etat_controller", "afficherListe"]
+        ]);
+        $routeAfficherListeEtats->setMethods(["GET"]);
+
+        $routeAfficherFormulaireMiseAJourEtat = new Route("/mettreAJourEtat/{idEtat}", [
+            "_controller" => ["etat_controller", "afficherFormulaireMiseAJour"]
+        ]);
+        $routeAfficherFormulaireMiseAJourEtat->setMethods(["GET"]);
+
+        $routeMettreAJourEtat = new Route("/mettreAJourEtat/{idEtat}", [
+            "_controller" => ["etat_controller", "mettreAJour"]
+        ]);
+        $routeMettreAJourEtat->setMethods(["POST"]);
+
+
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
         $routes->add("gestion", $routeGestion);
@@ -610,6 +629,9 @@ class URLRouter
         $routes->add("mettreAJourUniteService", $routeMettreAJourUniteService);
         $routes->add("afficherFormulaireMiseAJourUniteServiceAnnee", $routeAfficherFormulaireMiseAJourUniteServiceAnnee);
         $routes->add("mettreAJourUniteServiceAnnee", $routeMettreAJourUniteServiceAnnee);
+        $routes->add("afficherListeEtats", $routeAfficherListeEtats);
+        $routes->add("afficherFormulaireMiseAJourEtat", $routeAfficherFormulaireMiseAJourEtat);
+        $routes->add("mettreAJourEtat", $routeMettreAJourEtat);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 

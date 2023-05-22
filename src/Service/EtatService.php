@@ -29,16 +29,8 @@ class EtatService implements EtatServiceInterface
         }
     }
 
-    public function creerEtat(array $etat) {
-        $this->etatRepository->ajouterSansIdEtat($etat);
-    }
-
     public function recupererEtats() {
         return $this->etatRepository->recuperer();
-    }
-
-    public function supprimerEtat(int $idEtat) {
-        $this->etatRepository->supprimer($idEtat);
     }
 
     /**
@@ -52,8 +44,6 @@ class EtatService implements EtatServiceInterface
 
         $objet->setIdEtat($etat["idEtat"]);
         $objet->setLibEtat($etat["libEtat"]);
-        $objet->setAnneeDeTravail($etat["anneeDeTravail"]);
-        $objet->setAnneeDeValidation($etat["anneeDeValidation"]);
 
         $this->etatRepository->mettreAJour($objet);
     }

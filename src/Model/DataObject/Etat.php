@@ -43,6 +43,22 @@ class Etat extends AbstractDataObject
     }
 
     /**
+     * @param int $idEtat
+     */
+    public function setIdEtat(int $idEtat): void
+    {
+        $this->idEtat = $idEtat;
+    }
+
+    /**
+     * @param string $libEtat
+     */
+    public function setLibEtat(string $libEtat): void
+    {
+        $this->libEtat = $libEtat;
+    }
+
+    /**
      * @inheritDoc
      */
     public function exporterEnFormatRequetePreparee(): array

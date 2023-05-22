@@ -14,11 +14,7 @@ interface EtatServiceInterface
      */
     public function recupererParIdentifiant(int $idEtat): AbstractDataObject;
 
-    public function creerEtat(array $etat);
-
     public function recupererEtats();
-
-    public function supprimerEtat(int $idEtat);
 
     /**
      * @throws ServiceException
