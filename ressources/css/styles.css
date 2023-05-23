@@ -355,6 +355,10 @@ ul {
     font-family: var(--semibold-font);
 }
 
+.boutonSuppression {
+    border:0;
+    background-color:rgba(0,0,0,0);
+}
 
 .inputCreation {
     box-sizing: border-box;

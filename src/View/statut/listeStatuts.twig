@@ -14,9 +14,9 @@
                         <a href="{{ route("afficherFormulaireMiseAJourStatut", {idStatut : statut.getIdStatut}) }}">
                             <img src="{{ asset("../ressources/img/pencil.svg") }}" alt="update">
                         </a>
-                        <a href="{{ route("supprimerStatut", {idStatut : statut.getIdStatut}) }}">
+                        <button class="boutonSuppression" onclick="afficherPopupSuppression('Statut', {{ statut.getIdStatut }} )">
                             <img src="{{ asset("../ressources/img/delete.svg") }}" alt="delete">
-                        </a>
+                        </button>
                     </li>
                 {% endfor %}
             </ul>

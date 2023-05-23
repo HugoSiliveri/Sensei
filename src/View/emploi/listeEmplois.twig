@@ -14,9 +14,9 @@
                         <a href="{{ route("afficherFormulaireMiseAJourEmploi", {idEmploi : emploi.getIdEmploi}) }}">
                             <img src="{{ asset("../ressources/img/pencil.svg") }}" alt="update">
                         </a>
-                        <a href="{{ route("supprimerEmploi", {idEmploi : emploi.getIdEmploi}) }}">
+                        <button class="boutonSuppression" onclick="afficherPopupSuppression('Emploi', {{ emploi.getIdEmploi }} )">
                             <img src="{{ asset("../ressources/img/delete.svg") }}" alt="delete">
-                        </a>
+                        </button>
                     </li>
                 {% endfor %}
             </ul>

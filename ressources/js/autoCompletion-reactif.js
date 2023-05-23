@@ -1,6 +1,6 @@
 import {applyAndRegister, reactive, startReactiveDom} from "./reactive.js";
 
-const urlAbsolu = 'http://eratosthene.imag.umontpellier.fr/Sensei/';
+const urlAbsolu = 'https://eratosthene.imag.umontpellier.fr/Sensei/';
 
 let autocompIntervenant = reactive({
     suggestions: [],

@@ -14,9 +14,9 @@
                         <a href="{{ route("afficherFormulaireMiseAJourComposante", {idComposante : composante.getIdComposante}) }}">
                             <img src="{{ asset("../ressources/img/pencil.svg") }}" alt="update">
                         </a>
-                        <a href="{{ route("supprimerComposante", {idComposante : composante.getIdComposante}) }}">
+                        <button class="boutonSuppression" onclick="afficherPopupSuppression('Composante', {{ composante.getIdComposante }} )">
                             <img src="{{ asset("../ressources/img/delete.svg") }}" alt="delete">
-                        </a>
+                        </button>
                     </li>
                 {% endfor %}
             </ul>

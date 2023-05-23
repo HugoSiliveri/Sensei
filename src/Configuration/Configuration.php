@@ -28,7 +28,7 @@ class Configuration
      */
     static private $urls = array(
         "localhost" => "http://localhost/Sensei/web/",
-        "eratosthene" => "http://eratosthene.imag.umontpellier.fr/Sensei/web"
+        "eratosthene" => "https://eratosthene.imag.umontpellier.fr/Sensei/web"
     );
     /**
      * @var ConfigurationBDDInterface Un objet qui implémente l'interface pour se connecter à la base de données.

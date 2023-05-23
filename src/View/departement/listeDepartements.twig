@@ -14,9 +14,9 @@
                         <a href="{{ route("afficherFormulaireMiseAJourDepartement", {idDepartement : departement.getIdDepartement}) }}">
                             <img src="{{ asset("../ressources/img/pencil.svg") }}" alt="update">
                         </a>
-                        <a href="{{ route("supprimerDepartement", {idDepartement : departement.getIdDepartement}) }}">
+                        <button class="boutonSuppression" onclick="afficherPopupSuppression('Departement', {{ departement.getIdDepartement }} )">
                             <img src="{{ asset("../ressources/img/delete.svg") }}" alt="delete">
-                        </a>
+                        </button>
                     </li>
                 {% endfor %}
             </ul>
