@@ -4,7 +4,7 @@ namespace App\Sensei\Controller;
 
 use App\Sensei\Configuration\ConfigurationBDDMariaDB;
 use App\Sensei\Lib\ConnexionUtilisateur;
-use App\Sensei\Lib\InfosGlobaux;
+use App\Sensei\Lib\InfosGlobales;
 use App\Sensei\Lib\MessageFlash;
 use App\Sensei\Model\Repository\AppartenirRepository;
 use App\Sensei\Model\Repository\ColorationRepository;
@@ -154,7 +154,7 @@ class URLRouter
         $connexionUtilisateur = $conteneur->register('connexion_utilisateur', ConnexionUtilisateur::class);
         $connexionUtilisateur->setArguments([new Reference('intervenant_repository')]);
 
-        $infosGlobaux = $conteneur->register('infos_globaux', InfosGlobaux::class);
+        $infosGlobaux = $conteneur->register('infos_globaux', InfosGlobales::class);
         $infosGlobaux->setArguments([new Reference('connexion_utilisateur'), new Reference('service_annuel_repository'),
             new Reference('departement_repository')]);
 
@@ -587,6 +587,11 @@ class URLRouter
         ]);
         $routeDeconnexion->setMethods(["GET"]);
 
+        $routeChangementGestion = new Route("/changementGestion", [
+            "_controller" => ["intervenant_controller", "changementGestion"]
+        ]);
+        $routeChangementGestion->setMethods(["POST"]);
+
 
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
@@ -654,6 +659,7 @@ class URLRouter
         $routes->add("afficherFormulaireMiseAJourEtat", $routeAfficherFormulaireMiseAJourEtat);
         $routes->add("mettreAJourEtat", $routeMettreAJourEtat);
         $routes->add("deconnexion", $routeDeconnexion);
+        $routes->add("changementGestion", $routeChangementGestion);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 
@@ -685,7 +691,7 @@ class URLRouter
         /* Ajout de variables globales */
         $twig->addGlobal('messagesFlash', new MessageFlash());
         $twig->addGlobal('connexionUtilisateur', new ConnexionUtilisateur(new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB()))));
-        $twig->addGlobal('infosGlobaux', new InfosGlobaux(
+        $twig->addGlobal('infosGlobales', new InfosGlobales(
             new ConnexionUtilisateur(new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB()))),
             new ServiceAnnuelRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())),
             new DepartementRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB()))));
@@ -735,7 +741,7 @@ class URLRouter
     /**
      * @return mixed
      */
-    public static function getConteneur()
+    public static function getConteneur(): mixed
     {
         return self::$conteneur;
     }

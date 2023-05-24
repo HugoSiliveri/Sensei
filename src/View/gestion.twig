@@ -3,14 +3,18 @@
 {% block page_content %}
     <div class="miseEnPage2">
         <div class="blockGestion">
-            <form class="formCreation" action="#">
+            <form class="formCreation" action="{{ route("changementGestion") }}" method="post">
                 <fieldset class="fieldsetCreation">
                     <div class="miseEnPage">
                         <label for="departement_id">Changer de département</label>
                         <select class="inputCreation" name="departement" id="departement_id">
                             {% set i = 1 %}
                             {% for departement in departements %}
-                                <option value="{{ i }}">{{ departement.getLibDepartement }}</option>
+                                {% if infosGlobales.getDepActuel == departement.getLibDepartement %}
+                                    <option value="{{ i }}" selected>{{ departement.getLibDepartement }}</option>
+                                {% else %}
+                                    <option value="{{ i }}">{{ departement.getLibDepartement }}</option>
+                                {% endif %}
                                 {% set i = i + 1 %}
                             {% endfor %}
                         </select>
@@ -19,7 +23,7 @@
                     <div class="miseEnPage">
                         <label for="annee_id">Voyager dans le temps</label>
                         <select class="inputCreation" name="annee" id="annee_id">
-                            <option>test</option>
+                            <option value="2023">2023-2024</option>
                         </select>
                         {% include "templates/boutonCheck.twig" %}
                     </div>

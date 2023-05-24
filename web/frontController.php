@@ -14,4 +14,5 @@ use Symfony\Component\HttpFoundation\Request;
  */
 $requete = Request::createFromGlobals();
 
+
 URLRouter::traiterRequete($requete)->send();

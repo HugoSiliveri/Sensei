@@ -3,7 +3,7 @@
 namespace App\Sensei\Controller;
 
 use App\Sensei\Lib\ConnexionUtilisateurInterface;
-use App\Sensei\Lib\InfosGlobaux;
+use App\Sensei\Lib\InfosGlobales;
 use App\Sensei\Lib\MessageFlash;
 use App\Sensei\Service\DeclarationServiceServiceInterface;
 use App\Sensei\Service\DepartementServiceInterface;
@@ -39,7 +39,7 @@ class IntervenantController extends GenericController
         private readonly ResponsableUSServiceInterface      $responsableUSService,
         private readonly DeclarationServiceServiceInterface $declarationServiceService,
         private readonly ConnexionUtilisateurInterface      $connexionUtilisateur,
-        private readonly InfosGlobaux $infosGlobaux
+        private readonly InfosGlobales $infosGlobaux
     )
     {
     }
@@ -241,6 +241,13 @@ class IntervenantController extends GenericController
             throw new ServiceException("Utilisateur non connecté !");
         }
         $this->connexionUtilisateur->deconnecter();
+        return IntervenantController::rediriger("accueil");
+    }
+
+    public function changementGestion(){
+        $annee = $_POST["annee"];
+        $departement = $this->departementService->recupererParIdentifiant($_POST["departement"])->getLibDepartement();
+
         return IntervenantController::rediriger("accueil");
     }
 }

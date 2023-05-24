@@ -4,7 +4,7 @@ namespace App\Sensei\Lib;
 
 use App\Sensei\Model\Repository\AbstractRepository;
 
-class InfosGlobaux
+class InfosGlobales
 {
     private string $depActuel;
     private int $anneeActuelle;
