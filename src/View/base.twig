@@ -36,10 +36,11 @@
 </header>
 <div id="informationsHeader">
     <div id="departementHeader">
-        <p>Département actuel : MATH</p> {# TODO : Changer en fonction de l'utilisateur connecté #}
+        <p>Département actuel : {{ infosGlobaux.getDepActuel }}</p>
     </div>
     <div id="anneeHeader">
-        <p>Année en cours : 2023-2024</p> {# TODO : Changer en fonction de l'utilisateur connecté #}
+        {% set anneeActuelle = infosGlobaux.getAnneeActuelle %}
+        <p>Année en cours : {{ anneeActuelle }}-{{ anneeActuelle+1 }}</p>
     </div>
 </div>
 <div id="messagesFlash">

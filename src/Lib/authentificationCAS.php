@@ -67,13 +67,13 @@ $intervenantController = new IntervenantRepository(new ConnexionBaseDeDonnees(ne
 if (isset($uid)) {
     $connexionUtilisateur = new ConnexionUtilisateur(new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())));
     $intervenant = $intervenantController->recupererParUID($uid);
-    if (!$connexionUtilisateur->estConnecte()) {
+    if (!$connexionUtilisateur->estConnecte() && isset($intervenant)) {
         $connexionUtilisateur->connecter($intervenant->getIdIntervenant());
     }
 } else if (isset($email)) {
     $connexionUtilisateur = new ConnexionUtilisateur(new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())));
     $intervenant = $intervenantController->recupererParEmailInstitutionnel($email);
-    if (!$connexionUtilisateur->estConnecte()) {
+    if (!$connexionUtilisateur->estConnecte() && isset($intervenant)) {
         $connexionUtilisateur->connecter($intervenant->getIdIntervenant());
     }
 } else {

@@ -3,6 +3,7 @@
 namespace App\Sensei\Controller;
 
 use App\Sensei\Lib\ConnexionUtilisateurInterface;
+use App\Sensei\Lib\InfosGlobaux;
 use App\Sensei\Lib\MessageFlash;
 use App\Sensei\Service\DeclarationServiceServiceInterface;
 use App\Sensei\Service\DepartementServiceInterface;
@@ -37,7 +38,8 @@ class IntervenantController extends GenericController
         private readonly VoeuServiceInterface               $voeuService,
         private readonly ResponsableUSServiceInterface      $responsableUSService,
         private readonly DeclarationServiceServiceInterface $declarationServiceService,
-        private readonly ConnexionUtilisateurInterface      $connexionUtilisateur
+        private readonly ConnexionUtilisateurInterface      $connexionUtilisateur,
+        private readonly InfosGlobaux $infosGlobaux
     )
     {
     }
@@ -133,10 +135,10 @@ class IntervenantController extends GenericController
     public function afficherAccueil(): Response
     {
         try {
-            $uid = 3637; // TODO : A changer
-            $anneeEnCours = 2023;
-            $utilisateur = $this->intervenantService->recupererParIdentifiant($uid);
-            $responsabilitesAnnuel = $this->responsableUSService->recupererParIdIntervenantAnnuel($uid, $anneeEnCours);
+            $anneeActuelle = $this->infosGlobaux->getAnneeActuelle();
+            $intervenantConnecte = $this->connexionUtilisateur->getIntervenantConnecte();
+            $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuel($intervenantConnecte->getIdIntervenant(), $anneeActuelle);
+            $responsabilitesAnnuel = $this->responsableUSService->recupererParIdIntervenantAnnuel($intervenantConnecte->getIdIntervenant(), $serviceAnnuel->getMillesime());
 
             $us = [];
             $usa = [];
@@ -148,10 +150,10 @@ class IntervenantController extends GenericController
             }
 
             $parametres = [
-                "utilisateur" => $utilisateur,
+                "utilisateur" => $intervenantConnecte,
                 "responsabilites" => $responsabilitesAnnuel,
                 "unitesServicesAnnees" => $usa,
-                "unitesServices" => $us
+                "unitesServices" => $us,
             ];
 
             return IntervenantController::afficherTwig("accueil.twig", $parametres);

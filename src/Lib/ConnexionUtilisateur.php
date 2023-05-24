@@ -2,6 +2,7 @@
 
 namespace App\Sensei\Lib;
 
+use App\Sensei\Model\DataObject\AbstractDataObject;
 use App\Sensei\Model\HTTP\Session;
 use App\Sensei\Model\Repository\AbstractRepositoryInterface;
 
@@ -87,6 +88,15 @@ class ConnexionUtilisateur implements ConnexionUtilisateurInterface
             return $session->lire($this->cleConnexion);
         } else
             return null;
+    }
+
+    public function getIntervenantConnecte(): ?AbstractDataObject{
+        $idIntervenant = $this->getIdUtilisateurConnecte();
+        $intervenant = null;
+        if (isset($idIntervenant)){
+            $intervenant = $this->repository->recupererParClePrimaire($idIntervenant);
+        }
+        return $intervenant;
     }
 
 }

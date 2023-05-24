@@ -48,6 +48,59 @@ class ServiceAnnuelRepository extends AbstractRepository
         }
     }
 
+
+    public function recupererParIntervenantAnnuel($idIntervenant, $millesime): ?AbstractDataObject
+    {
+        try {
+            $sql = "SELECT * from ServiceAnnuel WHERE idIntervenant=:idIntervenantTag AND millesime=:millesimeTag";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "idIntervenantTag" => $idIntervenant,
+                "millesimeTag" => $millesime
+            );
+            $pdoStatement->execute($values);
+
+            $objetFormatTableau = $pdoStatement->fetch();
+
+            if ($objetFormatTableau !== false) {
+                return $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return null;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
+    public function recupererParIntervenantAnnuelPlusRecent($idIntervenant): ?AbstractDataObject
+    {
+        try {
+            $sql = "SELECT * from ServiceAnnuel 
+                    WHERE idIntervenant=:idIntervenantTag
+                    GROUP BY idServiceAnnuel, idDepartement, idIntervenant, millesime, idEmploi, serviceStatuaire, serviceFait, delta, deleted
+                    HAVING MAX(millesime)";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "idIntervenantTag" => $idIntervenant,
+            );
+            $pdoStatement->execute($values);
+
+            $objetFormatTableau = $pdoStatement->fetch();
+
+            if ($objetFormatTableau !== false) {
+                return $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return null;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
     /** Construit un objet ServiceAnnuel à partir d'un tableau donné en paramètre.
      * @param array $objetFormatTableau
      * @return ServiceAnnuel

@@ -494,6 +494,17 @@ ul {
     margin-right: 2%;
 }
 
+nav  button{
+    appearance: none;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    font-family: var(--semibold-font);
+    font-size: large;
+    background: none;
+    border:none;
+}
+
 /* Bootstrap alerts */
 /* https://getbootstrap.com/docs/3.4/components/#alerts */
 

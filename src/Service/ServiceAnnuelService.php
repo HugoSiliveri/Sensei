@@ -2,6 +2,7 @@
 
 namespace App\Sensei\Service;
 
+use App\Sensei\Model\DataObject\AbstractDataObject;
 use App\Sensei\Model\Repository\ServiceAnnuelRepository;
 
 class ServiceAnnuelService implements ServiceAnnuelServiceInterface
@@ -19,5 +20,15 @@ class ServiceAnnuelService implements ServiceAnnuelServiceInterface
     public function recupererParIntervenant(int $idIntervenant): array
     {
         return $this->serviceAnnuelRepository->recupererParIntervenant($idIntervenant);
+    }
+
+    /**
+     * @param int $idIntervenant
+     * @param int $millesime
+     * @return AbstractDataObject
+     */
+    public function recupererParIntervenantAnnuel(int $idIntervenant, int $millesime): AbstractDataObject
+    {
+        return $this->serviceAnnuelRepository->recupererParIntervenantAnnuel($idIntervenant, $millesime);
     }
 }

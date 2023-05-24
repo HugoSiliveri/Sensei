@@ -4,6 +4,7 @@ namespace App\Sensei\Controller;
 
 use App\Sensei\Configuration\ConfigurationBDDMariaDB;
 use App\Sensei\Lib\ConnexionUtilisateur;
+use App\Sensei\Lib\InfosGlobaux;
 use App\Sensei\Lib\MessageFlash;
 use App\Sensei\Model\Repository\AppartenirRepository;
 use App\Sensei\Model\Repository\ColorationRepository;
@@ -153,12 +154,16 @@ class URLRouter
         $connexionUtilisateur = $conteneur->register('connexion_utilisateur', ConnexionUtilisateur::class);
         $connexionUtilisateur->setArguments([new Reference('intervenant_repository')]);
 
+        $infosGlobaux = $conteneur->register('infos_globaux', InfosGlobaux::class);
+        $infosGlobaux->setArguments([new Reference('connexion_utilisateur'), new Reference('service_annuel_repository'),
+            new Reference('departement_repository')]);
+
         $intervenantController = $conteneur->register('intervenant_controller', IntervenantController::class);
         $intervenantController->setArguments([new Reference('intervenant_service'), new Reference('statut_service'),
             new Reference('droit_service'), new Reference('service_annuel_service'), new Reference('emploi_service'),
             new Reference('departement_service'), new Reference('unite_service_service'), new Reference('unite_service_annee_service'), new Reference('intervention_service'),
             new Reference('voeu_service'), new Reference('responsable_us_service'), new Reference('declaration_service_service'),
-            new Reference('connexion_utilisateur')]);
+            new Reference('connexion_utilisateur'), new Reference('infos_globaux')]);
 
         $uniteServiceController = $conteneur->register('unite_service_controller', UniteServiceController::class);
         $uniteServiceController->setArguments([new Reference('unite_service_service'), new Reference('unite_service_annee_service'),
@@ -680,6 +685,10 @@ class URLRouter
         /* Ajout de variables globales */
         $twig->addGlobal('messagesFlash', new MessageFlash());
         $twig->addGlobal('connexionUtilisateur', new ConnexionUtilisateur(new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB()))));
+        $twig->addGlobal('infosGlobaux', new InfosGlobaux(
+            new ConnexionUtilisateur(new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB()))),
+            new ServiceAnnuelRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())),
+            new DepartementRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB()))));
 
         $conteneur->set("assistantUrl", $assistantUrl);
         $conteneur->set("generateurUrl", $generateurUrl);
