@@ -3,6 +3,7 @@
 namespace App\Sensei\Lib;
 
 use App\Sensei\Model\HTTP\Session;
+use App\Sensei\Model\Repository\AbstractRepositoryInterface;
 
 /**
  * @name ConnexionUtilisateur
@@ -18,6 +19,13 @@ class ConnexionUtilisateur implements ConnexionUtilisateurInterface
      * @var string Est une clé qui permet de voir si un utilisateur est déjà connecté dans une session
      */
     private string $cleConnexion = "_utilisateurConnecte";
+
+
+    public function __construct(private readonly AbstractRepositoryInterface $repository)
+    {
+
+    }
+
 
     /**
      * Méthode qui va enregistrer l'utilisateur dans une session

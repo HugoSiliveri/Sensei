@@ -33,7 +33,7 @@ class IntervenantRepository extends AbstractRepository
             $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
 
             $values = array(
-                "clePrimaireTag" => $idIntervenantReferentiel,
+                "uidTag" => $idIntervenantReferentiel,
             );
             $pdoStatement->execute($values);
 

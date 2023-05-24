@@ -4,6 +4,7 @@ namespace App\Sensei\Model\HTTP;
 
 use App\Sensei\Configuration\Configuration;
 use Exception;
+use phpCAS;
 
 class Session
 {
@@ -14,8 +15,10 @@ class Session
      */
     private function __construct()
     {
-        if (session_start() === false) {
-            throw new Exception("La session n'a pas réussi à démarrer.");
+        if (!isset($_SESSION)){
+            if (session_start() === false) {
+                throw new Exception("La session n'a pas réussi à démarrer.");
+            }
         }
     }
 
@@ -96,13 +99,11 @@ class Session
         session_unset();     // unset $_SESSION variable for the run-time
         session_destroy();   // destroy session data in storage
         Cookie::supprimer(session_name()); // deletes the session cookie
-        // Il faudra reconstruire la session au prochain appel de getInstance()
-        $instance = null;
     }
 
     /**
      * Supprime la session
-     * @param $cle
+     * @param $name
      * @return void
      */
     public function supprimer($name): void

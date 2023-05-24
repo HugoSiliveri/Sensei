@@ -577,6 +577,11 @@ class URLRouter
         ]);
         $routeMettreAJourEtat->setMethods(["POST"]);
 
+        $routeDeconnexion = new Route("/deconnexion", [
+            "_controller" => ["intervenant_controller", "deconnecter"]
+        ]);
+        $routeDeconnexion->setMethods(["GET"]);
+
 
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
@@ -643,6 +648,7 @@ class URLRouter
         $routes->add("afficherListeEtats", $routeAfficherListeEtats);
         $routes->add("afficherFormulaireMiseAJourEtat", $routeAfficherFormulaireMiseAJourEtat);
         $routes->add("mettreAJourEtat", $routeMettreAJourEtat);
+        $routes->add("deconnexion", $routeDeconnexion);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 
@@ -673,6 +679,7 @@ class URLRouter
 
         /* Ajout de variables globales */
         $twig->addGlobal('messagesFlash', new MessageFlash());
+        $twig->addGlobal('connexionUtilisateur', new ConnexionUtilisateur(new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB()))));
 
         $conteneur->set("assistantUrl", $assistantUrl);
         $conteneur->set("generateurUrl", $generateurUrl);

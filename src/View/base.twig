@@ -27,8 +27,10 @@
             <a href="#">Aide</a>
         </div>
         <div id="deconnexion">
-            {#                    <data value="{{ route("deconnexion") }}">Déconnexion</data> #}
-            <p>Déconnexion</p>
+            <form action="{{ route('deconnexion') }}" method="post">
+                <input type="hidden" name="logout" value="true">
+                <button type="submit">Déconnexion</button>
+            </form>
         </div>
     </nav>
 </header>

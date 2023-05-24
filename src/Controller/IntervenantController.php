@@ -17,6 +17,7 @@ use App\Sensei\Service\StatutServiceInterface;
 use App\Sensei\Service\UniteServiceAnneeServiceInterface;
 use App\Sensei\Service\UniteServiceServiceInterface;
 use App\Sensei\Service\VoeuServiceInterface;
+use phpCAS;
 use Symfony\Component\HttpFoundation\Response;
 use TypeError;
 
@@ -226,6 +227,18 @@ class IntervenantController extends GenericController
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
         }
+        return IntervenantController::rediriger("accueil");
+    }
+
+    /**
+     * @throws ServiceException
+     */
+    public function deconnecter(){
+
+        if (!$this->connexionUtilisateur->estConnecte()){
+            throw new ServiceException("Utilisateur non connecté !");
+        }
+        $this->connexionUtilisateur->deconnecter();
         return IntervenantController::rediriger("accueil");
     }
 }

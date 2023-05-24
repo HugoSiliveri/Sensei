@@ -3,6 +3,7 @@
 // Paramétrage des données de session
 use App\Sensei\Configuration\ConfigurationBDDMariaDB;
 use App\Sensei\Lib\ConnexionUtilisateur;
+use App\Sensei\Model\HTTP\Session;
 use App\Sensei\Model\Repository\ConnexionBaseDeDonnees;
 use App\Sensei\Model\Repository\IntervenantRepository;
 
@@ -30,12 +31,14 @@ ini_set("session.cookie_lifetime", 0);
 // Load the CAS lib
 
 require_once __DIR__ . "/../../vendor/apereo/phpcas/source/CAS.php";
+
+
 // Enable debugging
 phpCAS::setLogger();
 // Initialize phpCAS
 // phpCAS::client(CAS_VERSION_2_0, $cas_host, $cas_port, $cas_context);
 
-phpCAS::client(CAS_VERSION_3_0, 'cas.umontpellier.fr', 443, '/cas/', "https://127.0.0.1");
+phpCAS::client(CAS_VERSION_3_0, 'cas.umontpellier.fr', 443, '/cas/', "https://eratosthene.imag.umontpellier.fr/");
 // For production use set the CA certificate that is the issuer of the cert
 // on the CAS server and uncomment the line below
 //phpCAS::setCasServerCACert($cas_server_ca_cert_path);
@@ -47,6 +50,12 @@ phpCAS::setNoCasServerValidation();
 // force CAS authentication
 phpCAS::forceAuthentication();
 
+$post = $_POST["logout"] ?? null;
+
+if (isset($post)){
+    phpCAS::logout();
+}
+
 
 $login = phpCAS::getUser();
 
@@ -54,30 +63,23 @@ $e = phpCAS::getAttributes();
 $uid = $e['uid'];
 $email = $e['mail'];
 
-if ($uid != null) {
-    $intervenantController = new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB()));
+$intervenantController = new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB()));
+if (isset($uid)) {
+    $connexionUtilisateur = new ConnexionUtilisateur(new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())));
     $intervenant = $intervenantController->recupererParUID($uid);
-    $connexionUtilisateur = new ConnexionUtilisateur();
     if (!$connexionUtilisateur->estConnecte()) {
-        $connexionUtilisateur->connecter($intervenant->getIdIntervention());
+        $connexionUtilisateur->connecter($intervenant->getIdIntervenant());
     }
-} else if ($email != null) {
-    $intervenantController = new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB()));
+} else if (isset($email)) {
+    $connexionUtilisateur = new ConnexionUtilisateur(new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())));
     $intervenant = $intervenantController->recupererParEmailInstitutionnel($email);
-    $connexionUtilisateur = new ConnexionUtilisateur();
     if (!$connexionUtilisateur->estConnecte()) {
-        $connexionUtilisateur->connecter($intervenant->getIdIntervention());
+        $connexionUtilisateur->connecter($intervenant->getIdIntervenant());
     }
 } else {
     die("Vous n'êtes pas autorisé à accéder à l'application !");
 }
 
-
 // at this step, the user has been authenticated by the CAS server
 // and the user's login name can be read with phpCAS::getUser().
-// logout if desired
-if (isset($_REQUEST['logout'])) {
-    phpCAS::logout();
-}
-// for this test, simply print that the authentication was successfull
 ?>
