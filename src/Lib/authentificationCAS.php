@@ -2,10 +2,16 @@
 
 // Paramétrage des données de session
 use App\Sensei\Configuration\ConfigurationBDDMariaDB;
+use App\Sensei\Controller\CookieController;
+use App\Sensei\Controller\IntervenantController;
 use App\Sensei\Lib\ConnexionUtilisateur;
-use App\Sensei\Model\HTTP\Session;
+use App\Sensei\Lib\InfosGlobales;
 use App\Sensei\Model\Repository\ConnexionBaseDeDonnees;
+use App\Sensei\Model\Repository\DepartementRepository;
 use App\Sensei\Model\Repository\IntervenantRepository;
+use App\Sensei\Model\Repository\ServiceAnnuelRepository;
+use App\Sensei\Service\DepartementService;
+use App\Sensei\Service\IntervenantService;
 
 ini_set("session.gc_maxlifetime", 0);
 ini_set("session.lifetime", 0);
@@ -56,25 +62,33 @@ if (isset($post)){
     phpCAS::logout();
 }
 
-
 $login = phpCAS::getUser();
 
 $e = phpCAS::getAttributes();
 $uid = $e['uid'];
 $email = $e['mail'];
 
-$intervenantController = new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB()));
+$intervenantService = new IntervenantService(new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())));
+$serviceAnnuelService = new ServiceAnnuelRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB()));
+$departementService = new DepartementService(new DepartementRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())));
+
 if (isset($uid)) {
     $connexionUtilisateur = new ConnexionUtilisateur(new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())));
-    $intervenant = $intervenantController->recupererParUID($uid);
+    $intervenant = $intervenantService->recupererParUID($uid);
     if (!$connexionUtilisateur->estConnecte() && isset($intervenant)) {
         $connexionUtilisateur->connecter($intervenant->getIdIntervenant());
+        $serviceAnnuel = $serviceAnnuelService->recupererParIntervenantAnnuelPlusRecent($connexionUtilisateur->getIdUtilisateurConnecte());
+        InfosGlobales::enregistrerDepartement($departementService->recupererParIdentifiant($serviceAnnuel->getIdDepartement())->getLibDepartement());
+        InfosGlobales::enregistrerAnnee($serviceAnnuel->getMillesime());
     }
 } else if (isset($email)) {
     $connexionUtilisateur = new ConnexionUtilisateur(new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())));
-    $intervenant = $intervenantController->recupererParEmailInstitutionnel($email);
+    $intervenant = $intervenantService->recupererParEmailInstitutionnel($email);
     if (!$connexionUtilisateur->estConnecte() && isset($intervenant)) {
         $connexionUtilisateur->connecter($intervenant->getIdIntervenant());
+        $serviceAnnuel = $serviceAnnuelService->recupererParIntervenantAnnuelPlusRecent($connexionUtilisateur->getIdUtilisateurConnecte());
+        InfosGlobales::enregistrerDepartement($departementService->recupererParIdentifiant($serviceAnnuel->getIdDepartement())->getLibDepartement());
+        InfosGlobales::enregistrerAnnee($serviceAnnuel->getMillesime());
     }
 } else {
     die("Vous n'êtes pas autorisé à accéder à l'application !");
@@ -82,4 +96,4 @@ if (isset($uid)) {
 
 // at this step, the user has been authenticated by the CAS server
 // and the user's login name can be read with phpCAS::getUser().
-?>
+

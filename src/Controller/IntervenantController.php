@@ -39,7 +39,6 @@ class IntervenantController extends GenericController
         private readonly ResponsableUSServiceInterface      $responsableUSService,
         private readonly DeclarationServiceServiceInterface $declarationServiceService,
         private readonly ConnexionUtilisateurInterface      $connexionUtilisateur,
-        private readonly InfosGlobales $infosGlobaux
     )
     {
     }
@@ -135,7 +134,11 @@ class IntervenantController extends GenericController
     public function afficherAccueil(): Response
     {
         try {
-            $anneeActuelle = $this->infosGlobaux->getAnneeActuelle();
+            $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuelPlusRecent($this->connexionUtilisateur->getIdUtilisateurConnecte());
+            $annee = $serviceAnnuel->getMillesime();
+
+            $anneeActuelle = InfosGlobales::lireAnnee() ?? $annee;
+
             $intervenantConnecte = $this->connexionUtilisateur->getIntervenantConnecte();
             $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuel($intervenantConnecte->getIdIntervenant(), $anneeActuelle);
             $responsabilitesAnnuel = $this->responsableUSService->recupererParIdIntervenantAnnuel($intervenantConnecte->getIdIntervenant(), $serviceAnnuel->getMillesime());
@@ -241,12 +244,16 @@ class IntervenantController extends GenericController
             throw new ServiceException("Utilisateur non connecté !");
         }
         $this->connexionUtilisateur->deconnecter();
+        InfosGlobales::supprimerInfos();
         return IntervenantController::rediriger("accueil");
     }
 
     public function changementGestion(){
         $annee = $_POST["annee"];
         $departement = $this->departementService->recupererParIdentifiant($_POST["departement"])->getLibDepartement();
+
+        InfosGlobales::enregistrerDepartement($departement);
+        InfosGlobales::enregistrerAnnee($annee);
 
         return IntervenantController::rediriger("accueil");
     }

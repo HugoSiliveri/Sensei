@@ -36,9 +36,9 @@ class Cookie
     {
         $valeurJSON = serialize($valeur);
         if ($dureeExpiration === null)
-            setcookie($cle, $valeurJSON, 0);
+            setcookie($cle, $valeurJSON, 0, "/");
         else
-            setcookie($cle, $valeurJSON, time() + $dureeExpiration);
+            setcookie($cle, $valeurJSON, time() + $dureeExpiration, "/");
     }
 
     /**
@@ -48,7 +48,11 @@ class Cookie
      */
     public static function lire(string $cle): mixed
     {
-        return unserialize($_COOKIE[$cle]);
+        if (isset($_COOKIE[$cle])){
+            return unserialize($_COOKIE[$cle]);
+        } else {
+            return null;
+        }
     }
 
     /**

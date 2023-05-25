@@ -89,4 +89,12 @@ class IntervenantService implements IntervenantServiceInterface
 
         $this->intervenantRepository->mettreAJour($objet);
     }
+
+    public function recupererParUID(string $uid){
+        return $this->intervenantRepository->recupererParUID($uid);
+    }
+
+    public function recupererParEmailInstitutionnel(string $email){
+        return $this->intervenantRepository->recupererParEmailInstitutionnel($email);
+    }
 }

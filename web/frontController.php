@@ -1,11 +1,11 @@
 <?php
+use App\Sensei\Controller\URLRouter;
+use App\Sensei\Lib\InfosGlobales;
+use Symfony\Component\HttpFoundation\Request;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
 require_once __DIR__ . "/../src/Lib/authentificationCAS.php";
-
-use App\Sensei\Controller\URLRouter;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Elle récupère les informations de la requête depuis les variables globales $_GET, $_POST, …

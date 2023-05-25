@@ -112,14 +112,14 @@ class URLRouter
         $droitRepository = $conteneur->register('droit_repository', DroitRepository::class);
         $droitRepository->setArguments([new Reference('connexion_base')]);
 
-        $serviceAnnuelRepository = $conteneur->register('service_annuel_repository', ServiceAnnuelRepository::class);
-        $serviceAnnuelRepository->setArguments([new Reference('connexion_base')]);
+        $serviceAnnuelServiceClasse = $conteneur->register('service_annuel_repository', ServiceAnnuelRepository::class);
+        $serviceAnnuelServiceClasse->setArguments([new Reference('connexion_base')]);
 
         $emploiRepository = $conteneur->register('emploi_repository', EmploiRepository::class);
         $emploiRepository->setArguments([new Reference('connexion_base')]);
 
-        $departementRepository = $conteneur->register('departement_repository', DepartementRepository::class);
-        $departementRepository->setArguments([new Reference('connexion_base')]);
+        $departementServiceClasse = $conteneur->register('departement_repository', DepartementRepository::class);
+        $departementServiceClasse->setArguments([new Reference('connexion_base')]);
 
         $interventionRepository = $conteneur->register('intervention_repository', InterventionRepository::class);
         $interventionRepository->setArguments([new Reference('connexion_base')]);
@@ -154,16 +154,12 @@ class URLRouter
         $connexionUtilisateur = $conteneur->register('connexion_utilisateur', ConnexionUtilisateur::class);
         $connexionUtilisateur->setArguments([new Reference('intervenant_repository')]);
 
-        $infosGlobaux = $conteneur->register('infos_globaux', InfosGlobales::class);
-        $infosGlobaux->setArguments([new Reference('connexion_utilisateur'), new Reference('service_annuel_repository'),
-            new Reference('departement_repository')]);
-
         $intervenantController = $conteneur->register('intervenant_controller', IntervenantController::class);
         $intervenantController->setArguments([new Reference('intervenant_service'), new Reference('statut_service'),
             new Reference('droit_service'), new Reference('service_annuel_service'), new Reference('emploi_service'),
             new Reference('departement_service'), new Reference('unite_service_service'), new Reference('unite_service_annee_service'), new Reference('intervention_service'),
             new Reference('voeu_service'), new Reference('responsable_us_service'), new Reference('declaration_service_service'),
-            new Reference('connexion_utilisateur'), new Reference('infos_globaux')]);
+            new Reference('connexion_utilisateur')]);
 
         $uniteServiceController = $conteneur->register('unite_service_controller', UniteServiceController::class);
         $uniteServiceController->setArguments([new Reference('unite_service_service'), new Reference('unite_service_annee_service'),
@@ -218,8 +214,8 @@ class URLRouter
         $droitService = $conteneur->register('droit_service', DroitService::class);
         $droitService->setArguments([new Reference('droit_repository')]);
 
-        $serviceAnnuelService = $conteneur->register('service_annuel_service', ServiceAnnuelService::class);
-        $serviceAnnuelService->setArguments([new Reference('service_annuel_repository')]);
+        $serviceAnnuelServiceClasse = $conteneur->register('service_annuel_service', ServiceAnnuelService::class);
+        $serviceAnnuelServiceClasse->setArguments([new Reference('service_annuel_repository')]);
 
         $emploiService = $conteneur->register('emploi_service', EmploiService::class);
         $emploiService->setArguments([new Reference('emploi_repository')]);
@@ -688,13 +684,21 @@ class URLRouter
         $twig->addFunction(new TwigFunction("route", $callable));
         $twig->addFunction(new TwigFunction("asset", $callable2));
 
+
+        $serviceAnnuelServiceClasse = new ServiceAnnuelService(new ServiceAnnuelRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())));
+        $departementServiceClasse = new DepartementService(new DepartementRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())));
+        $connexionUtilisateurClasse = new ConnexionUtilisateur(new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())));
+
+        $serviceAnnuel = $serviceAnnuelServiceClasse->recupererParIntervenantAnnuelPlusRecent($connexionUtilisateurClasse->getIdUtilisateurConnecte());
+        $depActuel = $departementServiceClasse->recupererParIdentifiant($serviceAnnuel->getIdDepartement())->getLibDepartement();
+        $anneeActuelle = $serviceAnnuel->getMillesime();
+
+
         /* Ajout de variables globales */
         $twig->addGlobal('messagesFlash', new MessageFlash());
-        $twig->addGlobal('connexionUtilisateur', new ConnexionUtilisateur(new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB()))));
-        $twig->addGlobal('infosGlobales', new InfosGlobales(
-            new ConnexionUtilisateur(new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB()))),
-            new ServiceAnnuelRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())),
-            new DepartementRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB()))));
+        $twig->addGlobal('connexionUtilisateur', $connexionUtilisateurClasse);
+        $twig->addGlobal('departementActuel', InfosGlobales::lireDepartement() ?? $depActuel);
+        $twig->addGlobal('anneeActuelle', InfosGlobales::lireAnnee() ?? $anneeActuelle);
 
         $conteneur->set("assistantUrl", $assistantUrl);
         $conteneur->set("generateurUrl", $generateurUrl);

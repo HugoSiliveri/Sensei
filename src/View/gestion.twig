@@ -10,7 +10,7 @@
                         <select class="inputCreation" name="departement" id="departement_id">
                             {% set i = 1 %}
                             {% for departement in departements %}
-                                {% if infosGlobales.getDepActuel == departement.getLibDepartement %}
+                                {% if departementActuel == departement.getLibDepartement %}
                                     <option value="{{ i }}" selected>{{ departement.getLibDepartement }}</option>
                                 {% else %}
                                     <option value="{{ i }}">{{ departement.getLibDepartement }}</option>

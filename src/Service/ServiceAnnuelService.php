@@ -31,4 +31,9 @@ class ServiceAnnuelService implements ServiceAnnuelServiceInterface
     {
         return $this->serviceAnnuelRepository->recupererParIntervenantAnnuel($idIntervenant, $millesime);
     }
+
+    public function recupererParIntervenantAnnuelPlusRecent(int $idIntervenant): ?AbstractDataObject
+    {
+        return $this->serviceAnnuelRepository->recupererParIntervenantAnnuelPlusRecent($idIntervenant);
+    }
 }

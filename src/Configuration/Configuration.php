@@ -62,7 +62,7 @@ class Configuration
      */
     public static function getDureeExpirationSession(): string
     {
-        return 100;
+        return 3600;
     }
 
     /**

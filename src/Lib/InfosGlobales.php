@@ -2,53 +2,29 @@
 
 namespace App\Sensei\Lib;
 
-use App\Sensei\Model\Repository\AbstractRepository;
+use App\Sensei\Model\HTTP\Cookie;
 
 class InfosGlobales
 {
-    private string $depActuel;
-    private int $anneeActuelle;
-
-    public function __construct(
-        private readonly ConnexionUtilisateur $connexionUtilisateur,
-        private readonly AbstractRepository   $serviceAnnuelRepository,
-        private readonly AbstractRepository $departementRepository)
-    {
-        $serviceAnnuel = $this->serviceAnnuelRepository->recupererParIntervenantAnnuelPlusRecent($this->connexionUtilisateur->getIdUtilisateurConnecte());
-        $this->depActuel = $this->departementRepository->recupererParClePrimaire($serviceAnnuel->getIdDepartement())->getLibDepartement();
-        $this->anneeActuelle = $serviceAnnuel->getMillesime();
+    public static function enregistrerDepartement(string $departement){
+        Cookie::enregistrer("departement", $departement);
     }
 
-    /**
-     * @return string
-     */
-    public function getDepActuel(): string
-    {
-        return $this->depActuel;
+    public static function enregistrerAnnee(int $annee){
+        Cookie::enregistrer("annee", $annee);
     }
 
-    /**
-     * @param string $depActuel
-     */
-    public function setDepActuel(string $depActuel): void
-    {
-        $this->depActuel = $depActuel;
+    public static function lireDepartement(): ?string {
+        return Cookie::lire("departement");
     }
 
-    /**
-     * @return int
-     */
-    public function getAnneeActuelle(): int
-    {
-        return $this->anneeActuelle;
+    public static function lireAnnee(): ?int {
+        return Cookie::lire("annee");
     }
 
-    /**
-     * @param int $anneeActuelle
-     */
-    public function setAnneeActuelle(int $anneeActuelle): void
-    {
-        $this->anneeActuelle = $anneeActuelle;
+    public static function supprimerInfos(){
+        Cookie::supprimer("departement");
+        Cookie::supprimer("annee");
     }
 
 }

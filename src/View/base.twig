@@ -21,7 +21,7 @@
         </div>
         <div id="onglets">
             <a href="{{ route("accueil") }}">Services</a>
-            <a href={{ route("afficherListeUnitesServices") }}>Unités de Services</a>
+            <a href="{{ route("afficherListeUnitesServices") }}">Unités de Services</a>
             <a href="{{ route("afficherListeIntervenants") }}">Intervenant.e.s</a>
             <a href="{{ route("gestion") }}">Gestion</a>
             <a href="#">Aide</a>
@@ -36,10 +36,9 @@
 </header>
 <div id="informationsHeader">
     <div id="departementHeader">
-        <p>Département actuel : {{ infosGlobales.getDepActuel }}</p>
+        <p>Département actuel : {{ departementActuel }}</p>
     </div>
     <div id="anneeHeader">
-        {% set anneeActuelle = infosGlobales.getAnneeActuelle %}
         <p>Année en cours : {{ anneeActuelle }}-{{ anneeActuelle+1 }}</p>
     </div>
 </div>
