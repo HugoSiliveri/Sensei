@@ -47,11 +47,30 @@ class IntervenantController extends GenericController
      * Méthode qui affiche la liste des utilisateurs.
      *
      * @return Response
+     * @throws ServiceException
      */
     public function afficherListe(): Response
     {
-        $intervenants = $this->intervenantService->recupererIntervenants();
-        return IntervenantController::afficherTwig("intervenant/listeIntervenants.twig", ["intervenants" => $intervenants]);
+        try {
+            $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuelPlusRecent($this->connexionUtilisateur->getIdUtilisateurConnecte());
+            $idDepartement = $this->departementService->recupererParLibelle(InfosGlobales::lireDepartement())->getIdDepartement() ?? $serviceAnnuel->getIdDepartement();
+            $annee = $serviceAnnuel->getMillesime();
+            $anneeActuelle = InfosGlobales::lireAnnee() ?? $annee;
+
+            $intervenantsAnnuelsEtDuDepartementNonVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementNonVacataire($anneeActuelle, $idDepartement);
+            $intervenantsAnnuelsEtDuDepartementVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementVacataire($anneeActuelle, $idDepartement);
+            return IntervenantController::afficherTwig("intervenant/listeIntervenants.twig", [
+                "intervenantsAnnuelsEtDuDepartementNonVacataire" => $intervenantsAnnuelsEtDuDepartementNonVacataire,
+                "intervenantsAnnuelsEtDuDepartementVacataire" => $intervenantsAnnuelsEtDuDepartementVacataire]);
+
+        } catch (ServiceException $exception){
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+            return IntervenantController::rediriger("accueil");
+        }
     }
 
     /**
@@ -96,7 +115,7 @@ class IntervenantController extends GenericController
             } else {
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
-            return IntervenantController::rediriger("afficherFormulaireCreationIntervenant");
+            return IntervenantController::rediriger("afficherListeIntervenants");
         }
     }
 

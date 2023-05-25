@@ -97,4 +97,12 @@ class IntervenantService implements IntervenantServiceInterface
     public function recupererParEmailInstitutionnel(string $email){
         return $this->intervenantRepository->recupererParEmailInstitutionnel($email);
     }
+
+    public function recupererIntervenantsAvecAnneeEtDepartementNonVacataire(int $annee, int $idDepartement){
+        return $this->intervenantRepository->recupererIntervenantsAvecAnneeEtDepartementNonVacataire($annee, $idDepartement);
+    }
+
+    public function recupererIntervenantsAvecAnneeEtDepartementVacataire(int $annee, int $idDepartement){
+        return $this->intervenantRepository->recupererIntervenantsAvecAnneeEtDepartementVacataire($annee, $idDepartement);
+    }
 }

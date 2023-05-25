@@ -505,6 +505,10 @@ nav  button{
     border:none;
 }
 
+.margintop {
+    margin-top: 5%;
+}
+
 /* Bootstrap alerts */
 /* https://getbootstrap.com/docs/3.4/components/#alerts */
 

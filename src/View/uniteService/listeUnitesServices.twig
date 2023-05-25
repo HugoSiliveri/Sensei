@@ -19,7 +19,7 @@
                 {% for uniteService in chunk %}
                     <li class="boutonContainer">
                         <a href="{{ route("afficherDetailUniteService", {"idUniteService": uniteService.getIdUniteService}) }}">
-                            {{ uniteService.getIdUniteService }} {{ uniteService.getLibUS }}   {{ uniteService.getIdUSReferentiel }}</a>
+                            {{ uniteService.getLibUS }}   {{ uniteService.getIdUSReferentiel }}</a>
                     </li>
                 {% endfor %}
             </ul>

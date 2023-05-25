@@ -51,6 +51,76 @@ class IntervenantRepository extends AbstractRepository
     }
 
     /**
+     * @param $annee
+     * @param $idDepartement
+     * @return array
+     */
+    public function recupererIntervenantsAvecAnneeEtDepartementNonVacataire($annee, $idDepartement): array
+    {
+        try {
+            $sql = "SELECT * 
+            from Intervenant i
+            JOIN ServiceAnnuel s On s.idIntervenant = i.idIntervenant
+            WHERE millesime=:millesimeTag AND idDepartement=:idDepartementTag AND idEmploi != 7";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "millesimeTag" => $annee,
+                "idDepartementTag" => $idDepartement
+            );
+            $pdoStatement->execute($values);
+
+            $objetsFormatTableau = $pdoStatement->fetchAll();
+
+            $objets = [];
+            foreach ($objetsFormatTableau as $objetFormatTableau) {
+                $objets[] = $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return $objets;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+
+    }
+
+    /**
+     * @param $annee
+     * @param $idDepartement
+     * @return array
+     */
+    public function recupererIntervenantsAvecAnneeEtDepartementVacataire($annee, $idDepartement): array
+    {
+        try {
+            $sql = "SELECT * 
+            from Intervenant i
+            JOIN ServiceAnnuel s On s.idIntervenant = i.idIntervenant
+            WHERE millesime=:millesimeTag AND idDepartement=:idDepartementTag AND idEmploi = 7";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "millesimeTag" => $annee,
+                "idDepartementTag" => $idDepartement
+            );
+            $pdoStatement->execute($values);
+
+            $objetsFormatTableau = $pdoStatement->fetchAll();
+
+            $objets = [];
+            foreach ($objetsFormatTableau as $objetFormatTableau) {
+                $objets[] = $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return $objets;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+
+    }
+
+    /**
      * Construit un objet Intervenant à partir d'un tableau donné en paramètre.
      * @param array $objetFormatTableau
      * @return Intervenant

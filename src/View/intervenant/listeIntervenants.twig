@@ -1,30 +1,55 @@
 {% extends "base.twig" %}
 
 {% block page_content %}
-    {% set nbIntervenants = intervenants|length %}
-    {% set chunkSize = (nbIntervenants / 3)|round(0, 'ceil') %}
-    {% set chunks = intervenants|batch(chunkSize) %}
+    {% if intervenantsAnnuelsEtDuDepartementNonVacataire|length > 0 %}
+        {% set nbIntervenantsDuDepartementVacataire = intervenantsAnnuelsEtDuDepartementNonVacataire|length %}
+        {% set chunkSize = (nbIntervenantsDuDepartementVacataire / 3)|round(0, 'ceil') %}
+        {% set chunks = intervenantsAnnuelsEtDuDepartementNonVacataire|batch(chunkSize) %}
+    {% endif %}
     <div class="titreEtBarreRecherche">
-        <h2>Liste des
-            intervenant.e.s</h2> {# TODO : A changer en fonction des intervenants du départements et des vacataires #}
+        <h2>Liste des intervenant.e.s actuels.les du département</h2>
         {% include "templates/barreRechercheIntervenant.twig" %}
         <div class="optionsSurObjet">
-            <a href="{{ route("afficherFormulaireCreationIntervenant") }}"><b>Créer un nouvel
-                    intervenant</b></a>
+            <a href="{{ route("afficherFormulaireCreationIntervenant") }}"><b>Créer un.e nouvel.le
+                    intervenant.e</b></a>
         </div>
     </div>
-    <div class="liste">
-        {% for chunk in chunks %}
-            <ul>
-                {% for intervenant in chunk %}
-                    <li class="boutonContainer">
-                        <a href="{{ route("afficherDetailIntervenant", {"idIntervenant": intervenant.getIdIntervenant}) }}">
-                            {{ intervenant.getIdIntervenant }} {{ intervenant.getNom }}   {{ intervenant.getPrenom }}   {{ intervenant.getIdIntervenantReferentiel }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endfor %}
-    </div>
+    {% if intervenantsAnnuelsEtDuDepartementNonVacataire|length > 0 %}
+        <div class="liste">
+            {% for chunk in chunks %}
+                <ul>
+                    {% for intervenant in chunk %}
+                        <li class="boutonContainer">
+                            <a href="{{ route("afficherDetailIntervenant", {"idIntervenant": intervenant.getIdIntervenant}) }}">
+                                {{ intervenant.getNom }}   {{ intervenant.getPrenom }}   {{ intervenant.getIdIntervenantReferentiel }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if intervenantsAnnuelsEtDuDepartementVacataire|length > 0 %}
+        {% set nbIntervenantsDuDepartementVacataire = intervenantsAnnuelsEtDuDepartementVacataire|length %}
+        {% set chunkSize = (nbIntervenantsDuDepartementVacataire / 3)|round(0, 'ceil') %}
+        {% set chunks = intervenantsAnnuelsEtDuDepartementVacataire|batch(chunkSize) %}
+    {% endif %}
+    {% if intervenantsAnnuelsEtDuDepartementVacataire|length > 0 %}
+        <div class="titreEtBarreRecherche margintop">
+            <h2>Liste des vacataires du département </h2>
+        </div>
+        <div class="liste">
+            {% for chunk in chunks %}
+                <ul>
+                    {% for intervenant in chunk %}
+                        <li class="boutonContainer">
+                            <a href="{{ route("afficherDetailIntervenant", {"idIntervenant": intervenant.getIdIntervenant}) }}">
+                                {{ intervenant.getNom }}   {{ intervenant.getPrenom }}   {{ intervenant.getIdIntervenantReferentiel }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endblock %}
 
 

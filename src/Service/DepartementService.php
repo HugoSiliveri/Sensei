@@ -40,7 +40,7 @@ class DepartementService implements DepartementServiceInterface
      */
     public function recupererParLibelle(string $lib)
     {
-        if (strcmp("", $lib) || strcmp(" ", $lib)) {
+        if (strcmp("", $lib) == 0 || strcmp(" ", $lib) == 0) {
             throw new ServiceException("Le département n'est spécifié !");
         } else {
             $departement = $this->departementRepository->recupererParLibelle($lib);

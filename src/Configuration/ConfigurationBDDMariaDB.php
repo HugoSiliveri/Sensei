@@ -21,7 +21,7 @@ class ConfigurationBDDMariaDB implements ConfigurationBDDInterface
     /**
      * @var string Adresse IP de la base de données.
      */
-    private string $hostname = "172.20.0.2";
+    private string $hostname = "172.18.0.2";
 
 
     /**
