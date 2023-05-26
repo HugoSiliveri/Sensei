@@ -1,0 +1,75 @@
+{% extends "base.twig" %}
+
+{% block page_content %}
+    {% if unitesServicesAnneeDuDepartement|length > 0 %}
+        {% set nbUSDuDepartement = unitesServicesAnneeDuDepartement|length %}
+        {% set chunkSize = (nbUSDuDepartement / 2)|round(0, 'ceil') %}
+        {% set chunks = unitesServicesAnneeDuDepartement|batch(chunkSize) %}
+    {% endif %}
+    <div class="titreEtBarreRecherche">
+        <h2>Liste des unités de
+            services du département de cette année </h2>
+        {% include "templates/barreRechercheUniteService.twig" %}
+        <div class="optionsSurObjet">
+            <a href="{{ route("afficherFormulaireCreationIntervenant") }}"><b>Créer une nouvelle unité de service</b></a>
+        </div>
+    </div>
+    {% if unitesServicesAnneeDuDepartement|length > 0 %}
+        <div class="liste">
+            {% set i = 0 %}
+            {% for chunk in chunks %}
+                <ul>
+                    {% for uniteServiceAnneeDuDepartement in chunk %}
+                        <li class="boutonContainer">
+                            {% if uniteServiceAnneeDuDepartement.getIdUniteService is not null %}
+                                <a href="{{ route("afficherDetailUniteService", {"idUniteService": uniteServiceAnneeDuDepartement.getIdUniteService}) }}">
+                            {% else %}
+                                <a href="{{ route("afficherDetailUniteService", {"idUniteService": unitesServicesDuDepartement[i].getIdUniteService}) }}">
+                            {% endif %}
+                                {{ unitesServicesDuDepartement[i].getIdUSReferentiel }}
+
+                            {% if uniteServiceAnneeDuDepartement.getLibUSA is not null %}
+                                {{ uniteServiceAnneeDuDepartement.getLibUSA }}
+                            {% else %}
+                                {{ unitesServicesDuDepartement[i].getLibUS }}
+                            {% endif %}
+                                </a>
+                        </li>
+                        {% set i = i + 1 %}
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if unitesServicesAnneeAvecColoration|length > 0 %}
+        {% set nbUSColoration = unitesServicesAnneeAvecColoration|length %}
+        {% set chunkSize = (nbUSColoration / 2)|round(0, 'ceil') %}
+        {% set chunks = unitesServicesAnneeAvecColoration|batch(chunkSize) %}
+    {% endif %}
+    {% if unitesServicesAnneeAvecColoration|length > 0 %}
+        <div class="titreEtBarreRecherche margintop">
+            <h2>Liste des unités de services avec la coloration du département </h2>
+        </div>
+        <div class="liste">
+            {% set i = 0 %}
+            {% for chunk in chunks %}
+                <ul>
+                    {% for uniteServiceAnneeAvecColoration in chunk %}
+                        <li class="boutonContainer">
+                            <a href="{{ route("afficherDetailUniteService", {"idUniteService": uniteServiceAnneeAvecColoration.getIdUniteService}) }}">
+                                {{ unitesServicesAvecColoration[i].getIdUSReferentiel }}
+
+                            {% if uniteServiceAnneeAvecColoration.getLibUSA is not null %}
+                                {{ uniteServiceAnneeAvecColoration.getLibUSA }}
+                            {% else %}
+                                {{ unitesServicesAvecColoration[i].getLibUS }}
+                            {% endif %}
+                                </a>
+                        </li>
+                        {% set i = i + 1 %}
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

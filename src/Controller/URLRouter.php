@@ -194,7 +194,8 @@ class URLRouter
 
         $uniteServiceAnneeController = $conteneur->register('unite_service_annee_controller', UniteServiceAnneeController::class);
         $uniteServiceAnneeController->setArguments([new Reference('unite_service_annee_service'),
-            new Reference('unite_service_service'), new Reference('departement_service')]);
+            new Reference('unite_service_service'), new Reference('departement_service'),
+            new Reference('service_annuel_service'), new Reference('connexion_utilisateur')]);
 
         $etatController = $conteneur->register('etat_controller', EtatController::class);
         $etatController->setArguments([new Reference('etat_service')]);
@@ -313,10 +314,10 @@ class URLRouter
         ]);
         $routeMettreAJourIntervenant->setMethods(["POST"]);
 
-        $routeAfficherListeUniteServices = new Route("/unitesServices", [
-            "_controller" => ["unite_service_controller", "afficherListe"]
+        $routeAfficherListeUniteServicesAnnee = new Route("/unitesServices", [
+            "_controller" => ["unite_service_annee_controller", "afficherListe"]
         ]);
-        $routeAfficherListeUniteServices->setMethods(["GET"]);
+        $routeAfficherListeUniteServicesAnnee->setMethods(["GET"]);
 
         $routeChercherUniteService = new Route("/unitesServices", [
             "_controller" => ["unite_service_controller", "chercherUniteService"]
@@ -593,7 +594,7 @@ class URLRouter
         $routes->add("accueil", $routeParDefaut);
         $routes->add("gestion", $routeGestion);
         $routes->add("afficherListeIntervenants", $routeAfficherListeIntervenants);
-        $routes->add("afficherListeUnitesServices", $routeAfficherListeUniteServices);
+        $routes->add("afficherListeUnitesServicesAnnee", $routeAfficherListeUniteServicesAnnee);
         $routes->add("afficherDetailIntervenant", $routeAfficherDetailIntervenant);
         $routes->add("exporterEnCSV", $routeExporterEnCSVIntervenant);
         $routes->add("afficherDetailUniteService", $routeAfficherDetailUniteService);

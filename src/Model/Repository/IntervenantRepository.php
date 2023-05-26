@@ -61,7 +61,8 @@ class IntervenantRepository extends AbstractRepository
             $sql = "SELECT * 
             from Intervenant i
             JOIN ServiceAnnuel s On s.idIntervenant = i.idIntervenant
-            WHERE millesime=:millesimeTag AND idDepartement=:idDepartementTag AND idEmploi != 7";
+            WHERE millesime=:millesimeTag AND idDepartement=:idDepartementTag AND idEmploi != 7
+            ORDER BY nom, prenom";
 
             $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
 
@@ -96,7 +97,8 @@ class IntervenantRepository extends AbstractRepository
             $sql = "SELECT * 
             from Intervenant i
             JOIN ServiceAnnuel s On s.idIntervenant = i.idIntervenant
-            WHERE millesime=:millesimeTag AND idDepartement=:idDepartementTag AND idEmploi = 7";
+            WHERE millesime=:millesimeTag AND idDepartement=:idDepartementTag AND idEmploi = 7
+            ORDER BY nom, prenom";
 
             $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
 

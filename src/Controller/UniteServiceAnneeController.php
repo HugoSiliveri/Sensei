@@ -2,9 +2,12 @@
 
 namespace App\Sensei\Controller;
 
+use App\Sensei\Lib\ConnexionUtilisateurInterface;
+use App\Sensei\Lib\InfosGlobales;
 use App\Sensei\Lib\MessageFlash;
 use App\Sensei\Service\DepartementServiceInterface;
 use App\Sensei\Service\Exception\ServiceException;
+use App\Sensei\Service\ServiceAnnuelServiceInterface;
 use App\Sensei\Service\UniteServiceAnneeServiceInterface;
 use App\Sensei\Service\UniteServiceServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,10 +18,56 @@ class UniteServiceAnneeController extends GenericController
     public function __construct(
         private readonly UniteServiceAnneeServiceInterface $uniteServiceAnneeService,
         private readonly UniteServiceServiceInterface      $uniteServiceService,
-        private readonly DepartementServiceInterface       $departementService
+        private readonly DepartementServiceInterface       $departementService,
+        private readonly ServiceAnnuelServiceInterface $serviceAnnuelService,
+        private readonly ConnexionUtilisateurInterface $connexionUtilisateur
     )
     {
     }
+
+    /**
+     * Méthode qui affiche la liste des unités de services pour l'année et le département de l'utilisateur (ou modifié dans
+     * la page de gestion).
+     *
+     * @return Response
+     * @throws ServiceException
+     */
+    public function afficherListe(): Response
+    {
+        try {
+            $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuelPlusRecent($this->connexionUtilisateur->getIdUtilisateurConnecte());
+            $idDepartement = $this->departementService->recupererParLibelle(InfosGlobales::lireDepartement())->getIdDepartement() ?? $serviceAnnuel->getIdDepartement();
+            $annee = $serviceAnnuel->getMillesime();
+            $anneeActuelle = InfosGlobales::lireAnnee() ?? $annee;
+
+
+            $unitesServicesAnneeDuDepartement = $this->uniteServiceAnneeService->recupererUnitesServicesPourUneAnneePourUnDepartement($anneeActuelle, $idDepartement);
+            $unitesServicesDuDepartement = [];
+            foreach ($unitesServicesAnneeDuDepartement as $uniteServiceAnneeDuDepartement){
+                $unitesServicesDuDepartement[] = $this->uniteServiceService->recupererParIdentifiant($uniteServiceAnneeDuDepartement->getIdUniteService());
+            }
+
+            $unitesServicesAnneeAvecColoration = $this->uniteServiceAnneeService->recupererUniteServiceAnneeUniquementColoration($anneeActuelle, $idDepartement);
+            $unitesServicesAvecColoration = [];
+            foreach ($unitesServicesAnneeAvecColoration as $uniteServiceAvecColoration){
+                $unitesServicesAvecColoration[] = $this->uniteServiceService->recupererParIdentifiant($uniteServiceAvecColoration->getIdUniteService());
+            }
+            return UniteServiceController::afficherTwig("uniteServiceAnnee/listeUnitesServicesAnnee.twig", [
+                "unitesServicesAnneeDuDepartement" => $unitesServicesAnneeDuDepartement,
+                "unitesServicesAnneeAvecColoration" => $unitesServicesAnneeAvecColoration,
+                "unitesServicesDuDepartement" => $unitesServicesDuDepartement,
+                "unitesServicesAvecColoration" => $unitesServicesAvecColoration]);
+
+        } catch (ServiceException $exception){
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+            return IntervenantController::rediriger("accueil");
+        }
+    }
+
 
     /**
      * @throws ServiceException

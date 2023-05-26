@@ -157,10 +157,13 @@ class IntervenantController extends GenericController
             $annee = $serviceAnnuel->getMillesime();
 
             $anneeActuelle = InfosGlobales::lireAnnee() ?? $annee;
-
             $intervenantConnecte = $this->connexionUtilisateur->getIntervenantConnecte();
             $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuel($intervenantConnecte->getIdIntervenant(), $anneeActuelle);
-            $responsabilitesAnnuel = $this->responsableUSService->recupererParIdIntervenantAnnuel($intervenantConnecte->getIdIntervenant(), $serviceAnnuel->getMillesime());
+            if (isset($serviceAnnuel)){
+                $responsabilitesAnnuel = $this->responsableUSService->recupererParIdIntervenantAnnuel($intervenantConnecte->getIdIntervenant(), $serviceAnnuel->getMillesime());
+            } else {
+                $responsabilitesAnnuel = [];
+            }
 
             $us = [];
             $usa = [];

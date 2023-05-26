@@ -9,7 +9,10 @@
 }
 
 :root {
-    --bg-color: #31485F;
+    /*--bg-color: ;#31485F;*/
+    --bg-color-blue: rgb(51,161,185);
+    --bg-color-green : rgb(148,193,31);
+    --bg-color-orange : rgb(234,91,12);
     --bg-hover: #273C50;
     --classic-font: Montserrat, serif;
     --semibold-font: Montserrat-SemiBold, serif;
@@ -91,7 +94,7 @@ nav {
     border-bottom: black;
     padding: 0 2%;
     color: white;
-    background-color: var(--bg-color);
+    background-color: var(--bg-color-orange);
 }
 
 a {
@@ -147,7 +150,7 @@ ul {
 }
 
 #footer {
-    background-color: var(--bg-color);
+    background-color: var(--bg-color-orange);
     padding: 0 4% 4% 4%;
 }
 
@@ -157,7 +160,7 @@ ul {
 
 .boutonValidation {
     justify-content: space-evenly;
-    background-color: var(--bg-color);
+    background-color: var(--bg-color-green);
     border-radius: 10px;
     width: 260px;
     margin-top: 5%;
@@ -188,10 +191,19 @@ ul {
 }
 
 .boutonEnvoie, .boutonEnvoie2 {
-    background-color: var(--bg-color);
     height: 35px;
     width: 35px;
     border-radius: 0 20% 20% 0;
+}
+
+.boutonEnvoie2 {
+    background-color: var(--bg-color-green);
+    border: var(--bg-color-green);
+}
+
+.boutonEnvoie {
+    background-color: var(--bg-color-blue);
+    border: var(--bg-color-blue);
 }
 
 .boutonEnvoie2 {
@@ -507,6 +519,18 @@ nav  button{
 
 .margintop {
     margin-top: 5%;
+}
+
+.bgOrange {
+    background-color: var(--bg-color-orange);
+}
+
+.bgBleu {
+    background-color: var(--bg-color-blue);
+}
+
+.bgVert {
+    background-color: var(--bg-color-green);
 }
 
 /* Bootstrap alerts */

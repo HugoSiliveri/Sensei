@@ -25,10 +25,11 @@ class ServiceAnnuelService implements ServiceAnnuelServiceInterface
     /**
      * @param int $idIntervenant
      * @param int $millesime
-     * @return AbstractDataObject
+     * @return AbstractDataObject|null
      */
-    public function recupererParIntervenantAnnuel(int $idIntervenant, int $millesime): AbstractDataObject
+    public function recupererParIntervenantAnnuel(int $idIntervenant, int $millesime): ?AbstractDataObject
     {
+
         return $this->serviceAnnuelRepository->recupererParIntervenantAnnuel($idIntervenant, $millesime);
     }
 

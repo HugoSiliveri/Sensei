@@ -21,12 +21,75 @@ class UniteServiceAnneeRepository extends AbstractRepository
         try {
             $sql = "SELECT DISTINCT *
             FROM UniteServiceAnnee WHERE idUniteService =:idUniteServiceTag
-            ORDER BY millesime DESC";
+            ORDER BY millesime, libUSA DESC";
 
             $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
 
             $values = array(
                 "idUniteServiceTag" => $idUniteService,
+            );
+            $pdoStatement->execute($values);
+
+            $objetsFormatTableau = $pdoStatement->fetchAll();
+
+            $objets = [];
+            foreach ($objetsFormatTableau as $objetFormatTableau) {
+                $objets[] = $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return $objets;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
+    public function recupererUnitesServicesPourUneAnneePourUnDepartement($annee, $idDepartement): array
+    {
+        try {
+            $sql = "SELECT usa.idUniteServiceAnnee, usa.idDepartement, idUniteService, libUSA, millesime, heuresCM, nbGroupesCM,
+            heuresTD, nbGroupesTD, heuresTP, nbGroupesTP, heuresStage, nbGroupesStage, heuresTerrain,
+            heuresInnovationPedagogique, nbGroupesInnovationPedagogique, nbGroupesTerrain, validite, deleted
+            FROM UniteServiceAnnee usa
+            LEFT JOIN Coloration c ON c.idUniteServiceAnnee = usa.idUniteServiceAnnee
+            WHERE c.idUniteServiceAnnee IS NULL AND millesime =:anneeTag AND usa.idDepartement=:idDepartementTag
+            ORDER BY usa.idUniteServiceAnnee, usa.idDepartement, idUniteService, libUSA, millesime, heuresCM, nbGroupesCM,
+            heuresTD, nbGroupesTD, heuresTP, nbGroupesTP, heuresStage, nbGroupesStage, heuresTerrain,
+            heuresInnovationPedagogique, nbGroupesInnovationPedagogique, nbGroupesTerrain, validite, deleted";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "anneeTag" => $annee,
+                "idDepartementTag" => $idDepartement
+            );
+            $pdoStatement->execute($values);
+            $objetsFormatTableau = $pdoStatement->fetchAll();
+
+            $objets = [];
+            foreach ($objetsFormatTableau as $objetFormatTableau) {
+                $objets[] = $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return $objets;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
+    public function recupererUniteServiceAnneeUniquementColoration($annee, $idDepartement): array
+    {
+        try {
+            $sql = "SELECT * FROM UniteServiceAnnee usa
+            LEFT JOIN Coloration c ON c.idUniteServiceAnnee = usa.idUniteServiceAnnee
+            WHERE c.idDepartement =:idDepartementTag AND millesime =:anneeTag AND usa.idDepartement!=:idDepartementTag2
+            ORDER BY libUSA";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "anneeTag" => $annee,
+                "idDepartementTag" => $idDepartement,
+                "idDepartementTag2" => $idDepartement
             );
             $pdoStatement->execute($values);
 

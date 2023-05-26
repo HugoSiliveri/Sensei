@@ -37,17 +37,6 @@ class UniteServiceController extends GenericController
     }
 
     /**
-     * Méthode qui affiche la liste des utilisateurs.
-     *
-     * @return Response
-     */
-    public function afficherListe(): Response
-    {
-        $unitesServices = $this->uniteServiceService->recupererUnitesServices();
-        return UniteServiceController::afficherTwig("uniteService/listeUnitesServices.twig", ["unitesServices" => $unitesServices]);
-    }
-
-    /**
      * Méthode qui affiche le détail d'un intervenant.
      *
      * @param int $idUniteService
