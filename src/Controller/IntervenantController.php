@@ -95,7 +95,6 @@ class IntervenantController extends GenericController
                 $departements[] = $this->departementService->recupererParIdentifiant($serviceAnnuel->getIdDepartement());
             }
 
-            //$voeux = $this->voeuService->recupererVueParIntervenant($idIntervenant);
             $declarationsServices = $this->declarationServiceService->recupererVueParIdIntervenant($idIntervenant);
 
             $parametres = [

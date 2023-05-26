@@ -46,15 +46,14 @@ class UniteServiceAnneeRepository extends AbstractRepository
     public function recupererUnitesServicesPourUneAnneePourUnDepartement($annee, $idDepartement): array
     {
         try {
-            $sql = "SELECT usa.idUniteServiceAnnee, usa.idDepartement, idUniteService, libUSA, millesime, heuresCM, nbGroupesCM,
-            heuresTD, nbGroupesTD, heuresTP, nbGroupesTP, heuresStage, nbGroupesStage, heuresTerrain,
-            heuresInnovationPedagogique, nbGroupesInnovationPedagogique, nbGroupesTerrain, validite, deleted
+            $sql = "SELECT usa.idUniteServiceAnnee, usa.idDepartement, usa.idUniteService, libUSA, millesime, usa.heuresCM, nbGroupesCM,
+            usa.heuresTD, nbGroupesTD, usa.heuresTP, nbGroupesTP, usa.heuresStage, nbGroupesStage, usa.heuresTerrain,
+            nbGroupesTerrain, usa.heuresInnovationPedagogique, nbGroupesInnovationPedagogique, usa.validite, usa.deleted
             FROM UniteServiceAnnee usa
             LEFT JOIN Coloration c ON c.idUniteServiceAnnee = usa.idUniteServiceAnnee
+            JOIN UniteService us ON us.idUniteService = usa.idUniteService
             WHERE c.idUniteServiceAnnee IS NULL AND millesime =:anneeTag AND usa.idDepartement=:idDepartementTag
-            ORDER BY usa.idUniteServiceAnnee, usa.idDepartement, idUniteService, libUSA, millesime, heuresCM, nbGroupesCM,
-            heuresTD, nbGroupesTD, heuresTP, nbGroupesTP, heuresStage, nbGroupesStage, heuresTerrain,
-            heuresInnovationPedagogique, nbGroupesInnovationPedagogique, nbGroupesTerrain, validite, deleted";
+            ORDER BY idUSReferentiel, libUSA";
 
             $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
 
@@ -81,8 +80,9 @@ class UniteServiceAnneeRepository extends AbstractRepository
         try {
             $sql = "SELECT * FROM UniteServiceAnnee usa
             LEFT JOIN Coloration c ON c.idUniteServiceAnnee = usa.idUniteServiceAnnee
+            JOIN UniteService us ON us.idUniteService = usa.idUniteService
             WHERE c.idDepartement =:idDepartementTag AND millesime =:anneeTag AND usa.idDepartement!=:idDepartementTag2
-            ORDER BY libUSA";
+            ORDER BY idUSReferentiel, libUSA";
 
             $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
 

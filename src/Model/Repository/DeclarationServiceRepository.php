@@ -19,7 +19,7 @@ class DeclarationServiceRepository extends AbstractRepository
         try {
             $sql = "SELECT *
             FROM vueInfosService WHERE idIntervenant=:idIntervenantTag
-            ORDER BY millesime DESC";
+            ORDER BY millesime DESC, idUSReferentiel ASC";
 
             $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
 

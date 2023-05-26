@@ -161,6 +161,7 @@ ul {
 .boutonValidation {
     justify-content: space-evenly;
     background-color: var(--bg-color-green);
+    border-color: var(--bg-color-green);
     border-radius: 10px;
     width: 260px;
     margin-top: 5%;
@@ -218,6 +219,10 @@ ul {
 
 .boutonValidation:hover, .boutonEnvoie:hover, .boutonEnvoie2:hover {
     background-color: var(--bg-hover);
+}
+
+.boutonValidation, .boutonEnvoie, .boutonEnvoie2 {
+    border-style: none;
 }
 
 .titreEtBarreRecherche, .titreEtBarreRecherche2 {
