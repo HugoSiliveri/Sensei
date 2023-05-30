@@ -319,4 +319,12 @@ class IntervenantController extends GenericController
 
         return IntervenantController::rediriger("accueil");
     }
+
+    public function afficherServices(){
+        return IntervenantController::afficherTwig("service.twig");
+    }
+
+    public function afficherAide(){
+        return IntervenantController::afficherTwig("aide.twig");
+    }
 }

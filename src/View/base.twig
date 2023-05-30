@@ -20,11 +20,11 @@
             </a>
         </div>
         <div id="onglets">
-            <a href="{{ route("accueil") }}">Services</a>
+            <a href="{{ route("services") }}">Services</a>
             <a href="{{ route("afficherListeUnitesServicesAnnee") }}">Unités de Services</a>
             <a href="{{ route("afficherListeIntervenants") }}">Intervenant.e.s</a>
             <a href="{{ route("gestion") }}">Gestion</a>
-            <a href="#">Aide</a>
+            <a href="{{ route("aide") }}">Aide</a>
         </div>
         <div id="deconnexion">
             <form action="{{ route('deconnexion') }}" method="post">

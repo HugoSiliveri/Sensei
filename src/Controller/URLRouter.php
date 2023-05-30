@@ -601,6 +601,15 @@ class URLRouter
         ]);
         $routeGererEtat->setMethods(["POST"]);
 
+        $routeServices = new Route("/services", [
+            "_controller" => ["intervenant_controller", "afficherServices"]
+        ]);
+        $routeServices->setMethods(["GET"]);
+
+        $routeAide = new Route("/aide", [
+            "_controller" => ["intervenant_controller", "afficherAide"]
+        ]);
+        $routeAide->setMethods(["GET"]);
 
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
@@ -671,6 +680,8 @@ class URLRouter
         $routes->add("changementGestion", $routeChangementGestion);
         $routes->add("afficherFormulaireGestionEtat", $routeAfficherFormulaireGestionEtat);
         $routes->add("gererEtat", $routeGererEtat);
+        $routes->add("services", $routeServices);
+        $routes->add("aide", $routeAide);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 
