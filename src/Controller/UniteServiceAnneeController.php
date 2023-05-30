@@ -19,8 +19,8 @@ class UniteServiceAnneeController extends GenericController
         private readonly UniteServiceAnneeServiceInterface $uniteServiceAnneeService,
         private readonly UniteServiceServiceInterface      $uniteServiceService,
         private readonly DepartementServiceInterface       $departementService,
-        private readonly ServiceAnnuelServiceInterface $serviceAnnuelService,
-        private readonly ConnexionUtilisateurInterface $connexionUtilisateur
+        private readonly ServiceAnnuelServiceInterface     $serviceAnnuelService,
+        private readonly ConnexionUtilisateurInterface     $connexionUtilisateur
     )
     {
     }
@@ -43,13 +43,13 @@ class UniteServiceAnneeController extends GenericController
 
             $unitesServicesAnneeDuDepartement = $this->uniteServiceAnneeService->recupererUnitesServicesPourUneAnneePourUnDepartement($anneeActuelle, $idDepartement);
             $unitesServicesDuDepartement = [];
-            foreach ($unitesServicesAnneeDuDepartement as $uniteServiceAnneeDuDepartement){
+            foreach ($unitesServicesAnneeDuDepartement as $uniteServiceAnneeDuDepartement) {
                 $unitesServicesDuDepartement[] = $this->uniteServiceService->recupererParIdentifiant($uniteServiceAnneeDuDepartement->getIdUniteService());
             }
 
             $unitesServicesAnneeAvecColoration = $this->uniteServiceAnneeService->recupererUniteServiceAnneeUniquementColoration($anneeActuelle, $idDepartement);
             $unitesServicesAvecColoration = [];
-            foreach ($unitesServicesAnneeAvecColoration as $uniteServiceAvecColoration){
+            foreach ($unitesServicesAnneeAvecColoration as $uniteServiceAvecColoration) {
                 $unitesServicesAvecColoration[] = $this->uniteServiceService->recupererParIdentifiant($uniteServiceAvecColoration->getIdUniteService());
             }
             return UniteServiceController::afficherTwig("uniteServiceAnnee/listeUnitesServicesAnnee.twig", [
@@ -58,7 +58,7 @@ class UniteServiceAnneeController extends GenericController
                 "unitesServicesDuDepartement" => $unitesServicesDuDepartement,
                 "unitesServicesAvecColoration" => $unitesServicesAvecColoration]);
 
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {

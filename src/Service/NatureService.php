@@ -9,7 +9,7 @@ use App\Sensei\Service\Exception\ServiceException;
 class NatureService implements NatureServiceInterface
 {
     public function __construct(
-        private NatureRepository $natureRepository,
+        private readonly NatureRepository $natureRepository,
     )
     {
     }

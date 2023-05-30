@@ -64,26 +64,6 @@ class DepartementRepository extends AbstractRepository
         }
     }
 
-    public function changerEtat(int $idDepartement, int $idEtat)
-    {
-        try {
-            $sql = "UPDATE Departement SET idEtat=:idEtatTag WHERE idDepartement=:idDepartementTag";
-
-            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
-
-            $values = array(
-                "idDepartementTag" => $idDepartement,
-                "idEtatTag" => $idEtat
-            );
-
-            $pdoStatement->execute($values);
-            return null;
-        } catch (PDOException $exception){
-            echo $exception->getMessage();
-            die("Erreur lors d'insertion dans la base de données.");
-        }
-    }
-
     /** Construit un objet Departement à partir d'un tableau donné en paramètre.
      * @param array $objetFormatTableau
      * @return Departement
@@ -98,6 +78,26 @@ class DepartementRepository extends AbstractRepository
             $objetFormatTableau["idComposante"],
             $objetFormatTableau["idEtat"]
         );
+    }
+
+    public function changerEtat(int $idDepartement, int $idEtat)
+    {
+        try {
+            $sql = "UPDATE Departement SET idEtat=:idEtatTag WHERE idDepartement=:idDepartementTag";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "idDepartementTag" => $idDepartement,
+                "idEtatTag" => $idEtat
+            );
+
+            $pdoStatement->execute($values);
+            return null;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors d'insertion dans la base de données.");
+        }
     }
 
     /**

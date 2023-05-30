@@ -62,7 +62,7 @@ class IntervenantController extends GenericController
                 "intervenantsAnnuelsEtDuDepartementNonVacataire" => $intervenantsAnnuelsEtDuDepartementNonVacataire,
                 "intervenantsAnnuelsEtDuDepartementVacataire" => $intervenantsAnnuelsEtDuDepartementVacataire]);
 
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {
@@ -99,13 +99,13 @@ class IntervenantController extends GenericController
                 $declarationsServicesParAnnee = [];
                 $declarationsServicesAvecMemeId = [];
                 $i = 0;
-                foreach ($declarationsServices as $declarationService){
-                    if ($declarationService["millesime"] == $serviceAnnuel->getMillesime()){
-                        if ($i == 0){
+                foreach ($declarationsServices as $declarationService) {
+                    if ($declarationService["millesime"] == $serviceAnnuel->getMillesime()) {
+                        if ($i == 0) {
                             $declarationsServicesAvecMemeId[] = $declarationService;
                             $i++;
                         } else {
-                            if ($declarationService["idUsReferentiel"] == $declarationsServicesAvecMemeId[0]["idUsReferentiel"]){
+                            if ($declarationService["idUsReferentiel"] == $declarationsServicesAvecMemeId[0]["idUsReferentiel"]) {
                                 $declarationsServicesAvecMemeId[] = $declarationService;
                                 $i++;
                             } else {
@@ -183,7 +183,7 @@ class IntervenantController extends GenericController
 
             $intervenantConnecte = $this->connexionUtilisateur->getIntervenantConnecte();
             $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuel($intervenantConnecte->getIdIntervenant(), $anneeActuelle);
-            if (isset($serviceAnnuel)){
+            if (isset($serviceAnnuel)) {
                 $responsabilitesAnnuel = $this->responsableUSService->recupererParIdIntervenantAnnuel($intervenantConnecte->getIdIntervenant(), $serviceAnnuel->getMillesime());
             } else {
                 $responsabilitesAnnuel = [];
@@ -285,9 +285,10 @@ class IntervenantController extends GenericController
     /**
      * @throws ServiceException
      */
-    public function deconnecter(){
+    public function deconnecter()
+    {
 
-        if (!$this->connexionUtilisateur->estConnecte()){
+        if (!$this->connexionUtilisateur->estConnecte()) {
             throw new ServiceException("Utilisateur non connecté !");
         }
         $this->connexionUtilisateur->deconnecter();
@@ -295,7 +296,8 @@ class IntervenantController extends GenericController
         return IntervenantController::rediriger("accueil");
     }
 
-    public function changementGestion(){
+    public function changementGestion()
+    {
         $annee = $_POST["annee"];
         $departement = $this->departementService->recupererParIdentifiant($_POST["departement"])->getLibDepartement();
 

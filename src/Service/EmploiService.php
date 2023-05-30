@@ -9,7 +9,7 @@ use App\Sensei\Service\Exception\ServiceException;
 class EmploiService implements EmploiServiceInterface
 {
     public function __construct(
-        private EmploiRepository $emploiRepository,
+        private readonly EmploiRepository $emploiRepository,
     )
     {
     }

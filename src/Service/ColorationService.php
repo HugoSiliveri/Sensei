@@ -9,7 +9,7 @@ use App\Sensei\Service\Exception\ServiceException;
 class ColorationService implements ColorationServiceInterface
 {
     public function __construct(
-        private ColorationRepository $colorationRepository,
+        private readonly ColorationRepository $colorationRepository,
     )
     {
     }

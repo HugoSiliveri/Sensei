@@ -11,9 +11,9 @@ use App\Sensei\Service\Exception\ServiceException;
 class DepartementService implements DepartementServiceInterface
 {
     public function __construct(
-        private DepartementRepository $departementRepository,
-        private ServiceAnnuelRepository $serviceAnnuelRepository,
-        private IntervenantRepository $intervenantRepository
+        private readonly DepartementRepository   $departementRepository,
+        private readonly ServiceAnnuelRepository $serviceAnnuelRepository,
+        private readonly IntervenantRepository   $intervenantRepository
     )
     {
     }
@@ -85,20 +85,22 @@ class DepartementService implements DepartementServiceInterface
         $this->departementRepository->mettreAJour($objet);
     }
 
-    public function changerEtat(int $idDepartement, int $idEtat){
+    public function changerEtat(int $idDepartement, int $idEtat)
+    {
         $this->departementRepository->changerEtat($idDepartement, $idEtat);
     }
 
     /**
      * @throws ServiceException
      */
-    public function verifierDroitsPourGestion(int $idIntervenant, int $idDepartement){
+    public function verifierDroitsPourGestion(int $idIntervenant, int $idDepartement)
+    {
         $serviceAnnuel = $this->serviceAnnuelRepository->recupererParIntervenantAnnuelPlusRecent($idIntervenant);
-        if ($serviceAnnuel->getIdDepartement() != $idDepartement){
+        if ($serviceAnnuel->getIdDepartement() != $idDepartement) {
             throw new ServiceException("Vous n'appartenez pas au département que vous souhaitez modifier !");
         }
         $intervenant = $this->intervenantRepository->recupererParClePrimaire($idIntervenant);
-        if ($intervenant->getIdDroit() > 2){
+        if ($intervenant->getIdDroit() > 2) {
             throw new ServiceException("Vous n'avez pas les permissions pour réaliser la modification !");
         }
     }

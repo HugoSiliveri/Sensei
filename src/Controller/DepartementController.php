@@ -15,9 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 class DepartementController extends GenericController
 {
     public function __construct(
-        private readonly DepartementServiceInterface $departementService,
-        private readonly EtatServiceInterface        $etatService,
-        private readonly ComposanteServiceInterface  $composanteService,
+        private readonly DepartementServiceInterface   $departementService,
+        private readonly EtatServiceInterface          $etatService,
+        private readonly ComposanteServiceInterface    $composanteService,
         private readonly ServiceAnnuelServiceInterface $serviceAnnuelService,
         private readonly ConnexionUtilisateurInterface $connexionUtilisateur
     )
@@ -124,19 +124,20 @@ class DepartementController extends GenericController
     /**
      * @throws ServiceException
      */
-    public function afficherFormulaireGestionEtat(){
+    public function afficherFormulaireGestionEtat()
+    {
         try {
 
             $etats = $this->etatService->recupererEtats();
             $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuelPlusRecent($this->connexionUtilisateur->getIdUtilisateurConnecte());
-            $idDepartement =  $this->departementService->recupererParLibelle(InfosGlobales::lireDepartement())->getIdDepartement() ?? $serviceAnnuel->getIdDepartement();
+            $idDepartement = $this->departementService->recupererParLibelle(InfosGlobales::lireDepartement())->getIdDepartement() ?? $serviceAnnuel->getIdDepartement();
 
             $this->departementService->verifierDroitsPourGestion($this->connexionUtilisateur->getIdUtilisateurConnecte(), $idDepartement);
 
             return EtatController::afficherTwig("departement/gererEtat.twig", [
                 "etats" => $etats,
                 "idDepartement" => $idDepartement]);
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {
@@ -146,7 +147,8 @@ class DepartementController extends GenericController
         }
     }
 
-    public function gererEtat(){
+    public function gererEtat()
+    {
         $idEtat = $_POST["idEtat"];
         $idDepartement = $_POST["idDepartement"];
         $this->departementService->changerEtat($idDepartement, $idEtat);

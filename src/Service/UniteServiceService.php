@@ -9,7 +9,7 @@ use App\Sensei\Service\Exception\ServiceException;
 class UniteServiceService implements UniteServiceServiceInterface
 {
     public function __construct(
-        private UniteServiceRepository $uniteServiceRepository,
+        private readonly UniteServiceRepository $uniteServiceRepository,
     )
     {
     }

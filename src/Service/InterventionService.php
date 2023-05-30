@@ -9,7 +9,7 @@ use App\Sensei\Service\Exception\ServiceException;
 class InterventionService implements InterventionServiceInterface
 {
     public function __construct(
-        private InterventionRepository $interventionRepository,
+        private readonly InterventionRepository $interventionRepository,
     )
     {
     }

@@ -8,7 +8,7 @@ use App\Sensei\Service\Exception\ServiceException;
 class AppartenirService implements AppartenirServiceInterface
 {
     public function __construct(
-        private AppartenirRepository $appartenirRepository,
+        private readonly AppartenirRepository $appartenirRepository,
     )
     {
     }

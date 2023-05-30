@@ -48,7 +48,7 @@ class Cookie
      */
     public static function lire(string $cle): mixed
     {
-        if (isset($_COOKIE[$cle])){
+        if (isset($_COOKIE[$cle])) {
             return unserialize($_COOKIE[$cle]);
         } else {
             return null;

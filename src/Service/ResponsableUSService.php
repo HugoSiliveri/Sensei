@@ -8,7 +8,7 @@ use App\Sensei\Service\Exception\ServiceException;
 class ResponsableUSService implements ResponsableUSServiceInterface
 {
     public function __construct(
-        private ResponsableUSRepository $responsableUSRepository,
+        private readonly ResponsableUSRepository $responsableUSRepository,
     )
     {
     }

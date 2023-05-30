@@ -4,7 +4,6 @@ namespace App\Sensei\Model\HTTP;
 
 use App\Sensei\Configuration\Configuration;
 use Exception;
-use phpCAS;
 
 class Session
 {
@@ -15,7 +14,7 @@ class Session
      */
     private function __construct()
     {
-        if (!isset($_SESSION)){
+        if (!isset($_SESSION)) {
             if (session_start() === false) {
                 throw new Exception("La session n'a pas réussi à démarrer.");
             }

@@ -7,7 +7,7 @@ use App\Sensei\Model\Repository\VoeuRepository;
 class VoeuService implements VoeuServiceInterface
 {
     public function __construct(
-        private VoeuRepository $voeuRepository,
+        private readonly VoeuRepository $voeuRepository,
     )
     {
     }

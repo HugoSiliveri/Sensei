@@ -21,7 +21,7 @@ class UniteServiceAnneeRepository extends AbstractRepository
         try {
             $sql = "SELECT DISTINCT *
             FROM UniteServiceAnnee WHERE idUniteService =:idUniteServiceTag
-            ORDER BY millesime, libUSA DESC";
+            ORDER BY millesime DESC, libUSA";
 
             $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
 
@@ -41,6 +41,35 @@ class UniteServiceAnneeRepository extends AbstractRepository
             echo $exception->getMessage();
             die("Erreur lors de la recherche dans la base de données.");
         }
+    }
+
+    /** Construit un objet UniteServiceAnnee à partir d'un tableau donné en paramètre.
+     * @param array $objetFormatTableau
+     * @return UniteServiceAnnee
+     */
+    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
+    {
+        return new UniteServiceAnnee(
+            $objetFormatTableau["idUniteServiceAnnee"],
+            $objetFormatTableau["idDepartement"],
+            $objetFormatTableau["idUniteService"],
+            $objetFormatTableau["libUSA"],
+            $objetFormatTableau["millesime"],
+            $objetFormatTableau["heuresCM"],
+            $objetFormatTableau["nbGroupesCM"],
+            $objetFormatTableau["heuresTD"],
+            $objetFormatTableau["nbGroupesTD"],
+            $objetFormatTableau["heuresTP"],
+            $objetFormatTableau["nbGroupesTP"],
+            $objetFormatTableau["heuresStage"],
+            $objetFormatTableau["nbGroupesStage"],
+            $objetFormatTableau["heuresTerrain"],
+            $objetFormatTableau["nbGroupesTerrain"],
+            $objetFormatTableau["heuresInnovationPedagogique"],
+            $objetFormatTableau["nbGroupesInnovationPedagogique"],
+            $objetFormatTableau["validite"],
+            $objetFormatTableau["deleted"],
+        );
     }
 
     public function recupererUnitesServicesPourUneAnneePourUnDepartement($annee, $idDepartement): array
@@ -104,35 +133,6 @@ class UniteServiceAnneeRepository extends AbstractRepository
             echo $exception->getMessage();
             die("Erreur lors de la recherche dans la base de données.");
         }
-    }
-
-    /** Construit un objet UniteServiceAnnee à partir d'un tableau donné en paramètre.
-     * @param array $objetFormatTableau
-     * @return UniteServiceAnnee
-     */
-    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
-    {
-        return new UniteServiceAnnee(
-            $objetFormatTableau["idUniteServiceAnnee"],
-            $objetFormatTableau["idDepartement"],
-            $objetFormatTableau["idUniteService"],
-            $objetFormatTableau["libUSA"],
-            $objetFormatTableau["millesime"],
-            $objetFormatTableau["heuresCM"],
-            $objetFormatTableau["nbGroupesCM"],
-            $objetFormatTableau["heuresTD"],
-            $objetFormatTableau["nbGroupesTD"],
-            $objetFormatTableau["heuresTP"],
-            $objetFormatTableau["nbGroupesTP"],
-            $objetFormatTableau["heuresStage"],
-            $objetFormatTableau["nbGroupesStage"],
-            $objetFormatTableau["heuresTerrain"],
-            $objetFormatTableau["nbGroupesTerrain"],
-            $objetFormatTableau["heuresInnovationPedagogique"],
-            $objetFormatTableau["nbGroupesInnovationPedagogique"],
-            $objetFormatTableau["validite"],
-            $objetFormatTableau["deleted"],
-        );
     }
 
     public function ajouterSansIdUniteServiceAnnee(array $uniteService)

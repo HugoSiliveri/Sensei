@@ -10,7 +10,7 @@ class DroitService implements DroitServiceInterface
 {
 
     public function __construct(
-        private DroitRepository $droitRepository,
+        private readonly DroitRepository $droitRepository,
     )
     {
     }

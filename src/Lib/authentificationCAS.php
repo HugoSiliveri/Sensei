@@ -3,7 +3,6 @@
 // Paramétrage des données de session
 use App\Sensei\Configuration\ConfigurationBDDMariaDB;
 use App\Sensei\Controller\CookieController;
-use App\Sensei\Controller\IntervenantController;
 use App\Sensei\Lib\ConnexionUtilisateur;
 use App\Sensei\Lib\InfosGlobales;
 use App\Sensei\Model\Repository\ConnexionBaseDeDonnees;
@@ -58,7 +57,7 @@ phpCAS::forceAuthentication();
 
 $post = $_POST["logout"] ?? null;
 
-if (isset($post)){
+if (isset($post)) {
     phpCAS::logout();
 }
 
@@ -71,8 +70,8 @@ $email = $e['mail'];
 $intervenantService = new IntervenantService(new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())));
 $serviceAnnuelService = new ServiceAnnuelRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB()));
 $departementService = new DepartementService(new DepartementRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())),
-new ServiceAnnuelRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())),
-new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())));
+    new ServiceAnnuelRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())),
+    new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())));
 
 if (isset($uid)) {
     $connexionUtilisateur = new ConnexionUtilisateur(new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())));

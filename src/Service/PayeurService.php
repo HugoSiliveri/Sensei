@@ -9,7 +9,7 @@ use App\Sensei\Service\Exception\ServiceException;
 class PayeurService implements PayeurServiceInterface
 {
     public function __construct(
-        private PayeurRepository $payeurRepository,
+        private readonly PayeurRepository $payeurRepository,
     )
     {
     }

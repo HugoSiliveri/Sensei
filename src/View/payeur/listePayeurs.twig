@@ -14,7 +14,8 @@
                         <a href="{{ route("afficherFormulaireMiseAJourPayeur", {idPayeur : payeur.getIdPayeur}) }}">
                             <img src="{{ asset("../ressources/img/pencil.svg") }}" alt="update">
                         </a>
-                        <button class="boutonSuppression" onclick="afficherPopupSuppression('Payeur', {{ payeur.getIdPayeur }} )">
+                        <button class="boutonSuppression"
+                                onclick="afficherPopupSuppression('Payeur', {{ payeur.getIdPayeur }} )">
                             <img src="{{ asset("../ressources/img/delete.svg") }}" alt="delete">
                         </button>
                     </li>

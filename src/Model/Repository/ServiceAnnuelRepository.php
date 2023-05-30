@@ -48,6 +48,24 @@ class ServiceAnnuelRepository extends AbstractRepository
         }
     }
 
+    /** Construit un objet ServiceAnnuel à partir d'un tableau donné en paramètre.
+     * @param array $objetFormatTableau
+     * @return ServiceAnnuel
+     */
+    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
+    {
+        return new ServiceAnnuel(
+            $objetFormatTableau["idServiceAnnuel"],
+            $objetFormatTableau["idDepartement"],
+            $objetFormatTableau["idIntervenant"],
+            $objetFormatTableau["millesime"],
+            $objetFormatTableau["idEmploi"],
+            $objetFormatTableau["serviceStatuaire"],
+            $objetFormatTableau["serviceFait"],
+            $objetFormatTableau["delta"],
+            $objetFormatTableau["deleted"]
+        );
+    }
 
     public function recupererParIntervenantAnnuel($idIntervenant, $millesime): ?AbstractDataObject
     {
@@ -99,25 +117,6 @@ class ServiceAnnuelRepository extends AbstractRepository
             echo $exception->getMessage();
             die("Erreur lors de la recherche dans la base de données.");
         }
-    }
-
-    /** Construit un objet ServiceAnnuel à partir d'un tableau donné en paramètre.
-     * @param array $objetFormatTableau
-     * @return ServiceAnnuel
-     */
-    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
-    {
-        return new ServiceAnnuel(
-            $objetFormatTableau["idServiceAnnuel"],
-            $objetFormatTableau["idDepartement"],
-            $objetFormatTableau["idIntervenant"],
-            $objetFormatTableau["millesime"],
-            $objetFormatTableau["idEmploi"],
-            $objetFormatTableau["serviceStatuaire"],
-            $objetFormatTableau["serviceFait"],
-            $objetFormatTableau["delta"],
-            $objetFormatTableau["deleted"]
-        );
     }
 
     /**

@@ -9,7 +9,7 @@ use App\Sensei\Service\Exception\ServiceException;
 class StatutService implements StatutServiceInterface
 {
     public function __construct(
-        private StatutRepository $statutRepository,
+        private readonly StatutRepository $statutRepository,
     )
     {
     }

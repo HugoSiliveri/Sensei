@@ -90,10 +90,11 @@ class ConnexionUtilisateur implements ConnexionUtilisateurInterface
             return null;
     }
 
-    public function getIntervenantConnecte(): ?AbstractDataObject{
+    public function getIntervenantConnecte(): ?AbstractDataObject
+    {
         $idIntervenant = $this->getIdUtilisateurConnecte();
         $intervenant = null;
-        if (isset($idIntervenant)){
+        if (isset($idIntervenant)) {
             $intervenant = $this->repository->recupererParClePrimaire($idIntervenant);
         }
         return $intervenant;

@@ -9,7 +9,7 @@ use App\Sensei\Service\Exception\ServiceException;
 class EtatService implements EtatServiceInterface
 {
     public function __construct(
-        private EtatRepository $etatRepository,
+        private readonly EtatRepository $etatRepository,
     )
     {
     }

@@ -51,6 +51,26 @@ class IntervenantRepository extends AbstractRepository
     }
 
     /**
+     * Construit un objet Intervenant à partir d'un tableau donné en paramètre.
+     * @param array $objetFormatTableau
+     * @return Intervenant
+     */
+    public function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
+    {
+        return new Intervenant(
+            $objetFormatTableau["idIntervenant"],
+            $objetFormatTableau["nom"],
+            $objetFormatTableau["prenom"],
+            $objetFormatTableau["idStatut"],
+            $objetFormatTableau["idDroit"],
+            $objetFormatTableau["emailInstitutionnel"],
+            $objetFormatTableau["emailUsage"],
+            $objetFormatTableau["idIntervenantReferentiel"],
+            $objetFormatTableau["deleted"]
+        );
+    }
+
+    /**
      * @param $annee
      * @param $idDepartement
      * @return array
@@ -120,26 +140,6 @@ class IntervenantRepository extends AbstractRepository
             die("Erreur lors de la recherche dans la base de données.");
         }
 
-    }
-
-    /**
-     * Construit un objet Intervenant à partir d'un tableau donné en paramètre.
-     * @param array $objetFormatTableau
-     * @return Intervenant
-     */
-    public function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
-    {
-        return new Intervenant(
-            $objetFormatTableau["idIntervenant"],
-            $objetFormatTableau["nom"],
-            $objetFormatTableau["prenom"],
-            $objetFormatTableau["idStatut"],
-            $objetFormatTableau["idDroit"],
-            $objetFormatTableau["emailInstitutionnel"],
-            $objetFormatTableau["emailUsage"],
-            $objetFormatTableau["idIntervenantReferentiel"],
-            $objetFormatTableau["deleted"]
-        );
     }
 
     public function ajouterSansIdIntervenant(array $intervenant)

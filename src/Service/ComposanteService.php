@@ -9,7 +9,7 @@ use App\Sensei\Service\Exception\ServiceException;
 class ComposanteService implements ComposanteServiceInterface
 {
     public function __construct(
-        private ComposanteRepository $composanteRepository,
+        private readonly ComposanteRepository $composanteRepository,
     )
     {
     }

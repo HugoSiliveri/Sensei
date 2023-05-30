@@ -11,7 +11,8 @@
             services du département de cette année </h2>
         {% include "templates/barreRechercheUniteService.twig" %}
         <div class="optionsSurObjet">
-            <a href="{{ route("afficherFormulaireCreationIntervenant") }}"><b>Créer une nouvelle unité de service</b></a>
+            <a href="{{ route("afficherFormulaireCreationIntervenant") }}"><b>Créer une nouvelle unité de
+                    service</b></a>
         </div>
     </div>
     {% if unitesServicesAnneeDuDepartement|length > 0 %}
@@ -22,17 +23,17 @@
                     {% for uniteServiceAnneeDuDepartement in chunk %}
                         <li class="boutonContainer">
                             {% if uniteServiceAnneeDuDepartement.getIdUniteService is not null %}
-                                <a href="{{ route("afficherDetailUniteService", {"idUniteService": uniteServiceAnneeDuDepartement.getIdUniteService}) }}">
-                            {% else %}
+                            <a href="{{ route("afficherDetailUniteService", {"idUniteService": uniteServiceAnneeDuDepartement.getIdUniteService}) }}">
+                                {% else %}
                                 <a href="{{ route("afficherDetailUniteService", {"idUniteService": unitesServicesDuDepartement[i].getIdUniteService}) }}">
-                            {% endif %}
-                                {{ unitesServicesDuDepartement[i].getIdUSReferentiel }}
+                                    {% endif %}
+                                    {{ unitesServicesDuDepartement[i].getIdUSReferentiel }}
 
-                            {% if uniteServiceAnneeDuDepartement.getLibUSA is not null %}
-                                {{ uniteServiceAnneeDuDepartement.getLibUSA }}
-                            {% else %}
-                                {{ unitesServicesDuDepartement[i].getLibUS }}
-                            {% endif %}
+                                    {% if uniteServiceAnneeDuDepartement.getLibUSA is not null %}
+                                        {{ uniteServiceAnneeDuDepartement.getLibUSA }}
+                                    {% else %}
+                                        {{ unitesServicesDuDepartement[i].getLibUS }}
+                                    {% endif %}
                                 </a>
                         </li>
                         {% set i = i + 1 %}
@@ -59,12 +60,12 @@
                             <a href="{{ route("afficherDetailUniteService", {"idUniteService": uniteServiceAnneeAvecColoration.getIdUniteService}) }}">
                                 {{ unitesServicesAvecColoration[i].getIdUSReferentiel }}
 
-                            {% if uniteServiceAnneeAvecColoration.getLibUSA is not null %}
-                                {{ uniteServiceAnneeAvecColoration.getLibUSA }}
-                            {% else %}
-                                {{ unitesServicesAvecColoration[i].getLibUS }}
-                            {% endif %}
-                                </a>
+                                {% if uniteServiceAnneeAvecColoration.getLibUSA is not null %}
+                                    {{ uniteServiceAnneeAvecColoration.getLibUSA }}
+                                {% else %}
+                                    {{ unitesServicesAvecColoration[i].getLibUS }}
+                                {% endif %}
+                            </a>
                         </li>
                         {% set i = i + 1 %}
                     {% endfor %}

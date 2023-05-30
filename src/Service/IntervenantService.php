@@ -10,7 +10,7 @@ class IntervenantService implements IntervenantServiceInterface
 {
 
     public function __construct(
-        private IntervenantRepository $intervenantRepository,
+        private readonly IntervenantRepository $intervenantRepository,
     )
     {
     }
@@ -90,19 +90,23 @@ class IntervenantService implements IntervenantServiceInterface
         $this->intervenantRepository->mettreAJour($objet);
     }
 
-    public function recupererParUID(string $uid){
+    public function recupererParUID(string $uid)
+    {
         return $this->intervenantRepository->recupererParUID($uid);
     }
 
-    public function recupererParEmailInstitutionnel(string $email){
+    public function recupererParEmailInstitutionnel(string $email)
+    {
         return $this->intervenantRepository->recupererParEmailInstitutionnel($email);
     }
 
-    public function recupererIntervenantsAvecAnneeEtDepartementNonVacataire(int $annee, int $idDepartement){
+    public function recupererIntervenantsAvecAnneeEtDepartementNonVacataire(int $annee, int $idDepartement)
+    {
         return $this->intervenantRepository->recupererIntervenantsAvecAnneeEtDepartementNonVacataire($annee, $idDepartement);
     }
 
-    public function recupererIntervenantsAvecAnneeEtDepartementVacataire(int $annee, int $idDepartement){
+    public function recupererIntervenantsAvecAnneeEtDepartementVacataire(int $annee, int $idDepartement)
+    {
         return $this->intervenantRepository->recupererIntervenantsAvecAnneeEtDepartementVacataire($annee, $idDepartement);
     }
 }

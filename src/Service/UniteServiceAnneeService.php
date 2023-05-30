@@ -9,7 +9,7 @@ use App\Sensei\Service\Exception\ServiceException;
 class UniteServiceAnneeService implements UniteServiceAnneeServiceInterface
 {
     public function __construct(
-        private UniteServiceAnneeRepository $uniteServiceAnneeRepository,
+        private readonly UniteServiceAnneeRepository $uniteServiceAnneeRepository,
     )
     {
     }
@@ -76,11 +76,13 @@ class UniteServiceAnneeService implements UniteServiceAnneeServiceInterface
         $this->uniteServiceAnneeRepository->mettreAJour($objet);
     }
 
-    public function recupererUnitesServicesPourUneAnneePourUnDepartement(int $anneeActuelle, int $idDepartement){
+    public function recupererUnitesServicesPourUneAnneePourUnDepartement(int $anneeActuelle, int $idDepartement)
+    {
         return $this->uniteServiceAnneeRepository->recupererUnitesServicesPourUneAnneePourUnDepartement($anneeActuelle, $idDepartement);
     }
 
-    public function recupererUniteServiceAnneeUniquementColoration(int $anneeActuelle, int $idDepartement){
+    public function recupererUniteServiceAnneeUniquementColoration(int $anneeActuelle, int $idDepartement)
+    {
         return $this->uniteServiceAnneeRepository->recupererUniteServiceAnneeUniquementColoration($anneeActuelle, $idDepartement);
     }
 }
