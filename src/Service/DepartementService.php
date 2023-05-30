@@ -80,4 +80,8 @@ class DepartementService implements DepartementServiceInterface
 
         $this->departementRepository->mettreAJour($objet);
     }
+
+    public function changerEtat(int $idDepartement, int $idEtat){
+        $this->departementRepository->changerEtat($idDepartement, $idEtat);
+    }
 }

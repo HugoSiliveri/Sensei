@@ -2,11 +2,13 @@
 
 namespace App\Sensei\Controller;
 
+use App\Sensei\Lib\ConnexionUtilisateurInterface;
 use App\Sensei\Lib\MessageFlash;
 use App\Sensei\Service\ComposanteServiceInterface;
 use App\Sensei\Service\DepartementServiceInterface;
 use App\Sensei\Service\EtatServiceInterface;
 use App\Sensei\Service\Exception\ServiceException;
+use App\Sensei\Service\ServiceAnnuelServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class DepartementController extends GenericController
@@ -14,7 +16,9 @@ class DepartementController extends GenericController
     public function __construct(
         private readonly DepartementServiceInterface $departementService,
         private readonly EtatServiceInterface        $etatService,
-        private readonly ComposanteServiceInterface  $composanteService
+        private readonly ComposanteServiceInterface  $composanteService,
+        private readonly ServiceAnnuelServiceInterface $serviceAnnuelService,
+        private readonly ConnexionUtilisateurInterface $connexionUtilisateur
     )
     {
     }
@@ -114,5 +118,35 @@ class DepartementController extends GenericController
             }
         }
         return DepartementController::rediriger("accueil");
+    }
+
+    /**
+     * @throws ServiceException
+     */
+    public function afficherFormulaireGestionEtat(){
+        try {
+            $etats = $this->etatService->recupererEtats();
+            $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuelPlusRecent($this->connexionUtilisateur->getIdUtilisateurConnecte());
+            $idDepartement = $serviceAnnuel->getIdDepartement();
+
+            return EtatController::afficherTwig("departement/gererEtat.twig", [
+                "etats" => $etats,
+                "idDepartement" => $idDepartement]);
+        } catch (ServiceException $exception){
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+            return EtatController::rediriger("accueil");
+        }
+    }
+
+    public function gererEtat(){
+        $idEtat = $_POST["idEtat"];
+        $idDepartement = $_POST["idDepartement"];
+        $this->departementService->changerEtat($idDepartement, $idEtat);
+        MessageFlash::ajouter("success", "L'état du département a bien été changé !");
+        return EtatController::rediriger("accueil");
     }
 }

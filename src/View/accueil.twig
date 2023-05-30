@@ -3,17 +3,20 @@
 {% block page_content %}
     <div class="miseEnPage2 centrer">
         <div class="alert alert-info alertVoeux">
-            <div>
-                <p>Les vœux sont actuellement ouverts dans votre département !</p>
-                <a class="boutonAvecLienInfo" href="#">Formuler ses vœux</a>
-            </div>
-            {# TODO : A implémenter avec les états du département de l'utilisateur connecté #}
-            {#            <div> #}
-            {#                <p>La phase de délibération est actuellement en cours dans votre département !</p> #}
-            {#            </div> #}
-            {#            <div> #}
-            {#                <p>Aucun événement en cours dans votre département !</p> #}
-            {#            </div> #}
+            {% if idEtat == 1 %}
+                <div>
+                    <p>Aucun événement en cours dans votre département !</p>
+                </div>
+            {% elseif idEtat == 2 %}
+                <div>
+                    <p>Les vœux sont actuellement ouverts dans votre département !</p>
+                    <a class="boutonAvecLienInfo" href="#">Formuler ses vœux</a>
+                </div>
+            {% else %}
+                <div>
+                    <p>La phase de délibération est actuellement en cours dans votre département !</p>
+                </div>
+            {% endif %}
         </div>
         <div id="conteneurAccueil">
             <div class="titreEtBarreRecherche2">

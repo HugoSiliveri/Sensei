@@ -178,7 +178,8 @@ class URLRouter
 
         $departementController = $conteneur->register('departement_controller', DepartementController::class);
         $departementController->setArguments([new Reference('departement_service'), new Reference("etat_service"),
-            new Reference("composante_service")]);
+            new Reference("composante_service"), new Reference("service_annuel_service"),
+            new Reference("connexion_utilisateur")]);
 
         $droitController = $conteneur->register('droit_controller', DroitController::class);
         $droitController->setArguments([new Reference('droit_service')]);
@@ -589,6 +590,16 @@ class URLRouter
         ]);
         $routeChangementGestion->setMethods(["POST"]);
 
+        $routeAfficherFormulaireGestionEtat = new Route("/gererEtat", [
+            "_controller" => ["departement_controller", "afficherFormulaireGestionEtat"]
+        ]);
+        $routeAfficherFormulaireGestionEtat->setMethods(["GET"]);
+
+        $routeGererEtat = new Route("/gererEtat", [
+            "_controller" => ["departement_controller", "gererEtat"]
+        ]);
+        $routeGererEtat->setMethods(["POST"]);
+
 
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
@@ -657,6 +668,8 @@ class URLRouter
         $routes->add("mettreAJourEtat", $routeMettreAJourEtat);
         $routes->add("deconnexion", $routeDeconnexion);
         $routes->add("changementGestion", $routeChangementGestion);
+        $routes->add("afficherFormulaireGestionEtat", $routeAfficherFormulaireGestionEtat);
+        $routes->add("gererEtat", $routeGererEtat);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 

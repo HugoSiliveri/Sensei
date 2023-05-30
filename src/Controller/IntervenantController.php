@@ -176,9 +176,12 @@ class IntervenantController extends GenericController
     {
         try {
             $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuelPlusRecent($this->connexionUtilisateur->getIdUtilisateurConnecte());
+            $idDepartement = $this->departementService->recupererParLibelle(InfosGlobales::lireDepartement())->getIdDepartement() ?? $serviceAnnuel->getIdDepartement();
             $annee = $serviceAnnuel->getMillesime();
 
             $anneeActuelle = InfosGlobales::lireAnnee() ?? $annee;
+            $idEtat = $this->departementService->recupererParIdentifiant($idDepartement)->getIdEtat();
+
             $intervenantConnecte = $this->connexionUtilisateur->getIntervenantConnecte();
             $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuel($intervenantConnecte->getIdIntervenant(), $anneeActuelle);
             if (isset($serviceAnnuel)){
@@ -201,6 +204,7 @@ class IntervenantController extends GenericController
                 "responsabilites" => $responsabilitesAnnuel,
                 "unitesServicesAnnees" => $usa,
                 "unitesServices" => $us,
+                "idEtat" => $idEtat
             ];
 
             return IntervenantController::afficherTwig("accueil.twig", $parametres);
