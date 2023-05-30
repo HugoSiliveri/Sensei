@@ -90,12 +90,35 @@ class IntervenantController extends GenericController
 
             $emplois = [];
             $departements = [];
+            $declarationsServices = $this->declarationServiceService->recupererVueParIdIntervenant($idIntervenant);
+            $declarationsServicesAnnuels = [];
+
             foreach ($servicesAnnuels as $serviceAnnuel) {
                 $emplois[] = $this->emploiService->recupererParIdentifiant($serviceAnnuel->getIdEmploi());
                 $departements[] = $this->departementService->recupererParIdentifiant($serviceAnnuel->getIdDepartement());
-            }
 
-            $declarationsServices = $this->declarationServiceService->recupererVueParIdIntervenant($idIntervenant);
+                $declarationsServicesParAnnee = [];
+                $declarationsServicesAvecMemeId = [];
+                $i = 0;
+                foreach ($declarationsServices as $declarationService){
+                    if ($declarationService["millesime"] == $serviceAnnuel->getMillesime()){
+                        if ($i == 0){
+                            $declarationsServicesAvecMemeId[] = $declarationService;
+                            $i++;
+                        } else {
+                            if ($declarationService["idUsReferentiel"] == $declarationsServicesAvecMemeId[0]["idUsReferentiel"]){
+                                $declarationsServicesAvecMemeId[] = $declarationService;
+                                $i++;
+                            } else {
+                                $declarationsServicesParAnnee[] = $declarationsServicesAvecMemeId;
+                                $declarationsServicesAvecMemeId = [];
+                                $i = 0;
+                            }
+                        }
+                    }
+                }
+                $declarationsServicesAnnuels[] = $declarationsServicesParAnnee;
+            }
 
             $parametres = [
                 "intervenant" => $intervenant,
@@ -104,7 +127,7 @@ class IntervenantController extends GenericController
                 "servicesAnnuels" => $servicesAnnuels,
                 "emplois" => $emplois,
                 "departements" => $departements,
-                "declarationsServices" => $declarationsServices
+                "declarationsServicesAnnuels" => $declarationsServicesAnnuels
             ];
 
             return IntervenantController::afficherTwig("intervenant/detailIntervenant.twig", $parametres);

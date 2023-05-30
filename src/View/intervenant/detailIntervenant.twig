@@ -61,19 +61,15 @@
                                  src="{{ asset("../ressources/img/up-arrow.svg") }}" alt="up-arrow">
                         </span>
                             <div class="sousMenuAnneeService menuDeroulantAnneeService">
-                                {% set j = 0 %}
-                                {% for declarationService in declarationsServices %}
-                                    {% set millesime2 = declarationService.millesime %}
-                                    {% if millesime == millesime2 %}
-                                        <div class="infosSupplementaires">
-                                            <p><b>Code :</b> {{ declarationService.idUsReferentiel }}</p>
-                                            <p><b>Libellé :</b> {{ declarationService.libUS }}</p>
-                                            <p><b>Type d'intervention :</b> {{ declarationService.typeIntervention }}
-                                            </p>
-                                            <p><b>Volume horaire :</b> {{ declarationService.volumeHoraire }}</p>
-                                        </div>
-                                    {% endif %}
-                                    {% set j = j + 1 %}
+                                {% for declarationServiceAnnuel in declarationsServicesAnnuels[i] %}
+                                    <div class="infosSupplementaires">
+                                        <p><b>Code :</b> {{ declarationServiceAnnuel[0].idUsReferentiel }}</p>
+                                        <p><b>Libellé :</b> {{ declarationServiceAnnuel[0].libUS }}</p>
+                                        {% for declarationServiceMemeId in declarationServiceAnnuel %}
+                                            {{ declarationServiceMemeId.typeIntervention }} - {{ declarationServiceMemeId.volumeHoraire }}
+                                            <br/>
+                                        {% endfor %}
+                                    </div>
                                 {% endfor %}
                             </div>
                         </div>
