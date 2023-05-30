@@ -219,10 +219,23 @@ class IntervenantController extends GenericController
 
     public function afficherGestion(): Response
     {
-        $departements = $this->departementService->recupererDepartements();
-        return IntervenantController::afficherTwig("gestion.twig", [
-            "departements" => $departements
-        ]);
+        try {
+            $departements = $this->departementService->recupererDepartements();
+            $anneeReference = $this->serviceAnnuelService->recupererParIntervenantAnnuelPlusRecent($this->connexionUtilisateur->getIdUtilisateurConnecte())
+                ->getMillesime();
+            return IntervenantController::afficherTwig("gestion.twig", [
+                "departements" => $departements,
+                "anneeReference" => $anneeReference
+            ]);
+        } catch (ServiceException $exception){
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+            return IntervenantController::rediriger("accueil");
+        }
+
     }
 
     public function chercherIntervenant(): Response

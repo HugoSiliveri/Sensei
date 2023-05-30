@@ -23,7 +23,14 @@
                     <div class="miseEnPage">
                         <label for="annee_id">Voyager dans le temps</label>
                         <select class="inputCreation" name="annee" id="annee_id">
-                            <option value="2022">2022-2023</option>
+                            {% for i in 2004..anneeReference+3 %}
+                                {% if i == anneeReference %}
+                                    <option value="{{ i }}" selected>{{ i }} - {{ i+1 }}</option>
+                                {% else %}
+                                    <option value="{{ i }}">{{ i }} - {{ i+1 }}</option>
+                                {% endif %}
+
+                            {% endfor %}
                         </select>
                         {% include "templates/boutonCheck.twig" %}
                     </div>
