@@ -3,6 +3,7 @@
 namespace App\Sensei\Controller;
 
 use App\Sensei\Lib\ConnexionUtilisateurInterface;
+use App\Sensei\Lib\InfosGlobales;
 use App\Sensei\Lib\MessageFlash;
 use App\Sensei\Service\ComposanteServiceInterface;
 use App\Sensei\Service\DepartementServiceInterface;
@@ -125,9 +126,12 @@ class DepartementController extends GenericController
      */
     public function afficherFormulaireGestionEtat(){
         try {
+
             $etats = $this->etatService->recupererEtats();
             $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuelPlusRecent($this->connexionUtilisateur->getIdUtilisateurConnecte());
-            $idDepartement = $serviceAnnuel->getIdDepartement();
+            $idDepartement =  $this->departementService->recupererParLibelle(InfosGlobales::lireDepartement())->getIdDepartement() ?? $serviceAnnuel->getIdDepartement();
+
+            $this->departementService->verifierDroitsPourGestion($this->connexionUtilisateur->getIdUtilisateurConnecte(), $idDepartement);
 
             return EtatController::afficherTwig("departement/gererEtat.twig", [
                 "etats" => $etats,

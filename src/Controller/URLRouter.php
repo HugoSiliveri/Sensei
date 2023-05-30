@@ -223,7 +223,8 @@ class URLRouter
         $emploiService->setArguments([new Reference('emploi_repository')]);
 
         $departementService = $conteneur->register('departement_service', DepartementService::class);
-        $departementService->setArguments([new Reference('departement_repository')]);
+        $departementService->setArguments([new Reference('departement_repository'),
+            new Reference('service_annuel_repository'), new Reference('intervenant_repository')]);
 
         $interventionService = $conteneur->register('intervention_service', InterventionService::class);
         $interventionService->setArguments([new Reference('intervention_repository')]);
@@ -700,7 +701,9 @@ class URLRouter
 
 
         $serviceAnnuelServiceClasse = new ServiceAnnuelService(new ServiceAnnuelRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())));
-        $departementServiceClasse = new DepartementService(new DepartementRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())));
+        $departementServiceClasse = new DepartementService(new DepartementRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())),
+            new ServiceAnnuelRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())),
+            new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())));
         $connexionUtilisateurClasse = new ConnexionUtilisateur(new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())));
 
         $serviceAnnuel = $serviceAnnuelServiceClasse->recupererParIntervenantAnnuelPlusRecent($connexionUtilisateurClasse->getIdUtilisateurConnecte());
