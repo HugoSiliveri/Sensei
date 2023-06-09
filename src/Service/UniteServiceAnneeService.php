@@ -38,8 +38,14 @@ class UniteServiceAnneeService implements UniteServiceAnneeServiceInterface
         return $this->uniteServiceAnneeRepository->recupererParUniteService($idUniteService);
     }
 
+    /**
+     * @throws ServiceException
+     */
     public function creerUniteServiceAnnee(array $uniteServiceAnnee)
     {
+        if (empty($uniteServiceAnnee)){
+            throw new ServiceException("Aucune information fournie !");
+        }
         $this->uniteServiceAnneeRepository->ajouterSansIdUniteServiceAnnee($uniteServiceAnnee);
     }
 
@@ -76,12 +82,12 @@ class UniteServiceAnneeService implements UniteServiceAnneeServiceInterface
         $this->uniteServiceAnneeRepository->mettreAJour($objet);
     }
 
-    public function recupererUnitesServicesPourUneAnneePourUnDepartement(int $anneeActuelle, int $idDepartement)
+    public function recupererUnitesServicesPourUneAnneePourUnDepartement(int $anneeActuelle, int $idDepartement): array
     {
         return $this->uniteServiceAnneeRepository->recupererUnitesServicesPourUneAnneePourUnDepartement($anneeActuelle, $idDepartement);
     }
 
-    public function recupererUniteServiceAnneeUniquementColoration(int $anneeActuelle, int $idDepartement)
+    public function recupererUnitesServicesAnneeUniquementColoration(int $anneeActuelle, int $idDepartement): array
     {
         return $this->uniteServiceAnneeRepository->recupererUniteServiceAnneeUniquementColoration($anneeActuelle, $idDepartement);
     }

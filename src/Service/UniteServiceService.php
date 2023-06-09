@@ -71,6 +71,9 @@ class UniteServiceService implements UniteServiceServiceInterface
         $this->uniteServiceRepository->ajouterSansIdUniteService($uniteService);
     }
 
+    /**
+     * @throws ServiceException
+     */
     public function recupererDernierUniteService(): AbstractDataObject
     {
         $result = $this->uniteServiceRepository->recupererDernierElement();

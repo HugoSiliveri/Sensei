@@ -29,12 +29,18 @@ class EmploiService implements EmploiServiceInterface
         }
     }
 
+    /**
+     * @throws ServiceException
+     */
     public function creerEmploi(array $emploi)
     {
+        if (empty($emploi)){
+            throw new ServiceException("Aucune information fournie !");
+        }
         $this->emploiRepository->ajouterSansIdEmploi($emploi);
     }
 
-    public function recupererEmplois()
+    public function recupererEmplois(): array
     {
         return $this->emploiRepository->recuperer();
     }

@@ -29,12 +29,18 @@ class ComposanteService implements ComposanteServiceInterface
         }
     }
 
+    /**
+     * @throws ServiceException
+     */
     public function creerComposante(array $composante)
     {
+        if (empty($composante)){
+            throw new ServiceException("Aucune information fournie !");
+        }
         $this->composanteRepository->ajouterSansIdComposante($composante);
     }
 
-    public function recupererComposantes()
+    public function recupererComposantes(): array
     {
         return $this->composanteRepository->recuperer();
     }

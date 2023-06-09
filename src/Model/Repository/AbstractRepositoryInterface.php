@@ -35,9 +35,9 @@ interface AbstractRepositoryInterface
 
     /** Supprime un tuple à l'aide de sa clé primaire
      * @param string $valeurClePrimaire la clé primaire du tuple
-     * @return bool vrai si la suppression a fonctionné, faux sinon
+     * @return void
      */
-    public function supprimer(string $valeurClePrimaire): bool;
+    public function supprimer(string $valeurClePrimaire): void;
 
     /** modifie un tuple d'une table en passant en paramètre l'objet qui lui correspond
      * @param AbstractDataObject $object l'objet à modifier

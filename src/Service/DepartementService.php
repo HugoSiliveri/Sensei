@@ -34,7 +34,7 @@ class DepartementService implements DepartementServiceInterface
 
     }
 
-    public function recupererDepartements()
+    public function recupererDepartements(): array
     {
         return $this->departementRepository->recuperer();
     }
@@ -55,8 +55,14 @@ class DepartementService implements DepartementServiceInterface
         }
     }
 
+    /**
+     * @throws ServiceException
+     */
     public function creerDepartement(array $departement)
     {
+        if (empty($departement)){
+            throw new ServiceException("Aucune information fournie !");
+        }
         $this->departementRepository->ajouterSansIdDepartement($departement);
     }
 
@@ -85,8 +91,14 @@ class DepartementService implements DepartementServiceInterface
         $this->departementRepository->mettreAJour($objet);
     }
 
+    /**
+     * @throws ServiceException
+     */
     public function changerEtat(int $idDepartement, int $idEtat)
     {
+        if ($idEtat < 1 || $idEtat > 3){
+            throw new ServiceException("L'état choisi n'existe pas !");
+        }
         $this->departementRepository->changerEtat($idDepartement, $idEtat);
     }
 

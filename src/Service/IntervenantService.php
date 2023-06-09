@@ -62,8 +62,14 @@ class IntervenantService implements IntervenantServiceInterface
         return $intervenant;
     }
 
+    /**
+     * @throws ServiceException
+     */
     public function creerIntervenant(array $intervenant)
     {
+        if (empty($intervenant)){
+            throw new ServiceException("Aucune information fournie !");
+        }
         $this->intervenantRepository->ajouterSansIdIntervenant($intervenant);
     }
 
@@ -90,17 +96,17 @@ class IntervenantService implements IntervenantServiceInterface
         $this->intervenantRepository->mettreAJour($objet);
     }
 
-    public function recupererParUID(string $uid)
+    public function recupererParUID(string $uid): ?AbstractDataObject
     {
         return $this->intervenantRepository->recupererParUID($uid);
     }
 
-    public function recupererParEmailInstitutionnel(string $email)
+    public function recupererParEmailInstitutionnel(string $email): ?AbstractDataObject
     {
         return $this->intervenantRepository->recupererParEmailInstitutionnel($email);
     }
 
-    public function recupererIntervenantsAvecAnneeEtDepartementNonVacataire(int $annee, int $idDepartement)
+    public function recupererIntervenantsAvecAnneeEtDepartementNonVacataire(int $annee, int $idDepartement): array
     {
         return $this->intervenantRepository->recupererIntervenantsAvecAnneeEtDepartementNonVacataire($annee, $idDepartement);
     }

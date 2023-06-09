@@ -28,7 +28,7 @@ class DeclarationServiceRepository extends AbstractRepository
             );
             $pdoStatement->execute($values);
 
-            return $pdoStatement->fetchAll();
+            return $pdoStatement->fetchAll() ?? [];
         } catch (PDOException $exception) {
             echo $exception->getMessage();
             die("Erreur lors de la recherche dans la base de données.");

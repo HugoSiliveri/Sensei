@@ -34,9 +34,7 @@ class DeclarationServiceController extends GenericController
 
             if ($f) {
                 $entete = ["millesime", "idUsReferentiel", "libUS", "typeIntervention", "volumeHoraire"];
-
                 fputcsv($f, $entete, ";");
-
                 foreach ($voeux as $voeu) {
                     $voeuSansId = [
                         $voeu["millesime"],
@@ -51,7 +49,6 @@ class DeclarationServiceController extends GenericController
 
                 $response = new BinaryFileResponse($chemin);
                 $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, "$nomFichier.csv");
-
                 return $response;
             } else {
                 return new Response("", 404);

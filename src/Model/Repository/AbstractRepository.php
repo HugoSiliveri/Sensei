@@ -106,7 +106,7 @@ abstract class AbstractRepository implements AbstractRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function supprimer(string $valeurClePrimaire): bool
+    public function supprimer(string $valeurClePrimaire): void
     {
         $nomTable = $this->getNomTable();
         $nomClePrimaire = $this->getNomClePrimaire();
@@ -119,14 +119,6 @@ abstract class AbstractRepository implements AbstractRepositoryInterface
         );
 
         $pdoStatement->execute($values);
-
-        // PDOStatement::rowCount() retourne le nombre de lignes affectées par la dernière
-        // requête DELETE, INSERT ou UPDATE exécutée par l'objet PDOStatement correspondant.
-        // https://www.php.net/manual/fr/pdostatement.rowcount.php
-        $deleteCount = $pdoStatement->rowCount();
-
-        // Renvoie true ssi on a bien supprimé une ligne de la BDD
-        return ($deleteCount > 0);
     }
 
     /**

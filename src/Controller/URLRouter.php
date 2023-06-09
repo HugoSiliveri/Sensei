@@ -33,6 +33,7 @@ use App\Sensei\Service\DepartementService;
 use App\Sensei\Service\DroitService;
 use App\Sensei\Service\EmploiService;
 use App\Sensei\Service\EtatService;
+use App\Sensei\Service\Exception\ServiceException;
 use App\Sensei\Service\IntervenantService;
 use App\Sensei\Service\InterventionService;
 use App\Sensei\Service\NatureService;
@@ -85,6 +86,7 @@ class URLRouter
      *
      * @param Request $requete requête HTTP sous forme de classe PHP
      * @return Response réponse HTTP sous forme de classe PHP
+     * @throws ServiceException
      */
     public static function traiterRequete(Request $requete): Response
     {

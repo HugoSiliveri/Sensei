@@ -29,12 +29,18 @@ class StatutService implements StatutServiceInterface
         }
     }
 
+    /**
+     * @throws ServiceException
+     */
     public function creerStatut(array $statut)
     {
+        if (empty($statut)){
+            throw new ServiceException("Aucune information fournie !");
+        }
         $this->statutRepository->ajouterSansIdStatut($statut);
     }
 
-    public function recupererStatuts()
+    public function recupererStatuts(): array
     {
         return $this->statutRepository->recuperer();
     }

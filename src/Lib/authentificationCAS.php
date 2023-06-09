@@ -2,7 +2,6 @@
 
 // Paramétrage des données de session
 use App\Sensei\Configuration\ConfigurationBDDMariaDB;
-use App\Sensei\Controller\CookieController;
 use App\Sensei\Lib\ConnexionUtilisateur;
 use App\Sensei\Lib\InfosGlobales;
 use App\Sensei\Model\Repository\ConnexionBaseDeDonnees;

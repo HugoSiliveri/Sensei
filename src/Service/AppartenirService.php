@@ -13,8 +13,14 @@ class AppartenirService implements AppartenirServiceInterface
     {
     }
 
+    /**
+     * @throws ServiceException
+     */
     public function creerAppartenir(array $appartenir)
     {
+        if (count($appartenir) == 0){
+            throw new ServiceException("Aucune information fournie !");
+        }
         $this->appartenirRepository->ajouterSansIdAppartenir($appartenir);
     }
 

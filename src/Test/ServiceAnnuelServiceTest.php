@@ -42,6 +42,29 @@ class ServiceAnnuelServiceTest extends TestCase
         self::assertEquals($tab, $this->service->recupererParIntervenant(23));
     }
 
+    public function testRecupererParIntervenantAnnuelInexistant(){
+        $this->serviceAnnuelRepositoryMock->method("recupererParIntervenantAnnuel")->with(0, 1902)->willReturn(null);
+        self::assertNull($this->service->recupererParIntervenantAnnuel(0, 1902));
+    }
+
+    public function testRecupererParIntervenantAnnuelExistant(){
+        $fakeServiceAnnuel = new ServiceAnnuel(30840, 1, 266, 2023, 6, 192, 150, 4.5, 0);
+        $this->serviceAnnuelRepositoryMock->method("recupererParIntervenantAnnuel")->with(266, 2023)->willReturn($fakeServiceAnnuel);
+        self::assertEquals($fakeServiceAnnuel,$this->service->recupererParIntervenantAnnuel(266, 2023));
+    }
+
+
+    public function testRecupererParIntervenantAnnuelPlusRecentInexistant(){
+        $this->serviceAnnuelRepositoryMock->method("recupererParIntervenantAnnuelPlusRecent")->with(0)->willReturn(null);
+        self::assertNull($this->service->recupererParIntervenantAnnuelPlusRecent(0));
+    }
+
+    public function testRecupererParIntervenantAnnuelPlusRecentExistant(){
+        $fakeServiceAnnuel = new ServiceAnnuel(30840, 1, 266, 2023, 6, 192, 150, 4.5, 0);
+        $this->serviceAnnuelRepositoryMock->method("recupererParIntervenantAnnuelPlusRecent")->with(266)->willReturn($fakeServiceAnnuel);
+        self::assertEquals($fakeServiceAnnuel,$this->service->recupererParIntervenantAnnuelPlusRecent(266));
+    }
+
     protected function setUp(): void
     {
         parent::setUp();

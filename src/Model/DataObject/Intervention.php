@@ -5,9 +5,6 @@ namespace App\Sensei\Model\DataObject;
 /**
  * @name Intervention
  *
- * @tutorial Classe qui représente l'objet Intervention dans la base de données.
- * L'objet Intervention correspond aux enseignements présents dans la liste des vœux pour les enseignants.
- *
  * @example
  * Une intervention I1 peut être une UE à être enseigné pendant un volume horaire de 30h dans un groupe particulier
  *

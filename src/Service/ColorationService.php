@@ -14,21 +14,6 @@ class ColorationService implements ColorationServiceInterface
     {
     }
 
-    /**
-     * @param int $idColoration
-     * @return AbstractDataObject
-     * @throws ServiceException
-     */
-    public function recupererParIdentifiant(int $idColoration): AbstractDataObject
-    {
-        $coloration = $this->colorationRepository->recupererParClePrimaire($idColoration);
-        if (!isset($coloration)) {
-            throw new ServiceException("L'identifiant est inconnu !");
-        } else {
-            return $coloration;
-        }
-    }
-
     public function recupererParIdUniteServiceAnnee(int $idUniteServiceAnnee): array
     {
         return $this->colorationRepository->recupererParIdUniteServiceAnnee($idUniteServiceAnnee);

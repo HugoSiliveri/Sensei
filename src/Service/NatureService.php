@@ -29,12 +29,18 @@ class NatureService implements NatureServiceInterface
         }
     }
 
+    /**
+     * @throws ServiceException
+     */
     public function creerNature(array $nature)
     {
+        if (empty($nature)){
+            throw new ServiceException("Aucune information fournie !");
+        }
         $this->natureRepository->ajouterSansIdNature($nature);
     }
 
-    public function recupererNatures()
+    public function recupererNatures(): array
     {
         return $this->natureRepository->recuperer();
     }

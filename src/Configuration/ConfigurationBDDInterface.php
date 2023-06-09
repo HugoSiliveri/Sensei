@@ -27,4 +27,8 @@ interface ConfigurationBDDInterface
      */
     public function getMotDePasse(): string;
 
+    public function getDSN(): string;
+
+    public function getOptions(): array;
+
 }

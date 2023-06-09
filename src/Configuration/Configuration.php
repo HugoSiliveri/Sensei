@@ -50,7 +50,7 @@ class Configuration
      *
      * @return bool <code>true</code> si le debug est activé, <code>false</code> sinon.
      */
-    static public function getDebug(): bool
+    public static function getDebug(): bool
     {
         return Configuration::$debug;
     }

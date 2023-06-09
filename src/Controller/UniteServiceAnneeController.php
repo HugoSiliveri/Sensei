@@ -47,7 +47,7 @@ class UniteServiceAnneeController extends GenericController
                 $unitesServicesDuDepartement[] = $this->uniteServiceService->recupererParIdentifiant($uniteServiceAnneeDuDepartement->getIdUniteService());
             }
 
-            $unitesServicesAnneeAvecColoration = $this->uniteServiceAnneeService->recupererUniteServiceAnneeUniquementColoration($anneeActuelle, $idDepartement);
+            $unitesServicesAnneeAvecColoration = $this->uniteServiceAnneeService->recupererUnitesServicesAnneeUniquementColoration($anneeActuelle, $idDepartement);
             $unitesServicesAvecColoration = [];
             foreach ($unitesServicesAnneeAvecColoration as $uniteServiceAvecColoration) {
                 $unitesServicesAvecColoration[] = $this->uniteServiceService->recupererParIdentifiant($uniteServiceAvecColoration->getIdUniteService());

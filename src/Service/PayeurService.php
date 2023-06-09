@@ -14,7 +14,7 @@ class PayeurService implements PayeurServiceInterface
     {
     }
 
-    public function recupererPayeurs()
+    public function recupererPayeurs(): array
     {
         return $this->payeurRepository->recuperer();
     }
@@ -34,8 +34,14 @@ class PayeurService implements PayeurServiceInterface
         }
     }
 
+    /**
+     * @throws ServiceException
+     */
     public function creerPayeur(array $payeur)
     {
+        if (empty($payeur)){
+            throw new ServiceException("Aucune information fournie !");
+        }
         $this->payeurRepository->ajouterSansIdPayeur($payeur);
     }
 

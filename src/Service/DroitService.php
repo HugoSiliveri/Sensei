@@ -30,12 +30,18 @@ class DroitService implements DroitServiceInterface
         }
     }
 
+    /**
+     * @throws ServiceException
+     */
     public function creerDroit(array $droit)
     {
+        if (empty($droit)){
+            throw new ServiceException("Aucune information fournie !");
+        }
         $this->droitRepository->ajouterSansIdDroit($droit);
     }
 
-    public function recupererDroits()
+    public function recupererDroits(): array
     {
         return $this->droitRepository->recuperer();
     }

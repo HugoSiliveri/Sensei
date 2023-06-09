@@ -20,7 +20,6 @@ let autocompIntervenant = reactive({
     callbackIntervenant: function (req) {
         let tabIntervenants = JSON.parse(req.responseText);
         for (let intervenant of tabIntervenants) {
-
             this.suggestions.push(`${intervenant.idIntervenant ? intervenant.idIntervenant : ""} ${intervenant.nom ? intervenant.nom : ""} ${intervenant.prenom ? intervenant.prenom : ""} ${intervenant.idIntervenantReferentiel ? intervenant.idIntervenantReferentiel : ""}`);
         }
         this.afficheIntervenants();

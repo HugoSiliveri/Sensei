@@ -29,7 +29,7 @@ class EtatService implements EtatServiceInterface
         }
     }
 
-    public function recupererEtats()
+    public function recupererEtats(): array
     {
         return $this->etatRepository->recuperer();
     }
