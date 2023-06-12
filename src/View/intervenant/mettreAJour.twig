@@ -22,20 +22,29 @@
                 <div>
                     <label class="labelCreation" for="statut_id">Statut</label>
                     <select class="inputCreation" name="statut" id="statut_id">
-                        <option value="1" selected>permanent</option>
-                        <option value="2">vacataire</option>
-                        <option value="3">gestionnaire</option>
-                        <option value="4">UM hors FdS</option>
-                        <option value="5">hors UM</option>
+                        {% set i = 1 %}
+                        {% for statut in statuts %}
+                            {% if statut.getIdStatut == intervenant.getIdStatut %}
+                                <option value="{{ i }}" selected>{{ statut.getLibStatut }}</option>
+                            {% else %}
+                                <option value="{{ i }}">{{ statut.getLibStatut }}</option>
+                            {% endif %}
+                            {% set i = i + 1 %}
+                        {% endfor %}
                     </select>
                 </div>
                 <div>
                     <label class="labelCreation" for="droit_id">Droit</label>
                     <select class="inputCreation" name=droit id="droit_id">
-                        {# TODO : Le champs sera uniquement disponible pour les admins #}
-                        <option value="1">administrateur.e</option>
-                        <option value="2">directeur.trice de département</option>
-                        <option value="3" selected>enseignant.e</option>
+                        {% set j = 1 %}
+                        {% for droit in droits %}
+                            {% if droit.getIdDroit == intervenant.getIdDroit %}
+                                <option value="{{ i }}" selected>{{ droit.getTypeDroit }}</option>
+                            {% else %}
+                                <option value="{{ i }}">{{ droit.getTypeDroit }}</option>
+                            {% endif %}
+                            {% set j = j + 1 %}
+                        {% endfor %}
                     </select>
                 </div>
                 <div>

@@ -20,21 +20,30 @@
                 <div>
                     <label class="labelCreation" for="statut_id">Statut</label>
                     <select class="inputCreation" name="statut" id="statut_id">
-                        <option value="1" selected>permanent</option>
-                        <option value="2">vacataire</option>
-                        <option value="3">gestionnaire</option>
-                        <option value="4">UM hors FdS</option>
-                        <option value="5">hors UM</option>
+                        {% set i = 1 %}
+                        {% for statut in statuts %}
+                            <option value="{{ i }}">{{ statut.getLibStatut }}</option>
+                            {% set i = i + 1 %}
+                        {% endfor %}
                     </select>
                 </div>
                 <div>
-                    <label class="labelCreation" for="droit_id">Droit</label>
-                    <select class="inputCreation" name=droit id="droit_id">
-                        {# TODO : Le champs sera uniquement disponible pour les admins #}
-                        <option value="1">administrateur</option>
-                        <option value="2">chef de département</option>
-                        <option value="3" selected>enseignant</option>
-                    </select>
+                    {% if idDroitUtilisateur == 1 %}
+                        <label class="labelCreation" for="droit_id">Droit</label>
+                        <select class="inputCreation" name=droit id="droit_id">
+                            {% set j = 1 %}
+                            {% for droit in droits %}
+                                {% if droit.getTypeDroit == "enseignant.e" %}
+                                    <option value="{{ i }}" selected>{{ droit.getTypeDroit }}</option>
+                                {% else %}
+                                    <option value="{{ i }}">{{ droit.getTypeDroit }}</option>
+                                {% endif %}
+                                {% set j = j + 1 %}
+                            {% endfor %}
+                        </select>
+                    {% else %}
+                        <input type="hidden" value="3" name="droit">
+                    {% endif %}
                 </div>
                 <div>
                     <label class="labelCreation" for="emailInstitutionnel_id">Email institutionnel</label>

@@ -147,6 +147,8 @@ ul {
     display: block;
     background-image: url("../img/wave.svg");
     height: 40rem;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 #footer {
@@ -255,7 +257,6 @@ ul {
 }
 
 .coteDroit {
-    overflow: auto;
     height: 700px;
 }
 
@@ -536,6 +537,10 @@ nav  button{
 
 .bgVert {
     background-color: var(--bg-color-green);
+}
+
+.overflow {
+    overflow: auto;
 }
 
 /* Bootstrap alerts */

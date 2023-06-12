@@ -142,7 +142,15 @@ class IntervenantController extends GenericController
 
     public function afficherFormulaireCreation(): Response
     {
-        return IntervenantController::afficherTwig("intervenant/creationIntervenant.twig");
+        $statuts = $this->statutService->recupererStatuts();
+        $droits = $this->droitService->recupererDroits();
+        $idDroitUtilisateur = $this->connexionUtilisateur->getIntervenantConnecte()->getIdDroit();
+        return IntervenantController::afficherTwig("intervenant/creationIntervenant.twig",
+            [
+                "statuts" => $statuts,
+                "droits" => $droits,
+                "idDroitUtilisateur" => $idDroitUtilisateur
+            ]);
     }
 
     public function creerDepuisFormulaire(): Response
@@ -258,7 +266,12 @@ class IntervenantController extends GenericController
     {
         try {
             $intervenant = $this->intervenantService->recupererParIdentifiant($idIntervenant);
-            return IntervenantController::afficherTwig("intervenant/mettreAJour.twig", ["intervenant" => $intervenant]);
+            $statuts = $this->statutService->recupererStatuts();
+            $droits = $this->droitService->recupererDroits();
+            return IntervenantController::afficherTwig("intervenant/mettreAJour.twig", [
+                "intervenant" => $intervenant,
+                "statuts" => $statuts,
+                "droits" => $droits]);
         } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
