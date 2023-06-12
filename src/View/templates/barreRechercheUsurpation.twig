@@ -1,5 +1,5 @@
 {% block barre_recherche_usurpation %}
-    <form class="barreRecherche" action="#" method="post">
+    <form class="barreRecherche" action="{{ route("usurper") }}" method="post" xmlns="http://www.w3.org/1999/html">
         <fieldset id="usurpation">
             <div class="conteneurChamps">
                 <label for="usurpation_id"></label>
@@ -7,9 +7,9 @@
                        placeholder="Rechercher une personne à usurper"
                        name="intervenant"
                        id="usurpation_id" required>
-                <div class="boutonEnvoie">
+                <button type="submit" name="btnEnvoieUsurpation" class="boutonEnvoie">
                     <img src="{{ asset("../ressources/img/search.svg") }}" alt="loupe">
-                </div>
+                </button>
             </div>
             <div class="conteneurAutoComp">
                 <div class="autocompletion" data-inputfun="autocompIntervenant.requeteAJAX()"

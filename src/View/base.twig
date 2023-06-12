@@ -42,6 +42,21 @@
         <p>Année en cours : {{ anneeActuelle }}-{{ anneeActuelle+1 }}</p>
     </div>
 </div>
+{% if intervenantUsurpe != null %}
+    <div class="centrer2">
+        <div class="alert alert-success alertVoeux centrer">
+            <div class="textes">
+                <p>Vous usurpez actuellement {{ intervenantUsurpe.getPrenom }} {{ intervenantUsurpe.getNom }}
+                </p>
+            </div>
+            <div class="marginLeft">
+                <a href="{{ route("arreterUsurpation") }}" class="boutonSuppression">
+                    <img src="{{ asset("../ressources/img/delete.svg") }}" alt="delete">
+                </a>
+            </div>
+        </div>
+    </div>
+{% endif %}
 <div id="messagesFlash">
     {% for type in ["success", "info", "warning", "danger"] %}
         {% for message in messagesFlash.lireMessages(type) %}

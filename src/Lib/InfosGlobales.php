@@ -16,6 +16,10 @@ class InfosGlobales
         Cookie::enregistrer("annee", $annee);
     }
 
+    public static function enregistrerIdIntervenantUsurpe(int $idIntervenant){
+        Cookie::enregistrer("idIntervenantUsurpe", $idIntervenant);
+    }
+
     public static function lireDepartement(): ?string
     {
         return Cookie::lire("departement");
@@ -26,10 +30,20 @@ class InfosGlobales
         return Cookie::lire("annee");
     }
 
+    public static function lireIdIntervenantUsurpe(): ?int
+    {
+        return Cookie::lire("idIntervenantUsurpe");
+    }
+
     public static function supprimerInfos()
     {
         Cookie::supprimer("departement");
         Cookie::supprimer("annee");
+        Cookie::supprimer("idIntervenantUsurpe");
     }
 
+    public static function arreterUsurpation(){
+        Cookie::enregistrer("idIntervenantUsurpe", null);
+        Cookie::supprimer("idIntervenantUsurpe");
+    }
 }
