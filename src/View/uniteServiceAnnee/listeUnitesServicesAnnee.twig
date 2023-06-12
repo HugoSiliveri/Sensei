@@ -10,10 +10,12 @@
         <h2>Liste des unités de
             services du département de cette année </h2>
         {% include "templates/barreRechercheUniteService.twig" %}
-        <div class="optionsSurObjet">
-            <a href="{{ route("afficherFormulaireCreationIntervenant") }}"><b>Créer une nouvelle unité de
-                    service</b></a>
-        </div>
+        {% if connexionUtilisateur.estAdminOuChef %}
+            <div class="optionsSurObjet">
+                <a href="{{ route("afficherFormulaireCreationIntervenant") }}"><b>Créer une nouvelle unité de
+                        service</b></a>
+            </div>
+        {% endif %}
     </div>
     {% if unitesServicesAnneeDuDepartement|length > 0 %}
         <div class="liste">
@@ -23,18 +25,18 @@
                     {% for uniteServiceAnneeDuDepartement in chunk %}
                         <li class="boutonContainer">
                             {% if uniteServiceAnneeDuDepartement.getIdUniteService is not null %}
-                            <a href="{{ route("afficherDetailUniteService", {"idUniteService": uniteServiceAnneeDuDepartement.getIdUniteService}) }}">
-                                {% else %}
+                                <a href="{{ route("afficherDetailUniteService", {"idUniteService": uniteServiceAnneeDuDepartement.getIdUniteService}) }}">
+                            {% else %}
                                 <a href="{{ route("afficherDetailUniteService", {"idUniteService": unitesServicesDuDepartement[i].getIdUniteService}) }}">
-                                    {% endif %}
-                                    {{ unitesServicesDuDepartement[i].getIdUSReferentiel }}
+                            {% endif %}
+                                {{ unitesServicesDuDepartement[i].getIdUSReferentiel }}
 
-                                    {% if uniteServiceAnneeDuDepartement.getLibUSA is not null %}
-                                        {{ uniteServiceAnneeDuDepartement.getLibUSA }}
-                                    {% else %}
-                                        {{ unitesServicesDuDepartement[i].getLibUS }}
-                                    {% endif %}
-                                </a>
+                                {% if uniteServiceAnneeDuDepartement.getLibUSA is not null %}
+                                    {{ uniteServiceAnneeDuDepartement.getLibUSA }}
+                                {% else %}
+                                    {{ unitesServicesDuDepartement[i].getLibUS }}
+                                {% endif %}
+                            </a>
                         </li>
                         {% set i = i + 1 %}
                     {% endfor %}

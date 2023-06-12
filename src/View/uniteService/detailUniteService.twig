@@ -6,9 +6,11 @@
             <div class="coteGauche">
                 <div class="miseEnPage">
                     <h2>Informations sur {{ uniteService.getIdUSReferentiel }}</h2>
-                    <a href="{{ route("afficherFormulaireMiseAJourUniteService", {idUniteService: uniteService.getIdUniteService}) }}">
-                        <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">
-                    </a>
+                    {% if connexionUtilisateur.estAdminOuChef %}
+                        <a href="{{ route("afficherFormulaireMiseAJourUniteService", {idUniteService: uniteService.getIdUniteService}) }}">
+                            <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">
+                        </a>
+                    {% endif %}
                 </div>
                 <ul class="description">
                     <li><b>Identifiant :</b> {{ uniteService.getIdUSReferentiel }}
@@ -39,10 +41,12 @@
                 </ul>
                 <div class="optionsSupplémentaires">
                     {% include "templates/barreRechercheUniteService.twig" %}
-                    <div class="optionsSurObjet">
-                        <a href="{{ route("afficherFormulaireCreationUniteService") }}"><b>Créer une nouvelle unité de
-                                service</b></a>
-                    </div>
+                    {% if connexionUtilisateur.estAdminOuChef %}
+                        <div class="optionsSurObjet">
+                            <a href="{{ route("afficherFormulaireCreationUniteService") }}"><b>Créer une nouvelle unité de
+                                    service</b></a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="coteDroit overflow">
@@ -85,9 +89,11 @@
                                         :</b> {{ uniteServiceAnnee.getHeuresInnovationPedagogique }}<b> / Nb groupes
                                         :</b> {{ uniteServiceAnnee.getNbGroupesInnovationPedagogique }}</li>
                             </ul>
-                            <a href="{{ route("afficherFormulaireMiseAJourUniteServiceAnnee", {idUniteServiceAnnee: uniteServiceAnnee.getIdUniteServiceAnnee}) }}">
-                                <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">
-                            </a>
+                            {% if connexionUtilisateur.estAdminOuChef %}
+                                <a href="{{ route("afficherFormulaireMiseAJourUniteServiceAnnee", {idUniteServiceAnnee: uniteServiceAnnee.getIdUniteServiceAnnee}) }}">
+                                    <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">
+                                </a>
+                            {% endif %}
                         </div>
                         <div class="menuDeroulant">
                         <span class="boutonSousMenuAnneeService boutonMenuDeroulant">

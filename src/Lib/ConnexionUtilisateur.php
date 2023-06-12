@@ -100,4 +100,32 @@ class ConnexionUtilisateur implements ConnexionUtilisateurInterface
         return $intervenant;
     }
 
+    public function estAdminOuChef(): bool
+    {
+        $intervenantConnecte = $this->getIntervenantConnecte();
+        if (!isset($intervenantConnecte)){
+            return false;
+        }
+        $idDroit = $intervenantConnecte->getIdDroit();
+        if ($idDroit < 3){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function estAdmin(): bool
+    {
+        $intervenantConnecte = $this->getIntervenantConnecte();
+        if (!isset($intervenantConnecte)){
+            return false;
+        }
+        $idDroit = $intervenantConnecte->getIdDroit();
+        if ($idDroit < 2){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

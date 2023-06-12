@@ -9,10 +9,12 @@
     <div class="titreEtBarreRecherche">
         <h2>Liste des intervenant.e.s actuels.les du département</h2>
         {% include "templates/barreRechercheIntervenant.twig" %}
-        <div class="optionsSurObjet">
-            <a href="{{ route("afficherFormulaireCreationIntervenant") }}"><b>Créer un.e nouvel.le
-                    intervenant.e</b></a>
-        </div>
+        {% if connexionUtilisateur.estAdminOuChef %}
+            <div class="optionsSurObjet">
+                <a href="{{ route("afficherFormulaireCreationIntervenant") }}"><b>Créer un.e nouvel.le
+                        intervenant.e</b></a>
+            </div>
+        {% endif %}
     </div>
     {% if intervenantsAnnuelsEtDuDepartementNonVacataire|length > 0 %}
         <div class="liste">
