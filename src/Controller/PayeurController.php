@@ -3,6 +3,7 @@
 namespace App\Sensei\Controller;
 
 use App\Sensei\Lib\MessageFlash;
+use App\Sensei\Service\DroitServiceInterface;
 use App\Sensei\Service\Exception\ServiceException;
 use App\Sensei\Service\PayeurServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,14 +11,26 @@ use Symfony\Component\HttpFoundation\Response;
 class PayeurController extends GenericController
 {
     public function __construct(
-        private readonly PayeurServiceInterface $payeurService
+        private readonly PayeurServiceInterface $payeurService,
+        private readonly DroitServiceInterface $droitService
     )
     {
     }
 
     public function afficherFormulaireCreation(): Response
     {
-        return PayeurController::afficherTwig("payeur/creationPayeur.twig");
+        try {
+            $this->droitService->verifierDroits();
+            return PayeurController::afficherTwig("payeur/creationPayeur.twig");
+        } catch (ServiceException $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+        }
+        return PayeurController::rediriger("accueil");
+
     }
 
     public function creerDepuisFormulaire(): Response
@@ -36,13 +49,25 @@ class PayeurController extends GenericController
 
     public function afficherListe(): Response
     {
-        $payeurs = $this->payeurService->recupererPayeurs();
-        return PayeurController::afficherTwig("payeur/listePayeurs.twig", ["payeurs" => $payeurs]);
+        try {
+            $this->droitService->verifierDroits();
+            $payeurs = $this->payeurService->recupererPayeurs();
+            return PayeurController::afficherTwig("payeur/listePayeurs.twig", ["payeurs" => $payeurs]);
+        } catch (ServiceException $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+        }
+        return PayeurController::rediriger("accueil");
+
     }
 
     public function supprimer(int $idPayeur): Response
     {
         try {
+            $this->droitService->verifierDroits();
             $this->payeurService->supprimerPayeur($idPayeur);
             MessageFlash::ajouter("success", "Le payeur a bien été supprimé !");
         } catch (ServiceException $exception) {
@@ -58,6 +83,7 @@ class PayeurController extends GenericController
     public function afficherFormulaireMiseAJour(int $idPayeur): Response
     {
         try {
+            $this->droitService->verifierDroits();
             $payeur = $this->payeurService->recupererParIdentifiant($idPayeur);
             return PayeurController::afficherTwig("payeur/mettreAJour.twig", ["payeur" => $payeur]);
         } catch (ServiceException $exception) {

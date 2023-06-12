@@ -7,6 +7,7 @@ use App\Sensei\Service\AppartenirServiceInterface;
 use App\Sensei\Service\ColorationServiceInterface;
 use App\Sensei\Service\DeclarationServiceServiceInterface;
 use App\Sensei\Service\DepartementServiceInterface;
+use App\Sensei\Service\DroitServiceInterface;
 use App\Sensei\Service\Exception\ServiceException;
 use App\Sensei\Service\IntervenantServiceInterface;
 use App\Sensei\Service\InterventionServiceInterface;
@@ -31,7 +32,8 @@ class UniteServiceController extends GenericController
         private readonly AppartenirServiceInterface         $appartenirService,
         private readonly NatureServiceInterface             $natureService,
         private readonly ColorationServiceInterface         $colorationService,
-        private readonly DeclarationServiceServiceInterface $declarationServiceService
+        private readonly DeclarationServiceServiceInterface $declarationServiceService,
+        private readonly DroitServiceInterface $droitService,
     )
     {
     }
@@ -108,17 +110,28 @@ class UniteServiceController extends GenericController
             } else {
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
-            return UniteServiceController::rediriger("afficherListeUnitesServices");
+            return UniteServiceController::rediriger("afficherListeUnitesServicesAnnee");
         }
     }
 
     public function afficherFormulaireCreation(): Response
     {
-        $payeurs = $this->payeurService->recupererPayeurs();
-        $departements = $this->departementService->recupererDepartements();
-        return UniteServiceController::afficherTwig("uniteService/creationUniteService.twig", [
-            "payeurs" => $payeurs,
-            "departements" => $departements]);
+        try {
+            $this->droitService->verifierDroits();
+            $payeurs = $this->payeurService->recupererPayeurs();
+            $departements = $this->departementService->recupererDepartements();
+            return UniteServiceController::afficherTwig("uniteService/creationUniteService.twig", [
+                "payeurs" => $payeurs,
+                "departements" => $departements]);
+        } catch (ServiceException $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+        }
+        return IntervenantController::rediriger("afficherListeUnitesServicesAnnee");
+
     }
 
     public function creerDepuisFormulaire(): Response
@@ -222,19 +235,30 @@ class UniteServiceController extends GenericController
             } else {
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
-            return UniteServiceController::rediriger("afficherListeUnitesServices");
+            return UniteServiceController::rediriger("afficherListeUnitesServicesAnnee");
         }
     }
 
     public function afficherFormulaireMiseAJour(int $idUniteService): Response
     {
-        $uniteService = $this->uniteServiceService->recupererParIdentifiant($idUniteService);
-        $payeurs = $this->payeurService->recupererPayeurs();
-        $departements = $this->departementService->recupererDepartements();
-        return UniteServiceController::afficherTwig("uniteService/mettreAJour.twig", [
-            "uniteService" => $uniteService,
-            "payeurs" => $payeurs,
-            "departements" => $departements]);
+        try {
+            $this->droitService->verifierDroits();
+            $uniteService = $this->uniteServiceService->recupererParIdentifiant($idUniteService);
+            $payeurs = $this->payeurService->recupererPayeurs();
+            $departements = $this->departementService->recupererDepartements();
+            return UniteServiceController::afficherTwig("uniteService/mettreAJour.twig", [
+                "uniteService" => $uniteService,
+                "payeurs" => $payeurs,
+                "departements" => $departements]);
+        } catch (ServiceException|TypeError $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+            return UniteServiceController::rediriger("afficherListeUnitesServicesAnnee");
+        }
+
     }
 
     public function mettreAJour(): Response

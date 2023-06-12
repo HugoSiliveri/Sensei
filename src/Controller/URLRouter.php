@@ -167,30 +167,31 @@ class URLRouter
         $uniteServiceController->setArguments([new Reference('unite_service_service'), new Reference('unite_service_annee_service'),
             new Reference('voeu_service'), new Reference('intervenant_service'), new Reference('intervention_service'),
             new Reference('payeur_service'), new Reference('departement_service'), new Reference('appartenir_service'),
-            new Reference('nature_service'), new Reference('coloration_service'), new Reference('declaration_service_service')]);
+            new Reference('nature_service'), new Reference('coloration_service'), new Reference('declaration_service_service'),
+            new Reference('droit_service')]);
 
         $declarationServiceController = $conteneur->register('declaration_service_controller', DeclarationServiceController::class);
         $declarationServiceController->setArguments([new Reference('declaration_service_service'), new Reference('intervenant_service')]);
 
         $natureController = $conteneur->register('nature_controller', NatureController::class);
-        $natureController->setArguments([new Reference('nature_service')]);
+        $natureController->setArguments([new Reference('nature_service'), new Reference('droit_service')]);
 
         $composanteController = $conteneur->register('composante_controller', ComposanteController::class);
-        $composanteController->setArguments([new Reference('composante_service')]);
+        $composanteController->setArguments([new Reference('composante_service'), new Reference('droit_service')]);
 
         $departementController = $conteneur->register('departement_controller', DepartementController::class);
         $departementController->setArguments([new Reference('departement_service'), new Reference("etat_service"),
             new Reference("composante_service"), new Reference("service_annuel_service"),
-            new Reference("connexion_utilisateur")]);
+            new Reference("droit_service"), new Reference("connexion_utilisateur")]);
 
         $droitController = $conteneur->register('droit_controller', DroitController::class);
         $droitController->setArguments([new Reference('droit_service')]);
 
         $emploiController = $conteneur->register('emploi_controller', EmploiController::class);
-        $emploiController->setArguments([new Reference('emploi_service')]);
+        $emploiController->setArguments([new Reference('emploi_service'), new Reference('droit_service')]);
 
         $statutController = $conteneur->register('statut_controller', StatutController::class);
-        $statutController->setArguments([new Reference('statut_service')]);
+        $statutController->setArguments([new Reference('statut_service'), new Reference('droit_service')]);
 
         $payeurController = $conteneur->register('payeur_controller', PayeurController::class);
         $payeurController->setArguments([new Reference('payeur_service')]);
@@ -198,10 +199,10 @@ class URLRouter
         $uniteServiceAnneeController = $conteneur->register('unite_service_annee_controller', UniteServiceAnneeController::class);
         $uniteServiceAnneeController->setArguments([new Reference('unite_service_annee_service'),
             new Reference('unite_service_service'), new Reference('departement_service'),
-            new Reference('service_annuel_service'), new Reference('connexion_utilisateur')]);
+            new Reference('service_annuel_service'), new Reference('droit_service'), new Reference('connexion_utilisateur')]);
 
         $etatController = $conteneur->register('etat_controller', EtatController::class);
-        $etatController->setArguments([new Reference('etat_service')]);
+        $etatController->setArguments([new Reference('etat_service'), new Reference('droit_service')]);
 
         $intervenantService = $conteneur->register('intervenant_service', IntervenantService::class);
         $intervenantService->setArguments([new Reference("intervenant_repository"), new Reference("connexion_utilisateur")]);
@@ -216,7 +217,7 @@ class URLRouter
         $statutService->setArguments([new Reference('statut_repository')]);
 
         $droitService = $conteneur->register('droit_service', DroitService::class);
-        $droitService->setArguments([new Reference('droit_repository')]);
+        $droitService->setArguments([new Reference('droit_repository'), new Reference('connexion_utilisateur')]);
 
         $serviceAnnuelServiceClasse = $conteneur->register('service_annuel_service', ServiceAnnuelService::class);
         $serviceAnnuelServiceClasse->setArguments([new Reference('service_annuel_repository')]);

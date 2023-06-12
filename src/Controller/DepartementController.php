@@ -7,6 +7,7 @@ use App\Sensei\Lib\InfosGlobales;
 use App\Sensei\Lib\MessageFlash;
 use App\Sensei\Service\ComposanteServiceInterface;
 use App\Sensei\Service\DepartementServiceInterface;
+use App\Sensei\Service\DroitServiceInterface;
 use App\Sensei\Service\EtatServiceInterface;
 use App\Sensei\Service\Exception\ServiceException;
 use App\Sensei\Service\ServiceAnnuelServiceInterface;
@@ -19,6 +20,7 @@ class DepartementController extends GenericController
         private readonly EtatServiceInterface          $etatService,
         private readonly ComposanteServiceInterface    $composanteService,
         private readonly ServiceAnnuelServiceInterface $serviceAnnuelService,
+        private readonly DroitServiceInterface $droitService,
         private readonly ConnexionUtilisateurInterface $connexionUtilisateur
     )
     {
@@ -26,12 +28,22 @@ class DepartementController extends GenericController
 
     public function afficherFormulaireCreation(): Response
     {
-        $etats = $this->etatService->recupererEtats();
-        $composantes = $this->composanteService->recupererComposantes();
-        return DepartementController::afficherTwig("departement/creationDepartement.twig", [
-            "etats" => $etats,
-            "composantes" => $composantes
-        ]);
+        try {
+            $this->droitService->verifierDroits();
+            $etats = $this->etatService->recupererEtats();
+            $composantes = $this->composanteService->recupererComposantes();
+            return DepartementController::afficherTwig("departement/creationDepartement.twig", [
+                "etats" => $etats,
+                "composantes" => $composantes
+            ]);
+        } catch (ServiceException $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+        }
+        return DepartementController::rediriger("accueil");
     }
 
     public function creerDepuisFormulaire(): Response
@@ -58,13 +70,25 @@ class DepartementController extends GenericController
 
     public function afficherListe(): Response
     {
-        $departements = $this->departementService->recupererDepartements();
-        return DepartementController::afficherTwig("departement/listeDepartements.twig", ["departements" => $departements]);
+        try {
+            $this->droitService->verifierDroits();
+            $departements = $this->departementService->recupererDepartements();
+            return DepartementController::afficherTwig("departement/listeDepartements.twig", ["departements" => $departements]);
+        } catch (ServiceException $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+        }
+        return DepartementController::rediriger("accueil");
+
     }
 
     public function supprimer(int $idDepartement): Response
     {
         try {
+            $this->droitService->verifierDroits();
             $this->departementService->supprimerDepartement($idDepartement);
             MessageFlash::ajouter("success", "Le departement a bien été supprimé !");
         } catch (ServiceException $exception) {
@@ -80,6 +104,7 @@ class DepartementController extends GenericController
     public function afficherFormulaireMiseAJour(int $idDepartement): Response
     {
         try {
+            $this->droitService->verifierDroits();
             $departement = $this->departementService->recupererParIdentifiant($idDepartement);
             $composantes = $this->composanteService->recupererComposantes();
             $etats = $this->etatService->recupererEtats();
@@ -127,7 +152,7 @@ class DepartementController extends GenericController
     public function afficherFormulaireGestionEtat()
     {
         try {
-
+            $this->droitService->verifierDroits();
             $etats = $this->etatService->recupererEtats();
             $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuelPlusRecent($this->connexionUtilisateur->getIdUtilisateurConnecte());
             $idDepartement = $this->departementService->recupererParLibelle(InfosGlobales::lireDepartement())->getIdDepartement() ?? $serviceAnnuel->getIdDepartement();

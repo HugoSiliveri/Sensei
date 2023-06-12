@@ -6,6 +6,7 @@ use App\Sensei\Lib\ConnexionUtilisateurInterface;
 use App\Sensei\Lib\InfosGlobales;
 use App\Sensei\Lib\MessageFlash;
 use App\Sensei\Service\DepartementServiceInterface;
+use App\Sensei\Service\DroitServiceInterface;
 use App\Sensei\Service\Exception\ServiceException;
 use App\Sensei\Service\ServiceAnnuelServiceInterface;
 use App\Sensei\Service\UniteServiceAnneeServiceInterface;
@@ -20,6 +21,7 @@ class UniteServiceAnneeController extends GenericController
         private readonly UniteServiceServiceInterface      $uniteServiceService,
         private readonly DepartementServiceInterface       $departementService,
         private readonly ServiceAnnuelServiceInterface     $serviceAnnuelService,
+        private readonly DroitServiceInterface $droitService,
         private readonly ConnexionUtilisateurInterface     $connexionUtilisateur
     )
     {
@@ -74,13 +76,24 @@ class UniteServiceAnneeController extends GenericController
      */
     public function afficherFormulaireMiseAJour(int $idUniteServiceAnnee): Response
     {
-        $uniteServiceAnnee = $this->uniteServiceAnneeService->recupererParIdentifiant($idUniteServiceAnnee);
-        $uniteService = $this->uniteServiceService->recupererParIdentifiant($uniteServiceAnnee->getIdUniteService());
-        $departements = $this->departementService->recupererDepartements();
-        return UniteServiceController::afficherTwig("uniteServiceAnnee/mettreAJour.twig", [
-            "uniteServiceAnnee" => $uniteServiceAnnee,
-            "uniteService" => $uniteService,
-            "departements" => $departements]);
+        try {
+            $this->droitService->verifierDroits();
+            $uniteServiceAnnee = $this->uniteServiceAnneeService->recupererParIdentifiant($idUniteServiceAnnee);
+            $uniteService = $this->uniteServiceService->recupererParIdentifiant($uniteServiceAnnee->getIdUniteService());
+            $departements = $this->departementService->recupererDepartements();
+            return UniteServiceController::afficherTwig("uniteServiceAnnee/mettreAJour.twig", [
+                "uniteServiceAnnee" => $uniteServiceAnnee,
+                "uniteService" => $uniteService,
+                "departements" => $departements]);
+        } catch (ServiceException $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+        }
+        return IntervenantController::rediriger("afficherListeUnitesServicesAnnee");
+
     }
 
     public function mettreAJour(): Response

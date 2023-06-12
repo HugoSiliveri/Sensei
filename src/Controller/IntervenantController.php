@@ -142,20 +142,30 @@ class IntervenantController extends GenericController
 
     public function afficherFormulaireCreation(): Response
     {
-        $statuts = $this->statutService->recupererStatuts();
-        $droits = $this->droitService->recupererDroits();
-        $idDroitUtilisateur = $this->connexionUtilisateur->getIntervenantConnecte()->getIdDroit();
-        return IntervenantController::afficherTwig("intervenant/creationIntervenant.twig",
-            [
-                "statuts" => $statuts,
-                "droits" => $droits,
-                "idDroitUtilisateur" => $idDroitUtilisateur
-            ]);
+        try {
+            $this->droitService->verifierDroits();
+            $statuts = $this->statutService->recupererStatuts();
+            $droits = $this->droitService->recupererDroits();
+            $idDroitUtilisateur = $this->connexionUtilisateur->getIntervenantConnecte()->getIdDroit();
+            return IntervenantController::afficherTwig("intervenant/creationIntervenant.twig",
+                [
+                    "statuts" => $statuts,
+                    "droits" => $droits,
+                    "idDroitUtilisateur" => $idDroitUtilisateur
+                ]);
+        } catch (ServiceException $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+            return IntervenantController::rediriger("afficherListeIntervenants");
+        }
+
     }
 
     public function creerDepuisFormulaire(): Response
     {
-
         $nom = $_POST["nom"];
         $prenom = $_POST["prenom"];
         $idIntervenantReferentiel = $_POST["idIntervenantReferentiel"];
@@ -265,6 +275,7 @@ class IntervenantController extends GenericController
     public function afficherFormulaireMiseAJour(int $idIntervenant): Response
     {
         try {
+            $this->droitService->verifierDroits();
             $intervenant = $this->intervenantService->recupererParIdentifiant($idIntervenant);
             $statuts = $this->statutService->recupererStatuts();
             $droits = $this->droitService->recupererDroits();
@@ -278,7 +289,7 @@ class IntervenantController extends GenericController
             } else {
                 MessageFlash::ajouter("warning", $exception->getMessage());
             }
-            return IntervenantController::rediriger("accueil");
+            return IntervenantController::rediriger("afficherListeIntervenants");
         }
     }
 

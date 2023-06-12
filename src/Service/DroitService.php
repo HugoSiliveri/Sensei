@@ -2,6 +2,7 @@
 
 namespace App\Sensei\Service;
 
+use App\Sensei\Lib\ConnexionUtilisateur;
 use App\Sensei\Model\DataObject\AbstractDataObject;
 use App\Sensei\Model\Repository\DroitRepository;
 use App\Sensei\Service\Exception\ServiceException;
@@ -11,6 +12,7 @@ class DroitService implements DroitServiceInterface
 
     public function __construct(
         private readonly DroitRepository $droitRepository,
+        private readonly ConnexionUtilisateur $connexionUtilisateur
     )
     {
     }
@@ -65,5 +67,15 @@ class DroitService implements DroitServiceInterface
         $objet->setTypeDroit($droit["typeDroit"]);
 
         $this->droitRepository->mettreAJour($objet);
+    }
+
+    /**
+     * @throws ServiceException
+     */
+    public function verifierDroits(){
+        $avoirLesPermissions = $this->connexionUtilisateur->estAdminOuChef();
+        if (!$avoirLesPermissions){
+            throw new ServiceException("Vous n'avez pas les permissions !");
+        }
     }
 }

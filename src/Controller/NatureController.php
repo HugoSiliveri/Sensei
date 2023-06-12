@@ -3,6 +3,7 @@
 namespace App\Sensei\Controller;
 
 use App\Sensei\Lib\MessageFlash;
+use App\Sensei\Service\DroitServiceInterface;
 use App\Sensei\Service\Exception\ServiceException;
 use App\Sensei\Service\NatureServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,14 +12,26 @@ class NatureController extends GenericController
 {
 
     public function __construct(
-        private readonly NatureServiceInterface $natureService
+        private readonly NatureServiceInterface $natureService,
+        private readonly DroitServiceInterface $droitService
     )
     {
     }
 
     public function afficherFormulaireCreation(): Response
     {
-        return NatureController::afficherTwig("nature/creationNature.twig");
+        try {
+            $this->droitService->verifierDroits();
+            return NatureController::afficherTwig("nature/creationNature.twig");
+        } catch (ServiceException $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+        }
+        return NatureController::rediriger("accueil");
+
     }
 
     public function creerDepuisFormulaire(): Response
@@ -37,13 +50,24 @@ class NatureController extends GenericController
 
     public function afficherListe(): Response
     {
-        $natures = $this->natureService->recupererNatures();
-        return NatureController::afficherTwig("nature/listeNatures.twig", ["natures" => $natures]);
+        try {
+            $this->droitService->verifierDroits();
+            $natures = $this->natureService->recupererNatures();
+            return NatureController::afficherTwig("nature/listeNatures.twig", ["natures" => $natures]);
+        } catch (ServiceException $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+        }
+        return NatureController::rediriger("accueil");
     }
 
     public function supprimer(int $idNature): Response
     {
         try {
+            $this->droitService->verifierDroits();
             $this->natureService->supprimerNature($idNature);
             MessageFlash::ajouter("success", "La nature a bien été supprimée !");
         } catch (ServiceException $exception) {
@@ -59,6 +83,7 @@ class NatureController extends GenericController
     public function afficherFormulaireMiseAJour(int $idNature): Response
     {
         try {
+            $this->droitService->verifierDroits();
             $nature = $this->natureService->recupererParIdentifiant($idNature);
             return NatureController::afficherTwig("nature/mettreAJour.twig", ["nature" => $nature]);
         } catch (ServiceException $exception) {

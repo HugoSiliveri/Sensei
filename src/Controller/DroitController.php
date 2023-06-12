@@ -18,7 +18,17 @@ class DroitController extends GenericController
 
     public function afficherFormulaireCreation(): Response
     {
-        return DroitController::afficherTwig("droit/creationDroit.twig");
+        try {
+            $this->droitService->verifierDroits();
+            return DroitController::afficherTwig("droit/creationDroit.twig");
+        } catch (ServiceException $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+        }
+        return DroitController::rediriger("accueil");
     }
 
     public function creerDepuisFormulaire(): Response
@@ -37,13 +47,25 @@ class DroitController extends GenericController
 
     public function afficherListe(): Response
     {
-        $droits = $this->droitService->recupererDroits();
-        return DroitController::afficherTwig("droit/listeDroits.twig", ["droits" => $droits]);
+        try {
+            $this->droitService->verifierDroits();
+            $droits = $this->droitService->recupererDroits();
+            return DroitController::afficherTwig("droit/listeDroits.twig", ["droits" => $droits]);
+        } catch (ServiceException $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+        }
+        return DroitController::rediriger("accueil");
+
     }
 
     public function supprimer(int $idDroit): Response
     {
         try {
+            $this->droitService->verifierDroits();
             $this->droitService->supprimerDroit($idDroit);
             MessageFlash::ajouter("success", "Le droit a bien été supprimé !");
         } catch (ServiceException $exception) {
@@ -59,6 +81,7 @@ class DroitController extends GenericController
     public function afficherFormulaireMiseAJour(int $idDroit): Response
     {
         try {
+            $this->droitService->verifierDroits();
             $droit = $this->droitService->recupererParIdentifiant($idDroit);
             return DroitController::afficherTwig("droit/mettreAJour.twig", ["droit" => $droit]);
         } catch (ServiceException $exception) {

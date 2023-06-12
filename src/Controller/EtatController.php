@@ -3,6 +3,7 @@
 namespace App\Sensei\Controller;
 
 use App\Sensei\Lib\MessageFlash;
+use App\Sensei\Service\DroitServiceInterface;
 use App\Sensei\Service\EtatServiceInterface;
 use App\Sensei\Service\Exception\ServiceException;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,20 +11,34 @@ use Symfony\Component\HttpFoundation\Response;
 class EtatController extends GenericController
 {
     public function __construct(
-        private readonly EtatServiceInterface $etatService
+        private readonly EtatServiceInterface $etatService,
+        private readonly DroitServiceInterface $droitService
     )
     {
     }
 
     public function afficherListe(): Response
     {
-        $etats = $this->etatService->recupererEtats();
-        return EtatController::afficherTwig("etat/listeEtats.twig", ["etats" => $etats]);
+        try {
+            $this->droitService->verifierDroits();
+            $etats = $this->etatService->recupererEtats();
+            return EtatController::afficherTwig("etat/listeEtats.twig", ["etats" => $etats]);
+        } catch (ServiceException $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+            return EtatController::rediriger("accueil");
+        }
+
+
     }
 
     public function afficherFormulaireMiseAJour(int $idEtat): Response
     {
         try {
+            $this->droitService->verifierDroits();
             $etat = $this->etatService->recupererParIdentifiant($idEtat);
             return EtatController::afficherTwig("etat/mettreAJour.twig", ["etat" => $etat]);
         } catch (ServiceException $exception) {

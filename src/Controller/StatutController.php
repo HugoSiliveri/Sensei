@@ -3,6 +3,7 @@
 namespace App\Sensei\Controller;
 
 use App\Sensei\Lib\MessageFlash;
+use App\Sensei\Service\DroitServiceInterface;
 use App\Sensei\Service\Exception\ServiceException;
 use App\Sensei\Service\StatutServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,14 +11,26 @@ use Symfony\Component\HttpFoundation\Response;
 class StatutController extends GenericController
 {
     public function __construct(
-        private readonly StatutServiceInterface $statutService
+        private readonly StatutServiceInterface $statutService,
+        private readonly DroitServiceInterface $droitService
     )
     {
     }
 
     public function afficherFormulaireCreation(): Response
     {
-        return StatutController::afficherTwig("statut/creationStatut.twig");
+        try {
+            $this->droitService->verifierDroits();
+            return StatutController::afficherTwig("statut/creationStatut.twig");
+        } catch (ServiceException $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+        }
+        return StatutController::rediriger("accueil");
+
     }
 
     public function creerDepuisFormulaire(): Response
@@ -38,13 +51,25 @@ class StatutController extends GenericController
 
     public function afficherListe(): Response
     {
-        $statuts = $this->statutService->recupererStatuts();
-        return StatutController::afficherTwig("statut/listeStatuts.twig", ["statuts" => $statuts]);
+        try {
+            $this->droitService->verifierDroits();
+            $statuts = $this->statutService->recupererStatuts();
+            return StatutController::afficherTwig("statut/listeStatuts.twig", ["statuts" => $statuts]);
+        } catch (ServiceException $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+        }
+        return StatutController::rediriger("accueil");
+
     }
 
     public function supprimer(int $idStatut): Response
     {
         try {
+            $this->droitService->verifierDroits();
             $this->statutService->supprimerStatut($idStatut);
             MessageFlash::ajouter("success", "Le statut a bien été supprimé !");
         } catch (ServiceException $exception) {
@@ -60,6 +85,7 @@ class StatutController extends GenericController
     public function afficherFormulaireMiseAJour(int $idStatut): Response
     {
         try {
+            $this->droitService->verifierDroits();
             $statut = $this->statutService->recupererParIdentifiant($idStatut);
             return StatutController::afficherTwig("statut/mettreAJour.twig", ["statut" => $statut]);
         } catch (ServiceException $exception) {
