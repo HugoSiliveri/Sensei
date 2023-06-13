@@ -101,18 +101,19 @@ class IntervenantController extends GenericController
                 $i = 0;
                 foreach ($declarationsServices as $declarationService) {
                     if ($declarationService["millesime"] == $serviceAnnuel->getMillesime()) {
-                        if ($i == 0) {
-                            $declarationsServicesAvecMemeId[] = $declarationService;
-                            $i++;
-                        } else {
-                            if ($declarationService["idUsReferentiel"] == $declarationsServicesAvecMemeId[0]["idUsReferentiel"]) {
-                                $declarationsServicesAvecMemeId[] = $declarationService;
-                                $i++;
-                            } else {
+                        if ($i != 0) {
+                            if ($declarationService["idUsReferentiel"] != $declarationsServicesAvecMemeId[0]["idUsReferentiel"]) {
                                 $declarationsServicesParAnnee[] = $declarationsServicesAvecMemeId;
                                 $declarationsServicesAvecMemeId = [];
                                 $i = 0;
                             }
+                        }
+                        $declarationsServicesAvecMemeId[] = $declarationService;
+                        $i++;
+                    } else {
+                        if (count($declarationsServicesAvecMemeId) > 0){
+                            $declarationsServicesParAnnee[] = $declarationsServicesAvecMemeId;
+                            $declarationsServicesAvecMemeId = [];
                         }
                     }
                 }
@@ -324,7 +325,6 @@ class IntervenantController extends GenericController
      */
     public function deconnecter()
     {
-
         if (!$this->connexionUtilisateur->estConnecte()) {
             throw new ServiceException("Utilisateur non connecté !");
         }
@@ -345,7 +345,61 @@ class IntervenantController extends GenericController
     }
 
     public function afficherServices(){
-        return IntervenantController::afficherTwig("service.twig");
+        try {
+            $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuelPlusRecent($this->connexionUtilisateur->getIdUtilisateurConnecte());
+            $idDepartement = $this->departementService->recupererParLibelle(InfosGlobales::lireDepartement())->getIdDepartement() ?? $serviceAnnuel->getIdDepartement();
+            $annee = $serviceAnnuel->getMillesime();
+            $anneeActuelle = InfosGlobales::lireAnnee() ?? $annee;
+
+            $intervenantsAnnuelsEtDuDepartementNonVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementNonVacataire($anneeActuelle, $idDepartement);
+            $intervenantsAnnuelsEtDuDepartementVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementVacataire($anneeActuelle, $idDepartement);
+
+            $servicesAnnuelsNonVacataires = [];
+            $declarationsServicesNonVacataires = [];
+            foreach ($intervenantsAnnuelsEtDuDepartementNonVacataire as $intervenantNonVacataire){
+                $servicesAnnuelsNonVacataires[] = $this->serviceAnnuelService->recupererParIntervenantAnnuel($intervenantNonVacataire->getIdIntervenant(), $anneeActuelle);
+                $declarationsServices = $this->declarationServiceService->recupererVueParIdIntervenantAnnuel($intervenantNonVacataire->getIdIntervenant(), $anneeActuelle);
+
+                $declarationsServicesParIntervenant = [];
+                $declarationsServicesAvecMemeId = [];
+                $i = 0;
+                foreach ($declarationsServices as $declarationService) {
+                    if ($i != 0) {
+                        if ($declarationService["idUsReferentiel"] != $declarationsServicesAvecMemeId[0]["idUsReferentiel"]) {
+                            $declarationsServicesParIntervenant[] = $declarationsServicesAvecMemeId;
+                            $declarationsServicesAvecMemeId = [];
+                            $i = 0;
+                        }
+                    }
+                    $declarationsServicesAvecMemeId[] = $declarationService;
+                    $i++;
+                }
+                if (count($declarationsServicesAvecMemeId) > 0){
+                    $declarationsServicesParIntervenant[] = $declarationsServicesAvecMemeId;
+                }
+                $declarationsServicesNonVacataires[] = $declarationsServicesParIntervenant;
+            }
+
+            $servicesAnnuelsVacataires = [];
+            foreach ($intervenantsAnnuelsEtDuDepartementVacataire as $intervenantVacataire){
+                $servicesAnnuelsVacataires[] = $this->serviceAnnuelService->recupererParIntervenantAnnuel($intervenantVacataire->getIdIntervenant(), $anneeActuelle);
+            }
+
+            return IntervenantController::afficherTwig("service.twig", [
+                "intervenantsAnnuelsEtDuDepartementNonVacataire" => $intervenantsAnnuelsEtDuDepartementNonVacataire,
+                "intervenantsAnnuelsEtDuDepartementVacataire" => $intervenantsAnnuelsEtDuDepartementVacataire,
+                "servicesAnnuelsNonVacataires" => $servicesAnnuelsNonVacataires,
+                "servicesAnnuelsVacataires" => $servicesAnnuelsVacataires,
+                "declarationsServicesNonVacataires" => $declarationsServicesNonVacataires]);
+
+        } catch (ServiceException $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+            return IntervenantController::rediriger("accueil");
+        }
     }
 
     public function afficherAide(){

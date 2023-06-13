@@ -19,7 +19,34 @@ class DeclarationServiceRepository extends AbstractRepository
         try {
             $sql = "SELECT *
             FROM vueInfosService WHERE idIntervenant=:idIntervenantTag
-            ORDER BY millesime DESC, idUSReferentiel ASC";
+            ORDER BY millesime DESC, idUSReferentiel, typeIntervention";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "idIntervenantTag" => $idIntervenant,
+            );
+            $pdoStatement->execute($values);
+
+            return $pdoStatement->fetchAll() ?? [];
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
+    /**
+     *
+     * @param $idIntervenant
+     * @param $annee
+     * @return array
+     */
+    public function recupererVueParIdIntervenantAnnuel($idIntervenant, $annee): array
+    {
+        try {
+            $sql = "SELECT *
+            FROM vueInfosService WHERE idIntervenant=:idIntervenantTag AND millesime = $annee
+            ORDER BY idUSReferentiel, typeIntervention";
 
             $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
 

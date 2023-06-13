@@ -3,9 +3,107 @@
 {% block page_content %}
     <div class="miseEnPage2">
         <div class="miseEnPage">
-            <div class="coteGauche overflow">
-                <h2>Membres du département</h2>
-
+            <div class="coteGauche service overflow">
+                <div class="miseEnPage">
+                    <button class="boutonDisparition">-</button>
+                    <div class="miseEnPage2">
+                        <h2>Membres du département ({{ intervenantsAnnuelsEtDuDepartementNonVacataire|length }})</h2>
+                        {% if intervenantsAnnuelsEtDuDepartementNonVacataire|length > 0 %}
+                            <div class="disparition">
+                                {% set i = 0 %}
+                                {% for i in 0..intervenantsAnnuelsEtDuDepartementNonVacataire|length-1 %}
+                                    <div class="miseEnPage2">
+                                        <div class="infosServiceConteneur">
+                                            {% if servicesAnnuelsNonVacataires[i] is not null %}
+                                                <button class="boutonDisparition">+</button>
+                                                <p class="infosService">{{ intervenantsAnnuelsEtDuDepartementNonVacataire[i].getNom }} {{ intervenantsAnnuelsEtDuDepartementNonVacataire[i].getPrenom }}
+                                                    (<data class="serviceStatuaire">{{ servicesAnnuelsNonVacataires[i].getServiceStatuaire }}</data>/<data class="serviceFait">{{ servicesAnnuelsNonVacataires[i].getServiceFait }}</data>)
+                                                </p>
+                                                {% if connexionUtilisateur.estAdminOuChef %}
+                                                    {# TODO : Reste à implémenter #}
+                                                    <a href="#">
+                                                        <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">
+                                                    </a>
+                                                {% endif %}
+                                            {% else %}
+                                                <button class="boutonDisparition">+</button>
+                                                <p class="infosService">{{ intervenantsAnnuelsEtDuDepartementNonVacataire[i].getNom }} {{ intervenantsAnnuelsEtDuDepartementNonVacataire[i].getPrenom }}
+                                                    (<data class="serviceStatuaire">0</data>/<data class="serviceFait">0</data>)
+                                                </p>
+                                                {% if connexionUtilisateur.estAdminOuChef %}
+                                                    {# TODO : Reste à implémenter #}
+                                                    <a href="#">
+                                                        <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">
+                                                    </a>
+                                                {% endif %}
+                                            {% endif %}
+                                        </div>
+                                        <div class="disparition2">
+                                            {% for declarationService in declarationsServicesNonVacataires[i] %}
+                                                <div class="infosSupplementaires">
+                                                    {{ declarationService[0].idUsReferentiel }} :
+                                                    {% set j = 0 %}
+                                                    {% for declarationServiceMemeId in declarationService %}
+                                                        {{ declarationServiceMemeId.typeIntervention }} - {{ declarationServiceMemeId.volumeHoraire }}
+                                                        {% if j < declarationService|length-1 %}
+                                                            /
+                                                        {% endif %}
+                                                        {% set j = j + 1 %}
+                                                    {% endfor %}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    {% set i = i + 1 %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="miseEnPage">
+                    <button class="boutonDisparition">-</button>
+                    <div class="miseEnPage2">
+                        <h2>Vacataires du département ({{ intervenantsAnnuelsEtDuDepartementVacataire|length }})</h2>
+                        {% if intervenantsAnnuelsEtDuDepartementVacataire|length > 0 %}
+                            <div class="disparition">
+                                {% set i = 0 %}
+                                {% for i in 0..intervenantsAnnuelsEtDuDepartementVacataire|length-1 %}
+                                    <div class="miseEnPage2">
+                                        <div class="infosServiceConteneur">
+                                            {% if servicesAnnuelsVacataires[i] is not null %}
+                                                <button class="boutonDisparition">+</button>
+                                                <p class="infosService">{{ intervenantsAnnuelsEtDuDepartementVacataire[i].getNom }} {{ intervenantsAnnuelsEtDuDepartementVacataire[i].getPrenom }}
+                                                    (<data class="serviceStatuaire">{{ servicesAnnuelsVacataires[i].getServiceStatuaire }}</data>/<data class="serviceFait">{{ servicesAnnuelsVacataires[i].getServiceFait }}</data>)
+                                                </p>
+                                                {% if connexionUtilisateur.estAdminOuChef %}
+                                                    {# TODO : Reste à implémenter #}
+                                                    <a href="#">
+                                                        <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">
+                                                    </a>
+                                                {% endif %}
+                                            {% else %}
+                                                <button class="boutonDisparition">+</button>
+                                                <p class="infosService">{{ intervenantsAnnuelsEtDuDepartementVacataire[i].getNom }} {{ intervenantsAnnuelsEtDuDepartementVacataire[i].getPrenom }}
+                                                    (<data class="serviceStatuaire">0</data>/<data class="serviceFait">0</data>)
+                                                </p>
+                                                {% if connexionUtilisateur.estAdminOuChef %}
+                                                    {# TODO : Reste à implémenter #}
+                                                    <a href="#">
+                                                        <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">
+                                                    </a>
+                                                {% endif %}
+                                            {% endif %}
+                                        </div>
+                                        <div class="disparition2">
+                                            <p>test</p>
+                                        </div>
+                                    </div>
+                                    {% set i = i + 1 %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
             <div class="coteDroit overflow">
             </div>

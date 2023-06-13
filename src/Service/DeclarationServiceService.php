@@ -28,6 +28,16 @@ class DeclarationServiceService implements DeclarationServiceServiceInterface
     }
 
     /**
+     * @param int $idIntervenant
+     * @param int $annee
+     * @return array
+     */
+    public function recupererVueParIdIntervenantAnnuel(int $idIntervenant, int $annee): array
+    {
+        return $this->declarationServiceRepository->recupererVueParIdIntervenantAnnuel($idIntervenant, $annee);
+    }
+
+    /**
      * @param int $idUniteServiceAnnee
      * @return array
      */

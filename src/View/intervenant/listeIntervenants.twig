@@ -7,7 +7,7 @@
         {% set chunks = intervenantsAnnuelsEtDuDepartementNonVacataire|batch(chunkSize) %}
     {% endif %}
     <div class="titreEtBarreRecherche">
-        <h2>Liste des intervenant.e.s actuels.les du département</h2>
+        <h2>Membres du département</h2>
         {% include "templates/barreRechercheIntervenant.twig" %}
         {% if connexionUtilisateur.estAdminOuChef %}
             <div class="optionsSurObjet">
