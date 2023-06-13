@@ -21,9 +21,6 @@
         <div id="conteneurAccueil">
             <div class="titreEtBarreRecherche2">
                 <h2>Bonjour {{ utilisateur.getPrenom }} {{ utilisateur.getNom }} !</h2>
-                {% if connexionUtilisateur.estAdminOuChef %}
-                    {% include "templates/barreRechercheUsurpation.twig" %}
-                {% endif %}
             </div>
             <div class="conteneurResponsable">
                 <h3>Liste des unités de services dont vous êtes responsable</h3>

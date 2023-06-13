@@ -272,27 +272,6 @@ class IntervenantController extends GenericController
         }
     }
 
-    public function usurper(){
-        try {
-            $recherche = $_POST["intervenant"];
-            $intervenant = $this->intervenantService->rechercherIntervenant($recherche);
-            InfosGlobales::enregistrerIdIntervenantUsurpe($intervenant->getIdIntervenant());
-            return IntervenantController::rediriger("accueil");
-        } catch (ServiceException|TypeError $exception) {
-            if (strcmp($exception->getCode(), "danger") == 0) {
-                MessageFlash::ajouter("danger", $exception->getMessage());
-            } else {
-                MessageFlash::ajouter("warning", $exception->getMessage());
-            }
-            return IntervenantController::rediriger("afficherListeIntervenants");
-        }
-    }
-
-    public function arreterUsurpation(){
-        InfosGlobales::arreterUsurpation();
-        return IntervenantController::rediriger("accueil");
-    }
-
     public function afficherFormulaireMiseAJour(int $idIntervenant): Response
     {
         try {

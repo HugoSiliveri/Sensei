@@ -614,16 +614,6 @@ class URLRouter
         ]);
         $routeAide->setMethods(["GET"]);
 
-        $routeUsurpation = new Route("/accueil", [
-            "_controller" => ["intervenant_controller", "usurper"]
-        ]);
-        $routeUsurpation->setMethods(["POST"]);
-
-        $routeArreterUsurpation = new Route("/usurpation", [
-            "_controller" => ["intervenant_controller", "arreterUsurpation"]
-        ]);
-        $routeArreterUsurpation->setMethods(["GET"]);
-
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
         $routes->add("gestion", $routeGestion);
@@ -695,8 +685,6 @@ class URLRouter
         $routes->add("gererEtat", $routeGererEtat);
         $routes->add("services", $routeServices);
         $routes->add("aide", $routeAide);
-        $routes->add("usurper", $routeUsurpation);
-        $routes->add("arreterUsurpation", $routeArreterUsurpation);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 
@@ -731,24 +719,16 @@ class URLRouter
             new ServiceAnnuelRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())),
             new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())));
         $connexionUtilisateurClasse = new ConnexionUtilisateur(new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())));
-        $intervenantServiceClasse = new IntervenantService(new IntervenantRepository(new ConnexionBaseDeDonnees(new ConfigurationBDDMariaDB())));
 
         $serviceAnnuel = $serviceAnnuelServiceClasse->recupererParIntervenantAnnuelPlusRecent($connexionUtilisateurClasse->getIdUtilisateurConnecte());
         $depActuel = $departementServiceClasse->recupererParIdentifiant($serviceAnnuel->getIdDepartement())->getLibDepartement();
         $anneeActuelle = $serviceAnnuel->getMillesime();
-        $idIntervenantUsurpe = InfosGlobales::lireIdIntervenantUsurpe();
-        if (isset($idIntervenantUsurpe)){
-            $intervenantUsurpe = $intervenantServiceClasse->recupererParIdentifiant($idIntervenantUsurpe);
-        } else {
-            $intervenantUsurpe = null;
-        }
 
         /* Ajout de variables globales */
         $twig->addGlobal('messagesFlash', new MessageFlash());
         $twig->addGlobal('connexionUtilisateur', $connexionUtilisateurClasse);
         $twig->addGlobal('departementActuel', InfosGlobales::lireDepartement() ?? $depActuel);
         $twig->addGlobal('anneeActuelle', InfosGlobales::lireAnnee() ?? $anneeActuelle);
-        $twig->addGlobal('intervenantUsurpe', $intervenantUsurpe);
 
         $conteneur->set("assistantUrl", $assistantUrl);
         $conteneur->set("generateurUrl", $generateurUrl);
