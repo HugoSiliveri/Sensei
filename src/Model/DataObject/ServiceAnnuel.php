@@ -101,13 +101,85 @@ class ServiceAnnuel extends AbstractDataObject
     }
 
     /**
+     * @param int $idServiceAnnuel
+     */
+    public function setIdServiceAnnuel(int $idServiceAnnuel): void
+    {
+        $this->idServiceAnnuel = $idServiceAnnuel;
+    }
+
+    /**
+     * @param int|null $idDepartement
+     */
+    public function setIdDepartement(?int $idDepartement): void
+    {
+        $this->idDepartement = $idDepartement;
+    }
+
+    /**
+     * @param int $idIntervenant
+     */
+    public function setIdIntervenant(int $idIntervenant): void
+    {
+        $this->idIntervenant = $idIntervenant;
+    }
+
+    /**
+     * @param int $millesime
+     */
+    public function setMillesime(int $millesime): void
+    {
+        $this->millesime = $millesime;
+    }
+
+    /**
+     * @param int $idEmploi
+     */
+    public function setIdEmploi(int $idEmploi): void
+    {
+        $this->idEmploi = $idEmploi;
+    }
+
+    /**
+     * @param float $serviceStatuaire
+     */
+    public function setServiceStatuaire(float $serviceStatuaire): void
+    {
+        $this->serviceStatuaire = $serviceStatuaire;
+    }
+
+    /**
+     * @param float $serviceFait
+     */
+    public function setServiceFait(float $serviceFait): void
+    {
+        $this->serviceFait = $serviceFait;
+    }
+
+    /**
+     * @param float $delta
+     */
+    public function setDelta(float $delta): void
+    {
+        $this->delta = $delta;
+    }
+
+    /**
+     * @param int $deleted
+     */
+    public function setDeleted(int $deleted): void
+    {
+        $this->deleted = $deleted;
+    }
+
+    /**
      * @inheritDoc
      */
     public function exporterEnFormatRequetePreparee(): array
     {
         return [
             "idServiceAnnuelTag" => $this->idServiceAnnuel,
-            "idDepartmentTag" => $this->idDepartement,
+            "idDepartementTag" => $this->idDepartement,
             "idIntervenantTag" => $this->idIntervenant,
             "millesimeTag" => $this->millesime,
             "idEmploiTag" => $this->idEmploi,

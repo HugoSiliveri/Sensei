@@ -78,7 +78,7 @@ class DepartementService implements DepartementServiceInterface
     {
         $objet = $this->departementRepository->recupererParClePrimaire($departement["idDepartement"]);
         if (!isset($objet)) {
-            throw new ServiceException("Aucune departement trouvée pour cet identifiant !");
+            throw new ServiceException("Aucune département trouvée pour cet identifiant !");
         }
 
         $objet->setIdDepartement($departement["idDepartement"]);

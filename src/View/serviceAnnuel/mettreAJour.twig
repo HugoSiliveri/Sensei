@@ -1,0 +1,46 @@
+{% extends "base.twig" %}
+
+{% block page_content %}
+    <div class="miseEnPage">
+        <form class="formCreation" method="post" action="#" enctype="multipart/form-data">
+            <fieldset class="fieldsetCreation">
+                <input type="hidden" name="idServiceAnnuel" value="{{ serviceAnnuel.getIdServiceAnnuel }}">
+                <div>
+                    <label class="labelCreation" for="departement_id">Département</label>
+                    <input class="inputCreation" type="text" value="{{ departement.getLibDepartement }}" name="libDepartement" id="departement_id" readonly>
+                    <input class="inputCreation" type="hidden" value="{{ departement.getIdDepartement }}" name="idDepartement" id="departement_id">
+                </div>
+                <div>
+                    <label class="labelCreation" for="intervenant_id">Intervenant</label>
+                    <input class="inputCreation" type="text" value="{{ intervenant.getPrenom }} {{ intervenant.getNom }}" name="libIntervenant" id="intervenant_id" readonly>
+                    <input class="inputCreation" type="hidden" value="{{ intervenant.getIdIntervenant }}" name="idIntervenant" id="intervenant_id">
+                </div>
+                <div>
+                    <label class="labelCreation" for="annee_id">Année</label>
+                    <input class="inputCreation" type="text" value="{{ serviceAnnuel.getMillesime }}" name="millesime" id="annee_id" readonly>
+                </div>
+                <div>
+                    <label class="labelCreation" for="emploi_id">Emploi</label>
+                    <select class="inputCreation" name="idEmploi" id="emploi_id">
+                        {% set i = 1 %}
+                        {% for emploi in emplois %}
+                            {% if emploi.getIdEmploi == serviceAnnuel.getIdEmploi %}
+                                <option value="{{ i }}" selected>{{ emploi.getLibEmploi }}</option>
+                            {% else %}
+                                <option value="{{ i }}">{{ emploi.getLibEmploi }}</option>
+                            {% endif %}
+                            {% set i = i + 1 %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="labelCreation" for="serviceStatuaire_id">Service statuaire</label>
+                    <input class="inputCreation" type="number" value="{{ serviceAnnuel.getServiceStatuaire }}" name="serviceStatuaire" id="serviceStatuaire_id">
+                </div>
+                <div class="boutonValidationConteneur conteneur">
+                    <input class="boutonValidation bouton" type="submit" value="Envoyer">
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

@@ -41,7 +41,7 @@ class EtatService implements EtatServiceInterface
     {
         $objet = $this->etatRepository->recupererParClePrimaire($etat["idEtat"]);
         if (!isset($objet)) {
-            throw new ServiceException("Aucun etat trouvé pour cet identifiant !");
+            throw new ServiceException("Aucun état trouvé pour cet identifiant !");
         }
 
         $objet->setIdEtat($etat["idEtat"]);

@@ -54,8 +54,7 @@
                                 <li>Delta : {{ serviceAnnuel.getDelta }}</li>
                             </ul>
                             {% if connexionUtilisateur.estAdminOuChef %}
-                                {# TODO : Reste à implémenter #}
-                                <a href="#">
+                                <a href="{{ route("afficherFormulaireMiseAJourServiceAnnuel",{"idServiceAnnuel": serviceAnnuel.getIdServiceAnnuel}) }}">
                                     <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">
                                 </a>
                             {% endif %}

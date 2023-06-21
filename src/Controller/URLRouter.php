@@ -171,7 +171,8 @@ class URLRouter
             new Reference('droit_service')]);
 
         $declarationServiceController = $conteneur->register('declaration_service_controller', DeclarationServiceController::class);
-        $declarationServiceController->setArguments([new Reference('declaration_service_service'), new Reference('intervenant_service')]);
+        $declarationServiceController->setArguments([new Reference('declaration_service_service'), new Reference('intervenant_service'),
+            new Reference('droit_service'), new Reference('intervention_service')]);
 
         $natureController = $conteneur->register('nature_controller', NatureController::class);
         $natureController->setArguments([new Reference('nature_service'), new Reference('droit_service')]);
@@ -203,6 +204,11 @@ class URLRouter
 
         $etatController = $conteneur->register('etat_controller', EtatController::class);
         $etatController->setArguments([new Reference('etat_service'), new Reference('droit_service')]);
+
+        $serviceAnnuelController = $conteneur->register('service_annuel_controller', ServiceAnnuelController::class);
+        $serviceAnnuelController->setArguments([new Reference('service_annuel_service'), new Reference('droit_service'),
+            new Reference('declaration_service_service'), new Reference('departement_service'),
+            new Reference('intervenant_service'), new Reference('emploi_service')]);
 
         $intervenantService = $conteneur->register('intervenant_service', IntervenantService::class);
         $intervenantService->setArguments([new Reference("intervenant_repository"), new Reference("connexion_utilisateur")]);
@@ -614,6 +620,21 @@ class URLRouter
         ]);
         $routeAide->setMethods(["GET"]);
 
+        $routeAfficherFormulaireMiseAJourServiceAnnuel = new Route("/mettreAJourServiceAnnuel/{idServiceAnnuel}", [
+            "_controller" => ["service_annuel_controller", "afficherFormulaireMiseAJour"]
+        ]);
+        $routeAfficherFormulaireMiseAJourServiceAnnuel->setMethods(["GET"]);
+
+        $routeMettreAJourServiceAnnuel = new Route("/mettreAJourServiceAnnuel/{idServiceAnnuel}", [
+            "_controller" => ["service_annuel_controller", "mettreAJour"]
+        ]);
+        $routeMettreAJourServiceAnnuel->setMethods(["POST"]);
+
+        $routeMettreAJourDeclarationServicePourUnIntervenant = new Route("/mettreAJourDeclarationService/{idIntervenant}", [
+            "_controller" => ["declaration_service_controller", "mettreAJourPourUnIntervenant"]
+        ]);
+        $routeMettreAJourDeclarationServicePourUnIntervenant->setMethods(["POST"]);
+
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
         $routes->add("gestion", $routeGestion);
@@ -685,6 +706,11 @@ class URLRouter
         $routes->add("gererEtat", $routeGererEtat);
         $routes->add("services", $routeServices);
         $routes->add("aide", $routeAide);
+        $routes->add("afficherFormulaireMiseAJourServiceAnnuel", $routeAfficherFormulaireMiseAJourServiceAnnuel);
+        $routes->add("mettreAJourServiceAnnuel", $routeMettreAJourServiceAnnuel);
+        $routes->add("afficherFormulaireMiseAJourServiceAnnuel", $routeAfficherFormulaireMiseAJourServiceAnnuel);
+        $routes->add("mettreAJourServiceAnnuel", $routeMettreAJourServiceAnnuel);
+        $routes->add("mettreAJourDeclarationServicePourUnIntervenant", $routeMettreAJourDeclarationServicePourUnIntervenant);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 
@@ -724,11 +750,15 @@ class URLRouter
         $depActuel = $departementServiceClasse->recupererParIdentifiant($serviceAnnuel->getIdDepartement())->getLibDepartement();
         $anneeActuelle = $serviceAnnuel->getMillesime();
 
+        $dep = InfosGlobales::lireDepartement() ?? $depActuel;
+        $idEtat = $departementServiceClasse->recupererParLibelle($dep)->getIdEtat();
+
         /* Ajout de variables globales */
         $twig->addGlobal('messagesFlash', new MessageFlash());
         $twig->addGlobal('connexionUtilisateur', $connexionUtilisateurClasse);
-        $twig->addGlobal('departementActuel', InfosGlobales::lireDepartement() ?? $depActuel);
+        $twig->addGlobal('departementActuel', $dep);
         $twig->addGlobal('anneeActuelle', InfosGlobales::lireAnnee() ?? $anneeActuelle);
+        $twig->addGlobal("idEtat", $idEtat);
 
         $conteneur->set("assistantUrl", $assistantUrl);
         $conteneur->set("generateurUrl", $generateurUrl);

@@ -17,8 +17,8 @@ let autocompIntervenant = reactive({
         this.videIntervenants();
         return this.suggestions_str;
     },
-    callbackIntervenant: function (req) {
-        let tabIntervenants = JSON.parse(req.responseText);
+    callbackIntervenant: function (data) {
+        let tabIntervenants = JSON.parse(data);
         for (let intervenant of tabIntervenants) {
             this.suggestions.push(`${intervenant.idIntervenant ? intervenant.idIntervenant : ""} ${intervenant.nom ? intervenant.nom : ""} ${intervenant.prenom ? intervenant.prenom : ""} ${intervenant.idIntervenantReferentiel ? intervenant.idIntervenantReferentiel : ""}`);
         }
@@ -27,12 +27,20 @@ let autocompIntervenant = reactive({
     requeteAJAX: function (stringIntervenant) {
         let intervenant = encodeURI(stringIntervenant);
         let url = `${urlAbsolu}ressources/php/requeteIntervenant.php?intervenant=${intervenant}`;
-        let requete = new XMLHttpRequest();
-        requete.open("GET", url, true);
-        requete.addEventListener("load", function () {
-            autocompIntervenant.callbackIntervenant(requete);
-        });
-        requete.send(null);
+        fetch(url)
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw new Error('Une erreur s\'est produite.');
+                }
+            })
+            .then(data => {
+                autocompIntervenant.callbackIntervenant(data);
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+            });
     }
 }, "autocompIntervenant");
 
@@ -57,8 +65,8 @@ let autocompUS = reactive({
         this.videUS();
         return this.suggestions_str;
     },
-    callbackUS: function (req) {
-        let tabUS = JSON.parse(req.responseText);
+    callbackUS: function (data) {
+        let tabUS = JSON.parse(data);
         for (let uniteService of tabUS) {
             this.suggestions.push(`${uniteService.idUniteService ? uniteService.idUniteService : ""} ${uniteService.idUSReferentiel ? uniteService.idUSReferentiel : ""} ${uniteService.libUS ? uniteService.libUS : ""}`);
         }
@@ -67,12 +75,20 @@ let autocompUS = reactive({
     requeteAJAX: function (stringUS) {
         let uniteService = encodeURI(stringUS);
         let url = `${urlAbsolu}ressources/php/requeteUS.php?uniteService=${uniteService}`;
-        let requete = new XMLHttpRequest();
-        requete.open("GET", url, true);
-        requete.addEventListener("load", function () {
-            autocompUS.callbackUS(requete);
-        });
-        requete.send(null);
+        fetch(url)
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw new Error('Une erreur s\'est produite.');
+                }
+            })
+            .then(data => {
+                autocompUS.callbackUS(data);
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+            });
     }
 }, "autocompUS");
 

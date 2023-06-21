@@ -56,12 +56,44 @@ class Intervention extends AbstractDataObject
     }
 
     /**
+     * @param int $idIntervention
+     */
+    public function setIdIntervention(int $idIntervention): void
+    {
+        $this->idIntervention = $idIntervention;
+    }
+
+    /**
+     * @param string|null $typeIntervention
+     */
+    public function setTypeIntervention(?string $typeIntervention): void
+    {
+        $this->typeIntervention = $typeIntervention;
+    }
+
+    /**
+     * @param int|null $numeroGroupeIntervention
+     */
+    public function setNumeroGroupeIntervention(?int $numeroGroupeIntervention): void
+    {
+        $this->numeroGroupeIntervention = $numeroGroupeIntervention;
+    }
+
+    /**
+     * @param float|null $volumeHoraire
+     */
+    public function setVolumeHoraire(?float $volumeHoraire): void
+    {
+        $this->volumeHoraire = $volumeHoraire;
+    }
+
+    /**
      * @inheritDoc
      */
     public function exporterEnFormatRequetePreparee(): array
     {
         return [
-            "idIntervenantTag" => $this->idIntervention,
+            "idInterventionTag" => $this->idIntervention,
             "typeInterventionTag" => $this->typeIntervention,
             "numeroGroupeInterventionTag" => $this->numeroGroupeIntervention,
             "volumeHoraireTag" => $this->volumeHoraire

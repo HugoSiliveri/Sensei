@@ -55,6 +55,46 @@ class DeclarationService extends AbstractDataObject
     }
 
     /**
+     * @param int $idDeclarationService
+     */
+    public function setIdDeclarationService(int $idDeclarationService): void
+    {
+        $this->idDeclarationService = $idDeclarationService;
+    }
+
+    /**
+     * @param int $idIntervenant
+     */
+    public function setIdIntervenant(int $idIntervenant): void
+    {
+        $this->idIntervenant = $idIntervenant;
+    }
+
+    /**
+     * @param int $idUniteServiceAnnee
+     */
+    public function setIdUniteServiceAnnee(int $idUniteServiceAnnee): void
+    {
+        $this->idUniteServiceAnnee = $idUniteServiceAnnee;
+    }
+
+    /**
+     * @param string|null $mode
+     */
+    public function setMode(?string $mode): void
+    {
+        $this->mode = $mode;
+    }
+
+    /**
+     * @param int $idIntervention
+     */
+    public function setIdIntervention(int $idIntervention): void
+    {
+        $this->idIntervention = $idIntervention;
+    }
+
+    /**
      * @inheritDoc
      */
     public function exporterEnFormatRequetePreparee(): array

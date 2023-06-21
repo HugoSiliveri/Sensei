@@ -1,112 +1,157 @@
 {% extends "base.twig" %}
 
 {% block page_content %}
-    <div class="miseEnPage2">
-        <div class="miseEnPage">
-            <div class="coteGauche service overflow">
-                <div class="miseEnPage">
-                    <button class="boutonDisparition">-</button>
-                    <div class="miseEnPage2">
-                        <h2>Membres du département ({{ intervenantsAnnuelsEtDuDepartementNonVacataire|length }})</h2>
-                        {% if intervenantsAnnuelsEtDuDepartementNonVacataire|length > 0 %}
-                            <div class="disparition">
-                                {% set i = 0 %}
-                                {% for i in 0..intervenantsAnnuelsEtDuDepartementNonVacataire|length-1 %}
-                                    <div class="miseEnPage2">
-                                        <div class="infosServiceConteneur">
-                                            {% if servicesAnnuelsNonVacataires[i] is not null %}
-                                                <button class="boutonDisparition">+</button>
-                                                <p class="infosService">{{ intervenantsAnnuelsEtDuDepartementNonVacataire[i].getNom }} {{ intervenantsAnnuelsEtDuDepartementNonVacataire[i].getPrenom }}
-                                                    (<data class="serviceStatuaire">{{ servicesAnnuelsNonVacataires[i].getServiceStatuaire }}</data>/<data class="serviceFait">{{ servicesAnnuelsNonVacataires[i].getServiceFait }}</data>)
-                                                </p>
-                                                {% if connexionUtilisateur.estAdminOuChef %}
-                                                    {# TODO : Reste à implémenter #}
-                                                    <a href="#">
-                                                        <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">
-                                                    </a>
+{#    {% if idEtat == 1 %} #}{# On va afficher dans l'état normal la déclaration de service #}
+        <div class="miseEnPage2">
+            <div class="miseEnPage">
+                <div class="coteGauche service overflow">
+                    <div class="miseEnPage">
+                        <button class="boutonDisparition">-</button>
+                        <div class="miseEnPage2">
+                            <h2>Membres du département ({{ intervenantsAnnuelsEtDuDepartementNonVacataire|length }})</h2>
+                            {% if intervenantsAnnuelsEtDuDepartementNonVacataire|length > 0 %}
+                                <div class="disparition">
+                                    {% set i = 0 %}
+                                    {% for i in 0..intervenantsAnnuelsEtDuDepartementNonVacataire|length-1 %}
+                                        <div class="miseEnPage2">
+                                            <div class="infosServiceConteneur">
+                                                {% if servicesAnnuelsNonVacataires[i] is not null %}
+                                                    <button class="boutonDisparition">+</button>
+                                                    <p class="infosService">{{ intervenantsAnnuelsEtDuDepartementNonVacataire[i].getNom }} {{ intervenantsAnnuelsEtDuDepartementNonVacataire[i].getPrenom }}
+                                                        (
+                                                        <data class="serviceStatuaire">{{ servicesAnnuelsNonVacataires[i].getServiceStatuaire }}</data>
+                                                        /
+                                                        <data class="serviceFait">{{ servicesAnnuelsNonVacataires[i].getServiceFait }}</data>
+                                                        )
+                                                    </p>
+                                                    {% include "templates/editionServiceAnnuelNonVacataire.twig" %}
+                                                {% else %}
+                                                    <button class="boutonDisparition">+</button>
+                                                    <p class="infosService">{{ intervenantsAnnuelsEtDuDepartementNonVacataire[i].getNom }} {{ intervenantsAnnuelsEtDuDepartementNonVacataire[i].getPrenom }}
+                                                        (
+                                                        <data class="serviceStatuaire">0</data>
+                                                        /
+                                                        <data class="serviceFait">0</data>
+                                                        )
+                                                    </p>
+                                                    {% include "templates/editionServiceAnnuelNonVacataire.twig" %}
                                                 {% endif %}
-                                            {% else %}
-                                                <button class="boutonDisparition">+</button>
-                                                <p class="infosService">{{ intervenantsAnnuelsEtDuDepartementNonVacataire[i].getNom }} {{ intervenantsAnnuelsEtDuDepartementNonVacataire[i].getPrenom }}
-                                                    (<data class="serviceStatuaire">0</data>/<data class="serviceFait">0</data>)
-                                                </p>
-                                                {% if connexionUtilisateur.estAdminOuChef %}
-                                                    {# TODO : Reste à implémenter #}
-                                                    <a href="#">
-                                                        <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">
-                                                    </a>
-                                                {% endif %}
-                                            {% endif %}
-                                        </div>
-                                        <div class="disparition2">
-                                            {% for declarationService in declarationsServicesNonVacataires[i] %}
-                                                <div class="infosSupplementaires">
-                                                    {{ declarationService[0].idUsReferentiel }} :
+                                            </div>
+                                            <div id="infoService{{ intervenantsAnnuelsEtDuDepartementNonVacataire[i].getIdIntervenant }}" class="disparition2 affichageInfoService">
+                                                {% for declarationService in declarationsServicesNonVacataires[i] %}
+                                                    <div class="infosSupplementaires">
+                                                        {{ declarationService[0].idUsReferentiel }} :
+                                                        {% set j = 0 %}
+                                                        {% for declarationServiceMemeId in declarationService %}
+                                                            {{ declarationServiceMemeId.typeIntervention }} - {{ declarationServiceMemeId.volumeHoraire }}
+                                                            {% if j < declarationService|length-1 %}
+                                                                /
+                                                            {% endif %}
+                                                            {% set j = j + 1 %}
+                                                        {% endfor %}
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                            <form id="formService{{ intervenantsAnnuelsEtDuDepartementNonVacataire[i].getIdIntervenant }}"
+                                                  class="none" method="post"
+                                                  action="{{ route("mettreAJourDeclarationServicePourUnIntervenant", {"idIntervenant": intervenantsAnnuelsEtDuDepartementNonVacataire[i].getIdIntervenant }) }}">
+                                                <fieldset class="transparent enColonne" disabled="disabled">
+                                                    <p>Code / Intervention / Nb heures / Groupe</p>
                                                     {% set j = 0 %}
-                                                    {% for declarationServiceMemeId in declarationService %}
-                                                        {{ declarationServiceMemeId.typeIntervention }} - {{ declarationServiceMemeId.volumeHoraire }}
-                                                        {% if j < declarationService|length-1 %}
-                                                            /
-                                                        {% endif %}
-                                                        {% set j = j + 1 %}
+                                                    {% for declarationService in declarationsServicesNonVacataires[i] %}
+                                                        <div class="infosSupplementaires">
+                                                            {% for declarationServiceMemeId in declarationService %}
+                                                                <div class="enLigne">
+                                                                    {{ declarationService[0].idUsReferentiel }}
+                                                                    <label for="typeIntervention_id"></label>
+                                                                    <select class="inputCreation2" name="typeIntervention{{ j }}" id="typeIntervention_id">
+                                                                        {% set types = ["CM", "TD", "TP", "Stage", "Terrain", "Innovation Pédagogique"] %}
+                                                                        {% for type in types %}
+                                                                            {% if type == declarationServiceMemeId.typeIntervention %}
+                                                                                <option value="{{ type }}" selected>{{ type }}</option>
+                                                                            {% else %}
+                                                                                <option value="{{ type }}">{{ type }}</option>
+                                                                            {% endif %}
+                                                                                {% set i = i + 1 %}
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                    -
+                                                                    <label for="volumeHoraire_id"></label>
+                                                                    <input class="inputCreation2" id="volumeHoraire_id" type="text" name="volumeHoraire{{ j }}" value="{{ declarationServiceMemeId.volumeHoraire }}">
+                                                                    -
+                                                                    <label for="numGroupeIntervention_id"></label>
+                                                                    <input class="inputCreation2" id="numGroupeIntervention_id" type="text" name="numGroupeIntervention{{ j }}" value="{{ declarationServiceMemeId.numGroupeIntervention }}">
+                                                                    <input type="hidden" name="millesime" value="{{ anneeActuelle }}">
+                                                                    <button type="button" class="boutonSuppression"
+                                                                            onclick="afficherPopupSuppression('DeclarationService', {{ declarationServiceMemeId.idDeclarationService }} )">
+                                                                        <img src="{{ asset("../ressources/img/delete.svg") }}" alt="delete">
+                                                                    </button>
+                                                                </div>
+                                                                {% set j = j + 1 %}
+                                                            {% endfor %}
+                                                        </div>
                                                     {% endfor %}
-                                                </div>
-                                            {% endfor %}
+                                                    <div class="boutonValidationConteneur conteneur">
+                                                        <input class="boutonValidation bouton" type="submit" value="Envoyer">
+                                                    </div>
+                                                </fieldset>
+                                            </form>
                                         </div>
-                                    </div>
-                                    {% set i = i + 1 %}
-                                {% endfor %}
-                            </div>
-                        {% endif %}
+                                        {% set i = i + 1 %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="miseEnPage">
+                        <button class="boutonDisparition">-</button>
+                        <div class="miseEnPage2">
+                            <h2>Vacataires du département ({{ intervenantsAnnuelsEtDuDepartementVacataire|length }})</h2>
+                            {% if intervenantsAnnuelsEtDuDepartementVacataire|length > 0 %}
+                                <div class="disparition">
+                                    {% set i = 0 %}
+                                    {# TODO : Rajouter le form pour la modification des champs #}
+                                    {% for i in 0..intervenantsAnnuelsEtDuDepartementVacataire|length-1 %}
+                                        <div class="miseEnPage2">
+                                            <div class="infosServiceConteneur">
+                                                {% if servicesAnnuelsVacataires[i] is not null %}
+                                                    <button class="boutonDisparition">+</button>
+                                                    <p class="infosService">{{ intervenantsAnnuelsEtDuDepartementVacataire[i].getNom }} {{ intervenantsAnnuelsEtDuDepartementVacataire[i].getPrenom }}
+                                                        (
+                                                        <data class="serviceStatuaire">{{ servicesAnnuelsVacataires[i].getServiceStatuaire }}</data>
+                                                        /
+                                                        <data class="serviceFait">{{ servicesAnnuelsVacataires[i].getServiceFait }}</data>
+                                                        )
+                                                    </p>
+                                                    {% include "templates/editionServiceAnnuelVacataire.twig" %}
+                                                {% else %}
+                                                    <button class="boutonDisparition">+</button>
+                                                    <p class="infosService">{{ intervenantsAnnuelsEtDuDepartementVacataire[i].getNom }} {{ intervenantsAnnuelsEtDuDepartementVacataire[i].getPrenom }}
+                                                        (
+                                                        <data class="serviceStatuaire">0</data>
+                                                        /
+                                                        <data class="serviceFait">0</data>
+                                                        )
+                                                    </p>
+                                                    {% include "templates/editionServiceAnnuelVacataire.twig" %}
+                                                {% endif %}
+                                            </div>
+                                            <div class="disparition2">
+                                                <p>test</p>
+                                            </div>
+                                        </div>
+                                        {% set i = i + 1 %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
-                <div class="miseEnPage">
-                    <button class="boutonDisparition">-</button>
-                    <div class="miseEnPage2">
-                        <h2>Vacataires du département ({{ intervenantsAnnuelsEtDuDepartementVacataire|length }})</h2>
-                        {% if intervenantsAnnuelsEtDuDepartementVacataire|length > 0 %}
-                            <div class="disparition">
-                                {% set i = 0 %}
-                                {% for i in 0..intervenantsAnnuelsEtDuDepartementVacataire|length-1 %}
-                                    <div class="miseEnPage2">
-                                        <div class="infosServiceConteneur">
-                                            {% if servicesAnnuelsVacataires[i] is not null %}
-                                                <button class="boutonDisparition">+</button>
-                                                <p class="infosService">{{ intervenantsAnnuelsEtDuDepartementVacataire[i].getNom }} {{ intervenantsAnnuelsEtDuDepartementVacataire[i].getPrenom }}
-                                                    (<data class="serviceStatuaire">{{ servicesAnnuelsVacataires[i].getServiceStatuaire }}</data>/<data class="serviceFait">{{ servicesAnnuelsVacataires[i].getServiceFait }}</data>)
-                                                </p>
-                                                {% if connexionUtilisateur.estAdminOuChef %}
-                                                    {# TODO : Reste à implémenter #}
-                                                    <a href="#">
-                                                        <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">
-                                                    </a>
-                                                {% endif %}
-                                            {% else %}
-                                                <button class="boutonDisparition">+</button>
-                                                <p class="infosService">{{ intervenantsAnnuelsEtDuDepartementVacataire[i].getNom }} {{ intervenantsAnnuelsEtDuDepartementVacataire[i].getPrenom }}
-                                                    (<data class="serviceStatuaire">0</data>/<data class="serviceFait">0</data>)
-                                                </p>
-                                                {% if connexionUtilisateur.estAdminOuChef %}
-                                                    {# TODO : Reste à implémenter #}
-                                                    <a href="#">
-                                                        <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">
-                                                    </a>
-                                                {% endif %}
-                                            {% endif %}
-                                        </div>
-                                        <div class="disparition2">
-                                            <p>test</p>
-                                        </div>
-                                    </div>
-                                    {% set i = i + 1 %}
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </div>
+                <div class="coteDroit overflow">
                 </div>
-            </div>
-            <div class="coteDroit overflow">
             </div>
         </div>
-    </div>
+{#    {% else %} #}{# Pour les autres états ce seront les voeux des intervenants #}
+{#        #}{#TODO : Développer la partie avec la déclaration de service #}
+{#    {% endif %}#}
 {% endblock %}

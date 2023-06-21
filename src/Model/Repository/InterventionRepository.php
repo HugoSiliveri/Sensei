@@ -4,6 +4,7 @@ namespace App\Sensei\Model\Repository;
 
 use App\Sensei\Model\DataObject\AbstractDataObject;
 use App\Sensei\Model\DataObject\Intervention;
+use PDOException;
 
 /**
  * @name InterventionRepository
@@ -15,6 +16,54 @@ use App\Sensei\Model\DataObject\Intervention;
  */
 class InterventionRepository extends AbstractRepository
 {
+
+    public function ajouterSansIdIntervention(array $intervention)
+    {
+        try {
+            $sql = "INSERT INTO Intervention(typeIntervention, numeroGroupeIntervention, volumeHoraire) 
+            VALUES (:typeInterventionTag, :numeroGroupeInterventionTag, :volumeHoraireTag)";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "typeInterventionTag" => $intervention["typeIntervention"],
+                "numeroGroupeInterventionTag" => $intervention["numeroGroupeIntervention"],
+                "volumeHoraireTag" => $intervention["volumeHoraire"]
+            );
+            $pdoStatement->execute($values);
+
+            return null;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors d'insertion dans la base de données.");
+        }
+    }
+
+    public function recupererParInfos(array $intervention)
+    {
+        try {
+            $sql = "SELECT * FROM Intervention WHERE typeIntervention = :typeInterventionTag AND 
+            numeroGroupeIntervention = :numeroGroupeInterventionTag AND volumeHoraire = :volumeHoraireTag";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "typeInterventionTag" => $intervention["typeIntervention"],
+                "numeroGroupeInterventionTag" => $intervention["numeroGroupeIntervention"],
+                "volumeHoraireTag" => $intervention["volumeHoraire"]
+            );
+            $pdoStatement->execute($values);
+
+            $tab = $pdoStatement->fetch();
+            if (!$tab) {
+                return [];
+            }
+            return $tab;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors d'insertion dans la base de données.");
+        }
+    }
 
     /**
      * Retourne le nom de la table contenant les données d'Intervention.

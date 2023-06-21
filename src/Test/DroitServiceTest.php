@@ -2,6 +2,7 @@
 
 namespace App\Sensei\Test;
 
+use App\Sensei\Lib\ConnexionUtilisateur;
 use App\Sensei\Model\DataObject\Droit;
 use App\Sensei\Model\Repository\DroitRepository;
 use App\Sensei\Service\DroitService;
@@ -74,7 +75,8 @@ class DroitServiceTest extends TestCase
     {
         parent::setUp();
         $this->droitRepositoryMock = $this->createMock(DroitRepository::class);
+        $this->connexionUtilisateurMock = $this->createMock(ConnexionUtilisateur::class);
         $this->droitMock = $this->createMock(Droit::class);
-        $this->service = new DroitService($this->droitRepositoryMock);
+        $this->service = new DroitService($this->droitRepositoryMock, $this->connexionUtilisateurMock);
     }
 }
