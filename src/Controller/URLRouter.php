@@ -635,6 +635,11 @@ class URLRouter
         ]);
         $routeMettreAJourDeclarationServicePourUnIntervenant->setMethods(["POST"]);
 
+        $routeVoeux = new Route("/voeux", [
+            "_controller" => ["intervenant_controller", "afficherVoeux"]
+        ]);
+        $routeVoeux->setMethods(["GET"]);
+
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
         $routes->add("gestion", $routeGestion);
@@ -711,6 +716,7 @@ class URLRouter
         $routes->add("afficherFormulaireMiseAJourServiceAnnuel", $routeAfficherFormulaireMiseAJourServiceAnnuel);
         $routes->add("mettreAJourServiceAnnuel", $routeMettreAJourServiceAnnuel);
         $routes->add("mettreAJourDeclarationServicePourUnIntervenant", $routeMettreAJourDeclarationServicePourUnIntervenant);
+        $routes->add("voeux", $routeVoeux);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 

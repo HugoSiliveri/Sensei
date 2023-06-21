@@ -424,6 +424,23 @@ class IntervenantController extends GenericController
         }
     }
 
+    public function afficherVoeux(): Response
+    {
+        try {
+            $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuelPlusRecent($this->connexionUtilisateur->getIdUtilisateurConnecte());
+            $departement = $this->departementService->recupererParLibelle(InfosGlobales::lireDepartement());
+            $this->droitService->verifierDroitsPageVoeux($departement->getIdEtat());
+            return IntervenantController::afficherTwig("voeu.twig");
+        } catch (ServiceException $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+            return IntervenantController::rediriger("accueil");
+        }
+    }
+
     public function afficherAide(){
         return IntervenantController::afficherTwig("aide.twig");
     }

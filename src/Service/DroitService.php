@@ -78,4 +78,13 @@ class DroitService implements DroitServiceInterface
             throw new ServiceException("Vous n'avez pas les permissions !");
         }
     }
+
+    /**
+     * @throws ServiceException
+     */
+    public function verifierDroitsPageVoeux(int $idEtat){
+        if ($idEtat < 2){
+            throw new ServiceException("La phase de voeux n'a pas encore débutée !");
+        }
+    }
 }

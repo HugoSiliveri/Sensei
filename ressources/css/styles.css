@@ -612,6 +612,17 @@ nav  button{
     border: none;
 }
 
+.modifie {
+    justify-content: start;
+    margin-left: 10%;
+    width: 90%;
+}
+
+.margin {
+    margin-bottom: 3%;
+    margin-top: 4%;
+    margin-left: 2%;
+}
 
 /* Bootstrap alerts */
 /* https://getbootstrap.com/docs/3.4/components/#alerts */

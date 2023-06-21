@@ -1,7 +1,10 @@
 {% extends "base.twig" %}
 
 {% block page_content %}
-{#    {% if idEtat == 1 %} #}{# On va afficher dans l'état normal la déclaration de service #}
+    <div class="margin">
+        <a class="boutonAvecLienInfo" href="{{ route("voeux") }}">Passer en mode vœu</a>
+    </div>
+    <div id="pageDeclarationService">
         <div class="miseEnPage2">
             <div class="miseEnPage">
                 <div class="coteGauche service overflow">
@@ -72,7 +75,7 @@
                                                                             {% else %}
                                                                                 <option value="{{ type }}">{{ type }}</option>
                                                                             {% endif %}
-                                                                                {% set i = i + 1 %}
+                                                                            {% set i = i + 1 %}
                                                                         {% endfor %}
                                                                     </select>
                                                                     -
@@ -103,7 +106,9 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div class="miseEnPage">
+                </div>
+                <div class="coteDroit">
+                    <div class="miseEnPage modifie">
                         <button class="boutonDisparition">-</button>
                         <div class="miseEnPage2">
                             <h2>Vacataires du département ({{ intervenantsAnnuelsEtDuDepartementVacataire|length }})</h2>
@@ -203,11 +208,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="coteDroit overflow">
-                </div>
             </div>
         </div>
-{#    {% else %} #}{# Pour les autres états ce seront les voeux des intervenants #}
-{#        #}{#TODO : Développer la partie avec la déclaration de service #}
-{#    {% endif %}#}
+    </div>
 {% endblock %}
