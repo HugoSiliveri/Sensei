@@ -136,9 +136,65 @@
                                                     {% include "templates/editionServiceAnnuelVacataire.twig" %}
                                                 {% endif %}
                                             </div>
-                                            <div class="disparition2">
-                                                <p>test</p>
+                                            <div id="infoService{{ intervenantsAnnuelsEtDuDepartementVacataire[i].getIdIntervenant }}" class="disparition2 affichageInfoService">
+                                                {% for declarationService in declarationsServicesVacataires[i] %}
+                                                    <div class="infosSupplementaires">
+                                                        {{ declarationService[0].idUsReferentiel }} :
+                                                        {% set j = 0 %}
+                                                        {% for declarationServiceMemeId in declarationService %}
+                                                            {{ declarationServiceMemeId.typeIntervention }} - {{ declarationServiceMemeId.volumeHoraire }}
+                                                            {% if j < declarationService|length-1 %}
+                                                                /
+                                                            {% endif %}
+                                                            {% set j = j + 1 %}
+                                                        {% endfor %}
+                                                    </div>
+                                                {% endfor %}
                                             </div>
+                                            <form id="formService{{ intervenantsAnnuelsEtDuDepartementVacataire[i].getIdIntervenant }}"
+                                                  class="none" method="post"
+                                                  action="{{ route("mettreAJourDeclarationServicePourUnIntervenant", {"idIntervenant": intervenantsAnnuelsEtDuDepartementVacataire[i].getIdIntervenant }) }}">
+                                                <fieldset class="transparent enColonne" disabled="disabled">
+                                                    <p>Code / Intervention / Nb heures / Groupe</p>
+                                                    {% set j = 0 %}
+                                                    {% for declarationService in declarationsServicesVacataires[i] %}
+                                                        <div class="infosSupplementaires">
+                                                            {% for declarationServiceMemeId in declarationService %}
+                                                                <div class="enLigne">
+                                                                    {{ declarationService[0].idUsReferentiel }}
+                                                                    <label for="typeIntervention_id"></label>
+                                                                    <select class="inputCreation2" name="typeIntervention{{ j }}" id="typeIntervention_id">
+                                                                        {% set types = ["CM", "TD", "TP", "Stage", "Terrain", "Innovation Pédagogique"] %}
+                                                                        {% for type in types %}
+                                                                            {% if type == declarationServiceMemeId.typeIntervention %}
+                                                                                <option value="{{ type }}" selected>{{ type }}</option>
+                                                                            {% else %}
+                                                                                <option value="{{ type }}">{{ type }}</option>
+                                                                            {% endif %}
+                                                                            {% set i = i + 1 %}
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                    -
+                                                                    <label for="volumeHoraire_id"></label>
+                                                                    <input class="inputCreation2" id="volumeHoraire_id" type="text" name="volumeHoraire{{ j }}" value="{{ declarationServiceMemeId.volumeHoraire }}">
+                                                                    -
+                                                                    <label for="numGroupeIntervention_id"></label>
+                                                                    <input class="inputCreation2" id="numGroupeIntervention_id" type="text" name="numGroupeIntervention{{ j }}" value="{{ declarationServiceMemeId.numGroupeIntervention }}">
+                                                                    <input type="hidden" name="millesime" value="{{ anneeActuelle }}">
+                                                                    <button type="button" class="boutonSuppression"
+                                                                            onclick="afficherPopupSuppression('DeclarationService', {{ declarationServiceMemeId.idDeclarationService }} )">
+                                                                        <img src="{{ asset("../ressources/img/delete.svg") }}" alt="delete">
+                                                                    </button>
+                                                                </div>
+                                                                {% set j = j + 1 %}
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% endfor %}
+                                                    <div class="boutonValidationConteneur conteneur">
+                                                        <input class="boutonValidation bouton" type="submit" value="Envoyer">
+                                                    </div>
+                                                </fieldset>
+                                            </form>
                                         </div>
                                         {% set i = i + 1 %}
                                     {% endfor %}

@@ -381,8 +381,29 @@ class IntervenantController extends GenericController
             }
 
             $servicesAnnuelsVacataires = [];
+            $declarationsServicesVacataires = [];
             foreach ($intervenantsAnnuelsEtDuDepartementVacataire as $intervenantVacataire){
                 $servicesAnnuelsVacataires[] = $this->serviceAnnuelService->recupererParIntervenantAnnuel($intervenantVacataire->getIdIntervenant(), $anneeActuelle);
+                $declarationsServices = $this->declarationServiceService->recupererVueParIdIntervenantAnnuel($intervenantVacataire->getIdIntervenant(), $anneeActuelle);
+
+                $declarationsServicesParIntervenant = [];
+                $declarationsServicesAvecMemeId = [];
+                $i = 0;
+                foreach ($declarationsServices as $declarationService) {
+                    if ($i != 0) {
+                        if ($declarationService["idUsReferentiel"] != $declarationsServicesAvecMemeId[0]["idUsReferentiel"]) {
+                            $declarationsServicesParIntervenant[] = $declarationsServicesAvecMemeId;
+                            $declarationsServicesAvecMemeId = [];
+                            $i = 0;
+                        }
+                    }
+                    $declarationsServicesAvecMemeId[] = $declarationService;
+                    $i++;
+                }
+                if (count($declarationsServicesAvecMemeId) > 0){
+                    $declarationsServicesParIntervenant[] = $declarationsServicesAvecMemeId;
+                }
+                $declarationsServicesVacataires[] = $declarationsServicesParIntervenant;
             }
 
             return IntervenantController::afficherTwig("service.twig", [
@@ -390,7 +411,8 @@ class IntervenantController extends GenericController
                 "intervenantsAnnuelsEtDuDepartementVacataire" => $intervenantsAnnuelsEtDuDepartementVacataire,
                 "servicesAnnuelsNonVacataires" => $servicesAnnuelsNonVacataires,
                 "servicesAnnuelsVacataires" => $servicesAnnuelsVacataires,
-                "declarationsServicesNonVacataires" => $declarationsServicesNonVacataires]);
+                "declarationsServicesNonVacataires" => $declarationsServicesNonVacataires,
+                "declarationsServicesVacataires" => $declarationsServicesVacataires]);
 
         } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
