@@ -1,9 +1,11 @@
 {% extends "base.twig" %}
 
 {% block page_content %}
-    <div class="margin">
-        <a class="boutonAvecLienInfo" href="{{ route("voeux") }}">Passer en mode vœu</a>
-    </div>
+    {% if idEtat == 2 or (idEtat == 3 and connexionUtilisateur.estAdminOuChef) %}
+        <div class="margin">
+            <a class="boutonAvecLienInfo" href="{{ route("voeux") }}">Passer en mode vœu</a>
+        </div>
+    {% endif %}
     <div id="pageDeclarationService">
         <div class="miseEnPage2">
             <div class="miseEnPage">

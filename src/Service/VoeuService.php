@@ -29,4 +29,9 @@ class VoeuService implements VoeuServiceInterface
     {
         return $this->voeuRepository->recupererVueParIntervenant($idIntervenant);
     }
+
+    public function recupererVueParIntervenantAnnuel(int $idIntervenant, int $annee): array
+    {
+        return $this->voeuRepository->recupererVueParIntervenantAnnuel($idIntervenant, $annee);
+    }
 }

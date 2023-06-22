@@ -3,6 +3,7 @@
 namespace App\Sensei\Service;
 
 use App\Sensei\Model\DataObject\AbstractDataObject;
+use App\Sensei\Model\DataObject\ServiceAnnuel;
 use App\Sensei\Model\Repository\ServiceAnnuelRepository;
 use App\Sensei\Service\Exception\ServiceException;
 
@@ -64,5 +65,28 @@ class ServiceAnnuelService implements ServiceAnnuelServiceInterface
         $objet->setDeleted($serviceAnnuel["deleted"]);
 
         $this->serviceAnnuelRepository->mettreAJour($objet);
+    }
+
+    /**
+     * @throws ServiceException
+     */
+    public function recupererPlusRecentDuDepartement(int $idDepartement){
+        $serviceAnnuel = $this->serviceAnnuelRepository->recupererPlusRecentDuDepartement($idDepartement);
+        if (!isset($serviceAnnuel)){
+            throw new ServiceException("La table des services est vide !");
+        }
+        return $serviceAnnuel;
+    }
+
+    public function recupererParDepartementAnnuel(int $idDepartement, int $annee): ?array
+    {
+        return $this->serviceAnnuelRepository->recupererParDepartementAnnuel($idDepartement, $annee);
+    }
+
+    public function creerServiceAnnuel(ServiceAnnuel $serviceAnnuel, int $annee){
+        $serviceAnnuel->setMillesime($annee);
+        $serviceAnnuel->setServiceFait(0);
+        $serviceAnnuel->setDelta(0);
+        $this->serviceAnnuelRepository->ajouterSansIdServiceAnnuel($serviceAnnuel);
     }
 }

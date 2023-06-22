@@ -4,4 +4,124 @@
     <div class="margin">
         <a class="boutonAvecLienInfo" href="{{ route("services") }}">Afficher les services</a>
     </div>
+    <div id="pageVoeu">
+        <div class="miseEnPage2">
+            <div class="miseEnPage">
+                <div class="coteGauche service overflow">
+                    <div class="miseEnPage">
+                        <button class="boutonDisparition">-</button>
+                        <div class="miseEnPage2">
+                            <h2>Membres du département ({{ intervenantsAnnuelsEtDuDepartementNonVacataire|length }})</h2>
+                            {% if intervenantsAnnuelsEtDuDepartementNonVacataire|length > 0 %}
+                                <div class="disparition">
+                                    {% set i = 0 %}
+                                    {% for i in 0..intervenantsAnnuelsEtDuDepartementNonVacataire|length-1 %}
+                                        <div class="miseEnPage2">
+                                            <div class="infosServiceConteneur">
+                                                {% if servicesAnnuelsNonVacataires[i] is not null %}
+                                                    <button class="boutonDisparition">+</button>
+                                                    <p class="infosService">{{ intervenantsAnnuelsEtDuDepartementNonVacataire[i].getNom }} {{ intervenantsAnnuelsEtDuDepartementNonVacataire[i].getPrenom }}
+                                                        (
+                                                        <data class="serviceStatuaire">{{ servicesAnnuelsNonVacataires[i].getServiceStatuaire }}</data>
+                                                        /
+                                                        <data class="serviceFait">{{ servicesAnnuelsNonVacataires[i].getServiceFait }}</data>
+                                                        )
+                                                    </p>
+                                                    {% include "templates/editionServiceAnnuelNonVacataire.twig" %}
+                                                {% else %}
+                                                    <button class="boutonDisparition">+</button>
+                                                    <p class="infosService">{{ intervenantsAnnuelsEtDuDepartementNonVacataire[i].getNom }} {{ intervenantsAnnuelsEtDuDepartementNonVacataire[i].getPrenom }}
+                                                        (
+                                                        <data class="serviceStatuaire">0</data>
+                                                        /
+                                                        <data class="serviceFait">0</data>
+                                                        )
+                                                    </p>
+                                                    {% include "templates/editionServiceAnnuelNonVacataire.twig" %}
+                                                {% endif %}
+                                            </div>
+                                            <div class="disparition2 affichageInfoService">
+                                                {% for voeu in voeuxNonVacataires[i] %}
+                                                    <div class="infosSupplementaires">
+                                                        {{ voeu[0].idUSReferentiel }} :
+                                                        {% set j = 0 %}
+                                                        {% for voeuMemeId in voeu %}
+                                                            {{ voeuMemeId.typeIntervention }} - {{ voeuMemeId.volumeHoraire }}
+                                                            {% if j < voeu|length-1 %}
+                                                                /
+                                                            {% endif %}
+                                                            {% set j = j + 1 %}
+                                                        {% endfor %}
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        {% set i = i + 1 %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="miseEnPage">
+                        <button class="boutonDisparition">-</button>
+                        <div class="miseEnPage2">
+                            <h2>Vacataires du département ({{ intervenantsAnnuelsEtDuDepartementVacataire|length }})</h2>
+                            {% if intervenantsAnnuelsEtDuDepartementVacataire|length > 0 %}
+                                <div class="disparition">
+                                    {% set i = 0 %}
+                                    {% for i in 0..intervenantsAnnuelsEtDuDepartementVacataire|length-1 %}
+                                        <div class="miseEnPage2">
+                                            <div class="infosServiceConteneur">
+                                                {% if servicesAnnuelsVacataires[i] is not null %}
+                                                    <button class="boutonDisparition">+</button>
+                                                    <p class="infosService">{{ intervenantsAnnuelsEtDuDepartementVacataire[i].getNom }} {{ intervenantsAnnuelsEtDuDepartementVacataire[i].getPrenom }}
+                                                        (
+                                                        <data class="serviceStatuaire">{{ servicesAnnuelsVacataires[i].getServiceStatuaire }}</data>
+                                                        /
+                                                        <data class="serviceFait">{{ servicesAnnuelsVacataires[i].getServiceFait }}</data>
+                                                        )
+                                                    </p>
+                                                    {% include "templates/editionServiceAnnuelVacataire.twig" %}
+                                                {% else %}
+                                                    <button class="boutonDisparition">+</button>
+                                                    <p class="infosService">{{ intervenantsAnnuelsEtDuDepartementVacataire[i].getNom }} {{ intervenantsAnnuelsEtDuDepartementVacataire[i].getPrenom }}
+                                                        (
+                                                        <data class="serviceStatuaire">0</data>
+                                                        /
+                                                        <data class="serviceFait">0</data>
+                                                        )
+                                                    </p>
+                                                    {% include "templates/editionServiceAnnuelVacataire.twig" %}
+                                                {% endif %}
+                                            </div>
+                                            <div class="disparition2 affichageInfoService">
+                                                {% for voeu in voeuxVacataires[i] %}
+                                                    <div class="infosSupplementaires">
+                                                        {{ voeu[0].idUsReferentiel }} :
+                                                        {% set j = 0 %}
+                                                        {% for voeuMemeId in voeu %}
+                                                            {{ voeuMemeId.typeIntervention }} - {{ voeuMemeId.volumeHoraire }}
+                                                            {% if j < voeu|length-1 %}
+                                                                /
+                                                            {% endif %}
+                                                            {% set j = j + 1 %}
+                                                        {% endfor %}
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        {% set i = i + 1 %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="coteDroit">
+                    <div class="miseEnPage modifie">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

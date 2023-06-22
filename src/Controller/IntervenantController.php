@@ -91,7 +91,6 @@ class IntervenantController extends GenericController
             $departements = [];
             $declarationsServices = $this->declarationServiceService->recupererVueParIdIntervenant($idIntervenant);
             $declarationsServicesAnnuels = [];
-
             foreach ($servicesAnnuels as $serviceAnnuel) {
                 $emplois[] = $this->emploiService->recupererParIdentifiant($serviceAnnuel->getIdEmploi());
                 $departements[] = $this->departementService->recupererParIdentifiant($serviceAnnuel->getIdDepartement());
@@ -116,6 +115,9 @@ class IntervenantController extends GenericController
                             $declarationsServicesAvecMemeId = [];
                         }
                     }
+                }
+                if (count($declarationsServicesAvecMemeId) > 0){
+                    $declarationsServicesParAnnee[] = $declarationsServicesAvecMemeId;
                 }
                 $declarationsServicesAnnuels[] = $declarationsServicesParAnnee;
             }
@@ -427,10 +429,79 @@ class IntervenantController extends GenericController
     public function afficherVoeux(): Response
     {
         try {
-            $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuelPlusRecent($this->connexionUtilisateur->getIdUtilisateurConnecte());
+
             $departement = $this->departementService->recupererParLibelle(InfosGlobales::lireDepartement());
             $this->droitService->verifierDroitsPageVoeux($departement->getIdEtat());
-            return IntervenantController::afficherTwig("voeu.twig");
+
+            $serviceAnnuel = $this->serviceAnnuelService->recupererPlusRecentDuDepartement($departement->getIdDepartement());
+            $annee = $serviceAnnuel->getMillesime();
+
+            //Ouverture de la phase de voeux
+            $this->demarrerPhaseVoeu($departement->getIdDepartement(), $annee+1);
+
+            $intervenantsAnnuelsEtDuDepartementNonVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementNonVacataire($annee, $departement->getIdDepartement());
+            $intervenantsAnnuelsEtDuDepartementVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementVacataire($annee, $departement->getIdDepartement());
+
+            $servicesAnnuelsNonVacataires = [];
+            $voeuxNonVacataires = [];
+            foreach ($intervenantsAnnuelsEtDuDepartementNonVacataire as $intervenantNonVacataire){
+                $servicesAnnuelsNonVacataires[] = $this->serviceAnnuelService->recupererParIntervenantAnnuel($intervenantNonVacataire->getIdIntervenant(), $annee);
+                $voeuxIntervenants = $this->voeuService->recupererVueParIntervenantAnnuel($intervenantNonVacataire->getIdIntervenant(), $annee);
+
+                $voeuxAvecMemeId = [];
+                $voeuxParIntervenant = [];
+                $i = 0;
+                foreach ($voeuxIntervenants as $voeuIntervenant) {
+                    if ($i != 0) {
+                        if ($voeuIntervenant["idUSReferentiel"] != $voeuxAvecMemeId[0]["idUSReferentiel"]) {
+                            $voeuxParIntervenant[] = $voeuxAvecMemeId;
+                            $voeuxAvecMemeId = [];
+                            $i = 0;
+                        }
+                    }
+                    $voeuxAvecMemeId[] = $voeuIntervenant;
+                    $i++;
+                }
+                if (count($voeuxAvecMemeId) > 0){
+                    $voeuxParIntervenant[] = $voeuxAvecMemeId;
+                }
+                $voeuxNonVacataires[] = $voeuxParIntervenant;
+            }
+
+            $servicesAnnuelsVacataires = [];
+            $voeuxVacataires = [];
+            foreach ($intervenantsAnnuelsEtDuDepartementVacataire as $intervenantVacataire){
+                $servicesAnnuelsVacataires[] = $this->serviceAnnuelService->recupererParIntervenantAnnuel($intervenantVacataire->getIdIntervenant(), $annee);
+                $voeuxIntervenants[] = $this->voeuService->recupererVueParIntervenantAnnuel($intervenantVacataire->getIdIntervenant(), $annee);
+
+                $voeuxAvecMemeId = [];
+                $voeuxParIntervenant = [];
+                $i = 0;
+                foreach ($voeuxIntervenants as $voeuIntervenant) {
+                    if ($i != 0) {
+                        if ($voeuIntervenant["idUSReferentiel"] != $voeuxAvecMemeId[0]["idUSReferentiel"]) {
+                            $voeuxParIntervenant[] = $voeuxAvecMemeId;
+                            $voeuxAvecMemeId = [];
+                            $i = 0;
+                        }
+                    }
+                    $voeuxAvecMemeId[] = $voeuIntervenant;
+                    $i++;
+                }
+                if (count($voeuxAvecMemeId) > 0){
+                    $voeuxParIntervenant[] = $voeuxAvecMemeId;
+                }
+                $voeuxVacataires[] = $voeuxParIntervenant;
+            }
+
+            return IntervenantController::afficherTwig("voeu.twig", [
+                "intervenantsAnnuelsEtDuDepartementNonVacataire" => $intervenantsAnnuelsEtDuDepartementNonVacataire,
+                "intervenantsAnnuelsEtDuDepartementVacataire" => $intervenantsAnnuelsEtDuDepartementVacataire,
+                "servicesAnnuelsNonVacataires" => $servicesAnnuelsNonVacataires,
+                "servicesAnnuelsVacataires" => $servicesAnnuelsVacataires,
+                "voeuxNonVacataires" => $voeuxNonVacataires,
+                "voeuxVacataires" => $voeuxVacataires
+            ]);
         } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
@@ -440,6 +511,27 @@ class IntervenantController extends GenericController
             return IntervenantController::rediriger("accueil");
         }
     }
+
+    /**
+     * Nous allons initialiser la page des voeux si c'est pour une nouvelle année, sinon il ne se
+     * passera rien
+     *
+     * @param int $idDepartement
+     * @param int $annee
+     * @return void
+     */
+    private function demarrerPhaseVoeu(int $idDepartement, int $annee){
+        $intervenantsAnnuelsEtDuDepartement = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementNonVacataire($annee, $idDepartement);
+
+        // Creation des services annuels pour la nouvelle année
+        if (count($intervenantsAnnuelsEtDuDepartement) == 0){
+            $servicesAnnuelsPrecedent = $this->serviceAnnuelService->recupererParDepartementAnnuel($idDepartement, $annee-1);
+            foreach ($servicesAnnuelsPrecedent as $serviceAnnuelPrecedent){
+                $this->serviceAnnuelService->creerServiceAnnuel($serviceAnnuelPrecedent, $annee);
+            }
+        }
+    }
+
 
     public function afficherAide(){
         return IntervenantController::afficherTwig("aide.twig");

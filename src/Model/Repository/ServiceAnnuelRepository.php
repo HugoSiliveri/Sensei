@@ -48,6 +48,91 @@ class ServiceAnnuelRepository extends AbstractRepository
         }
     }
 
+    public function recupererPlusRecentDuDepartement(int $idDepartement){
+        try {
+            $sql = "SELECT *
+                    FROM ServiceAnnuel
+                    WHERE idServiceAnnuel = (SELECT MAX(idServiceAnnuel)
+						                    FROM ServiceAnnuel
+						                    WHERE millesime = (SELECT MAX(millesime)
+                    						                    FROM ServiceAnnuel
+                   							                    WHERE idDepartement = :idDepartementTag))";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "idDepartementTag" => $idDepartement,
+            );
+            $pdoStatement->execute($values);
+
+            $objetFormatTableau = $pdoStatement->fetch();
+
+            if (!$objetFormatTableau){
+                return null;
+            }
+            return $this->construireDepuisTableau($objetFormatTableau);
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
+    public function recupererParDepartementAnnuel(int $idDepartement, int $annee){
+        try {
+            $sql = "SELECT *
+                    FROM ServiceAnnuel
+                   	WHERE idDepartement = :idDepartementTag AND millesime = :millesimeTag";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "idDepartementTag" => $idDepartement,
+                "millesimeTag" => $annee
+            );
+            $pdoStatement->execute($values);
+
+            $objetsFormatTableau = $pdoStatement->fetchAll();
+
+            $objets = [];
+            foreach ($objetsFormatTableau as $objetFormatTableau) {
+                $objets[] = $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return $objets;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
+    public function ajouterSansIdServiceAnnuel(ServiceAnnuel $serviceAnnuel)
+    {
+        try {
+            $sql = "INSERT INTO ServiceAnnuel(idDepartement, idIntervenant, millesime, idEmploi, serviceStatuaire,
+                          serviceFait, delta, deleted) 
+            VALUES (:idDepartementTag, :idIntervenantTag, :millesimeTag, :idEmploiTag, :serviceStatuaireTag,
+                    :serviceFaitTag, :deltaTag, :deletedTag)";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "idDepartementTag" => $serviceAnnuel->getIdDepartement(),
+                "idIntervenantTag" => $serviceAnnuel->getIdIntervenant(),
+                "millesimeTag" => $serviceAnnuel->getMillesime(),
+                "idEmploiTag" => $serviceAnnuel->getIdEmploi(),
+                "serviceStatuaireTag" => $serviceAnnuel->getServiceStatuaire(),
+                "serviceFaitTag" => $serviceAnnuel->getServiceFait(),
+                "deltaTag" => $serviceAnnuel->getDelta(),
+                "deletedTag" => $serviceAnnuel->getDeleted()
+            );
+            $pdoStatement->execute($values);
+
+            return null;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors d'insertion dans la base de données.");
+        }
+    }
+
     /** Construit un objet ServiceAnnuel à partir d'un tableau donné en paramètre.
      * @param array $objetFormatTableau
      * @return ServiceAnnuel
