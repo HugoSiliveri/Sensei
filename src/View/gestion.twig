@@ -23,7 +23,7 @@
                     <div class="miseEnPage">
                         <label for="annee_id">Voyager dans le temps</label>
                         <select class="inputCreation" name="annee" id="annee_id">
-                            {% for i in 2004..anneeReference+3 %}
+                            {% for i in 2004..anneeReference+1 %}
                                 {% if i == anneeActuelle %}
                                     <option value="{{ i }}" selected>{{ i }} - {{ i+1 }}</option>
                                 {% else %}

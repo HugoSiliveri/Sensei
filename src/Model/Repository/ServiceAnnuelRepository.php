@@ -152,6 +152,11 @@ class ServiceAnnuelRepository extends AbstractRepository
         );
     }
 
+    public function creerDepuisTableau(array $serviceAnnuel): AbstractDataObject
+    {
+        return $this->construireDepuisTableau($serviceAnnuel);
+    }
+
     public function recupererParIntervenantAnnuel($idIntervenant, $millesime): ?AbstractDataObject
     {
         try {

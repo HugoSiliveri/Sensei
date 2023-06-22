@@ -31,14 +31,12 @@
                     {% if idDroitUtilisateur == 1 %}
                         <label class="labelCreation" for="droit_id">Droit</label>
                         <select class="inputCreation" name=droit id="droit_id">
-                            {% set j = 1 %}
                             {% for droit in droits %}
                                 {% if droit.getTypeDroit == "enseignant.e" %}
-                                    <option value="{{ i }}" selected>{{ droit.getTypeDroit }}</option>
+                                    <option value="{{ droit.getIdDroit }}" selected>{{ droit.getTypeDroit }}</option>
                                 {% else %}
-                                    <option value="{{ i }}">{{ droit.getTypeDroit }}</option>
+                                    <option value="{{ droit.getIdDroit }}">{{ droit.getTypeDroit }}</option>
                                 {% endif %}
-                                {% set j = j + 1 %}
                             {% endfor %}
                         </select>
                     {% else %}
@@ -54,6 +52,34 @@
                     <label class="labelCreation" for="emailUsage_id">Email d'usage</label>
                     <input class="inputCreation" type="text" placeholder="jean.bonbeurre@email.fr" name="emailUsage"
                            id="emailUsage_id">
+                </div>
+                <div>
+                    <label for="departement_id">Département</label>
+                    <select class="inputCreation" name="idDepartement" id="departement_id" required>
+                        {% set i = 1 %}
+                        {% for departement in departements %}
+                            {% if departementActuel == departement.getLibDepartement %}
+                                <option value="{{ i }}" selected>{{ departement.getLibDepartement }}</option>
+                            {% else %}
+                                <option value="{{ i }}">{{ departement.getLibDepartement }}</option>
+                            {% endif %}
+                            {% set i = i + 1 %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="labelCreation" for="emploi_id">Emploi</label>
+                    <select class="inputCreation" name="idEmploi" id="emploi_id" required>
+                        {% set i = 1 %}
+                        {% for emploi in emplois %}
+                            <option value="{{ i }}">{{ emploi.getLibEmploi }}</option>
+                            {% set i = i + 1 %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="labelCreation" for="serviceStatuaire_id">Service statuaire</label>
+                    <input class="inputCreation" type="number" value="0" name="serviceStatuaire" id="serviceStatuaire_id">
                 </div>
                 <div class="boutonValidationConteneur conteneur">
                     <input class="boutonValidation bouton" type="submit" value="Envoyer">

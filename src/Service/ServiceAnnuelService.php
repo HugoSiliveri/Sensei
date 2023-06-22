@@ -83,10 +83,21 @@ class ServiceAnnuelService implements ServiceAnnuelServiceInterface
         return $this->serviceAnnuelRepository->recupererParDepartementAnnuel($idDepartement, $annee);
     }
 
-    public function creerServiceAnnuel(ServiceAnnuel $serviceAnnuel, int $annee){
+    public function renouvellerServiceAnnuel(ServiceAnnuel $serviceAnnuel, int $annee){
         $serviceAnnuel->setMillesime($annee);
         $serviceAnnuel->setServiceFait(0);
         $serviceAnnuel->setDelta(0);
         $this->serviceAnnuelRepository->ajouterSansIdServiceAnnuel($serviceAnnuel);
+    }
+
+    /**
+     * @throws ServiceException
+     */
+    public function creerServiceAnnuel(array $serviceAnnuel){
+        if (empty($serviceAnnuel)){
+            throw new ServiceException("Aucune information fournie !");
+        }
+        $objet = $this->serviceAnnuelRepository->creerDepuisTableau($serviceAnnuel);
+        $this->serviceAnnuelRepository->ajouterSansIdServiceAnnuel($objet);
     }
 }

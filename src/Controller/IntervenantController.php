@@ -150,11 +150,16 @@ class IntervenantController extends GenericController
             $statuts = $this->statutService->recupererStatuts();
             $droits = $this->droitService->recupererDroits();
             $idDroitUtilisateur = $this->connexionUtilisateur->getIntervenantConnecte()->getIdDroit();
+            $departements = $this->departementService->recupererDepartements();
+            $emplois = $this->emploiService->recupererEmplois();
+
             return IntervenantController::afficherTwig("intervenant/creationIntervenant.twig",
                 [
                     "statuts" => $statuts,
                     "droits" => $droits,
-                    "idDroitUtilisateur" => $idDroitUtilisateur
+                    "idDroitUtilisateur" => $idDroitUtilisateur,
+                    "departements" => $departements,
+                    "emplois" => $emplois
                 ]);
         } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
@@ -169,26 +174,60 @@ class IntervenantController extends GenericController
 
     public function creerDepuisFormulaire(): Response
     {
-        $nom = $_POST["nom"];
-        $prenom = $_POST["prenom"];
-        $idIntervenantReferentiel = $_POST["idIntervenantReferentiel"];
-        $emailInstitutionnel = $_POST["emailInstitutionnel"];
-        $emailUsage = $_POST["emailUsage"];
+        try {
+            $nom = $_POST["nom"];
+            $prenom = $_POST["prenom"];
+            $idIntervenantReferentiel = $_POST["idIntervenantReferentiel"];
+            $emailInstitutionnel = $_POST["emailInstitutionnel"];
+            $emailUsage = $_POST["emailUsage"];
 
-        $intervenant = [
-            "nom" => strcmp($nom, "") == 0 ? null : $nom,
-            "prenom" => strcmp($prenom, "") == 0 ? null : $prenom,
-            "idIntervenantReferentiel" => strcmp($idIntervenantReferentiel, "") == 0 ? null : $idIntervenantReferentiel,
-            "idStatut" => $_POST["statut"],
-            "idDroit" => $_POST["droit"],
-            "emailInstitutionnel" => strcmp($emailInstitutionnel, "") == 0 ? null : $emailInstitutionnel,
-            "emailUsage" => strcmp($emailUsage, "") == 0 ? null : $emailUsage,
-            "deleted" => 0
-        ];
 
-        $this->intervenantService->creerIntervenant($intervenant);
 
-        MessageFlash::ajouter("success", "L'intervenant a bien été créé !");
+            $intervenant = [
+                "nom" => strcmp($nom, "") == 0 ? null : $nom,
+                "prenom" => strcmp($prenom, "") == 0 ? null : $prenom,
+                "idIntervenantReferentiel" => strcmp($idIntervenantReferentiel, "") == 0 ? null : $idIntervenantReferentiel,
+                "idStatut" => $_POST["statut"],
+                "idDroit" => $_POST["droit"],
+                "emailInstitutionnel" => strcmp($emailInstitutionnel, "") == 0 ? null : $emailInstitutionnel,
+                "emailUsage" => strcmp($emailUsage, "") == 0 ? null : $emailUsage,
+                "deleted" => 0
+            ];
+
+            $this->intervenantService->creerIntervenant($intervenant);
+            //On va également créer son service
+            $idDepartement = $_POST["idDepartement"];
+
+            $serviceAnnuel = $this->serviceAnnuelService->recupererPlusRecentDuDepartement($idDepartement);
+            $annee = $serviceAnnuel->getMillesime();
+
+            if (isset($idIntervenantReferentiel)){
+                $intervenant = $this->intervenantService->recupererParUID($idIntervenantReferentiel);
+            } else {
+                $intervenant = $this->intervenantService->recupererParEmailInstitutionnel($emailInstitutionnel);
+            }
+
+            $serviceAnnuel = [
+                "idServiceAnnuel" => 0,
+                "idDepartement" => $idDepartement,
+                "idIntervenant" => $intervenant->getIdIntervenant(),
+                "millesime" => $annee,
+                "idEmploi" => $_POST["idEmploi"],
+                "serviceStatuaire" => $_POST["serviceStatuaire"],
+                "serviceFait" => 0,
+                "delta" => 0,
+                "deleted" => 0
+            ];
+            $this->serviceAnnuelService->creerServiceAnnuel($serviceAnnuel);
+
+            MessageFlash::ajouter("success", "L'intervenant a bien été créé !");
+        } catch (ServiceException $exception){
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+        }
         return IntervenantController::rediriger("accueil");
     }
 
@@ -434,19 +473,21 @@ class IntervenantController extends GenericController
             $this->droitService->verifierDroitsPageVoeux($departement->getIdEtat());
 
             $serviceAnnuel = $this->serviceAnnuelService->recupererPlusRecentDuDepartement($departement->getIdDepartement());
-            $annee = $serviceAnnuel->getMillesime();
+            $anneeService = $serviceAnnuel->getMillesime();
+            $anneeActuelle = InfosGlobales::lireAnnee();
 
-            //Ouverture de la phase de voeux
-            $this->demarrerPhaseVoeu($departement->getIdDepartement(), $annee+1);
-
-            $intervenantsAnnuelsEtDuDepartementNonVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementNonVacataire($annee, $departement->getIdDepartement());
-            $intervenantsAnnuelsEtDuDepartementVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementVacataire($annee, $departement->getIdDepartement());
+            // Test pour éviter d'initialiser à chaque arrivée sur la page des voeux
+            if ($anneeActuelle >= $anneeService){
+                $this->demarrerPhaseVoeu($departement->getIdDepartement(), $anneeService);
+            }
+            $intervenantsAnnuelsEtDuDepartementNonVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementNonVacataire($anneeService, $departement->getIdDepartement());
+            $intervenantsAnnuelsEtDuDepartementVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementVacataire($anneeService, $departement->getIdDepartement());
 
             $servicesAnnuelsNonVacataires = [];
             $voeuxNonVacataires = [];
             foreach ($intervenantsAnnuelsEtDuDepartementNonVacataire as $intervenantNonVacataire){
-                $servicesAnnuelsNonVacataires[] = $this->serviceAnnuelService->recupererParIntervenantAnnuel($intervenantNonVacataire->getIdIntervenant(), $annee);
-                $voeuxIntervenants = $this->voeuService->recupererVueParIntervenantAnnuel($intervenantNonVacataire->getIdIntervenant(), $annee);
+                $servicesAnnuelsNonVacataires[] = $this->serviceAnnuelService->recupererParIntervenantAnnuel($intervenantNonVacataire->getIdIntervenant(), $anneeService);
+                $voeuxIntervenants = $this->voeuService->recupererVueParIntervenantAnnuel($intervenantNonVacataire->getIdIntervenant(), $anneeService);
 
                 $voeuxAvecMemeId = [];
                 $voeuxParIntervenant = [];
@@ -471,8 +512,8 @@ class IntervenantController extends GenericController
             $servicesAnnuelsVacataires = [];
             $voeuxVacataires = [];
             foreach ($intervenantsAnnuelsEtDuDepartementVacataire as $intervenantVacataire){
-                $servicesAnnuelsVacataires[] = $this->serviceAnnuelService->recupererParIntervenantAnnuel($intervenantVacataire->getIdIntervenant(), $annee);
-                $voeuxIntervenants[] = $this->voeuService->recupererVueParIntervenantAnnuel($intervenantVacataire->getIdIntervenant(), $annee);
+                $servicesAnnuelsVacataires[] = $this->serviceAnnuelService->recupererParIntervenantAnnuel($intervenantVacataire->getIdIntervenant(), $anneeService);
+                $voeuxIntervenants[] = $this->voeuService->recupererVueParIntervenantAnnuel($intervenantVacataire->getIdIntervenant(), $anneeService);
 
                 $voeuxAvecMemeId = [];
                 $voeuxParIntervenant = [];
@@ -521,13 +562,16 @@ class IntervenantController extends GenericController
      * @return void
      */
     private function demarrerPhaseVoeu(int $idDepartement, int $annee){
-        $intervenantsAnnuelsEtDuDepartement = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementNonVacataire($annee, $idDepartement);
+        $intervenantsAnnuelsEtDuDepartementNonVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementNonVacataire($annee, $idDepartement);
+        $intervenantsAnnuelsEtDuDepartementVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementVacataire($annee, $idDepartement);
+//        $unitesServicesAnneesDuDepartement = $this->uniteServiceAnneeService->recupererParAnnee
+
 
         // Creation des services annuels pour la nouvelle année
-        if (count($intervenantsAnnuelsEtDuDepartement) == 0){
+        if (count($intervenantsAnnuelsEtDuDepartementNonVacataire) == 0 && count($intervenantsAnnuelsEtDuDepartementVacataire) == 0){
             $servicesAnnuelsPrecedent = $this->serviceAnnuelService->recupererParDepartementAnnuel($idDepartement, $annee-1);
             foreach ($servicesAnnuelsPrecedent as $serviceAnnuelPrecedent){
-                $this->serviceAnnuelService->creerServiceAnnuel($serviceAnnuelPrecedent, $annee);
+                $this->serviceAnnuelService->renouvellerServiceAnnuel($serviceAnnuelPrecedent, $annee);
             }
         }
     }
