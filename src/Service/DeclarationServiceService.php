@@ -4,13 +4,15 @@ namespace App\Sensei\Service;
 
 use App\Sensei\Model\DataObject\AbstractDataObject;
 use App\Sensei\Model\Repository\DeclarationServiceRepository;
+use App\Sensei\Model\Repository\ServiceAnnuelRepository;
 use App\Sensei\Service\Exception\ServiceException;
 
 class DeclarationServiceService implements DeclarationServiceServiceInterface
 {
 
     public function __construct(
-        private readonly DeclarationServiceRepository $declarationServiceRepository
+        private readonly DeclarationServiceRepository $declarationServiceRepository,
+        private readonly ServiceAnnuelRepository $serviceAnnuelRepository,
     )
     {
     }
@@ -83,5 +85,22 @@ class DeclarationServiceService implements DeclarationServiceServiceInterface
     public function recupererParIdUSA(int $idUniteServiceAnnee): array
     {
         return $this->declarationServiceRepository->recupererParIdUSA($idUniteServiceAnnee);
+    }
+
+    public function verifierPhaseDeVoeu(int $annee, int $idDepartement): bool{
+        $servicesAnnuels = $this->serviceAnnuelRepository->recupererParDepartementAnnuel($idDepartement, $annee);
+        $taille = count($servicesAnnuels);
+        $taille2 = 0;
+        foreach ($servicesAnnuels as $serviceAnnuel) {
+            $declarationService = $this->declarationServiceRepository->recupererVueParIdIntervenantAnnuel($serviceAnnuel->getIdIntervenant(), $annee);
+            if (empty($declarationService)){
+                $taille2 += 1;
+            }
+        }
+        // Si tous les services ne sont pas déclarés pour chaque intervenant alors la phase de voeu n'est pas terminé
+        if ($taille == $taille2){
+            return false;
+        }
+        return true;
     }
 }

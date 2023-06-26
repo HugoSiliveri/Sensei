@@ -266,7 +266,8 @@ class URLRouter
         $statutService->setArguments([new Reference('statut_repository')]);
 
         $declarationServiceService = $conteneur->register('declaration_service_service', DeclarationServiceService::class);
-        $declarationServiceService->setArguments([new Reference('declaration_service_repository')]);
+        $declarationServiceService->setArguments([new Reference('declaration_service_repository'),
+            new Reference('service_annuel_repository')]);
 
         /* Instantiation d'une collection de routes */
         $routes = new RouteCollection();

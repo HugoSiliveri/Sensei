@@ -3,6 +3,7 @@
 namespace App\Sensei\Service;
 
 use App\Sensei\Model\DataObject\AbstractDataObject;
+use App\Sensei\Model\DataObject\UniteServiceAnnee;
 use App\Sensei\Model\Repository\UniteServiceAnneeRepository;
 use App\Sensei\Service\Exception\ServiceException;
 
@@ -90,5 +91,30 @@ class UniteServiceAnneeService implements UniteServiceAnneeServiceInterface
     public function recupererUnitesServicesAnneeUniquementColoration(int $anneeActuelle, int $idDepartement): array
     {
         return $this->uniteServiceAnneeRepository->recupererUniteServiceAnneeUniquementColoration($anneeActuelle, $idDepartement);
+    }
+    
+    public function renouvelerUniteServiceAnnee(UniteServiceAnnee $usa, int $annee){
+        $usa->setMillesime($annee);
+        $tab = [
+            "idDepartement" => $usa->getIdDepartement(),
+            "idUniteService" => $usa->getIdUniteServiceAnnee(),
+            "libUSA" => $usa->getLibUSA(),
+            "millesime" => $usa->getMillesime(),
+            "heuresCM" => $usa->getHeuresCM(),
+            "nbGroupesCM" => $usa->getNbGroupesCM(),
+            "heuresTD" => $usa->getHeuresTD(),
+            "nbGroupesTD" => $usa->getNbGroupesTD(),
+            "heuresTP" => $usa->getHeuresTP(),
+            "nbGroupesTP" => $usa->getNbGroupesTP(),
+            "heuresStage" => $usa->getHeuresStage(),
+            "nbGroupesStage" => $usa->getNbGroupesStage(),
+            "heuresTerrain" => $usa->getHeuresTerrain(),
+            "nbGroupesTerrain" => $usa->getNbGroupesTerrain(),
+            "heuresInnovationPedagogique" => $usa->getHeuresInnovationPedagogique(),
+            "nbGroupesInnovationPedagogique" => $usa->getNbGroupesInnovationPedagogique(),
+            "validite" => $usa->getValidite(),
+            "deleted" => $usa->getDeleted()
+        ];
+        $this->uniteServiceAnneeRepository->ajouterSansIdUniteServiceAnnee($tab);
     }
 }

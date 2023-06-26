@@ -185,6 +185,10 @@ ul {
     width: 25px;
 }
 
+#pageDeclarationService, #pageVoeu, .service{
+    height: 800px;
+}
+
 .liste {
     margin: 0 5%;
 }
@@ -624,6 +628,9 @@ nav  button{
     margin-left: 2%;
 }
 
+.start > .margin{
+    margin:0 0 2% 0;
+}
 /* Bootstrap alerts */
 /* https://getbootstrap.com/docs/3.4/components/#alerts */
 

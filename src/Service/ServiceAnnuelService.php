@@ -83,7 +83,7 @@ class ServiceAnnuelService implements ServiceAnnuelServiceInterface
         return $this->serviceAnnuelRepository->recupererParDepartementAnnuel($idDepartement, $annee);
     }
 
-    public function renouvellerServiceAnnuel(ServiceAnnuel $serviceAnnuel, int $annee){
+    public function renouvelerServiceAnnuel(ServiceAnnuel $serviceAnnuel, int $annee){
         $serviceAnnuel->setMillesime($annee);
         $serviceAnnuel->setServiceFait(0);
         $serviceAnnuel->setDelta(0);

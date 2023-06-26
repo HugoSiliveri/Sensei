@@ -1,11 +1,19 @@
 {% extends "base.twig" %}
 
 {% block page_content %}
-    <div class="margin">
-        <a class="boutonAvecLienInfo" href="{{ route("services") }}">Afficher les services</a>
-    </div>
+
     <div id="pageVoeu">
-        <div class="miseEnPage2">
+        <div class="miseEnPage2 centrer">
+            <div class="alert alert-info alertVoeux">
+                <div>
+                    <p>Phase de vœu pour l'année {{ anneeService }}-{{ anneeService+1 }}</p>
+                </div>
+            </div>
+            <div class="miseEnPage start">
+                <div class="margin">
+                    <a class="boutonAvecLienInfo" href="{{ route("services") }}">Afficher les services</a>
+                </div>
+            </div>
             <div class="miseEnPage">
                 <div class="coteGauche service overflow">
                     <div class="miseEnPage">
@@ -117,7 +125,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="coteDroit">
+                <div class="coteDroit service overflow">
                     <div class="miseEnPage modifie">
                     </div>
                 </div>

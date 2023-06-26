@@ -477,8 +477,15 @@ class IntervenantController extends GenericController
             $anneeActuelle = InfosGlobales::lireAnnee();
 
             // Test pour éviter d'initialiser à chaque arrivée sur la page des voeux
-            if ($anneeActuelle >= $anneeService){
-                $this->demarrerPhaseVoeu($departement->getIdDepartement(), $anneeService);
+            if ($anneeActuelle == $anneeService+1){
+
+                // Nous allons regarder les DeclarationService des intervenants et voir s'ils sont tous à 0
+                // S'ils sont à 0 alors l'ancienne phase de voeu n'est pas terminée.
+                $estTermine = $this->declarationServiceService->verifierPhaseDeVoeu($anneeService, $departement->getIdDepartement());
+                if ($estTermine){
+                    $anneeService += 1;
+                    $this->demarrerPhaseVoeu($departement->getIdDepartement(), $anneeService);
+                }
             }
             $intervenantsAnnuelsEtDuDepartementNonVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementNonVacataire($anneeService, $departement->getIdDepartement());
             $intervenantsAnnuelsEtDuDepartementVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementVacataire($anneeService, $departement->getIdDepartement());
@@ -541,7 +548,8 @@ class IntervenantController extends GenericController
                 "servicesAnnuelsNonVacataires" => $servicesAnnuelsNonVacataires,
                 "servicesAnnuelsVacataires" => $servicesAnnuelsVacataires,
                 "voeuxNonVacataires" => $voeuxNonVacataires,
-                "voeuxVacataires" => $voeuxVacataires
+                "voeuxVacataires" => $voeuxVacataires,
+                "anneeService" => $anneeService
             ]);
         } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
@@ -564,18 +572,28 @@ class IntervenantController extends GenericController
     private function demarrerPhaseVoeu(int $idDepartement, int $annee){
         $intervenantsAnnuelsEtDuDepartementNonVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementNonVacataire($annee, $idDepartement);
         $intervenantsAnnuelsEtDuDepartementVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementVacataire($annee, $idDepartement);
-//        $unitesServicesAnneesDuDepartement = $this->uniteServiceAnneeService->recupererParAnnee
-
+        $unitesServicesAnneesDuDepartement = $this->uniteServiceAnneeService->recupererUnitesServicesPourUneAnneePourUnDepartement($annee, $idDepartement);
+        $unitesServicesAnneesColoration = $this->uniteServiceAnneeService->recupererUnitesServicesAnneeUniquementColoration($annee, $idDepartement);
 
         // Creation des services annuels pour la nouvelle année
         if (count($intervenantsAnnuelsEtDuDepartementNonVacataire) == 0 && count($intervenantsAnnuelsEtDuDepartementVacataire) == 0){
             $servicesAnnuelsPrecedent = $this->serviceAnnuelService->recupererParDepartementAnnuel($idDepartement, $annee-1);
             foreach ($servicesAnnuelsPrecedent as $serviceAnnuelPrecedent){
-                $this->serviceAnnuelService->renouvellerServiceAnnuel($serviceAnnuelPrecedent, $annee);
+                $this->serviceAnnuelService->renouvelerServiceAnnuel($serviceAnnuelPrecedent, $annee);
+            }
+        }
+
+        if (count($unitesServicesAnneesDuDepartement) == 0 && count($unitesServicesAnneesColoration) == 0) {
+            $unitesServicesAnneesDuDepartementPrecedent = $this->uniteServiceAnneeService->recupererUnitesServicesPourUneAnneePourUnDepartement($annee-1, $idDepartement);
+            $unitesServicesAnneesColorationPrecedent = $this->uniteServiceAnneeService->recupererUnitesServicesAnneeUniquementColoration($annee-1, $idDepartement);
+            foreach ($unitesServicesAnneesDuDepartementPrecedent as $usa){
+                $this->uniteServiceAnneeService->renouvelerUniteServiceAnnee($usa, $annee);
+            }
+            foreach ($unitesServicesAnneesColorationPrecedent as $usa){
+                $this->uniteServiceAnneeService->renouvelerUniteServiceAnnee($usa, $annee);
             }
         }
     }
-
 
     public function afficherAide(){
         return IntervenantController::afficherTwig("aide.twig");

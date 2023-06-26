@@ -186,9 +186,9 @@ class ServiceAnnuelRepository extends AbstractRepository
     {
         try {
             $sql = "SELECT * from ServiceAnnuel 
-                    WHERE idIntervenant=:idIntervenantTag
-                    GROUP BY idServiceAnnuel, idDepartement, idIntervenant, millesime, idEmploi, serviceStatuaire, serviceFait, delta, deleted
-                    HAVING MAX(millesime)";
+                    WHERE idIntervenant=:idIntervenantTag AND millesime = (SELECT MAX(millesime)
+                                                                           FROM ServiceAnnuel
+                                                                           WHERE idIntervenant=:idIntervenantTag)";
 
             $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
 
