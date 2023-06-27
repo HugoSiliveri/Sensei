@@ -97,7 +97,7 @@ class UniteServiceAnneeService implements UniteServiceAnneeServiceInterface
         $usa->setMillesime($annee);
         $tab = [
             "idDepartement" => $usa->getIdDepartement(),
-            "idUniteService" => $usa->getIdUniteServiceAnnee(),
+            "idUniteService" => $usa->getIdUniteService(),
             "libUSA" => $usa->getLibUSA(),
             "millesime" => $usa->getMillesime(),
             "heuresCM" => $usa->getHeuresCM(),
@@ -116,5 +116,13 @@ class UniteServiceAnneeService implements UniteServiceAnneeServiceInterface
             "deleted" => $usa->getDeleted()
         ];
         $this->uniteServiceAnneeRepository->ajouterSansIdUniteServiceAnnee($tab);
+    }
+
+    public function recupererReferentiels(int $annee): array{
+        return $this->uniteServiceAnneeRepository->recupererReferentiels($annee);
+    }
+
+    public function recupererDecharges(int $annee): array{
+        return $this->uniteServiceAnneeRepository->recupererDecharges($annee);
     }
 }

@@ -16,6 +16,64 @@ use PDOException;
  */
 class UniteServiceAnneeRepository extends AbstractRepository
 {
+    public function recupererReferentiels(int $annee): array{
+        try {
+            $sql = "SELECT *
+            FROM UniteServiceAnnee usa
+            JOIN UniteService us ON usa.idUniteService = us.idUniteService
+            JOIN Nature na ON na.idNature = us.nature
+            WHERE millesime =:millesimeTag AND libNature = 'UR'
+            ORDER BY millesime DESC, libUSA";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "millesimeTag" => $annee,
+            );
+            $pdoStatement->execute($values);
+
+            $objetsFormatTableau = $pdoStatement->fetchAll();
+
+            $objets = [];
+            foreach ($objetsFormatTableau as $objetFormatTableau) {
+                $objets[] = $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return $objets;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
+    public function recupererDecharges(int $annee): array{
+        try {
+            $sql = "SELECT *
+            FROM UniteServiceAnnee usa
+            JOIN UniteService us ON usa.idUniteService = us.idUniteService
+            JOIN Nature na ON na.idNature = us.nature
+            WHERE millesime =:millesimeTag AND libNature = 'DE'
+            ORDER BY millesime DESC, libUSA";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "millesimeTag" => $annee,
+            );
+            $pdoStatement->execute($values);
+
+            $objetsFormatTableau = $pdoStatement->fetchAll();
+
+            $objets = [];
+            foreach ($objetsFormatTableau as $objetFormatTableau) {
+                $objets[] = $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return $objets;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
     public function recupererParUniteService(int $idUniteService)
     {
         try {

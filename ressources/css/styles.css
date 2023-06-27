@@ -48,7 +48,7 @@ nav, #logoEtTitre > a, #informationsHeader, .boutonValidation, .liste, .titreEtB
 html, body, ul, #vague, .barreRecherche, .barreRecherche > fieldset, .conteneurChamps, .coteGauche, .coteDroit, .miseEnPage,
 .coteDroit h2, h3, .optionsSupplémentaires, .optionsSurObjet, .menuDeroulant, .boutonSousMenuAnneeService, .sousMenuAnneeService,
 .boutonValidationConteneur, .conteneurAutoComp, .titreEtBarreRecherche2 > h2, .conteneurResponsable > h2, #messagesFlash, .formCreation,
-.service{
+.service, .maxWidth{
     width: 100%;
 }
 
@@ -185,8 +185,16 @@ ul {
     width: 25px;
 }
 
-#pageDeclarationService, #pageVoeu, .service{
+#pageDeclarationService, .service{
     height: 800px;
+}
+
+#pageVoeu {
+    height: 900px;
+}
+
+#pageVoeu h2, #pageDeclarationService h2{
+    text-align: start;
 }
 
 .liste {
@@ -295,7 +303,11 @@ ul {
 }
 
 .miseEnPage h2 {
-    margin-bottom: 5%;
+    margin-bottom: 3%;
+}
+
+.coteDroit > .miseEnPage, .coteGauche > .miseEnPage{
+    margin-top: 3%;
 }
 
 .description > ul, .infosAnnuel > ul {
@@ -591,7 +603,7 @@ nav  button{
     box-shadow: none;
 }
 
-.infosService {
+.infosService, .infosService2 {
     display: flex;
     padding: 2%;
     margin: 0;

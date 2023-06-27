@@ -364,7 +364,7 @@ class IntervenantController extends GenericController
     /**
      * @throws ServiceException
      */
-    public function deconnecter()
+    public function deconnecter(): Response
     {
         if (!$this->connexionUtilisateur->estConnecte()) {
             throw new ServiceException("Utilisateur non connecté !");
@@ -374,7 +374,7 @@ class IntervenantController extends GenericController
         return IntervenantController::rediriger("accueil");
     }
 
-    public function changementGestion()
+    public function changementGestion(): Response
     {
         $annee = $_POST["annee"];
         $departement = $this->departementService->recupererParIdentifiant($_POST["departement"])->getLibDepartement();
@@ -385,7 +385,7 @@ class IntervenantController extends GenericController
         return IntervenantController::rediriger("accueil");
     }
 
-    public function afficherServices(){
+    public function afficherServices(): Response{
         try {
             $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuelPlusRecent($this->connexionUtilisateur->getIdUtilisateurConnecte());
             $idDepartement = $this->departementService->recupererParLibelle(InfosGlobales::lireDepartement())->getIdDepartement() ?? $serviceAnnuel->getIdDepartement();
@@ -454,7 +454,6 @@ class IntervenantController extends GenericController
                 "servicesAnnuelsVacataires" => $servicesAnnuelsVacataires,
                 "declarationsServicesNonVacataires" => $declarationsServicesNonVacataires,
                 "declarationsServicesVacataires" => $declarationsServicesVacataires]);
-
         } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
@@ -489,6 +488,8 @@ class IntervenantController extends GenericController
             }
             $intervenantsAnnuelsEtDuDepartementNonVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementNonVacataire($anneeService, $departement->getIdDepartement());
             $intervenantsAnnuelsEtDuDepartementVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementVacataire($anneeService, $departement->getIdDepartement());
+            $unitesServicesAnneesDepartement = $this->uniteServiceAnneeService->recupererUnitesServicesPourUneAnneePourUnDepartement($anneeService, $departement->getIdDepartement());
+            $unitesServicesAnneesColoration = $this->uniteServiceAnneeService->recupererUnitesServicesAnneeUniquementColoration($anneeService, $departement->getIdDepartement());
 
             $servicesAnnuelsNonVacataires = [];
             $voeuxNonVacataires = [];
@@ -542,6 +543,127 @@ class IntervenantController extends GenericController
                 $voeuxVacataires[] = $voeuxParIntervenant;
             }
 
+            $usaPrintemps = [];
+            $usaAutomne = [];
+            $usaAnnuel = [];
+            $usPrintemps = [];
+            $usAutomne = [];
+            $usAnnuel = [];
+
+            for ($i=0; $i < 11; $i++){
+                $usaPrintemps[] = [];
+                $usaAutomne[] = [];
+                $usaAnnuel[] = [];
+                $usPrintemps[] = [];
+                $usAutomne[] = [];
+                $usAnnuel[] = [];
+            }
+
+            foreach ($unitesServicesAnneesDepartement as $usaDepartement){
+                $uniteService = $this->uniteServiceService->recupererParIdentifiant($usaDepartement->getIdUniteService());
+                $semestre = $uniteService->getSemestre();
+                if ($uniteService->getNature() == 1){ //Eviter les doublons DE et UR
+                    switch ($uniteService->getSaison()){
+                        case 0:
+                            if ($semestre < 10){ // Voir la vue de la création d'une unité
+                                $usaPrintemps[$semestre][] = $usaDepartement;
+                                $usPrintemps[$semestre][] = $this->uniteServiceService->recupererParIdentifiant($usaDepartement->getIdUniteService());
+                            } else {
+                                $usaPrintemps[10][] = $usaDepartement;
+                                $usPrintemps[10][] = $this->uniteServiceService->recupererParIdentifiant($usaDepartement->getIdUniteService());
+                            }
+                            break;
+                        case 1:
+                            if ($semestre < 10){
+                                $usaAutomne[$semestre][] = $usaDepartement;
+                                $usAutomne[$semestre][] = $this->uniteServiceService->recupererParIdentifiant($usaDepartement->getIdUniteService());
+                            } else {
+                                $usaAutomne[10][] = $usaDepartement;
+                                $usAutomne[10][] = $this->uniteServiceService->recupererParIdentifiant($usaDepartement->getIdUniteService());
+                            }
+                            break;
+                        default:
+                            if ($semestre < 10){ // Voir la vue de la création d'une unité
+                                $usaAnnuel[$semestre][] = $usaDepartement;
+                                $usAnnuel[$semestre][] = $this->uniteServiceService->recupererParIdentifiant($usaDepartement->getIdUniteService());
+                            } else {
+                                $usaAnnuel[10][] = $usaDepartement;
+                                $usAnnuel[10][] = $this->uniteServiceService->recupererParIdentifiant($usaDepartement->getIdUniteService());
+                            }
+                            break;
+                    }
+                }
+
+            }
+
+            $usaColorationPrintemps = [];
+            $usaColorationAutomne = [];
+            $usaColorationAnnuel = [];
+            $usColorationPrintemps = [];
+            $usColorationAutomne = [];
+            $usColorationAnnuel = [];
+
+            for ($i=0; $i < 11; $i++){
+                $usaColorationPrintemps[] = [];
+                $usaColorationAutomne[] = [];
+                $usaColorationAnnuel[] = [];
+                $usColorationPrintemps[] = [];
+                $usColorationAutomne[] = [];
+                $usColorationAnnuel[] = [];
+            }
+
+            foreach ($unitesServicesAnneesColoration as $usaColoration){
+                $uniteService = $this->uniteServiceService->recupererParIdentifiant($usaColoration->getIdUniteService());
+                $semestre = $uniteService->getSemestre();
+                if ($uniteService->getNature() == 1){ //Eviter les doublons DE et UR
+                    switch ($uniteService->getSaison()){
+                        case 0:
+                            if ($semestre < 10){ // Voir la vue de la création d'une unité
+                                $usaColorationPrintemps[$semestre][] = $usaColoration;
+                                $usColorationPrintemps[$semestre][] = $this->uniteServiceService->recupererParIdentifiant($usaColoration->getIdUniteService());
+                            } else {
+                                $usaColorationPrintemps[10][] = $usaColoration;
+                                $usColorationPrintemps[10][] = $this->uniteServiceService->recupererParIdentifiant($usaColoration->getIdUniteService());
+                            }
+                            break;
+                        case 1:
+                            if ($semestre < 10){
+                                $usaColorationAutomne[$semestre][] = $usaColoration;
+                                $usColorationAutomne[$semestre][] = $this->uniteServiceService->recupererParIdentifiant($usaColoration->getIdUniteService());
+                            } else {
+                                $usaColorationAutomne[10][] = $usaColoration;
+                                $usColorationAutomne[10][] = $this->uniteServiceService->recupererParIdentifiant($usaColoration->getIdUniteService());
+                            }
+                            break;
+                        default:
+                            if ($semestre < 10){ // Voir la vue de la création d'une unité
+                                $usaColorationAnnuel[$semestre][] = $usaColoration;
+                                $usColorationAnnuel[$semestre][] = $this->uniteServiceService->recupererParIdentifiant($usaColoration->getIdUniteService());
+                            } else {
+                                $usaColorationAnnuel[10][] = $usaColoration;
+                                $usColorationAnnuel[10][] = $this->uniteServiceService->recupererParIdentifiant($usaColoration->getIdUniteService());
+                            }
+                            break;
+                    }
+                }
+
+            }
+
+            $referentiels = [];
+            $decharges = [];
+
+            $ur = $this->uniteServiceAnneeService->recupererReferentiels($anneeService);
+            foreach ($ur as $unite){
+                $referentiels[] = [$unite, $this->uniteServiceService->recupererParIdentifiant($unite->getIdUniteService())];
+            }
+
+            $de = $this->uniteServiceAnneeService->recupererDecharges($anneeService);
+            foreach ($de as $unite){
+                $decharges[] = [$unite, $this->uniteServiceService->recupererParIdentifiant($unite->getIdUniteService())];
+            }
+
+
+
             return IntervenantController::afficherTwig("voeu.twig", [
                 "intervenantsAnnuelsEtDuDepartementNonVacataire" => $intervenantsAnnuelsEtDuDepartementNonVacataire,
                 "intervenantsAnnuelsEtDuDepartementVacataire" => $intervenantsAnnuelsEtDuDepartementVacataire,
@@ -549,7 +671,21 @@ class IntervenantController extends GenericController
                 "servicesAnnuelsVacataires" => $servicesAnnuelsVacataires,
                 "voeuxNonVacataires" => $voeuxNonVacataires,
                 "voeuxVacataires" => $voeuxVacataires,
-                "anneeService" => $anneeService
+                "anneeService" => $anneeService,
+                "usaPrintemps" => $usaPrintemps,
+                "usaAutomne" => $usaAutomne,
+                "usaAnnuel" => $usaAnnuel,
+                "usPrintemps" => $usPrintemps,
+                "usAutomne" => $usAutomne,
+                "usAnnuel" => $usAnnuel,
+                "usaColorationPrintemps" => $usaColorationPrintemps,
+                "usaColorationAutomne" => $usaColorationAutomne,
+                "usaColorationAnnuel" => $usaColorationAnnuel,
+                "usColorationPrintemps" => $usColorationPrintemps,
+                "usColorationAutomne" => $usColorationAutomne,
+                "usColorationAnnuel" => $usColorationAnnuel,
+                "decharges" => $decharges,
+                "referentiels" => $referentiels
             ]);
         } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {

@@ -23,3 +23,10 @@ for (let i = 0; i < infos.length; i++) {
         infos[i].style.backgroundColor = "lightgreen";
     }
 }
+
+let infos2 = document.querySelectorAll(".infosService2");
+
+for (let i = 0; i < infos2.length; i++){
+    infos2[i].style.backgroundColor="darkblue";
+    infos2[i].style.color = "white";
+}

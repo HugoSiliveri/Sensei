@@ -8,12 +8,12 @@ class InfosGlobales
 {
     public static function enregistrerDepartement(string $departement)
     {
-        Cookie::enregistrer("departement", $departement);
+        Cookie::enregistrer("departement", $departement, 3600);
     }
 
     public static function enregistrerAnnee(int $annee)
     {
-        Cookie::enregistrer("annee", $annee);
+        Cookie::enregistrer("annee", $annee, 3600);
     }
 
     public static function lireDepartement(): ?string

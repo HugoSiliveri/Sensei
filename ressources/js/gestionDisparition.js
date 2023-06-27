@@ -1,8 +1,9 @@
 let boutonsDisparitions = document.querySelectorAll(".miseEnPage > .boutonDisparition");
-let contenus = document.querySelectorAll(".miseEnPage .boutonDisparition ~ .miseEnPage2 > .disparition");
+let contenus = document.querySelectorAll(".miseEnPage > .miseEnPage2 > .disparition");
 
 let boutonsDisparitions2 = document.querySelectorAll(".infosServiceConteneur > .boutonDisparition");
 let contenus2 = document.querySelectorAll(".infosServiceConteneur ~ .disparition2");
+
 
 for (let i = 0; i < boutonsDisparitions.length; i++) {
     boutonsDisparitions[i].addEventListener("click", function (){
