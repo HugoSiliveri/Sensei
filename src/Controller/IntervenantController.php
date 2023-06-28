@@ -13,6 +13,8 @@ use App\Sensei\Service\Exception\ServiceException;
 use App\Sensei\Service\IntervenantServiceInterface;
 use App\Sensei\Service\InterventionServiceInterface;
 use App\Sensei\Service\ResponsableUSServiceInterface;
+use App\Sensei\Service\SaisonServiceInterface;
+use App\Sensei\Service\SemestreServiceInterface;
 use App\Sensei\Service\ServiceAnnuelServiceInterface;
 use App\Sensei\Service\StatutServiceInterface;
 use App\Sensei\Service\UniteServiceAnneeServiceInterface;
@@ -33,11 +35,12 @@ class IntervenantController extends GenericController
         private readonly DepartementServiceInterface        $departementService,
         private readonly UniteServiceServiceInterface       $uniteServiceService,
         private readonly UniteServiceAnneeServiceInterface  $uniteServiceAnneeService,
-        private readonly InterventionServiceInterface       $interventionService,
         private readonly VoeuServiceInterface               $voeuService,
         private readonly ResponsableUSServiceInterface      $responsableUSService,
         private readonly DeclarationServiceServiceInterface $declarationServiceService,
         private readonly ConnexionUtilisateurInterface      $connexionUtilisateur,
+        private readonly SaisonServiceInterface $saisonService,
+        private readonly SemestreServiceInterface $semestreService
     )
     {
     }

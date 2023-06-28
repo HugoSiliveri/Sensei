@@ -20,9 +20,9 @@ class DeclarationServiceService implements DeclarationServiceServiceInterface
     /**
      * @throws ServiceException
      */
-    public function recupererParIdentifiant(int $idIntervenant): AbstractDataObject
+    public function recupererParIdentifiant(int $idDeclarationService): AbstractDataObject
     {
-        $intervenant = $this->declarationServiceRepository->recupererParClePrimaire($idIntervenant);
+        $intervenant = $this->declarationServiceRepository->recupererParClePrimaire($idDeclarationService);
         if (!isset($intervenant)) {
             throw new ServiceException("L'identifiant est inconnu !");
         } else {

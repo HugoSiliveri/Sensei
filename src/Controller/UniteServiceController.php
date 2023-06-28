@@ -13,6 +13,8 @@ use App\Sensei\Service\IntervenantServiceInterface;
 use App\Sensei\Service\InterventionServiceInterface;
 use App\Sensei\Service\NatureServiceInterface;
 use App\Sensei\Service\PayeurServiceInterface;
+use App\Sensei\Service\SaisonServiceInterface;
+use App\Sensei\Service\SemestreServiceInterface;
 use App\Sensei\Service\UniteServiceAnneeServiceInterface;
 use App\Sensei\Service\UniteServiceServiceInterface;
 use App\Sensei\Service\VoeuServiceInterface;
@@ -24,7 +26,6 @@ class UniteServiceController extends GenericController
     public function __construct(
         private readonly UniteServiceServiceInterface       $uniteServiceService,
         private readonly UniteServiceAnneeServiceInterface  $uniteServiceAnneeService,
-        private readonly VoeuServiceInterface               $voeuService,
         private readonly IntervenantServiceInterface        $intervenantService,
         private readonly InterventionServiceInterface       $interventionService,
         private readonly PayeurServiceInterface             $payeurService,
@@ -34,6 +35,8 @@ class UniteServiceController extends GenericController
         private readonly ColorationServiceInterface         $colorationService,
         private readonly DeclarationServiceServiceInterface $declarationServiceService,
         private readonly DroitServiceInterface $droitService,
+        private readonly SaisonServiceInterface $saisonService,
+        private readonly SemestreServiceInterface $semestreService
     )
     {
     }
@@ -52,7 +55,8 @@ class UniteServiceController extends GenericController
             $payeur = $this->payeurService->recupererParIdentifiant($uniteService->getIdPayeur());
             $appartenirTab = $this->appartenirService->recupererParIdUniteService($uniteService->getIdUniteService());
             $nature = $this->natureService->recupererParIdentifiant($uniteService->getNature());
-
+            $saison = $this->saisonService->recupererParIdentifiant($uniteService->getSaison());
+            $semestre = $this->semestreService->recupererParIdentifiant($uniteService->getSemestre());
 
             $departements = [];
             foreach ($appartenirTab as $appartenir) {
@@ -100,7 +104,9 @@ class UniteServiceController extends GenericController
                 "payeur" => $payeur,
                 "departements" => $departements,
                 "nature" => $nature,
-                "colorations" => $colorations
+                "colorations" => $colorations,
+                "saison" => $saison,
+                "semestre" => $semestre
             ];
 
             return UniteServiceController::afficherTwig("uniteService/detailUniteService.twig", $parametres);

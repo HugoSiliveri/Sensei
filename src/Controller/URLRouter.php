@@ -20,6 +20,8 @@ use App\Sensei\Model\Repository\InterventionRepository;
 use App\Sensei\Model\Repository\NatureRepository;
 use App\Sensei\Model\Repository\PayeurRepository;
 use App\Sensei\Model\Repository\ResponsableUSRepository;
+use App\Sensei\Model\Repository\SaisonRepository;
+use App\Sensei\Model\Repository\SemestreRepository;
 use App\Sensei\Model\Repository\ServiceAnnuelRepository;
 use App\Sensei\Model\Repository\StatutRepository;
 use App\Sensei\Model\Repository\UniteServiceAnneeRepository;
@@ -39,6 +41,8 @@ use App\Sensei\Service\InterventionService;
 use App\Sensei\Service\NatureService;
 use App\Sensei\Service\PayeurService;
 use App\Sensei\Service\ResponsableUSService;
+use App\Sensei\Service\SaisonService;
+use App\Sensei\Service\SemestreService;
 use App\Sensei\Service\ServiceAnnuelService;
 use App\Sensei\Service\StatutService;
 use App\Sensei\Service\UniteServiceAnneeService;
@@ -153,22 +157,28 @@ class URLRouter
         $declarationServiceRepository = $conteneur->register('declaration_service_repository', DeclarationServiceRepository::class);
         $declarationServiceRepository->setArguments([new Reference('connexion_base')]);
 
+        $semestreRepository = $conteneur->register('semestre_repository', SemestreRepository::class);
+        $semestreRepository->setArguments([new Reference('connexion_base')]);
+
+        $saisonRepository = $conteneur->register('saison_repository', SaisonRepository::class);
+        $saisonRepository->setArguments([new Reference('connexion_base')]);
+
         $connexionUtilisateur = $conteneur->register('connexion_utilisateur', ConnexionUtilisateur::class);
         $connexionUtilisateur->setArguments([new Reference('intervenant_repository')]);
 
         $intervenantController = $conteneur->register('intervenant_controller', IntervenantController::class);
         $intervenantController->setArguments([new Reference('intervenant_service'), new Reference('statut_service'),
             new Reference('droit_service'), new Reference('service_annuel_service'), new Reference('emploi_service'),
-            new Reference('departement_service'), new Reference('unite_service_service'), new Reference('unite_service_annee_service'), new Reference('intervention_service'),
+            new Reference('departement_service'), new Reference('unite_service_service'), new Reference('unite_service_annee_service'),
             new Reference('voeu_service'), new Reference('responsable_us_service'), new Reference('declaration_service_service'),
-            new Reference('connexion_utilisateur')]);
+            new Reference('connexion_utilisateur'), new Reference('saison_service'), new Reference('semestre_service')]);
 
         $uniteServiceController = $conteneur->register('unite_service_controller', UniteServiceController::class);
         $uniteServiceController->setArguments([new Reference('unite_service_service'), new Reference('unite_service_annee_service'),
-            new Reference('voeu_service'), new Reference('intervenant_service'), new Reference('intervention_service'),
+            new Reference('intervenant_service'), new Reference('intervention_service'),
             new Reference('payeur_service'), new Reference('departement_service'), new Reference('appartenir_service'),
             new Reference('nature_service'), new Reference('coloration_service'), new Reference('declaration_service_service'),
-            new Reference('droit_service')]);
+            new Reference('droit_service'), new Reference('saison_service'), new Reference('semestre_service')]);
 
         $declarationServiceController = $conteneur->register('declaration_service_controller', DeclarationServiceController::class);
         $declarationServiceController->setArguments([new Reference('declaration_service_service'), new Reference('intervenant_service'),
@@ -268,6 +278,12 @@ class URLRouter
         $declarationServiceService = $conteneur->register('declaration_service_service', DeclarationServiceService::class);
         $declarationServiceService->setArguments([new Reference('declaration_service_repository'),
             new Reference('service_annuel_repository')]);
+
+        $semestreService = $conteneur->register('semestre_service', SemestreService::class);
+        $semestreService->setArguments([new Reference('semestre_repository')]);
+
+        $saisonService = $conteneur->register('saison_service', SaisonService::class);
+        $saisonService->setArguments([new Reference('saison_repository')]);
 
         /* Instantiation d'une collection de routes */
         $routes = new RouteCollection();
