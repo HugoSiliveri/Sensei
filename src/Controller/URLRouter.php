@@ -171,7 +171,8 @@ class URLRouter
             new Reference('droit_service'), new Reference('service_annuel_service'), new Reference('emploi_service'),
             new Reference('departement_service'), new Reference('unite_service_service'), new Reference('unite_service_annee_service'),
             new Reference('voeu_service'), new Reference('responsable_us_service'), new Reference('declaration_service_service'),
-            new Reference('connexion_utilisateur'), new Reference('saison_service'), new Reference('semestre_service')]);
+            new Reference('connexion_utilisateur'), new Reference('saison_service'), new Reference('semestre_service'),
+            new Reference('appartenir_service')]);
 
         $uniteServiceController = $conteneur->register('unite_service_controller', UniteServiceController::class);
         $uniteServiceController->setArguments([new Reference('unite_service_service'), new Reference('unite_service_annee_service'),

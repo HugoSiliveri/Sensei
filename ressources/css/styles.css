@@ -48,7 +48,7 @@ nav, #logoEtTitre > a, #informationsHeader, .boutonValidation, .liste, .titreEtB
 html, body, ul, #vague, .barreRecherche, .barreRecherche > fieldset, .conteneurChamps, .coteGauche, .coteDroit, .miseEnPage,
 .coteDroit h2, h3, .optionsSupplémentaires, .optionsSurObjet, .menuDeroulant, .boutonSousMenuAnneeService, .sousMenuAnneeService,
 .boutonValidationConteneur, .conteneurAutoComp, .titreEtBarreRecherche2 > h2, .conteneurResponsable > h2, #messagesFlash, .formCreation,
-.service, .maxWidth{
+.service, .maxWidth, #pageVoeu .coteDroit .disparition .miseEnPage2, #pageVoeu .coteDroit .miseEnPage > .miseEnPage2{
     width: 100%;
 }
 
@@ -152,14 +152,14 @@ ul {
 #vague {
     display: block;
     background-image: url("../img/wave.svg");
-    height: 40rem;
+    height: 45rem;
     background-repeat: no-repeat;
     background-size: cover;
 }
 
 #footer {
     background-color: var(--bg-color-orange);
-    padding: 0 4% 4% 4%;
+    padding: 2% 4%;
 }
 
 #footer > p {
@@ -185,16 +185,16 @@ ul {
     width: 25px;
 }
 
-#pageDeclarationService, .service{
-    height: 800px;
-}
-
 #pageVoeu {
     height: 900px;
 }
 
 #pageVoeu h2, #pageDeclarationService h2{
     text-align: start;
+}
+
+.infosService2 {
+    display: flex;
 }
 
 .liste {
@@ -643,6 +643,16 @@ nav  button{
 .start > .margin{
     margin:0 0 2% 0;
 }
+
+.titreEtBarreRecherche2 .conteneurChamps, .titreEtBarreRecherche2 .conteneurAutoComp {
+    justify-content: end;
+}
+
+#pageDeclarationService, .service{
+    height: 800px;
+}
+
+
 /* Bootstrap alerts */
 /* https://getbootstrap.com/docs/3.4/components/#alerts */
 
@@ -675,10 +685,6 @@ nav  button{
     color: var(--color-danger);
     background-color: #f2dede;
     border-color: #ebccd1;
-}
-
-.titreEtBarreRecherche2 .conteneurChamps, .titreEtBarreRecherche2 .conteneurAutoComp {
-    justify-content: end;
 }
 
 #messagesFlash {

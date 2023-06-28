@@ -87,10 +87,6 @@
                                                                     <label for="numGroupeIntervention_id"></label>
                                                                     <input class="inputCreation2" id="numGroupeIntervention_id" type="text" name="numGroupeIntervention{{ j }}" value="{{ declarationServiceMemeId.numGroupeIntervention }}">
                                                                     <input type="hidden" name="millesime" value="{{ anneeActuelle }}">
-                                                                    <button type="button" class="boutonSuppression"
-                                                                            onclick="afficherPopupSuppression('DeclarationService', {{ declarationServiceMemeId.idDeclarationService }} )">
-                                                                        <img src="{{ asset("../ressources/img/delete.svg") }}" alt="delete">
-                                                                    </button>
                                                                 </div>
                                                                 {% set j = j + 1 %}
                                                             {% endfor %}
@@ -188,10 +184,6 @@
                                                                     <label for="numGroupeIntervention_id"></label>
                                                                     <input class="inputCreation2" id="numGroupeIntervention_id" type="text" name="numGroupeIntervention{{ j }}" value="{{ declarationServiceMemeId.numGroupeIntervention }}">
                                                                     <input type="hidden" name="millesime" value="{{ anneeActuelle }}">
-                                                                    <button type="button" class="boutonSuppression"
-                                                                            onclick="afficherPopupSuppression('DeclarationService', {{ declarationServiceMemeId.idDeclarationService }} )">
-                                                                        <img src="{{ asset("../ressources/img/delete.svg") }}" alt="delete">
-                                                                    </button>
                                                                 </div>
                                                                 {% set j = j + 1 %}
                                                             {% endfor %}

@@ -21,12 +21,6 @@ interface AbstractRepositoryInterface
      */
     public function recuperer($limit = 200): array;
 
-    /** Récupère un ou plusieurs tuples d'une table en passant par une condition
-     * @param array $critereSelection ex: ["nomColonne" => valeurDeRecherche]
-     * @return AbstractDataObject[] les objets construits à partir des données récupérées
-     */
-    public function recupererPar(array $critereSelection, $limit = 200): array;
-
     /** Récupère un tuple d'une table à l'aide de sa clé primaire
      * @param string $valeurClePrimaire la clé primaire de la ligne
      * @return AbstractDataObject|null l'objet construit à partir du tuple si la récupération des données a fonctionné, null sinon

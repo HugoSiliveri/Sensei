@@ -64,6 +64,33 @@ class UniteServiceRepository extends AbstractRepository
         }
     }
 
+    public function recupererParAnneeOuverture(int $annee): array{
+        try {
+            $sql = "SELECT *
+            FROM UniteService
+            WHERE anneeOuverture =:anneeOuvertureTag 
+            ORDER BY libUS";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "anneeOuvertureTag" => $annee,
+            );
+            $pdoStatement->execute($values);
+
+            $objetsFormatTableau = $pdoStatement->fetchAll();
+
+            $objets = [];
+            foreach ($objetsFormatTableau as $objetFormatTableau) {
+                $objets[] = $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return $objets;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
     /** Construit un objet UniteService à partir d'un tableau donné en paramètre.
      * @param array $objetFormatTableau
      * @return UniteService

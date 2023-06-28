@@ -5,6 +5,7 @@ namespace App\Sensei\Controller;
 use App\Sensei\Lib\ConnexionUtilisateurInterface;
 use App\Sensei\Lib\InfosGlobales;
 use App\Sensei\Lib\MessageFlash;
+use App\Sensei\Service\AppartenirServiceInterface;
 use App\Sensei\Service\DeclarationServiceServiceInterface;
 use App\Sensei\Service\DepartementServiceInterface;
 use App\Sensei\Service\DroitServiceInterface;
@@ -40,7 +41,8 @@ class IntervenantController extends GenericController
         private readonly DeclarationServiceServiceInterface $declarationServiceService,
         private readonly ConnexionUtilisateurInterface      $connexionUtilisateur,
         private readonly SaisonServiceInterface $saisonService,
-        private readonly SemestreServiceInterface $semestreService
+        private readonly SemestreServiceInterface $semestreService,
+        private readonly AppartenirServiceInterface $appartenirService
     )
     {
     }
@@ -55,7 +57,7 @@ class IntervenantController extends GenericController
     {
         try {
             $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuelPlusRecent($this->connexionUtilisateur->getIdUtilisateurConnecte());
-            $idDepartement = $this->departementService->recupererParLibelle(InfosGlobales::lireDepartement())->getIdDepartement() ?? $serviceAnnuel->getIdDepartement();
+            $idDepartement = $this->departementService->recupererParLibelle(InfosGlobales::lireDepartement() ?? "MATH")->getIdDepartement() ?? $serviceAnnuel->getIdDepartement();
             $annee = $serviceAnnuel->getMillesime();
             $anneeActuelle = InfosGlobales::lireAnnee() ?? $annee;
 
@@ -238,7 +240,7 @@ class IntervenantController extends GenericController
     {
         try {
             $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuelPlusRecent($this->connexionUtilisateur->getIdUtilisateurConnecte());
-            $idDepartement = $this->departementService->recupererParLibelle(InfosGlobales::lireDepartement())->getIdDepartement() ?? $serviceAnnuel->getIdDepartement();
+            $idDepartement = $this->departementService->recupererParLibelle(InfosGlobales::lireDepartement() ?? "MATH")->getIdDepartement() ?? $serviceAnnuel->getIdDepartement();
             $annee = $serviceAnnuel->getMillesime();
 
             $anneeActuelle = InfosGlobales::lireAnnee() ?? $annee;
@@ -391,7 +393,7 @@ class IntervenantController extends GenericController
     public function afficherServices(): Response{
         try {
             $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuelPlusRecent($this->connexionUtilisateur->getIdUtilisateurConnecte());
-            $idDepartement = $this->departementService->recupererParLibelle(InfosGlobales::lireDepartement())->getIdDepartement() ?? $serviceAnnuel->getIdDepartement();
+            $idDepartement = $this->departementService->recupererParLibelle(InfosGlobales::lireDepartement() ?? "MATH")->getIdDepartement() ?? $serviceAnnuel->getIdDepartement();
             $annee = $serviceAnnuel->getMillesime();
             $anneeActuelle = InfosGlobales::lireAnnee() ?? $annee;
 
@@ -471,7 +473,7 @@ class IntervenantController extends GenericController
     {
         try {
 
-            $departement = $this->departementService->recupererParLibelle(InfosGlobales::lireDepartement());
+            $departement = $this->departementService->recupererParLibelle(InfosGlobales::lireDepartement() ?? "MATH");
             $this->droitService->verifierDroitsPageVoeux($departement->getIdEtat());
 
             $serviceAnnuel = $this->serviceAnnuelService->recupererPlusRecentDuDepartement($departement->getIdDepartement());
@@ -546,6 +548,9 @@ class IntervenantController extends GenericController
                 $voeuxVacataires[] = $voeuxParIntervenant;
             }
 
+            $indefinisDepartement = [];
+            $indefinisColoration = [];
+
             $usaPrintemps = [];
             $usaAutomne = [];
             $usaAnnuel = [];
@@ -568,30 +573,27 @@ class IntervenantController extends GenericController
                 if ($uniteService->getNature() == 1){ //Eviter les doublons DE et UR
                     switch ($uniteService->getSaison()){
                         case 0:
-                            if ($semestre < 10){ // Voir la vue de la création d'une unité
-                                $usaPrintemps[$semestre][] = $usaDepartement;
-                                $usPrintemps[$semestre][] = $this->uniteServiceService->recupererParIdentifiant($usaDepartement->getIdUniteService());
+                            if ($semestre > 0){ // Voir la vue de la création d'une unité
+                                $usaPrintemps[$semestre-1][] = $usaDepartement;
+                                $usPrintemps[$semestre-1][] = $this->uniteServiceService->recupererParIdentifiant($usaDepartement->getIdUniteService());
                             } else {
-                                $usaPrintemps[10][] = $usaDepartement;
-                                $usPrintemps[10][] = $this->uniteServiceService->recupererParIdentifiant($usaDepartement->getIdUniteService());
+                                $indefinisDepartement[] = [$usaDepartement, $this->uniteServiceService->recupererParIdentifiant($usaDepartement->getIdUniteService())];
                             }
                             break;
                         case 1:
-                            if ($semestre < 10){
-                                $usaAutomne[$semestre][] = $usaDepartement;
-                                $usAutomne[$semestre][] = $this->uniteServiceService->recupererParIdentifiant($usaDepartement->getIdUniteService());
+                            if ($semestre > 0){
+                                $usaAutomne[$semestre-1][] = $usaDepartement;
+                                $usAutomne[$semestre-1][] = $this->uniteServiceService->recupererParIdentifiant($usaDepartement->getIdUniteService());
                             } else {
-                                $usaAutomne[10][] = $usaDepartement;
-                                $usAutomne[10][] = $this->uniteServiceService->recupererParIdentifiant($usaDepartement->getIdUniteService());
+                                $indefinisDepartement[] = [$usaDepartement, $this->uniteServiceService->recupererParIdentifiant($usaDepartement->getIdUniteService())];
                             }
                             break;
                         default:
-                            if ($semestre < 10){ // Voir la vue de la création d'une unité
-                                $usaAnnuel[$semestre][] = $usaDepartement;
-                                $usAnnuel[$semestre][] = $this->uniteServiceService->recupererParIdentifiant($usaDepartement->getIdUniteService());
+                            if ($semestre > 0){ // Voir la vue de la création d'une unité
+                                $usaAnnuel[$semestre-1][] = $usaDepartement;
+                                $usAnnuel[$semestre-1][] = $this->uniteServiceService->recupererParIdentifiant($usaDepartement->getIdUniteService());
                             } else {
-                                $usaAnnuel[10][] = $usaDepartement;
-                                $usAnnuel[10][] = $this->uniteServiceService->recupererParIdentifiant($usaDepartement->getIdUniteService());
+                                $indefinisDepartement[] = [$usaDepartement, $this->uniteServiceService->recupererParIdentifiant($usaDepartement->getIdUniteService())];
                             }
                             break;
                     }
@@ -621,30 +623,27 @@ class IntervenantController extends GenericController
                 if ($uniteService->getNature() == 1){ //Eviter les doublons DE et UR
                     switch ($uniteService->getSaison()){
                         case 0:
-                            if ($semestre < 10){ // Voir la vue de la création d'une unité
-                                $usaColorationPrintemps[$semestre][] = $usaColoration;
-                                $usColorationPrintemps[$semestre][] = $this->uniteServiceService->recupererParIdentifiant($usaColoration->getIdUniteService());
+                            if ($semestre > 0){ // Voir la vue de la création d'une unité
+                                $usaColorationPrintemps[$semestre-1][] = $usaColoration;
+                                $usColorationPrintemps[$semestre-1][] = $this->uniteServiceService->recupererParIdentifiant($usaColoration->getIdUniteService());
                             } else {
-                                $usaColorationPrintemps[10][] = $usaColoration;
-                                $usColorationPrintemps[10][] = $this->uniteServiceService->recupererParIdentifiant($usaColoration->getIdUniteService());
+                                $indefinisColoration[] = [$usaColoration, $this->uniteServiceService->recupererParIdentifiant($usaColoration->getIdUniteService())];
                             }
                             break;
                         case 1:
-                            if ($semestre < 10){
-                                $usaColorationAutomne[$semestre][] = $usaColoration;
-                                $usColorationAutomne[$semestre][] = $this->uniteServiceService->recupererParIdentifiant($usaColoration->getIdUniteService());
+                            if ($semestre > 0){
+                                $usaColorationAutomne[$semestre-1][] = $usaColoration;
+                                $usColorationAutomne[$semestre-1][] = $this->uniteServiceService->recupererParIdentifiant($usaColoration->getIdUniteService());
                             } else {
-                                $usaColorationAutomne[10][] = $usaColoration;
-                                $usColorationAutomne[10][] = $this->uniteServiceService->recupererParIdentifiant($usaColoration->getIdUniteService());
+                                $indefinisColoration[] = [$usaColoration, $this->uniteServiceService->recupererParIdentifiant($usaColoration->getIdUniteService())];
                             }
                             break;
                         default:
-                            if ($semestre < 10){ // Voir la vue de la création d'une unité
-                                $usaColorationAnnuel[$semestre][] = $usaColoration;
-                                $usColorationAnnuel[$semestre][] = $this->uniteServiceService->recupererParIdentifiant($usaColoration->getIdUniteService());
+                            if ($semestre > 0){ // Voir la vue de la création d'une unité
+                                $usaColorationAnnuel[$semestre-1][] = $usaColoration;
+                                $usColorationAnnuel[$semestre-1][] = $this->uniteServiceService->recupererParIdentifiant($usaColoration->getIdUniteService());
                             } else {
-                                $usaColorationAnnuel[10][] = $usaColoration;
-                                $usColorationAnnuel[10][] = $this->uniteServiceService->recupererParIdentifiant($usaColoration->getIdUniteService());
+                                $indefinisColoration[] = [$usaColoration, $this->uniteServiceService->recupererParIdentifiant($usaColoration->getIdUniteService())];
                             }
                             break;
                     }
@@ -688,7 +687,9 @@ class IntervenantController extends GenericController
                 "usColorationAutomne" => $usColorationAutomne,
                 "usColorationAnnuel" => $usColorationAnnuel,
                 "decharges" => $decharges,
-                "referentiels" => $referentiels
+                "referentiels" => $referentiels,
+                "indefinisDepartement" => $indefinisDepartement,
+                "indefinisColoration" => $indefinisColoration
             ]);
         } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
@@ -707,6 +708,7 @@ class IntervenantController extends GenericController
      * @param int $idDepartement
      * @param int $annee
      * @return void
+     * @throws ServiceException
      */
     private function demarrerPhaseVoeu(int $idDepartement, int $annee){
         $intervenantsAnnuelsEtDuDepartementNonVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementNonVacataire($annee, $idDepartement);
@@ -726,12 +728,48 @@ class IntervenantController extends GenericController
             $unitesServicesAnneesDuDepartementPrecedent = $this->uniteServiceAnneeService->recupererUnitesServicesPourUneAnneePourUnDepartement($annee-1, $idDepartement);
             $unitesServicesAnneesColorationPrecedent = $this->uniteServiceAnneeService->recupererUnitesServicesAnneeUniquementColoration($annee-1, $idDepartement);
             foreach ($unitesServicesAnneesDuDepartementPrecedent as $usa){
-                $this->uniteServiceAnneeService->renouvelerUniteServiceAnnee($usa, $annee);
+                $us = $this->uniteServiceService->recupererParIdentifiant($usa->getIdUniteService());
+                if ($us->getAnneeCloture() > $annee){
+                    $this->uniteServiceAnneeService->renouvelerUniteServiceAnnee($usa, $annee);
+                }
             }
             foreach ($unitesServicesAnneesColorationPrecedent as $usa){
-                $this->uniteServiceAnneeService->renouvelerUniteServiceAnnee($usa, $annee);
+                $us = $this->uniteServiceService->recupererParIdentifiant($usa->getIdUniteService());
+                if ($us->getAnneeCloture() > $annee){
+                    $this->uniteServiceAnneeService->renouvelerUniteServiceAnnee($usa, $annee);
+                }
+            }
+
+            // Ouverture des unités de services de la nouvelle année
+            $usOuverture = $this->uniteServiceService->recupererParAnneeOuverture($annee);
+            foreach ($usOuverture as $us) {
+                if ($this->appartenirService->verifierAppartenance($us->getIdUniteService(), $idDepartement)){
+                    $usa = [
+                        "idDepartement" => $idDepartement,
+                        "idUniteService" => $us->getIdUniteService(),
+                        "libUSA" => $us->getLibUS(),
+                        "millesime" => $annee,
+                        "heuresCM" => $us->getHeuresCM(),
+                        "nbGroupesCM" => 0,
+                        "heuresTD" => $us->getHeuresTD(),
+                        "nbGroupesTD" => 0,
+                        "heuresTP" => $us->getHeuresTP(),
+                        "nbGroupesTP" => 0,
+                        "heuresStage" => $us->getHeuresStage(),
+                        "nbGroupesStage" => 0,
+                        "heuresTerrain" => $us->getHeuresTerrain(),
+                        "nbGroupesTerrain" => 0,
+                        "heuresInnovationPedagogique" => $us->getHeuresInnovationPedagogique(),
+                        "nbGroupesInnovationPedagogique" => 0,
+                        "validite" => $us->getValidite(),
+                        "deleted" => $us->getDeleted()
+                    ];
+                    $this->uniteServiceAnneeService->creerUniteServiceAnnee($usa);
+                }
             }
         }
+
+
     }
 
     public function afficherAide(){

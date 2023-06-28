@@ -30,14 +30,16 @@
                     <li><b>Saison : </b> {{ saison.getLibSaison }}</li>
                     <li><b>Semestre :</b> {{ semestre.getLibSemestre }}</li>
                     <li><b>Payeur :</b> {{ payeur.getLibPayeur }}</li>
-                    <li><b>Affiliation :</b>
-                        {{ departements[0].getLibDepartement }}
-                        {% if departements|length > 1 %}
-                            {% for i in 1..departements|length-1 %}
-                                / {{ departements[i].getLibDepartement }}
-                            {% endfor %}
-                        {% endif %}
-                    </li>
+                    {% if departements|length > 0 %}
+                        <li><b>Affiliation :</b>
+                            {{ departements[0].getLibDepartement }}
+                            {% if departements|length > 1 %}
+                                {% for i in 1..departements|length-1 %}
+                                    / {{ departements[i].getLibDepartement }}
+                                {% endfor %}
+                            {% endif %}
+                        </li>
+                    {% endif %}
                 </ul>
                 <div class="optionsSupplémentaires">
                     {% include "templates/barreRechercheUniteService.twig" %}
@@ -58,7 +60,7 @@
                             <div>
                                 {% set millesime = uniteServiceAnnee.getMillesime %}
                                 <p>Année : {{ millesime }} - {{ millesime+1 }}</p>
-                                {% if not colorations[i] is empty %}
+                                {% if colorations|length > 0 and not colorations[i] is empty %}
                                     <p>Coloration :
                                         {% for departement in colorations[i] %}
                                             {{ departement.getLibDepartement }}
@@ -102,7 +104,33 @@
                             <img class="arrow-up arrowUpAnneeService"
                                  src="{{ asset("../ressources/img/up-arrow.svg") }}" alt="up-arrow">
                         </span>
-                            <div class="sousMenuAnneeService menuDeroulantAnneeService">
+                            {% if intervenants|length > 0 %}
+                                <div class="sousMenuAnneeService menuDeroulantAnneeService">
+                                    {% for intervenantParAnnee in intervenants[i] %}
+                                        <p>{{ intervenantParAnnee.getPrenom }} {{ intervenantParAnnee.getNom }}</p>
+                                        <div class="infosSupplementaires">
+                                            {% for declarationServiceParAnnee in declarationsServices[i] %}
+                                                {% if declarationServiceParAnnee.getIdIntervenant == intervenantParAnnee.getIdIntervenant %}
+                                                    <ul>
+                                                        {% for interventionParAnnee in interventions[i] %}
+                                                            {% if interventionParAnnee.getIdIntervention == declarationServiceParAnnee.getIdIntervention %}
+                                                                <li><b>Numéro de groupe
+                                                                        :</b> {{ interventionParAnnee.getNumeroGroupeIntervention }}
+                                                                </li>
+                                                                <li><b>Type d'intervention
+                                                                        :</b> {{ interventionParAnnee.getTypeIntervention }}
+                                                                </li>
+                                                                <li><b>Volume horaire
+                                                                        :</b> {{ interventionParAnnee.getVolumeHoraire }}
+                                                                </li>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    {% endfor %}
+                                </div><div class="sousMenuAnneeService menuDeroulantAnneeService">
                                 {% for intervenantParAnnee in intervenants[i] %}
                                     <p>{{ intervenantParAnnee.getPrenom }} {{ intervenantParAnnee.getNom }}</p>
                                     <div class="infosSupplementaires">
@@ -128,17 +156,12 @@
                                     </div>
                                 {% endfor %}
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                     {% set i = i + 1 %}
                 {% endfor %}
             </div>
         </div>
-        {#        <div class="boutonExportConteneur"> #}
-        {#            <div id="boutonExportCSV"> #}
-        {#                <a href="{{ route("exporterEnCSV") }} }}">Exporter au format CSV</a> #}
-        {#                <img id="download" src="{{ asset("../ressources/img/download.svg") }}" alt="download"> #}
-        {#            </div> #}
-        {#        </div> #}
     </div>
 {% endblock %}

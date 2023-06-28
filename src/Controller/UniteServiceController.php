@@ -95,7 +95,7 @@ class UniteServiceController extends GenericController
                 $j++;
             }
 
-            $parametres = [
+            return UniteServiceController::afficherTwig("uniteService/detailUniteService.twig",  [
                 "uniteService" => $uniteService,
                 "unitesServicesAnnees" => $unitesServicesAnnees,
                 "declarationsServices" => $declarationsServices,
@@ -107,9 +107,7 @@ class UniteServiceController extends GenericController
                 "colorations" => $colorations,
                 "saison" => $saison,
                 "semestre" => $semestre
-            ];
-
-            return UniteServiceController::afficherTwig("uniteService/detailUniteService.twig", $parametres);
+            ]);
         } catch (ServiceException|TypeError $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());

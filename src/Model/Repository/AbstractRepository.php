@@ -52,34 +52,6 @@ abstract class AbstractRepository implements AbstractRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function recupererPar(array $critereSelection, $limit = 200): array
-    {
-        $nomTable = $this->getNomTable();
-        $champsSelect = implode(", ", $this->getNomsColonnes());
-
-        $partiesWhere = array_map(function ($nomcolonne) {
-            return "$nomcolonne = :$nomcolonne";
-        }, array_keys($critereSelection));
-        $whereClause = join(',', $partiesWhere);
-
-        $requeteSQL = <<<SQL
-            SELECT $champsSelect FROM $nomTable WHERE $whereClause LIMIT $limit;
-        SQL;
-
-        $pdoStatement = $this->connexionBaseDeDonnees->getPdo()->prepare($requeteSQL);
-        $pdoStatement->execute($critereSelection);
-
-        $objets = [];
-        foreach ($pdoStatement as $objetFormatTableau) {
-            $objets[] = $this->construireDepuisTableau($objetFormatTableau);
-        }
-
-        return $objets;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function recupererParClePrimaire(string $valeurClePrimaire): ?AbstractDataObject
     {
         $nomTable = $this->getNomTable();

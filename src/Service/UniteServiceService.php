@@ -83,6 +83,11 @@ class UniteServiceService implements UniteServiceServiceInterface
         return $result;
     }
 
+    public function recupererParAnneeOuverture(int $annee): array
+    {
+        return $this->uniteServiceRepository->recupererParAnneeOuverture($annee);
+    }
+
     /**
      * @throws ServiceException
      */

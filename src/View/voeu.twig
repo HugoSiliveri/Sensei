@@ -134,9 +134,31 @@
                                 <div class="miseEnPage">
                                     <button class="boutonDisparition">-</button>
                                     <div class="miseEnPage2">
+                                        <h2>Semestre indéfini</h2>
+                                        <div class="disparition">
+                                            {% if indefinisDepartement|length > 0 %}
+                                                <div class="disparition">
+                                                    {% for i in 0..indefinisDepartement|length-1 %}
+                                                        <div class="miseEnPage2">
+                                                            <div class="infosServiceConteneur">
+                                                                <button class="boutonDisparition">+</button>
+                                                                <p class="infosService2">{{ indefinisDepartement[i][1].getIdUSReferentiel }}
+                                                                    {{ indefinisDepartement[i][0].getLibUSA }}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="miseEnPage">
+                                    <button class="boutonDisparition">-</button>
+                                    <div class="miseEnPage2">
                                         <h2>Printemps</h2>
                                         {% set tab = ["Licence Semestre 1", "Licence Semestre 2", "Licence Semestre 3", "Licence Semestre 4", "Licence Semestre 5",
-                                            "Licence Semestre 6", "Master Semestre 1", "Master Semestre 2", "Master Semestre 3", "Master Semestre 4", "N/A"] %}
+                                            "Licence Semestre 6", "Master Semestre 1", "Master Semestre 2", "Master Semestre 3", "Master Semestre 4"] %}
                                         <div class="disparition">
                                             {% for i in 0..10 %}
                                                 {% if usaPrintemps[i]|length > 0 %}
@@ -170,7 +192,7 @@
                                     <div class="miseEnPage2">
                                         <h2>Automne</h2>
                                         {% set tab = ["Licence Semestre 1", "Licence Semestre 2", "Licence Semestre 3", "Licence Semestre 4", "Licence Semestre 5",
-                                            "Licence Semestre 6", "Master Semestre 1", "Master Semestre 2", "Master Semestre 3", "Master Semestre 4", "N/A"] %}
+                                            "Licence Semestre 6", "Master Semestre 1", "Master Semestre 2", "Master Semestre 3", "Master Semestre 4"] %}
                                         <div class="disparition">
                                             {% for i in 0..10 %}
                                                 {% if usaAutomne[i]|length > 0 %}
@@ -204,7 +226,7 @@
                                     <div class="miseEnPage2">
                                         <h2>Annuel</h2>
                                         {% set tab = ["Licence Semestre 1", "Licence Semestre 2", "Licence Semestre 3", "Licence Semestre 4", "Licence Semestre 5",
-                                            "Licence Semestre 6", "Master Semestre 1", "Master Semestre 2", "Master Semestre 3", "Master Semestre 4", "N/A"] %}
+                                            "Licence Semestre 6", "Master Semestre 1", "Master Semestre 2", "Master Semestre 3", "Master Semestre 4"] %}
                                         <div class="disparition">
                                             {% for i in 0..10 %}
                                                 {% if usaAnnuel[i]|length > 0 %}
@@ -244,9 +266,31 @@
                                 <div class="miseEnPage">
                                     <button class="boutonDisparition">-</button>
                                     <div class="miseEnPage2">
+                                        <h2>Semestre indéfini</h2>
+                                        <div class="disparition">
+                                            {% if indefinisColoration|length > 0 %}
+                                                <div class="disparition">
+                                                    {% for i in 0..indefinisColoration|length-1 %}
+                                                        <div class="miseEnPage2">
+                                                            <div class="infosServiceConteneur">
+                                                                <button class="boutonDisparition">+</button>
+                                                                <p class="infosService2">{{ indefinisColoration[i][1].getIdUSReferentiel }}
+                                                                    {{ indefinisColoration[i][0].getLibUSA }}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="miseEnPage">
+                                    <button class="boutonDisparition">-</button>
+                                    <div class="miseEnPage2">
                                         <h2>Printemps</h2>
                                         {% set tab = ["Licence Semestre 1", "Licence Semestre 2", "Licence Semestre 3", "Licence Semestre 4", "Licence Semestre 5",
-                                            "Licence Semestre 6", "Master Semestre 1", "Master Semestre 2", "Master Semestre 3", "Master Semestre 4", "N/A"] %}
+                                            "Licence Semestre 6", "Master Semestre 1", "Master Semestre 2", "Master Semestre 3", "Master Semestre 4"] %}
                                         <div class="disparition">
                                             {% for i in 0..10 %}
                                                 {% if usaColorationPrintemps[i]|length > 0 %}
@@ -280,7 +324,7 @@
                                     <div class="miseEnPage2">
                                         <h2>Automne</h2>
                                         {% set tab = ["Licence Semestre 1", "Licence Semestre 2", "Licence Semestre 3", "Licence Semestre 4", "Licence Semestre 5",
-                                            "Licence Semestre 6", "Master Semestre 1", "Master Semestre 2", "Master Semestre 3", "Master Semestre 4", "N/A"] %}
+                                            "Licence Semestre 6", "Master Semestre 1", "Master Semestre 2", "Master Semestre 3", "Master Semestre 4"] %}
                                         <div class="disparition">
                                             {% for i in 0..10 %}
                                                 {% if usaColorationAutomne[i]|length > 0 %}
@@ -314,7 +358,7 @@
                                     <div class="miseEnPage2">
                                         <h2>Annuel</h2>
                                         {% set tab = ["Licence Semestre 1", "Licence Semestre 2", "Licence Semestre 3", "Licence Semestre 4", "Licence Semestre 5",
-                                            "Licence Semestre 6", "Master Semestre 1", "Master Semestre 2", "Master Semestre 3", "Master Semestre 4", "N/A"] %}
+                                            "Licence Semestre 6", "Master Semestre 1", "Master Semestre 2", "Master Semestre 3", "Master Semestre 4"] %}
                                         <div class="disparition">
                                             {% for i in 0..10 %}
                                                 {% if usaColorationAnnuel[i]|length > 0 %}

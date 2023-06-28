@@ -36,4 +36,9 @@ class AppartenirService implements AppartenirServiceInterface
             return $appartenir;
         }
     }
+
+    public function verifierAppartenance(int $idUniteService, int $idDepartement): bool{
+        $appartenance = $this->appartenirRepository->verifierAppartenance($idUniteService, $idDepartement);
+        return isset($appartenance);
+    }
 }

@@ -11,9 +11,9 @@ use App\Sensei\Model\Repository\ServiceAnnuelRepository;
 use App\Sensei\Service\DepartementService;
 use App\Sensei\Service\IntervenantService;
 
-ini_set("session.gc_maxlifetime", 0);
-ini_set("session.lifetime", 0);
-ini_set("session.cookie_lifetime", 0);
+ini_set("session.gc_maxlifetime", 3600);
+ini_set("session.lifetime", 3600);
+ini_set("session.cookie_lifetime", 3600);
 
 //@session_start();
 
