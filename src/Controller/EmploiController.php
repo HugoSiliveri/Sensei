@@ -17,6 +17,11 @@ class EmploiController extends GenericController
     {
     }
 
+    /**
+     * @Route ("/creerEmploi", GET)
+     *
+     * @return Response
+     */
     public function afficherFormulaireCreation(): Response
     {
         try {
@@ -33,20 +38,36 @@ class EmploiController extends GenericController
 
     }
 
+    /**
+     * @Route ("/creerEmploi", POST)
+     *
+     * @return Response
+     */
     public function creerDepuisFormulaire(): Response
     {
-        $libEmploi = $_POST["libEmploi"];
+        try {
+            $libEmploi = $_POST["libEmploi"];
 
-        $emploi = [
-            "libEmploi" => strcmp($libEmploi, "") == 0 ? null : $libEmploi
-        ];
-
-        $this->emploiService->creerEmploi($emploi);
-
-        MessageFlash::ajouter("success", "L'emploi a bien été créé !");
-        return EmploiController::rediriger("accueil");
+            $emploi = [
+                "libEmploi" => strcmp($libEmploi, "") == 0 ? null : $libEmploi
+            ];
+            $this->emploiService->creerEmploi($emploi);
+            MessageFlash::ajouter("success", "L'emploi a bien été créé !");
+        }catch (ServiceException $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+        }
+        return DroitController::rediriger("accueil");
     }
 
+    /**
+     * @Route ("/emplois", GET)
+     *
+     * @return Response
+     */
     public function afficherListe(): Response
     {
         try {
@@ -64,6 +85,12 @@ class EmploiController extends GenericController
 
     }
 
+    /**
+     * @Route ("/supprimerEmploi/{idEmploi}", GET)
+     *
+     * @param int $idEmploi
+     * @return Response
+     */
     public function supprimer(int $idEmploi): Response
     {
         try {
@@ -80,6 +107,12 @@ class EmploiController extends GenericController
         return EmploiController::rediriger("accueil");
     }
 
+    /**
+     * @Route ("/mettreAJourEmploi/{idEmploi}", GET)
+     *
+     * @param int $idEmploi
+     * @return Response
+     */
     public function afficherFormulaireMiseAJour(int $idEmploi): Response
     {
         try {
@@ -96,6 +129,11 @@ class EmploiController extends GenericController
         }
     }
 
+    /**
+     * @Route ("/mettreAJourEmploi/{idEmploi}", POST)
+     *
+     * @return Response
+     */
     public function mettreAJour(): Response
     {
         try {

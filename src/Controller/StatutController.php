@@ -17,6 +17,11 @@ class StatutController extends GenericController
     {
     }
 
+    /**
+     * @Route ("/creerStatut", GET)
+     *
+     * @return Response
+     */
     public function afficherFormulaireCreation(): Response
     {
         try {
@@ -33,22 +38,38 @@ class StatutController extends GenericController
 
     }
 
+    /**
+     * @Route ("/creerPayeur", POST)
+     *
+     * @return Response
+     */
     public function creerDepuisFormulaire(): Response
     {
-        $libStatut = $_POST["libStatut"];
-        $nbHeures = $_POST["nbHeures"];
+        try {
+            $libStatut = $_POST["libStatut"];
+            $nbHeures = $_POST["nbHeures"];
 
-        $statut = [
-            "libStatut" => strcmp($libStatut, "") == 0 ? null : $libStatut,
-            "nbHeures" => $nbHeures == 0 ? null : $nbHeures
-        ];
-
-        $this->statutService->creerStatut($statut);
-
-        MessageFlash::ajouter("success", "Le statut a bien été créé !");
+            $statut = [
+                "libStatut" => strcmp($libStatut, "") == 0 ? null : $libStatut,
+                "nbHeures" => $nbHeures == 0 ? null : $nbHeures
+            ];
+            $this->statutService->creerStatut($statut);
+            MessageFlash::ajouter("success", "Le statut a bien été créé !");
+        } catch (ServiceException $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+        }
         return StatutController::rediriger("accueil");
     }
 
+    /**
+     * @Route ("/statuts", GET)
+     *
+     * @return Response
+     */
     public function afficherListe(): Response
     {
         try {
@@ -66,6 +87,12 @@ class StatutController extends GenericController
 
     }
 
+    /**
+     * @Route ("/supprimerStatut/{idStatut}, GET}
+     *
+     * @param int $idStatut
+     * @return Response
+     */
     public function supprimer(int $idStatut): Response
     {
         try {
@@ -82,6 +109,12 @@ class StatutController extends GenericController
         return StatutController::rediriger("accueil");
     }
 
+    /**
+     * @Route ("/mettreAJourStatut/{idStatut}", GET)
+     *
+     * @param int $idStatut
+     * @return Response
+     */
     public function afficherFormulaireMiseAJour(int $idStatut): Response
     {
         try {
@@ -98,6 +131,11 @@ class StatutController extends GenericController
         }
     }
 
+    /**
+     * @Route ("/mettreAJourStatut/{idStatut}", POST)
+     *
+     * @return Response
+     */
     public function mettreAJour(): Response
     {
         try {

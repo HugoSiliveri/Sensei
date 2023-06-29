@@ -18,6 +18,12 @@ class ComposanteController extends GenericController
     {
     }
 
+
+    /**
+     * @Route ("/creerComposante", GET)
+     *
+     * @return Response
+     */
     public function afficherFormulaireCreation(): Response
     {
         try {
@@ -33,6 +39,11 @@ class ComposanteController extends GenericController
         return ComposanteController::rediriger("accueil");
     }
 
+    /**
+     * @Route ("/creerComposante", POST)
+     *
+     * @return Response
+     */
     public function creerDepuisFormulaire(): Response
     {
         $libComposante = $_POST["libComposante"];
@@ -51,6 +62,11 @@ class ComposanteController extends GenericController
         return ComposanteController::rediriger("accueil");
     }
 
+    /**
+     * @Route ("/composantes", GET)
+     *
+     * @return Response
+     */
     public function afficherListe(): Response
     {
         try {
@@ -67,6 +83,12 @@ class ComposanteController extends GenericController
         return ComposanteController::rediriger("accueil");
     }
 
+    /**
+     * @Route ("/supprimerComposante/{idComposante}", GET)
+     *
+     * @param int $idComposante
+     * @return Response
+     */
     public function supprimer(int $idComposante): Response
     {
         try {
@@ -83,6 +105,12 @@ class ComposanteController extends GenericController
         return ComposanteController::rediriger("accueil");
     }
 
+    /**
+     * @Route ("/mettreAJourComposante/{idComposante}", GET)
+     *
+     * @param int $idComposante
+     * @return Response
+     */
     public function afficherFormulaireMiseAJour(int $idComposante): Response
     {
         try {
@@ -99,6 +127,11 @@ class ComposanteController extends GenericController
         }
     }
 
+    /**
+     * @Route ("/mettreAJourComposante/{idComposante}", POST)
+     *
+     * @return Response
+     */
     public function mettreAJour(): Response
     {
         try {

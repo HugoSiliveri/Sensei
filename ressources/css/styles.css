@@ -657,6 +657,10 @@ nav  button{
     padding: 1.5%;
 }
 
+.infosSupplementaires > .miseEnPage{
+    align-items: center;
+}
+
 
 /* Bootstrap alerts */
 /* https://getbootstrap.com/docs/3.4/components/#alerts */
@@ -731,8 +735,9 @@ nav  button{
 .switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 2.5rem;
+    height: 1.5rem;
+    margin-right: 1.5%;
 }
 
 /* Hide default HTML checkbox */
@@ -758,8 +763,8 @@ nav  button{
 .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
+    height: 1rem;
+    width: 1rem;
     left: 4px;
     bottom: 4px;
     background-color: white;
@@ -776,9 +781,9 @@ input:focus + .slider {
 }
 
 input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+    -webkit-transform: translateX(1rem);
+    -ms-transform: translateX(1rem);
+    transform: translateX(1rem);
 }
 
 /* Rounded sliders */

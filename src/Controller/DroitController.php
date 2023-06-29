@@ -16,6 +16,11 @@ class DroitController extends GenericController
     {
     }
 
+    /**
+     * @Route ("/creerDroit", GET)
+     *
+     * @return Response
+     */
     public function afficherFormulaireCreation(): Response
     {
         try {
@@ -31,20 +36,36 @@ class DroitController extends GenericController
         return DroitController::rediriger("accueil");
     }
 
+    /**
+     * @Route ("/creerDroit", POST)
+     *
+     * @return Response
+     */
     public function creerDepuisFormulaire(): Response
     {
-        $typeDroit = $_POST["typeDroit"];
+        try {
+            $typeDroit = $_POST["typeDroit"];
 
-        $droit = [
-            "typeDroit" => strcmp($typeDroit, "") == 0 ? null : $typeDroit
-        ];
-
-        $this->droitService->creerDroit($droit);
-
-        MessageFlash::ajouter("success", "Le droit a bien été créé !");
+            $droit = [
+                "typeDroit" => strcmp($typeDroit, "") == 0 ? null : $typeDroit
+            ];
+            $this->droitService->creerDroit($droit);
+            MessageFlash::ajouter("success", "Le droit a bien été créé !");
+        } catch (ServiceException $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+        }
         return DroitController::rediriger("accueil");
     }
 
+    /**
+     * @Route ("/droits", GET)
+     *
+     * @return Response
+     */
     public function afficherListe(): Response
     {
         try {
@@ -62,6 +83,12 @@ class DroitController extends GenericController
 
     }
 
+    /**
+     * @Route ("/supprimerDroit/{idDroit}", GET)
+     *
+     * @param int $idDroit
+     * @return Response
+     */
     public function supprimer(int $idDroit): Response
     {
         try {
@@ -78,6 +105,12 @@ class DroitController extends GenericController
         return DroitController::rediriger("accueil");
     }
 
+    /**
+     * @Route ("/mettreAJourDroit/{idDroit}", GET)
+     *
+     * @param int $idDroit
+     * @return Response
+     */
     public function afficherFormulaireMiseAJour(int $idDroit): Response
     {
         try {
@@ -94,6 +127,11 @@ class DroitController extends GenericController
         }
     }
 
+    /**
+     * @Route ("/mettreAJourDroit/{idDroit}", POST)
+     *
+     * @return Response
+     */
     public function mettreAJour(): Response
     {
         try {

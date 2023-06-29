@@ -28,8 +28,7 @@ class UniteServiceAnneeController extends GenericController
     }
 
     /**
-     * Méthode qui affiche la liste des unités de services pour l'année et le département de l'utilisateur (ou modifié dans
-     * la page de gestion).
+     * @Route ("/unitesServices", GET)
      *
      * @return Response
      * @throws ServiceException
@@ -72,7 +71,10 @@ class UniteServiceAnneeController extends GenericController
 
 
     /**
-     * @throws ServiceException
+     * @Route ("/mettreAJourUniteServiceAnnee/{idUniteServiceAnnee}", GET)
+     *
+     * @param int $idUniteServiceAnnee
+     * @return Response
      */
     public function afficherFormulaireMiseAJour(int $idUniteServiceAnnee): Response
     {
@@ -96,6 +98,11 @@ class UniteServiceAnneeController extends GenericController
 
     }
 
+    /**
+     * @Route ("/mettreAJourUniteServiceAnnee/{idUniteServiceAnnee}", POST)
+     *
+     * @return Response
+     */
     public function mettreAJour(): Response
     {
         try {

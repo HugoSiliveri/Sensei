@@ -48,10 +48,9 @@ class IntervenantController extends GenericController
     }
 
     /**
-     * Méthode qui affiche la liste des utilisateurs.
+     * @Route ("/intervenants", GET)
      *
      * @return Response
-     * @throws ServiceException
      */
     public function afficherListe(): Response
     {
@@ -78,7 +77,7 @@ class IntervenantController extends GenericController
     }
 
     /**
-     * Méthode qui affiche le détail d'un intervenant.
+     * @Route ("/intervenants/{idIntervenant}", GET)
      *
      * @param int $idIntervenant
      * @return Response
@@ -148,6 +147,11 @@ class IntervenantController extends GenericController
         }
     }
 
+    /**
+     * @Route ("/creerIntervenant", GET)
+     *
+     * @return Response
+     */
     public function afficherFormulaireCreation(): Response
     {
         try {
@@ -177,6 +181,11 @@ class IntervenantController extends GenericController
 
     }
 
+    /**
+     * @Route ("/creerIntervenant", POST)
+     *
+     * @return Response
+     */
     public function creerDepuisFormulaire(): Response
     {
         try {
@@ -236,6 +245,11 @@ class IntervenantController extends GenericController
         return IntervenantController::rediriger("accueil");
     }
 
+    /**
+     * @Route ("/accueil", GET)
+     *
+     * @return Response
+     */
     public function afficherAccueil(): Response
     {
         try {
@@ -282,6 +296,11 @@ class IntervenantController extends GenericController
         }
     }
 
+    /**
+     * @Route ("/gestion", GET)
+     *
+     * @return Response
+     */
     public function afficherGestion(): Response
     {
         try {
@@ -303,6 +322,11 @@ class IntervenantController extends GenericController
 
     }
 
+    /**
+     * @Route ("/intervenants", POST)
+     *
+     * @return Response
+     */
     public function chercherIntervenant(): Response
     {
         try {
@@ -319,6 +343,12 @@ class IntervenantController extends GenericController
         }
     }
 
+    /**
+     * @Route ("/mettreAJourIntervenant/{idIntervenant}", GET)
+     *
+     * @param int $idIntervenant
+     * @return Response
+     */
     public function afficherFormulaireMiseAJour(int $idIntervenant): Response
     {
         try {
@@ -340,6 +370,11 @@ class IntervenantController extends GenericController
         }
     }
 
+    /**
+     * @Route ("/mettreAJourIntervenant/{idIntervenant}", POST)
+     *
+     * @return Response
+     */
     public function mettreAJour(): Response
     {
         try {
@@ -367,6 +402,8 @@ class IntervenantController extends GenericController
     }
 
     /**
+     * @Route ("/deconnexion", GET)
+     *
      * @throws ServiceException
      */
     public function deconnecter(): Response
@@ -379,6 +416,12 @@ class IntervenantController extends GenericController
         return IntervenantController::rediriger("accueil");
     }
 
+    /**
+     * @Route ("/changementGestion", POST)
+     *
+     * @return Response
+     * @throws ServiceException
+     */
     public function changementGestion(): Response
     {
         $annee = $_POST["annee"];
@@ -390,6 +433,11 @@ class IntervenantController extends GenericController
         return IntervenantController::rediriger("accueil");
     }
 
+    /**
+     * @Route ("/services", GET)
+     *
+     * @return Response
+     */
     public function afficherServices(): Response{
         try {
             $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuelPlusRecent($this->connexionUtilisateur->getIdUtilisateurConnecte());
@@ -469,6 +517,11 @@ class IntervenantController extends GenericController
         }
     }
 
+    /**
+     * @Route ("/voeux", GET)
+     *
+     * @return Response
+     */
     public function afficherVoeux(): Response
     {
         try {
@@ -772,7 +825,13 @@ class IntervenantController extends GenericController
 
     }
 
-    public function afficherAide(){
+    /**
+     * @Route ("/aide", GET)
+     *
+     * @return Response
+     */
+    public function afficherAide(): Response
+    {
         return IntervenantController::afficherTwig("aide.twig");
     }
 }

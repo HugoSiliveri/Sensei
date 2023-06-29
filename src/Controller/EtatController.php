@@ -17,6 +17,11 @@ class EtatController extends GenericController
     {
     }
 
+    /**
+     * @Route ("/etats", GET)
+     *
+     * @return Response
+     */
     public function afficherListe(): Response
     {
         try {
@@ -35,6 +40,12 @@ class EtatController extends GenericController
 
     }
 
+    /**
+     * @Route ("/mettreAJourEtat/{idEtat}", GET)
+     *
+     * @param int $idEtat
+     * @return Response
+     */
     public function afficherFormulaireMiseAJour(int $idEtat): Response
     {
         try {
@@ -51,6 +62,11 @@ class EtatController extends GenericController
         }
     }
 
+    /**
+     * @Route ("/mettreAJourEtat/{idEtat}", POST)
+     *
+     * @return Response
+     */
     public function mettreAJour(): Response
     {
         try {

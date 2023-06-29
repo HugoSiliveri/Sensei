@@ -783,6 +783,7 @@ class URLRouter
         $twig->addGlobal('departementActuel', $dep);
         $twig->addGlobal('anneeActuelle', InfosGlobales::lireAnnee() ?? $anneeActuelle);
         $twig->addGlobal("idEtat", $idEtat);
+        $twig->addGlobal("departementIntervenantConnecte", $depActuel);
 
         $conteneur->set("assistantUrl", $assistantUrl);
         $conteneur->set("generateurUrl", $generateurUrl);

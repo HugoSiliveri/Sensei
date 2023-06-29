@@ -42,7 +42,7 @@ class UniteServiceController extends GenericController
     }
 
     /**
-     * Méthode qui affiche le détail d'un intervenant.
+     * @Route ("/unitesServices/{idUniteService}", GET)
      *
      * @param int $idUniteService
      * @return Response
@@ -118,6 +118,11 @@ class UniteServiceController extends GenericController
         }
     }
 
+    /**
+     * @Route ("/creerUniteService", GET)
+     *
+     * @return Response
+     */
     public function afficherFormulaireCreation(): Response
     {
         try {
@@ -138,6 +143,11 @@ class UniteServiceController extends GenericController
 
     }
 
+    /**
+     * @Route ("/creerUniteService", POST)
+     *
+     * @return Response
+     */
     public function creerDepuisFormulaire(): Response
     {
         try {
@@ -227,6 +237,11 @@ class UniteServiceController extends GenericController
         }
     }
 
+    /**
+     * @Route ("/unitesServices", POST)
+     *
+     * @return Response
+     */
     public function chercherUniteService(): Response
     {
         try {
@@ -243,6 +258,12 @@ class UniteServiceController extends GenericController
         }
     }
 
+    /**
+     * @Route ("/mettreAJourUniteService/{idUniteService}", GET)
+     *
+     * @param int $idUniteService
+     * @return Response
+     */
     public function afficherFormulaireMiseAJour(int $idUniteService): Response
     {
         try {
@@ -265,6 +286,11 @@ class UniteServiceController extends GenericController
 
     }
 
+    /**
+     * @Route ("/mettreAJourUniteService/{idUniteService}", GET)
+     *
+     * @return Response
+     */
     public function mettreAJour(): Response
     {
         try {

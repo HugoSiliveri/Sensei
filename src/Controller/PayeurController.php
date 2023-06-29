@@ -17,6 +17,11 @@ class PayeurController extends GenericController
     {
     }
 
+    /**
+     * @Route ("/creerPayeur", GET)
+     *
+     * @return Response
+     */
     public function afficherFormulaireCreation(): Response
     {
         try {
@@ -33,6 +38,12 @@ class PayeurController extends GenericController
 
     }
 
+    /**
+     * @Route ("/creerPayeur", POST)
+     *
+     * @return Response
+     * @throws ServiceException
+     */
     public function creerDepuisFormulaire(): Response
     {
         $libPayeur = $_POST["libPayeur"];
@@ -47,6 +58,11 @@ class PayeurController extends GenericController
         return PayeurController::rediriger("accueil");
     }
 
+    /**
+     * @Route ("/payeurs", GET)
+     *
+     * @return Response
+     */
     public function afficherListe(): Response
     {
         try {
@@ -64,6 +80,12 @@ class PayeurController extends GenericController
 
     }
 
+    /**
+     * @Route ("/supprimerPayeur/{idPayeur}", GET)
+     *
+     * @param int $idPayeur
+     * @return Response
+     */
     public function supprimer(int $idPayeur): Response
     {
         try {
@@ -80,6 +102,12 @@ class PayeurController extends GenericController
         return PayeurController::rediriger("accueil");
     }
 
+    /**
+     * @Route ("/mettreAJourPayeur/{idPayeur}", GET)
+     *
+     * @param int $idPayeur
+     * @return Response
+     */
     public function afficherFormulaireMiseAJour(int $idPayeur): Response
     {
         try {
@@ -96,6 +124,11 @@ class PayeurController extends GenericController
         }
     }
 
+    /**
+     * @Route ("/mettreAJourPayeur/{idPayeur}", POST)
+     *
+     * @return Response
+     */
     public function mettreAJour(): Response
     {
         try {

@@ -26,6 +26,11 @@ class DepartementController extends GenericController
     {
     }
 
+    /**
+     * @Route ("/creerDepartement", GET)
+     *
+     * @return Response
+     */
     public function afficherFormulaireCreation(): Response
     {
         try {
@@ -46,28 +51,46 @@ class DepartementController extends GenericController
         return DepartementController::rediriger("accueil");
     }
 
+    /**
+     * @Route ("/creerDepartement", POST)
+     *
+     * @return Response
+     */
     public function creerDepuisFormulaire(): Response
     {
-        $libDepartement = $_POST["libDepartement"];
-        $codeLettre = $_POST["codeLettre"];
-        $reportMax = $_POST["reportMax"];
-        $idComposante = $_POST["idComposante"];
-        $idEtat = $_POST["idEtat"];
+        try {
+            $libDepartement = $_POST["libDepartement"];
+            $codeLettre = $_POST["codeLettre"];
+            $reportMax = $_POST["reportMax"];
+            $idComposante = $_POST["idComposante"];
+            $idEtat = $_POST["idEtat"];
 
-        $departement = [
-            "libDepartement" => strcmp($libDepartement, "") == 0 ? null : $libDepartement,
-            "codeLettre" => strcmp($codeLettre, "") == 0 ? null : $codeLettre,
-            "reportMax" => $reportMax,
-            "idComposante" => $idComposante,
-            "idEtat" => $idEtat
-        ];
+            $departement = [
+                "libDepartement" => strcmp($libDepartement, "") == 0 ? null : $libDepartement,
+                "codeLettre" => strcmp($codeLettre, "") == 0 ? null : $codeLettre,
+                "reportMax" => $reportMax,
+                "idComposante" => $idComposante,
+                "idEtat" => $idEtat
+            ];
 
-        $this->departementService->creerDepartement($departement);
+            $this->departementService->creerDepartement($departement);
 
-        MessageFlash::ajouter("success", "Le departement a bien été créé !");
+            MessageFlash::ajouter("success", "Le departement a bien été créé !");
+        } catch (ServiceException $exception){
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+        }
         return DepartementController::rediriger("accueil");
     }
 
+    /**
+     * @Route ("/departements", GET)
+     *
+     * @return Response
+     */
     public function afficherListe(): Response
     {
         try {
@@ -85,6 +108,12 @@ class DepartementController extends GenericController
 
     }
 
+    /**
+     * @Route ("/supprimerDepartement/{idDepartement}", GET)
+     *
+     * @param int $idDepartement
+     * @return Response
+     */
     public function supprimer(int $idDepartement): Response
     {
         try {
@@ -101,6 +130,12 @@ class DepartementController extends GenericController
         return DepartementController::rediriger("accueil");
     }
 
+    /**
+     * @Route ("/mettreAJourDepartement/{idDepartement}", GET)
+     *
+     * @param int $idDepartement
+     * @return Response
+     */
     public function afficherFormulaireMiseAJour(int $idDepartement): Response
     {
         try {
@@ -123,6 +158,11 @@ class DepartementController extends GenericController
         }
     }
 
+    /**
+     * @Route ("/mettreAJourDepartement/{idDepartement}", POST)
+     *
+     * @return Response
+     */
     public function mettreAJour(): Response
     {
         try {
@@ -147,9 +187,11 @@ class DepartementController extends GenericController
     }
 
     /**
-     * @throws ServiceException
+     * @Route ("/gererEtat", GET)
+     *
+     * @return Response
      */
-    public function afficherFormulaireGestionEtat()
+    public function afficherFormulaireGestionEtat(): Response
     {
         try {
             $this->droitService->verifierDroits();
@@ -172,12 +214,25 @@ class DepartementController extends GenericController
         }
     }
 
-    public function gererEtat()
+    /**
+     * @Route ("/gererEtat", POST)
+     *
+     * @return Response
+     */
+    public function gererEtat(): Response
     {
-        $idEtat = $_POST["idEtat"];
-        $idDepartement = $_POST["idDepartement"];
-        $this->departementService->changerEtat($idDepartement, $idEtat);
-        MessageFlash::ajouter("success", "L'état du département a bien été changé !");
+        try {
+            $idEtat = $_POST["idEtat"];
+            $idDepartement = $_POST["idDepartement"];
+            $this->departementService->changerEtat($idDepartement, $idEtat);
+            MessageFlash::ajouter("success", "L'état du département a bien été changé !");
+        } catch (ServiceException $exception){
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+        }
         return EtatController::rediriger("accueil");
     }
 }

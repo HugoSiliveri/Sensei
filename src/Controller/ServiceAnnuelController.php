@@ -26,6 +26,12 @@ class ServiceAnnuelController extends GenericController
     {
     }
 
+    /**
+     * @Route ("/mettreAJourServiceAnnuel/{idServiceAnnuel}", GET)
+     *
+     * @param int $idServiceAnnuel
+     * @return Response
+     */
     public function afficherFormulaireMiseAJour(int $idServiceAnnuel): Response
     {
         try {
@@ -49,6 +55,11 @@ class ServiceAnnuelController extends GenericController
         }
     }
 
+    /**
+     * @Route ("/mettreAJourServiceAnnuel/{idServiceAnnuel}", POST)
+     *
+     * @return Response
+     */
     public function mettreAJour(): Response
     {
         try {

@@ -9,6 +9,7 @@ use App\Sensei\Service\Exception\ServiceException;
 use App\Sensei\Service\IntervenantServiceInterface;
 use App\Sensei\Service\InterventionServiceInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
@@ -44,6 +45,12 @@ class DeclarationServiceController extends GenericController
 //        }
 //    }
 
+    /**
+     * @Route ("/mettreAJourDeclarationService/{idIntervenant}", POST)
+     *
+     * @param int $idIntervenant
+     * @return Response
+     */
     public function mettreAJourPourUnIntervenant(int $idIntervenant): Response
     {
         try {
@@ -86,6 +93,12 @@ class DeclarationServiceController extends GenericController
         return IntervenantController::rediriger("accueil");
     }
 
+    /**
+     * @Route (pas de route)
+     *
+     * @param int $idDeclarationService
+     * @return Response
+     */
     public function supprimer(int $idDeclarationService): Response
     {
         try {
@@ -102,7 +115,13 @@ class DeclarationServiceController extends GenericController
         return EmploiController::rediriger("accueil");
     }
 
-    public function exporterEnCSV(int $idIntervenant)
+    /**
+     * @Route ("/export/{idIntervenant}", GET)
+     *
+     * @param int $idIntervenant
+     * @return Response
+     */
+    public function exporterEnCSV(int $idIntervenant): Response
     {
         try {
             $intervenant = $this->intervenantService->recupererParIdentifiant($idIntervenant);

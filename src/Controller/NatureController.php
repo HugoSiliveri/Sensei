@@ -18,6 +18,11 @@ class NatureController extends GenericController
     {
     }
 
+    /**
+     * @Route ("/creerNature", GET)
+     *
+     * @return Response
+     */
     public function afficherFormulaireCreation(): Response
     {
         try {
@@ -34,20 +39,36 @@ class NatureController extends GenericController
 
     }
 
+    /**
+     * @Route ("/creerNature", POST)
+     *
+     * @return Response
+     */
     public function creerDepuisFormulaire(): Response
     {
-        $libNature = $_POST["libNature"];
+        try{
+            $libNature = $_POST["libNature"];
 
-        $nature = [
-            "libNature" => strcmp($libNature, "") == 0 ? null : $libNature
-        ];
-
-        $this->natureService->creerNature($nature);
-
-        MessageFlash::ajouter("success", "La nature a bien été créée !");
+            $nature = [
+                "libNature" => strcmp($libNature, "") == 0 ? null : $libNature
+            ];
+            $this->natureService->creerNature($nature);
+            MessageFlash::ajouter("success", "La nature a bien été créée !");
+        } catch (ServiceException $exception) {
+            if (strcmp($exception->getCode(), "danger") == 0) {
+                MessageFlash::ajouter("danger", $exception->getMessage());
+            } else {
+                MessageFlash::ajouter("warning", $exception->getMessage());
+            }
+        }
         return NatureController::rediriger("accueil");
     }
 
+    /**
+     * @Route ("/natures", GET)
+     *
+     * @return Response
+     */
     public function afficherListe(): Response
     {
         try {
@@ -64,6 +85,12 @@ class NatureController extends GenericController
         return NatureController::rediriger("accueil");
     }
 
+    /**
+     * @Route ("/supprimerNature/{idNature}", GET)
+     *
+     * @param int $idNature
+     * @return Response
+     */
     public function supprimer(int $idNature): Response
     {
         try {
@@ -80,6 +107,12 @@ class NatureController extends GenericController
         return NatureController::rediriger("accueil");
     }
 
+    /**
+     * @Route ("/mettreAJourNature/{idNature}", GET)
+     *
+     * @param int $idNature
+     * @return Response
+     */
     public function afficherFormulaireMiseAJour(int $idNature): Response
     {
         try {
@@ -96,6 +129,11 @@ class NatureController extends GenericController
         }
     }
 
+    /**
+     * @Route ("/mettreAJourNature/{idNature}", GET)
+     *
+     * @return Response
+     */
     public function mettreAJour(): Response
     {
         try {
