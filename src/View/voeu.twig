@@ -146,6 +146,46 @@
                                                                     {{ indefinisDepartement[i][0].getLibUSA }}
                                                                 </p>
                                                             </div>
+                                                            <div class="disparition2 affichageInfoService">
+                                                                <div class="infosSupplementaires">
+                                                                    {% set nbGroupesCM = indefinisDepartement[i][0].getNbGroupesCM %}
+                                                                    {% set nbGroupesTD = indefinisDepartement[i][0].getNbGroupesTD %}
+                                                                    {% set nbGroupesTP = indefinisDepartement[i][0].getNbGroupesTP %}
+                                                                    {% set nbGroupesStage = indefinisDepartement[i][0].getNbGroupesStage %}
+                                                                    {% set nbGroupesTerrain = indefinisDepartement[i][0].getNbGroupesTerrain %}
+                                                                    {% set nbGroupesInnovation = indefinisDepartement[i][0].getNbGroupesInnovationPedagogique %}
+                                                                    {% if nbGroupesCM > 0 %}
+                                                                        {% for k in 0..nbGroupesCM-1 %}
+                                                                            <p>CM ({{ indefinisDepartement[i][0].getHeuresCM }} h)</p>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                                    {% if nbGroupesTD > 0 %}
+                                                                        {% for k in 0..nbGroupesTD-1 %}
+                                                                            <p>TD ({{ indefinisDepartement[i][0].getHeuresTD }} h)</p>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                                    {% if nbGroupesTP > 0 %}
+                                                                        {% for k in 0..nbGroupesTP-1 %}
+                                                                            <p>TP ({{ indefinisDepartement[i][0].getHeuresTP }} h)</p>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                                    {% if nbGroupesStage > 0 %}
+                                                                        {% for k in 0..nbGroupesStage-1 %}
+                                                                            <p>Stage ({{ indefinisDepartement[i][0].getHeuresStage }} h)</p>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                                    {% if nbGroupesTerrain > 0 %}
+                                                                        {% for k in 0..nbGroupesTerrain-1 %}
+                                                                            <p>Terrain ({{ indefinisDepartement[i][0].getHeuresTerrain }} h)</p>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                                    {% if nbGroupesInnovation > 0 %}
+                                                                        {% for k in 0..nbGroupesInnovation-1 %}
+                                                                            <p>Innovation ({{ indefinisDepartement[i][0].getHeuresInnovationPedagogique }} h)</p>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     {% endfor %}
                                                 </div>
@@ -175,6 +215,46 @@
                                                                                 <p class="infosService2">{{ usPrintemps[i][j].getIdUSReferentiel }}
                                                                                     {{ usaPrintemps[i][j].getLibUSA }}
                                                                                 </p>
+                                                                            </div>
+                                                                            <div class="disparition2 affichageInfoService">
+                                                                                <div class="infosSupplementaires">
+                                                                                    {% set nbGroupesCM = usaPrintemps[i][j].getNbGroupesCM %}
+                                                                                    {% set nbGroupesTD = usaPrintemps[i][j].getNbGroupesTD %}
+                                                                                    {% set nbGroupesTP = usaPrintemps[i][j].getNbGroupesTP %}
+                                                                                    {% set nbGroupesStage = usaPrintemps[i][j].getNbGroupesStage %}
+                                                                                    {% set nbGroupesTerrain = usaPrintemps[i][j].getNbGroupesTerrain %}
+                                                                                    {% set nbGroupesInnovation = usaPrintemps[i][j].getNbGroupesInnovationPedagogique %}
+                                                                                    {% if nbGroupesCM > 0 %}
+                                                                                        {% for k in 0..nbGroupesCM-1 %}
+                                                                                            <p>CM ({{ usaPrintemps[i][j].getHeuresCM }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesTD > 0 %}
+                                                                                        {% for k in 0..nbGroupesTD-1 %}
+                                                                                            <p>TD ({{ usaPrintemps[i][j].getHeuresTD }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesTP > 0 %}
+                                                                                        {% for k in 0..nbGroupesTP-1 %}
+                                                                                            <p>TP ({{ usaPrintemps[i][j].getHeuresTP }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesStage > 0 %}
+                                                                                        {% for k in 0..nbGroupesStage-1 %}
+                                                                                            <p>Stage ({{ usaPrintemps[i][j].getHeuresStage }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesTerrain > 0 %}
+                                                                                        {% for k in 0..nbGroupesTerrain-1 %}
+                                                                                            <p>Terrain ({{ usaPrintemps[i][j].getHeuresTerrain }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesInnovation > 0 %}
+                                                                                        {% for k in 0..nbGroupesInnovation-1 %}
+                                                                                            <p>Innovation ({{ usaPrintemps[i][j].getHeuresInnovationPedagogique }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     {% endfor %}
@@ -210,6 +290,46 @@
                                                                                     {{ usaAutomne[i][j].getLibUSA }}
                                                                                 </p>
                                                                             </div>
+                                                                            <div class="disparition2 affichageInfoService">
+                                                                                <div class="infosSupplementaires">
+                                                                                    {% set nbGroupesCM = usaAutomne[i][j].getNbGroupesCM %}
+                                                                                    {% set nbGroupesTD = usaAutomne[i][j].getNbGroupesTD %}
+                                                                                    {% set nbGroupesTP = usaAutomne[i][j].getNbGroupesTP %}
+                                                                                    {% set nbGroupesStage = usaAutomne[i][j].getNbGroupesStage %}
+                                                                                    {% set nbGroupesTerrain = usaAutomne[i][j].getNbGroupesTerrain %}
+                                                                                    {% set nbGroupesInnovation = usaAutomne[i][j].getNbGroupesInnovationPedagogique %}
+                                                                                    {% if nbGroupesCM > 0 %}
+                                                                                        {% for k in 0..nbGroupesCM-1 %}
+                                                                                            <p>CM ({{ usaAutomne[i][j].getHeuresCM }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesTD > 0 %}
+                                                                                        {% for k in 0..nbGroupesTD-1 %}
+                                                                                            <p>TD ({{ usaAutomne[i][j].getHeuresTD }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesTP > 0 %}
+                                                                                        {% for k in 0..nbGroupesTP-1 %}
+                                                                                            <p>TP ({{ usaAutomne[i][j].getHeuresTP }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesStage > 0 %}
+                                                                                        {% for k in 0..nbGroupesStage-1 %}
+                                                                                            <p>Stage ({{ usaAutomne[i][j].getHeuresStage }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesTerrain > 0 %}
+                                                                                        {% for k in 0..nbGroupesTerrain-1 %}
+                                                                                            <p>Terrain ({{ usaAutomne[i][j].getHeuresTerrain }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesInnovation > 0 %}
+                                                                                        {% for k in 0..nbGroupesInnovation-1 %}
+                                                                                            <p>Innovation ({{ usaAutomne[i][j].getHeuresInnovationPedagogique }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     {% endfor %}
                                                                 </div>
@@ -243,6 +363,46 @@
                                                                                 <p class="infosService2">{{ usAnnuel[i][j].getIdUSReferentiel }}
                                                                                     {{ usaAnnuel[i][j].getLibUSA }}
                                                                                 </p>
+                                                                            </div>
+                                                                            <div class="disparition2 affichageInfoService">
+                                                                                <div class="infosSupplementaires">
+                                                                                    {% set nbGroupesCM = usaAnnuel[i][j].getNbGroupesCM %}
+                                                                                    {% set nbGroupesTD = usaAnnuel[i][j].getNbGroupesTD %}
+                                                                                    {% set nbGroupesTP = usaAnnuel[i][j].getNbGroupesTP %}
+                                                                                    {% set nbGroupesStage = usaAnnuel[i][j].getNbGroupesStage %}
+                                                                                    {% set nbGroupesTerrain = usaAnnuel[i][j].getNbGroupesTerrain %}
+                                                                                    {% set nbGroupesInnovation = usaAnnuel[i][j].getNbGroupesInnovationPedagogique %}
+                                                                                    {% if nbGroupesCM > 0 %}
+                                                                                        {% for k in 0..nbGroupesCM-1 %}
+                                                                                            <p>CM ({{ usaAnnuel[i][j].getHeuresCM }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesTD > 0 %}
+                                                                                        {% for k in 0..nbGroupesTD-1 %}
+                                                                                            <p>TD ({{ usaAnnuel[i][j].getHeuresTD }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesTP > 0 %}
+                                                                                        {% for k in 0..nbGroupesTP-1 %}
+                                                                                            <p>TP ({{ usaAnnuel[i][j].getHeuresTP }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesStage > 0 %}
+                                                                                        {% for k in 0..nbGroupesStage-1 %}
+                                                                                            <p>Stage ({{ usaAnnuel[i][j].getHeuresStage }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesTerrain > 0 %}
+                                                                                        {% for k in 0..nbGroupesTerrain-1 %}
+                                                                                            <p>Terrain ({{ usaAnnuel[i][j].getHeuresTerrain }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesInnovation > 0 %}
+                                                                                        {% for k in 0..nbGroupesInnovation-1 %}
+                                                                                            <p>Innovation ({{ usaAnnuel[i][j].getHeuresInnovationPedagogique }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     {% endfor %}
@@ -278,6 +438,46 @@
                                                                     {{ indefinisColoration[i][0].getLibUSA }}
                                                                 </p>
                                                             </div>
+                                                            <div class="disparition2 affichageInfoService">
+                                                                <div class="infosSupplementaires">
+                                                                    {% set nbGroupesCM = indefinisColoration[i][0].getNbGroupesCM %}
+                                                                    {% set nbGroupesTD = indefinisColoration[i][0].getNbGroupesTD %}
+                                                                    {% set nbGroupesTP = indefinisColoration[i][0].getNbGroupesTP %}
+                                                                    {% set nbGroupesStage = indefinisColoration[i][0].getNbGroupesStage %}
+                                                                    {% set nbGroupesTerrain = indefinisColoration[i][0].getNbGroupesTerrain %}
+                                                                    {% set nbGroupesInnovation = indefinisColoration[i][0].getNbGroupesInnovationPedagogique %}
+                                                                    {% if nbGroupesCM > 0 %}
+                                                                        {% for k in 0..nbGroupesCM-1 %}
+                                                                            <p>CM ({{ indefinisColoration[i][0].getHeuresCM }} h)</p>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                                    {% if nbGroupesTD > 0 %}
+                                                                        {% for k in 0..nbGroupesTD-1 %}
+                                                                            <p>TD ({{ indefinisColoration[i][0].getHeuresTD }} h)</p>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                                    {% if nbGroupesTP > 0 %}
+                                                                        {% for k in 0..nbGroupesTP-1 %}
+                                                                            <p>TP ({{ indefinisColoration[i][0].getHeuresTP }} h)</p>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                                    {% if nbGroupesStage > 0 %}
+                                                                        {% for k in 0..nbGroupesStage-1 %}
+                                                                            <p>Stage ({{ indefinisColoration[i][0].getHeuresStage }} h)</p>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                                    {% if nbGroupesTerrain > 0 %}
+                                                                        {% for k in 0..nbGroupesTerrain-1 %}
+                                                                            <p>Terrain ({{ indefinisColoration[i][0].getHeuresTerrain }} h)</p>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                                    {% if nbGroupesInnovation > 0 %}
+                                                                        {% for k in 0..nbGroupesInnovation-1 %}
+                                                                            <p>Innovation ({{ indefinisColoration[i][0].getHeuresInnovationPedagogique }} h)</p>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     {% endfor %}
                                                 </div>
@@ -307,6 +507,46 @@
                                                                                 <p class="infosService2">{{ usColorationPrintemps[i][j].getIdUSReferentiel }}
                                                                                     {{ usaColorationPrintemps[i][j].getLibUSA }}
                                                                                 </p>
+                                                                            </div>
+                                                                            <div class="disparition2 affichageInfoService">
+                                                                                <div class="infosSupplementaires">
+                                                                                    {% set nbGroupesCM = usaColorationPrintemps[i][j].getNbGroupesCM %}
+                                                                                    {% set nbGroupesTD = usaColorationPrintemps[i][j].getNbGroupesTD %}
+                                                                                    {% set nbGroupesTP = usaColorationPrintemps[i][j].getNbGroupesTP %}
+                                                                                    {% set nbGroupesStage = usaColorationPrintemps[i][j].getNbGroupesStage %}
+                                                                                    {% set nbGroupesTerrain = usaColorationPrintemps[i][j].getNbGroupesTerrain %}
+                                                                                    {% set nbGroupesInnovation = usaColorationPrintemps[i][j].getNbGroupesInnovationPedagogique %}
+                                                                                    {% if nbGroupesCM > 0 %}
+                                                                                        {% for k in 0..nbGroupesCM-1 %}
+                                                                                            <p>CM ({{ usaColorationPrintemps[i][j].getHeuresCM }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesTD > 0 %}
+                                                                                        {% for k in 0..nbGroupesTD-1 %}
+                                                                                            <p>TD ({{ usaColorationPrintemps[i][j].getHeuresTD }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesTP > 0 %}
+                                                                                        {% for k in 0..nbGroupesTP-1 %}
+                                                                                            <p>TP ({{ usaColorationPrintemps[i][j].getHeuresTP }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesStage > 0 %}
+                                                                                        {% for k in 0..nbGroupesStage-1 %}
+                                                                                            <p>Stage ({{ usaColorationPrintemps[i][j].getHeuresStage }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesTerrain > 0 %}
+                                                                                        {% for k in 0..nbGroupesTerrain-1 %}
+                                                                                            <p>Terrain ({{ usaColorationPrintemps[i][j].getHeuresTerrain }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesInnovation > 0 %}
+                                                                                        {% for k in 0..nbGroupesInnovation-1 %}
+                                                                                            <p>Innovation ({{ usaColorationPrintemps[i][j].getHeuresInnovationPedagogique }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     {% endfor %}
@@ -342,6 +582,46 @@
                                                                                     {{ usaColorationAutomne[i][j].getLibUSA }}
                                                                                 </p>
                                                                             </div>
+                                                                            <div class="disparition2 affichageInfoService">
+                                                                                <div class="infosSupplementaires">
+                                                                                    {% set nbGroupesCM = usaColorationAutomne[i][j].getNbGroupesCM %}
+                                                                                    {% set nbGroupesTD = usaColorationAutomne[i][j].getNbGroupesTD %}
+                                                                                    {% set nbGroupesTP = usaColorationAutomne[i][j].getNbGroupesTP %}
+                                                                                    {% set nbGroupesStage = usaColorationAutomne[i][j].getNbGroupesStage %}
+                                                                                    {% set nbGroupesTerrain = usaColorationAutomne[i][j].getNbGroupesTerrain %}
+                                                                                    {% set nbGroupesInnovation = usaColorationAutomne[i][j].getNbGroupesInnovationPedagogique %}
+                                                                                    {% if nbGroupesCM > 0 %}
+                                                                                        {% for k in 0..nbGroupesCM-1 %}
+                                                                                            <p>CM ({{ usaColorationAutomne[i][j].getHeuresCM }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesTD > 0 %}
+                                                                                        {% for k in 0..nbGroupesTD-1 %}
+                                                                                            <p>TD ({{ usaColorationAutomne[i][j].getHeuresTD }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesTP > 0 %}
+                                                                                        {% for k in 0..nbGroupesTP-1 %}
+                                                                                            <p>TP ({{ usaColorationAutomne[i][j].getHeuresTP }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesStage > 0 %}
+                                                                                        {% for k in 0..nbGroupesStage-1 %}
+                                                                                            <p>Stage ({{ usaColorationAutomne[i][j].getHeuresStage }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesTerrain > 0 %}
+                                                                                        {% for k in 0..nbGroupesTerrain-1 %}
+                                                                                            <p>Terrain ({{ usaColorationAutomne[i][j].getHeuresTerrain }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesInnovation > 0 %}
+                                                                                        {% for k in 0..nbGroupesInnovation-1 %}
+                                                                                            <p>Innovation ({{ usaColorationAutomne[i][j].getHeuresInnovationPedagogique }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     {% endfor %}
                                                                 </div>
@@ -376,6 +656,46 @@
                                                                                     {{ usaColorationAnnuel[i][j].getLibUSA }}
                                                                                 </p>
                                                                             </div>
+                                                                            <div class="disparition2 affichageInfoService">
+                                                                                <div class="infosSupplementaires">
+                                                                                    {% set nbGroupesCM = usaColorationAnnuel[i][j].getNbGroupesCM %}
+                                                                                    {% set nbGroupesTD = usaColorationAnnuel[i][j].getNbGroupesTD %}
+                                                                                    {% set nbGroupesTP = usaColorationAnnuel[i][j].getNbGroupesTP %}
+                                                                                    {% set nbGroupesStage = usaColorationAnnuel[i][j].getNbGroupesStage %}
+                                                                                    {% set nbGroupesTerrain = usaColorationAnnuel[i][j].getNbGroupesTerrain %}
+                                                                                    {% set nbGroupesInnovation = usaColorationAnnuel[i][j].getNbGroupesInnovationPedagogique %}
+                                                                                    {% if nbGroupesCM > 0 %}
+                                                                                        {% for k in 0..nbGroupesCM-1 %}
+                                                                                            <p>CM ({{ usaColorationAnnuel[i][j].getHeuresCM }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesTD > 0 %}
+                                                                                        {% for k in 0..nbGroupesTD-1 %}
+                                                                                            <p>TD ({{ usaColorationAnnuel[i][j].getHeuresTD }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesTP > 0 %}
+                                                                                        {% for k in 0..nbGroupesTP-1 %}
+                                                                                            <p>TP ({{ usaColorationAnnuel[i][j].getHeuresTP }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesStage > 0 %}
+                                                                                        {% for k in 0..nbGroupesStage-1 %}
+                                                                                            <p>Stage ({{ usaColorationAnnuel[i][j].getHeuresStage }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesTerrain > 0 %}
+                                                                                        {% for k in 0..nbGroupesTerrain-1 %}
+                                                                                            <p>Terrain ({{ usaColorationAnnuel[i][j].getHeuresTerrain }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                    {% if nbGroupesInnovation > 0 %}
+                                                                                        {% for k in 0..nbGroupesInnovation-1 %}
+                                                                                            <p>Innovation ({{ usaColorationAnnuel[i][j].getHeuresInnovationPedagogique }} h)</p>
+                                                                                        {% endfor %}
+                                                                                    {% endif %}
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     {% endfor %}
                                                                 </div>
@@ -405,6 +725,46 @@
                                                         {{ referentiels[i][0].getLibUSA }}</p>
                                                 {% endif %}
                                             </div>
+                                            <div class="disparition2 affichageInfoService">
+                                                <div class="infosSupplementaires">
+                                                    {% set nbGroupesCM = referentiels[i][0].getNbGroupesCM %}
+                                                    {% set nbGroupesTD = referentiels[i][0].getNbGroupesTD %}
+                                                    {% set nbGroupesTP = referentiels[i][0].getNbGroupesTP %}
+                                                    {% set nbGroupesStage = referentiels[i][0].getNbGroupesStage %}
+                                                    {% set nbGroupesTerrain = referentiels[i][0].getNbGroupesTerrain %}
+                                                    {% set nbGroupesInnovation = referentiels[i][0].getNbGroupesInnovationPedagogique %}
+                                                    {% if nbGroupesCM > 0 %}
+                                                        {% for k in 0..nbGroupesCM-1 %}
+                                                            <p>CM ({{ referentiels[i][0].getHeuresCM }} h)</p>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    {% if nbGroupesTD > 0 %}
+                                                        {% for k in 0..nbGroupesTD-1 %}
+                                                            <p>TD ({{ referentiels[i][0].getHeuresTD }} h)</p>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    {% if nbGroupesTP > 0 %}
+                                                        {% for k in 0..nbGroupesTP-1 %}
+                                                            <p>TP ({{ referentiels[i][0].getHeuresTP }} h)</p>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    {% if nbGroupesStage > 0 %}
+                                                        {% for k in 0..nbGroupesStage-1 %}
+                                                            <p>Stage ({{ referentiels[i][0].getHeuresStage }} h)</p>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    {% if nbGroupesTerrain > 0 %}
+                                                        {% for k in 0..nbGroupesTerrain-1 %}
+                                                            <p>Terrain ({{ referentiels[i][0].getHeuresTerrain }} h)</p>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    {% if nbGroupesInnovation > 0 %}
+                                                        {% for k in 0..nbGroupesInnovation-1 %}
+                                                            <p>Innovation ({{ referentiels[i][0].getHeuresInnovationPedagogique }} h)</p>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
                                         </div>
                                     {% endfor %}
                                 {% endif %}
@@ -425,6 +785,46 @@
                                                     <p class="infosService2">{{ decharges[i][1].getIdUSReferentiel }}
                                                         {{ decharges[i][0].getLibUSA }}</p>
                                                 {% endif %}
+                                            </div>
+                                            <div class="disparition2 affichageInfoService">
+                                                <div class="infosSupplementaires">
+                                                    {% set nbGroupesCM = decharges[i][0].getNbGroupesCM %}
+                                                    {% set nbGroupesTD = decharges[i][0].getNbGroupesTD %}
+                                                    {% set nbGroupesTP = decharges[i][0].getNbGroupesTP %}
+                                                    {% set nbGroupesStage = decharges[i][0].getNbGroupesStage %}
+                                                    {% set nbGroupesTerrain = decharges[i][0].getNbGroupesTerrain %}
+                                                    {% set nbGroupesInnovation = decharges[i][0].getNbGroupesInnovationPedagogique %}
+                                                    {% if nbGroupesCM > 0 %}
+                                                        {% for k in 0..nbGroupesCM-1 %}
+                                                            <p>CM ({{ decharges[i][0].getHeuresCM }} h)</p>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    {% if nbGroupesTD > 0 %}
+                                                        {% for k in 0..nbGroupesTD-1 %}
+                                                            <p>TD ({{ decharges[i][0].getHeuresTD }} h)</p>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    {% if nbGroupesTP > 0 %}
+                                                        {% for k in 0..nbGroupesTP-1 %}
+                                                            <p>TP ({{ decharges[i][0].getHeuresTP }} h)</p>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    {% if nbGroupesStage > 0 %}
+                                                        {% for k in 0..nbGroupesStage-1 %}
+                                                            <p>Stage ({{ decharges[i][0].getHeuresStage }} h)</p>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    {% if nbGroupesTerrain > 0 %}
+                                                        {% for k in 0..nbGroupesTerrain-1 %}
+                                                            <p>Terrain ({{ decharges[i][0].getHeuresTerrain }} h)</p>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    {% if nbGroupesInnovation > 0 %}
+                                                        {% for k in 0..nbGroupesInnovation-1 %}
+                                                            <p>Innovation ({{ decharges[i][0].getHeuresInnovationPedagogique }} h)</p>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
                                             </div>
                                         </div>
                                     {% endfor %}

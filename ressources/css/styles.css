@@ -155,6 +155,7 @@ ul {
     height: 45rem;
     background-repeat: no-repeat;
     background-size: cover;
+    margin-top: 5%;
 }
 
 #footer {
@@ -650,6 +651,10 @@ nav  button{
 
 #pageDeclarationService, .service{
     height: 800px;
+}
+
+#pageVoeu .coteDroit .infosService2 {
+    padding: 1.5%;
 }
 
 

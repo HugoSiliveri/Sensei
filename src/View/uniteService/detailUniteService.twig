@@ -130,32 +130,33 @@
                                             {% endfor %}
                                         </div>
                                     {% endfor %}
-                                </div><div class="sousMenuAnneeService menuDeroulantAnneeService">
-                                {% for intervenantParAnnee in intervenants[i] %}
-                                    <p>{{ intervenantParAnnee.getPrenom }} {{ intervenantParAnnee.getNom }}</p>
-                                    <div class="infosSupplementaires">
-                                        {% for declarationServiceParAnnee in declarationsServices[i] %}
-                                            {% if declarationServiceParAnnee.getIdIntervenant == intervenantParAnnee.getIdIntervenant %}
-                                                <ul>
-                                                    {% for interventionParAnnee in interventions[i] %}
-                                                        {% if interventionParAnnee.getIdIntervention == declarationServiceParAnnee.getIdIntervention %}
-                                                            <li><b>Numéro de groupe
-                                                                    :</b> {{ interventionParAnnee.getNumeroGroupeIntervention }}
-                                                            </li>
-                                                            <li><b>Type d'intervention
-                                                                    :</b> {{ interventionParAnnee.getTypeIntervention }}
-                                                            </li>
-                                                            <li><b>Volume horaire
-                                                                    :</b> {{ interventionParAnnee.getVolumeHoraire }}
-                                                            </li>
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                </ul>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </div>
-                                {% endfor %}
-                            </div>
+                                </div>
+{#                                <div class="sousMenuAnneeService menuDeroulantAnneeService">#}
+{#                                    {% for intervenantParAnnee in intervenants[i] %}#}
+{#                                        <p>{{ intervenantParAnnee.getPrenom }} {{ intervenantParAnnee.getNom }}</p>#}
+{#                                        <div class="infosSupplementaires">#}
+{#                                            {% for declarationServiceParAnnee in declarationsServices[i] %}#}
+{#                                                {% if declarationServiceParAnnee.getIdIntervenant == intervenantParAnnee.getIdIntervenant %}#}
+{#                                                    <ul>#}
+{#                                                        {% for interventionParAnnee in interventions[i] %}#}
+{#                                                            {% if interventionParAnnee.getIdIntervention == declarationServiceParAnnee.getIdIntervention %}#}
+{#                                                                <li><b>Numéro de groupe#}
+{#                                                                        :</b> {{ interventionParAnnee.getNumeroGroupeIntervention }}#}
+{#                                                                </li>#}
+{#                                                                <li><b>Type d'intervention#}
+{#                                                                        :</b> {{ interventionParAnnee.getTypeIntervention }}#}
+{#                                                                </li>#}
+{#                                                                <li><b>Volume horaire#}
+{#                                                                        :</b> {{ interventionParAnnee.getVolumeHoraire }}#}
+{#                                                                </li>#}
+{#                                                            {% endif %}#}
+{#                                                        {% endfor %}#}
+{#                                                    </ul>#}
+{#                                                {% endif %}#}
+{#                                            {% endfor %}#}
+{#                                        </div>#}
+{#                                    {% endfor %}#}
+{#                                </div>#}
                             {% endif %}
                         </div>
                     </div>
