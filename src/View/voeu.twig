@@ -1,8 +1,8 @@
 {% extends "base.twig" %}
 
 {% block page_content %}
-
     <div id="pageVoeu">
+        <data class="none">{{ connexionUtilisateur.getIntervenantConnecte.getIdIntervenant }}</data>
         <div class="miseEnPage2 centrer">
             <div class="alert alert-info alertVoeux">
                 <div>
@@ -48,21 +48,64 @@
                                                     {% include "templates/editionServiceAnnuelNonVacataire.twig" %}
                                                 {% endif %}
                                             </div>
-                                            <div class="disparition2 affichageInfoService">
-                                                {% for voeu in voeuxNonVacataires[i] %}
-                                                    <div class="infosSupplementaires">
-                                                        {{ voeu[0].idUSReferentiel }} :
+                                            {% if intervenantsAnnuelsEtDuDepartementNonVacataire[i].getIdIntervenant != connexionUtilisateur.getIntervenantConnecte.getIdIntervenant %}
+                                                <div class="disparition2 affichageInfoService">
+                                                    {% for voeu in voeuxNonVacataires[i] %}
+                                                        <div class="infosSupplementaires">
+                                                            {{ voeu[0].idUSReferentiel }} :
+                                                            {% set j = 0 %}
+                                                            {% for voeuMemeId in voeu %}
+                                                                {{ voeuMemeId.typeIntervention }} - {{ voeuMemeId.volumeHoraire }}
+                                                                {% if j < voeu|length-1 %}
+                                                                    /
+                                                                {% endif %}
+                                                                {% set j = j + 1 %}
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            {% else %}
+                                                <form id="formVoeu{{ intervenantsAnnuelsEtDuDepartementNonVacataire[i].getIdIntervenant }}"
+                                                      class="none" method="post"
+                                                      action="#">
+                                                    <fieldset class="transparent enColonne" disabled="disabled">
+                                                        <p>Code / Intervention / Nb heures / Groupe</p>
                                                         {% set j = 0 %}
-                                                        {% for voeuMemeId in voeu %}
-                                                            {{ voeuMemeId.typeIntervention }} - {{ voeuMemeId.volumeHoraire }}
-                                                            {% if j < voeu|length-1 %}
-                                                                /
-                                                            {% endif %}
-                                                            {% set j = j + 1 %}
+                                                        {% for voeu in voeuxNonVacataires[i] %}
+                                                            <div class="infosSupplementaires">
+                                                                {% for voeuMemeId in voeu %}
+                                                                    <div class="enLigne">
+                                                                        {{ voeu[0].idUsReferentiel }}
+                                                                        <label for="typeIntervention_id"></label>
+                                                                        <select class="inputCreation2" name="typeIntervention{{ j }}" id="typeIntervention_id">
+                                                                            {% set types = ["CM", "TD", "TP", "Stage", "Terrain", "Innovation Pédagogique"] %}
+                                                                            {% for type in types %}
+                                                                                {% if type == voeuMemeId.typeIntervention %}
+                                                                                    <option value="{{ type }}" selected>{{ type }}</option>
+                                                                                {% else %}
+                                                                                    <option value="{{ type }}">{{ type }}</option>
+                                                                                {% endif %}
+                                                                                {% set i = i + 1 %}
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                        -
+                                                                        <label for="volumeHoraire_id"></label>
+                                                                        <input class="inputCreation2" id="volumeHoraire_id" type="text" name="volumeHoraire{{ j }}" value="{{ voeu.volumeHoraire }}">
+                                                                        -
+                                                                        <label for="numGroupeIntervention_id"></label>
+                                                                        <input class="inputCreation2" id="numGroupeIntervention_id" type="text" name="numGroupeIntervention{{ j }}" value="{{ voeu.numGroupeIntervention }}">
+                                                                        <input type="hidden" name="millesime" value="{{ anneeActuelle }}">
+                                                                    </div>
+                                                                    {% set j = j + 1 %}
+                                                                {% endfor %}
+                                                            </div>
                                                         {% endfor %}
-                                                    </div>
-                                                {% endfor %}
-                                            </div>
+                                                        <div id="conteneur{{ intervenantsAnnuelsEtDuDepartementNonVacataire[i].getIdIntervenant }}" class="boutonValidationConteneur conteneur">
+                                                            <input class="boutonValidation bouton" type="submit" value="Envoyer">
+                                                        </div>
+                                                    </fieldset>
+                                                </form>
+                                            {% endif %}
                                         </div>
                                         {% set i = i + 1 %}
                                     {% endfor %}
@@ -102,21 +145,64 @@
                                                     {% include "templates/editionServiceAnnuelVacataire.twig" %}
                                                 {% endif %}
                                             </div>
-                                            <div class="disparition2 affichageInfoService">
-                                                {% for voeu in voeuxVacataires[i] %}
-                                                    <div class="infosSupplementaires">
-                                                        {{ voeu[0].idUsReferentiel }} :
+                                            {% if intervenantsAnnuelsEtDuDepartementVacataire[i].getIdIntervenant != connexionUtilisateur.getIntervenantConnecte.getIdIntervenant %}
+                                                <div class="disparition2 affichageInfoService">
+                                                    {% for voeu in voeuxVacataires[i] %}
+                                                        <div class="infosSupplementaires">
+                                                            {{ voeu[0].idUsReferentiel }} :
+                                                            {% set j = 0 %}
+                                                            {% for voeuMemeId in voeu %}
+                                                                {{ voeuMemeId.typeIntervention }} - {{ voeuMemeId.volumeHoraire }}
+                                                                {% if j < voeu|length-1 %}
+                                                                    /
+                                                                {% endif %}
+                                                                {% set j = j + 1 %}
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            {% else %}
+                                                <form id="formVoeu{{ intervenantsAnnuelsEtDuDepartementVacataire[i].getIdIntervenant }}"
+                                                      class="none" method="post"
+                                                      action="#">
+                                                    <fieldset class="transparent enColonne" disabled="disabled">
+                                                        <p>Code / Intervention / Nb heures / Groupe</p>
                                                         {% set j = 0 %}
-                                                        {% for voeuMemeId in voeu %}
-                                                            {{ voeuMemeId.typeIntervention }} - {{ voeuMemeId.volumeHoraire }}
-                                                            {% if j < voeu|length-1 %}
-                                                                /
-                                                            {% endif %}
-                                                            {% set j = j + 1 %}
+                                                        {% for voeu in voeuxVacataires[i] %}
+                                                            <div class="infosSupplementaires">
+                                                                {% for voeuMemeId in voeu %}
+                                                                    <div class="enLigne">
+                                                                        {{ voeu[0].idUsReferentiel }}
+                                                                        <label for="typeIntervention_id"></label>
+                                                                        <select class="inputCreation2" name="typeIntervention{{ j }}" id="typeIntervention_id">
+                                                                            {% set types = ["CM", "TD", "TP", "Stage", "Terrain", "Innovation Pédagogique"] %}
+                                                                            {% for type in types %}
+                                                                                {% if type == voeuMemeId.typeIntervention %}
+                                                                                    <option value="{{ type }}" selected>{{ type }}</option>
+                                                                                {% else %}
+                                                                                    <option value="{{ type }}">{{ type }}</option>
+                                                                                {% endif %}
+                                                                                {% set i = i + 1 %}
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                        -
+                                                                        <label for="volumeHoraire_id"></label>
+                                                                        <input class="inputCreation2" id="volumeHoraire_id" type="text" name="volumeHoraire{{ j }}" value="{{ voeu.volumeHoraire }}">
+                                                                        -
+                                                                        <label for="numGroupeIntervention_id"></label>
+                                                                        <input class="inputCreation2" id="numGroupeIntervention_id" type="text" name="numGroupeIntervention{{ j }}" value="{{ voeu.numGroupeIntervention }}">
+                                                                        <input type="hidden" name="millesime" value="{{ anneeActuelle }}">
+                                                                    </div>
+                                                                    {% set j = j + 1 %}
+                                                                {% endfor %}
+                                                            </div>
                                                         {% endfor %}
-                                                    </div>
-                                                {% endfor %}
-                                            </div>
+                                                        <div id="conteneur{{ intervenantsAnnuelsEtDuDepartementNonVacataire[i].getIdIntervenant }}" class="boutonValidationConteneur conteneur">
+                                                            <input class="boutonValidation bouton" type="submit" value="Envoyer">
+                                                        </div>
+                                                    </fieldset>
+                                                </form>
+                                            {% endif %}
                                         </div>
                                         {% set i = i + 1 %}
                                     {% endfor %}
@@ -125,6 +211,15 @@
                         </div>
                     </div>
                 </div>
+
+
+
+
+
+
+
+
+
                 <div class="coteDroit service overflow">
                     <div class="miseEnPage">
                         <button class="boutonDisparition">-</button>
@@ -141,24 +236,25 @@
                                                     {% for i in 0..indefinisDepartement|length-1 %}
                                                         <div class="miseEnPage2">
                                                             <div class="infosServiceConteneur">
+                                                                {% set nbGroupesCM = indefinisDepartement[i][0].getNbGroupesCM %}
+                                                                {% set nbGroupesTD = indefinisDepartement[i][0].getNbGroupesTD %}
+                                                                {% set nbGroupesTP = indefinisDepartement[i][0].getNbGroupesTP %}
+                                                                {% set nbGroupesStage = indefinisDepartement[i][0].getNbGroupesStage %}
+                                                                {% set nbGroupesTerrain = indefinisDepartement[i][0].getNbGroupesTerrain %}
+                                                                {% set nbGroupesInnovation = indefinisDepartement[i][0].getNbGroupesInnovationPedagogique %}
+                                                                {% set somme = nbGroupesCM + nbGroupesTD + nbGroupesTP + nbGroupesStage + nbGroupesTerrain + nbGroupesInnovation %}
                                                                 <button class="boutonDisparition">+</button>
                                                                 <p class="infosService2">{{ indefinisDepartement[i][1].getIdUSReferentiel }}
-                                                                    {{ indefinisDepartement[i][0].getLibUSA }}
+                                                                    {{ indefinisDepartement[i][0].getLibUSA }} ({{ somme }} groupe(s) )
                                                                 </p>
                                                             </div>
                                                             <div class="disparition2 affichageInfoService">
                                                                 <div class="infosSupplementaires">
-                                                                    {% set nbGroupesCM = indefinisDepartement[i][0].getNbGroupesCM %}
-                                                                    {% set nbGroupesTD = indefinisDepartement[i][0].getNbGroupesTD %}
-                                                                    {% set nbGroupesTP = indefinisDepartement[i][0].getNbGroupesTP %}
-                                                                    {% set nbGroupesStage = indefinisDepartement[i][0].getNbGroupesStage %}
-                                                                    {% set nbGroupesTerrain = indefinisDepartement[i][0].getNbGroupesTerrain %}
-                                                                    {% set nbGroupesInnovation = indefinisDepartement[i][0].getNbGroupesInnovationPedagogique %}
                                                                     {% if nbGroupesCM > 0 %}
                                                                         {% for k in 0..nbGroupesCM-1 %}
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
-                                                                                <p>CM ({{ indefinisDepartement[i][0].getHeuresCM }} h)</p>
+                                                                                <p>CM {{k+1}} ( {{ indefinisDepartement[i][0].getHeuresCM }} h )</p>
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -166,7 +262,7 @@
                                                                         {% for k in 0..nbGroupesTD-1 %}
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
-                                                                                <p>TD ({{ indefinisDepartement[i][0].getHeuresTD }} h)</p>
+                                                                                <p>TD {{k+1}} ( {{ indefinisDepartement[i][0].getHeuresTD }} h )</p>
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -174,7 +270,7 @@
                                                                         {% for k in 0..nbGroupesTP-1 %}
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
-                                                                                <p>TP ({{ indefinisDepartement[i][0].getHeuresTP }} h)</p>
+                                                                                <p>TP {{k+1}} ( {{ indefinisDepartement[i][0].getHeuresTP }} h )</p>
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -182,7 +278,7 @@
                                                                         {% for k in 0..nbGroupesStage-1 %}
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
-                                                                                <p>Stage ({{ indefinisDepartement[i][0].getHeuresStage }} h)</p>
+                                                                                <p>Stage {{k+1}} ( {{ indefinisDepartement[i][0].getHeuresStage }} h )</p>
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -190,7 +286,7 @@
                                                                         {% for k in 0..nbGroupesTerrain-1 %}
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
-                                                                                <p>Terrain ({{ indefinisDepartement[i][0].getHeuresTerrain }} h)</p>
+                                                                                <p>Terrain {{k+1}} ( {{ indefinisDepartement[i][0].getHeuresTerrain }} h )</p>
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -198,7 +294,7 @@
                                                                         {% for k in 0..nbGroupesInnovation-1 %}
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
-                                                                                <p>Innovation ({{ indefinisDepartement[i][0].getHeuresInnovationPedagogique }} h)</p>
+                                                                                <p>Innovation {{k+1}} ( {{ indefinisDepartement[i][0].getHeuresInnovationPedagogique }} h )</p>
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -229,24 +325,25 @@
                                                                     {% for j in 0..usaPrintemps[i]|length-1 %}
                                                                         <div class="miseEnPage2">
                                                                             <div class="infosServiceConteneur">
+                                                                                {% set nbGroupesCM = usaPrintemps[i][j].getNbGroupesCM %}
+                                                                                {% set nbGroupesTD = usaPrintemps[i][j].getNbGroupesTD %}
+                                                                                {% set nbGroupesTP = usaPrintemps[i][j].getNbGroupesTP %}
+                                                                                {% set nbGroupesStage = usaPrintemps[i][j].getNbGroupesStage %}
+                                                                                {% set nbGroupesTerrain = usaPrintemps[i][j].getNbGroupesTerrain %}
+                                                                                {% set nbGroupesInnovation = usaPrintemps[i][j].getNbGroupesInnovationPedagogique %}
+                                                                                {% set somme = nbGroupesCM + nbGroupesTD + nbGroupesTP + nbGroupesStage + nbGroupesTerrain + nbGroupesInnovation %}
                                                                                 <button class="boutonDisparition">+</button>
                                                                                 <p class="infosService2">{{ usPrintemps[i][j].getIdUSReferentiel }}
-                                                                                    {{ usaPrintemps[i][j].getLibUSA }}
+                                                                                    {{ usaPrintemps[i][j].getLibUSA }} ( {{ somme }} groupe(s) )
                                                                                 </p>
                                                                             </div>
                                                                             <div class="disparition2 affichageInfoService">
                                                                                 <div class="infosSupplementaires">
-                                                                                    {% set nbGroupesCM = usaPrintemps[i][j].getNbGroupesCM %}
-                                                                                    {% set nbGroupesTD = usaPrintemps[i][j].getNbGroupesTD %}
-                                                                                    {% set nbGroupesTP = usaPrintemps[i][j].getNbGroupesTP %}
-                                                                                    {% set nbGroupesStage = usaPrintemps[i][j].getNbGroupesStage %}
-                                                                                    {% set nbGroupesTerrain = usaPrintemps[i][j].getNbGroupesTerrain %}
-                                                                                    {% set nbGroupesInnovation = usaPrintemps[i][j].getNbGroupesInnovationPedagogique %}
                                                                                     {% if nbGroupesCM > 0 %}
                                                                                         {% for k in 0..nbGroupesCM-1 %}
                                                                                         <div class="miseEnPage">
                                                                                             {% include "templates/slider.twig" %}
-                                                                                            <p>CM ({{ usaPrintemps[i][j].getHeuresCM }} h)</p>
+                                                                                            <p>CM {{k+1}} ( {{ usaPrintemps[i][j].getHeuresCM }} h )</p>
                                                                                         </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -254,7 +351,7 @@
                                                                                         {% for k in 0..nbGroupesTD-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>TD ({{ usaPrintemps[i][j].getHeuresTD }} h)</p>
+                                                                                                <p>TD {{k+1}} ( {{ usaPrintemps[i][j].getHeuresTD }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -262,7 +359,7 @@
                                                                                         {% for k in 0..nbGroupesTP-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>TP ({{ usaPrintemps[i][j].getHeuresTP }} h)</p>
+                                                                                                <p>TP {{k+1}} ( {{ usaPrintemps[i][j].getHeuresTP }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -270,7 +367,7 @@
                                                                                         {% for k in 0..nbGroupesStage-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>Stage ({{ usaPrintemps[i][j].getHeuresStage }} h)</p>
+                                                                                                <p>Stage {{k+1}} ( {{ usaPrintemps[i][j].getHeuresStage }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -278,7 +375,7 @@
                                                                                         {% for k in 0..nbGroupesTerrain-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>Terrain ({{ usaPrintemps[i][j].getHeuresTerrain }} h)</p>
+                                                                                                <p>Terrain {{k+1}} ( {{ usaPrintemps[i][j].getHeuresTerrain }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -286,7 +383,7 @@
                                                                                         {% for k in 0..nbGroupesInnovation-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>Innovation ({{ usaPrintemps[i][j].getHeuresInnovationPedagogique }} h)</p>
+                                                                                                <p>Innovation {{k+1}} ( {{ usaPrintemps[i][j].getHeuresInnovationPedagogique }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -321,24 +418,25 @@
                                                                     {% for j in 0..usaAutomne[i]|length-1 %}
                                                                         <div class="miseEnPage2">
                                                                             <div class="infosServiceConteneur">
+                                                                                {% set nbGroupesCM = usaAutomne[i][j].getNbGroupesCM %}
+                                                                                {% set nbGroupesTD = usaAutomne[i][j].getNbGroupesTD %}
+                                                                                {% set nbGroupesTP = usaAutomne[i][j].getNbGroupesTP %}
+                                                                                {% set nbGroupesStage = usaAutomne[i][j].getNbGroupesStage %}
+                                                                                {% set nbGroupesTerrain = usaAutomne[i][j].getNbGroupesTerrain %}
+                                                                                {% set nbGroupesInnovation = usaAutomne[i][j].getNbGroupesInnovationPedagogique %}
+                                                                                {% set somme = nbGroupesCM + nbGroupesTD + nbGroupesTP + nbGroupesStage + nbGroupesTerrain + nbGroupesInnovation %}
                                                                                 <button class="boutonDisparition">+</button>
                                                                                 <p class="infosService2">{{ usAutomne[i][j].getIdUSReferentiel }}
-                                                                                    {{ usaAutomne[i][j].getLibUSA }}
+                                                                                    {{ usaAutomne[i][j].getLibUSA }} ( {{ somme }} groupe(s) )
                                                                                 </p>
                                                                             </div>
                                                                             <div class="disparition2 affichageInfoService">
                                                                                 <div class="infosSupplementaires">
-                                                                                    {% set nbGroupesCM = usaAutomne[i][j].getNbGroupesCM %}
-                                                                                    {% set nbGroupesTD = usaAutomne[i][j].getNbGroupesTD %}
-                                                                                    {% set nbGroupesTP = usaAutomne[i][j].getNbGroupesTP %}
-                                                                                    {% set nbGroupesStage = usaAutomne[i][j].getNbGroupesStage %}
-                                                                                    {% set nbGroupesTerrain = usaAutomne[i][j].getNbGroupesTerrain %}
-                                                                                    {% set nbGroupesInnovation = usaAutomne[i][j].getNbGroupesInnovationPedagogique %}
                                                                                     {% if nbGroupesCM > 0 %}
                                                                                         {% for k in 0..nbGroupesCM-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>CM ({{ usaAutomne[i][j].getHeuresCM }} h)</p>
+                                                                                                <p>CM {{k+1}} ( {{ usaAutomne[i][j].getHeuresCM }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -346,7 +444,7 @@
                                                                                         {% for k in 0..nbGroupesTD-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>TD ({{ usaAutomne[i][j].getHeuresTD }} h)</p>
+                                                                                                <p>TD {{k+1}} ( {{ usaAutomne[i][j].getHeuresTD }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -354,7 +452,7 @@
                                                                                         {% for k in 0..nbGroupesTP-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>TP ({{ usaAutomne[i][j].getHeuresTP }} h)</p>
+                                                                                                <p>TP {{k+1}} ( {{ usaAutomne[i][j].getHeuresTP }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -362,7 +460,7 @@
                                                                                         {% for k in 0..nbGroupesStage-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>Stage ({{ usaAutomne[i][j].getHeuresStage }} h)</p>
+                                                                                                <p>Stage {{k+1}} ( {{ usaAutomne[i][j].getHeuresStage }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -370,7 +468,7 @@
                                                                                         {% for k in 0..nbGroupesTerrain-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>Terrain ({{ usaAutomne[i][j].getHeuresTerrain }} h)</p>
+                                                                                                <p>Terrain {{k+1}} ( {{ usaAutomne[i][j].getHeuresTerrain }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -378,7 +476,7 @@
                                                                                         {% for k in 0..nbGroupesInnovation-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>Innovation ({{ usaAutomne[i][j].getHeuresInnovationPedagogique }} h)</p>
+                                                                                                <p>Innovation {{k+1}} ( {{ usaAutomne[i][j].getHeuresInnovationPedagogique }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -413,24 +511,25 @@
                                                                     {% for j in 0..usaAnnuel[i]|length-1 %}
                                                                         <div class="miseEnPage2">
                                                                             <div class="infosServiceConteneur">
+                                                                                {% set nbGroupesCM = usaAnnuel[i][j].getNbGroupesCM %}
+                                                                                {% set nbGroupesTD = usaAnnuel[i][j].getNbGroupesTD %}
+                                                                                {% set nbGroupesTP = usaAnnuel[i][j].getNbGroupesTP %}
+                                                                                {% set nbGroupesStage = usaAnnuel[i][j].getNbGroupesStage %}
+                                                                                {% set nbGroupesTerrain = usaAnnuel[i][j].getNbGroupesTerrain %}
+                                                                                {% set nbGroupesInnovation = usaAnnuel[i][j].getNbGroupesInnovationPedagogique %}
+                                                                                {% set somme = nbGroupesCM + nbGroupesTD + nbGroupesTP + nbGroupesStage + nbGroupesTerrain + nbGroupesInnovation %}
                                                                                 <button class="boutonDisparition">+</button>
                                                                                 <p class="infosService2">{{ usAnnuel[i][j].getIdUSReferentiel }}
-                                                                                    {{ usaAnnuel[i][j].getLibUSA }}
+                                                                                    {{ usaAnnuel[i][j].getLibUSA }} ( {{ somme }} groupe(s) )
                                                                                 </p>
                                                                             </div>
                                                                             <div class="disparition2 affichageInfoService">
                                                                                 <div class="infosSupplementaires">
-                                                                                    {% set nbGroupesCM = usaAnnuel[i][j].getNbGroupesCM %}
-                                                                                    {% set nbGroupesTD = usaAnnuel[i][j].getNbGroupesTD %}
-                                                                                    {% set nbGroupesTP = usaAnnuel[i][j].getNbGroupesTP %}
-                                                                                    {% set nbGroupesStage = usaAnnuel[i][j].getNbGroupesStage %}
-                                                                                    {% set nbGroupesTerrain = usaAnnuel[i][j].getNbGroupesTerrain %}
-                                                                                    {% set nbGroupesInnovation = usaAnnuel[i][j].getNbGroupesInnovationPedagogique %}
                                                                                     {% if nbGroupesCM > 0 %}
                                                                                         {% for k in 0..nbGroupesCM-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>CM ({{ usaAnnuel[i][j].getHeuresCM }} h)</p>
+                                                                                                <p>CM {{k+1}} ( {{ usaAnnuel[i][j].getHeuresCM }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -438,7 +537,7 @@
                                                                                         {% for k in 0..nbGroupesTD-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>TD ({{ usaAnnuel[i][j].getHeuresTD }} h)</p>
+                                                                                                <p>TD {{k+1}} ( {{ usaAnnuel[i][j].getHeuresTD }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -446,7 +545,7 @@
                                                                                         {% for k in 0..nbGroupesTP-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>TP ({{ usaAnnuel[i][j].getHeuresTP }} h)</p>
+                                                                                                <p>TP {{k+1}} ( {{ usaAnnuel[i][j].getHeuresTP }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -454,7 +553,7 @@
                                                                                         {% for k in 0..nbGroupesStage-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>Stage ({{ usaAnnuel[i][j].getHeuresStage }} h)</p>
+                                                                                                <p>Stage {{k+1}} ( {{ usaAnnuel[i][j].getHeuresStage }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -462,7 +561,7 @@
                                                                                         {% for k in 0..nbGroupesTerrain-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>Terrain ({{ usaAnnuel[i][j].getHeuresTerrain }} h)</p>
+                                                                                                <p>Terrain {{k+1}} ( {{ usaAnnuel[i][j].getHeuresTerrain }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -470,7 +569,7 @@
                                                                                         {% for k in 0..nbGroupesInnovation-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>Innovation ({{ usaAnnuel[i][j].getHeuresInnovationPedagogique }} h)</p>
+                                                                                                <p>Innovation {{k+1}} ( {{ usaAnnuel[i][j].getHeuresInnovationPedagogique }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -505,24 +604,25 @@
                                                     {% for i in 0..indefinisColoration|length-1 %}
                                                         <div class="miseEnPage2">
                                                             <div class="infosServiceConteneur">
+                                                                {% set nbGroupesCM = indefinisColoration[i][0].getNbGroupesCM %}
+                                                                {% set nbGroupesTD = indefinisColoration[i][0].getNbGroupesTD %}
+                                                                {% set nbGroupesTP = indefinisColoration[i][0].getNbGroupesTP %}
+                                                                {% set nbGroupesStage = indefinisColoration[i][0].getNbGroupesStage %}
+                                                                {% set nbGroupesTerrain = indefinisColoration[i][0].getNbGroupesTerrain %}
+                                                                {% set nbGroupesInnovation = indefinisColoration[i][0].getNbGroupesInnovationPedagogique %}
+                                                                {% set somme = nbGroupesCM + nbGroupesTD + nbGroupesTP + nbGroupesStage + nbGroupesTerrain + nbGroupesInnovation %}
                                                                 <button class="boutonDisparition">+</button>
                                                                 <p class="infosService2">{{ indefinisColoration[i][1].getIdUSReferentiel }}
-                                                                    {{ indefinisColoration[i][0].getLibUSA }}
+                                                                    {{ indefinisColoration[i][0].getLibUSA }} ( {{ somme }} groupe(s) )
                                                                 </p>
                                                             </div>
                                                             <div class="disparition2 affichageInfoService">
                                                                 <div class="infosSupplementaires">
-                                                                    {% set nbGroupesCM = indefinisColoration[i][0].getNbGroupesCM %}
-                                                                    {% set nbGroupesTD = indefinisColoration[i][0].getNbGroupesTD %}
-                                                                    {% set nbGroupesTP = indefinisColoration[i][0].getNbGroupesTP %}
-                                                                    {% set nbGroupesStage = indefinisColoration[i][0].getNbGroupesStage %}
-                                                                    {% set nbGroupesTerrain = indefinisColoration[i][0].getNbGroupesTerrain %}
-                                                                    {% set nbGroupesInnovation = indefinisColoration[i][0].getNbGroupesInnovationPedagogique %}
                                                                     {% if nbGroupesCM > 0 %}
                                                                         {% for k in 0..nbGroupesCM-1 %}
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
-                                                                                <p>CM ({{ indefinisColoration[i][0].getHeuresCM }} h)</p>
+                                                                                <p>CM {{k+1}} ( {{ indefinisColoration[i][0].getHeuresCM }} h )</p>
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -530,7 +630,7 @@
                                                                         {% for k in 0..nbGroupesTD-1 %}
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
-                                                                                <p>TD ({{ indefinisColoration[i][0].getHeuresTD }} h)</p>
+                                                                                <p>TD {{k+1}} ( {{ indefinisColoration[i][0].getHeuresTD }} h )</p>
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -538,7 +638,7 @@
                                                                         {% for k in 0..nbGroupesTP-1 %}
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
-                                                                                <p>TP ({{ indefinisColoration[i][0].getHeuresTP }} h)</p>
+                                                                                <p>TP {{k+1}} ( {{ indefinisColoration[i][0].getHeuresTP }} h )</p>
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -546,7 +646,7 @@
                                                                         {% for k in 0..nbGroupesStage-1 %}
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
-                                                                                <p>Stage ({{ indefinisColoration[i][0].getHeuresStage }} h)</p>
+                                                                                <p>Stage {{k+1}} ( {{ indefinisColoration[i][0].getHeuresStage }} h )</p>
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -554,7 +654,7 @@
                                                                         {% for k in 0..nbGroupesTerrain-1 %}
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
-                                                                                <p>Terrain ({{ indefinisColoration[i][0].getHeuresTerrain }} h)</p>
+                                                                                <p>Terrain {{k+1}} ( {{ indefinisColoration[i][0].getHeuresTerrain }} h )</p>
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -562,7 +662,7 @@
                                                                         {% for k in 0..nbGroupesInnovation-1 %}
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
-                                                                                <p>Innovation ({{ indefinisColoration[i][0].getHeuresInnovationPedagogique }} h)</p>
+                                                                                <p>Innovation {{k+1}} ( {{ indefinisColoration[i][0].getHeuresInnovationPedagogique }} h )</p>
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -593,24 +693,26 @@
                                                                     {% for j in 0..usaColorationPrintemps[i]|length-1 %}
                                                                         <div class="miseEnPage2">
                                                                             <div class="infosServiceConteneur">
+                                                                                {% set nbGroupesCM = usaColorationPrintemps[i][j].getNbGroupesCM %}
+                                                                                {% set nbGroupesTD = usaColorationPrintemps[i][j].getNbGroupesTD %}
+                                                                                {% set nbGroupesTP = usaColorationPrintemps[i][j].getNbGroupesTP %}
+                                                                                {% set nbGroupesStage = usaColorationPrintemps[i][j].getNbGroupesStage %}
+                                                                                {% set nbGroupesTerrain = usaColorationPrintemps[i][j].getNbGroupesTerrain %}
+                                                                                {% set nbGroupesInnovation = usaColorationPrintemps[i][j].getNbGroupesInnovationPedagogique %}
+                                                                                {% set somme = nbGroupesCM + nbGroupesTD + nbGroupesTP + nbGroupesStage + nbGroupesTerrain + nbGroupesInnovation %}
                                                                                 <button class="boutonDisparition">+</button>
                                                                                 <p class="infosService2">{{ usColorationPrintemps[i][j].getIdUSReferentiel }}
-                                                                                    {{ usaColorationPrintemps[i][j].getLibUSA }}
+                                                                                    {{ usaColorationPrintemps[i][j].getLibUSA }} ( {{ somme }} groupe(s) )
                                                                                 </p>
                                                                             </div>
                                                                             <div class="disparition2 affichageInfoService">
                                                                                 <div class="infosSupplementaires">
-                                                                                    {% set nbGroupesCM = usaColorationPrintemps[i][j].getNbGroupesCM %}
-                                                                                    {% set nbGroupesTD = usaColorationPrintemps[i][j].getNbGroupesTD %}
-                                                                                    {% set nbGroupesTP = usaColorationPrintemps[i][j].getNbGroupesTP %}
-                                                                                    {% set nbGroupesStage = usaColorationPrintemps[i][j].getNbGroupesStage %}
-                                                                                    {% set nbGroupesTerrain = usaColorationPrintemps[i][j].getNbGroupesTerrain %}
-                                                                                    {% set nbGroupesInnovation = usaColorationPrintemps[i][j].getNbGroupesInnovationPedagogique %}
+
                                                                                     {% if nbGroupesCM > 0 %}
                                                                                         {% for k in 0..nbGroupesCM-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>CM ({{ usaColorationPrintemps[i][j].getHeuresCM }} h)</p>
+                                                                                                <p>CM {{k+1}} ( {{ usaColorationPrintemps[i][j].getHeuresCM }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -618,7 +720,7 @@
                                                                                         {% for k in 0..nbGroupesTD-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>TD ({{ usaColorationPrintemps[i][j].getHeuresTD }} h)</p>
+                                                                                                <p>TD {{k+1}} ( {{ usaColorationPrintemps[i][j].getHeuresTD }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -626,7 +728,7 @@
                                                                                         {% for k in 0..nbGroupesTP-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>TP ({{ usaColorationPrintemps[i][j].getHeuresTP }} h)</p>
+                                                                                                <p>TP {{k+1}} ( {{ usaColorationPrintemps[i][j].getHeuresTP }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -634,7 +736,7 @@
                                                                                         {% for k in 0..nbGroupesStage-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>Stage ({{ usaColorationPrintemps[i][j].getHeuresStage }} h)</p>
+                                                                                                <p>Stage ( {{ usaColorationPrintemps[i][j].getHeuresStage }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -642,7 +744,7 @@
                                                                                         {% for k in 0..nbGroupesTerrain-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>Terrain ({{ usaColorationPrintemps[i][j].getHeuresTerrain }} h)</p>
+                                                                                                <p>Terrain {{k+1}} ( {{ usaColorationPrintemps[i][j].getHeuresTerrain }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -650,7 +752,7 @@
                                                                                         {% for k in 0..nbGroupesInnovation-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>Innovation ({{ usaColorationPrintemps[i][j].getHeuresInnovationPedagogique }} h)</p>
+                                                                                                <p>Innovation {{k+1}} ( {{ usaColorationPrintemps[i][j].getHeuresInnovationPedagogique }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -685,24 +787,25 @@
                                                                     {% for j in 0..usaColorationAutomne[i]|length-1 %}
                                                                         <div class="miseEnPage2">
                                                                             <div class="infosServiceConteneur">
+                                                                                {% set nbGroupesCM = usaColorationAutomne[i][j].getNbGroupesCM %}
+                                                                                {% set nbGroupesTD = usaColorationAutomne[i][j].getNbGroupesTD %}
+                                                                                {% set nbGroupesTP = usaColorationAutomne[i][j].getNbGroupesTP %}
+                                                                                {% set nbGroupesStage = usaColorationAutomne[i][j].getNbGroupesStage %}
+                                                                                {% set nbGroupesTerrain = usaColorationAutomne[i][j].getNbGroupesTerrain %}
+                                                                                {% set nbGroupesInnovation = usaColorationAutomne[i][j].getNbGroupesInnovationPedagogique %}
+                                                                                {% set somme = nbGroupesCM + nbGroupesTD + nbGroupesTP + nbGroupesStage + nbGroupesTerrain + nbGroupesInnovation %}
                                                                                 <button class="boutonDisparition">+</button>
                                                                                 <p class="infosService2">{{ usColorationAutomne[i][j].getIdUSReferentiel }}
-                                                                                    {{ usaColorationAutomne[i][j].getLibUSA }}
+                                                                                    {{ usaColorationAutomne[i][j].getLibUSA }} ( {{ somme }} groupe(s) )
                                                                                 </p>
                                                                             </div>
                                                                             <div class="disparition2 affichageInfoService">
                                                                                 <div class="infosSupplementaires">
-                                                                                    {% set nbGroupesCM = usaColorationAutomne[i][j].getNbGroupesCM %}
-                                                                                    {% set nbGroupesTD = usaColorationAutomne[i][j].getNbGroupesTD %}
-                                                                                    {% set nbGroupesTP = usaColorationAutomne[i][j].getNbGroupesTP %}
-                                                                                    {% set nbGroupesStage = usaColorationAutomne[i][j].getNbGroupesStage %}
-                                                                                    {% set nbGroupesTerrain = usaColorationAutomne[i][j].getNbGroupesTerrain %}
-                                                                                    {% set nbGroupesInnovation = usaColorationAutomne[i][j].getNbGroupesInnovationPedagogique %}
                                                                                     {% if nbGroupesCM > 0 %}
                                                                                         {% for k in 0..nbGroupesCM-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>CM ({{ usaColorationAutomne[i][j].getHeuresCM }} h)</p>
+                                                                                                <p>CM {{k+1}} ( {{ usaColorationAutomne[i][j].getHeuresCM }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -710,7 +813,7 @@
                                                                                         {% for k in 0..nbGroupesTD-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>TD ({{ usaColorationAutomne[i][j].getHeuresTD }} h)</p>
+                                                                                                <p>TD {{k+1}} ( {{ usaColorationAutomne[i][j].getHeuresTD }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -718,7 +821,7 @@
                                                                                         {% for k in 0..nbGroupesTP-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>TP ({{ usaColorationAutomne[i][j].getHeuresTP }} h)</p>
+                                                                                                <p>TP {{k+1}} ( {{ usaColorationAutomne[i][j].getHeuresTP }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -726,7 +829,7 @@
                                                                                         {% for k in 0..nbGroupesStage-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>Stage ({{ usaColorationAutomne[i][j].getHeuresStage }} h)</p>
+                                                                                                <p>Stage {{k+1}} ( {{ usaColorationAutomne[i][j].getHeuresStage }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -734,7 +837,7 @@
                                                                                         {% for k in 0..nbGroupesTerrain-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>Terrain ({{ usaColorationAutomne[i][j].getHeuresTerrain }} h)</p>
+                                                                                                <p>Terrain {{k+1}} ( {{ usaColorationAutomne[i][j].getHeuresTerrain }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -742,7 +845,7 @@
                                                                                         {% for k in 0..nbGroupesInnovation-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>Innovation ({{ usaColorationAutomne[i][j].getHeuresInnovationPedagogique }} h)</p>
+                                                                                                <p>Innovation {{k+1}} ( {{ usaColorationAutomne[i][j].getHeuresInnovationPedagogique }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -777,24 +880,25 @@
                                                                     {% for j in 0..usaColorationAnnuel[i]|length-1 %}
                                                                         <div class="miseEnPage2">
                                                                             <div class="infosServiceConteneur">
+                                                                                {% set nbGroupesCM = usaColorationAnnuel[i][j].getNbGroupesCM %}
+                                                                                {% set nbGroupesTD = usaColorationAnnuel[i][j].getNbGroupesTD %}
+                                                                                {% set nbGroupesTP = usaColorationAnnuel[i][j].getNbGroupesTP %}
+                                                                                {% set nbGroupesStage = usaColorationAnnuel[i][j].getNbGroupesStage %}
+                                                                                {% set nbGroupesTerrain = usaColorationAnnuel[i][j].getNbGroupesTerrain %}
+                                                                                {% set nbGroupesInnovation = usaColorationAnnuel[i][j].getNbGroupesInnovationPedagogique %}
+                                                                                {% set somme = nbGroupesCM + nbGroupesTD + nbGroupesTP + nbGroupesStage + nbGroupesTerrain + nbGroupesInnovation %}
                                                                                 <button class="boutonDisparition">+</button>
                                                                                 <p class="infosService2">{{ usColorationAnnuel[i][j].getIdUSReferentiel }}
-                                                                                    {{ usaColorationAnnuel[i][j].getLibUSA }}
+                                                                                    {{ usaColorationAnnuel[i][j].getLibUSA }} ( {{ somme }} groupe(s) )
                                                                                 </p>
                                                                             </div>
                                                                             <div class="disparition2 affichageInfoService">
                                                                                 <div class="infosSupplementaires">
-                                                                                    {% set nbGroupesCM = usaColorationAnnuel[i][j].getNbGroupesCM %}
-                                                                                    {% set nbGroupesTD = usaColorationAnnuel[i][j].getNbGroupesTD %}
-                                                                                    {% set nbGroupesTP = usaColorationAnnuel[i][j].getNbGroupesTP %}
-                                                                                    {% set nbGroupesStage = usaColorationAnnuel[i][j].getNbGroupesStage %}
-                                                                                    {% set nbGroupesTerrain = usaColorationAnnuel[i][j].getNbGroupesTerrain %}
-                                                                                    {% set nbGroupesInnovation = usaColorationAnnuel[i][j].getNbGroupesInnovationPedagogique %}
                                                                                     {% if nbGroupesCM > 0 %}
                                                                                         {% for k in 0..nbGroupesCM-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>CM ({{ usaColorationAnnuel[i][j].getHeuresCM }} h)</p>
+                                                                                                <p>CM {{k+1}} ( {{ usaColorationAnnuel[i][j].getHeuresCM }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -802,7 +906,7 @@
                                                                                         {% for k in 0..nbGroupesTD-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>TD ({{ usaColorationAnnuel[i][j].getHeuresTD }} h)</p>
+                                                                                                <p>TD {{k+1}} ( {{ usaColorationAnnuel[i][j].getHeuresTD }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -810,7 +914,7 @@
                                                                                         {% for k in 0..nbGroupesTP-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>TP ({{ usaColorationAnnuel[i][j].getHeuresTP }} h)</p>
+                                                                                                <p>TP {{k+1}} ( {{ usaColorationAnnuel[i][j].getHeuresTP }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -818,7 +922,7 @@
                                                                                         {% for k in 0..nbGroupesStage-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>Stage ({{ usaColorationAnnuel[i][j].getHeuresStage }} h)</p>
+                                                                                                <p>Stage {{k+1}} ( {{ usaColorationAnnuel[i][j].getHeuresStage }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -826,7 +930,7 @@
                                                                                         {% for k in 0..nbGroupesTerrain-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>Terrain ({{ usaColorationAnnuel[i][j].getHeuresTerrain }} h)</p>
+                                                                                                <p>Terrain {{k+1}} ( {{ usaColorationAnnuel[i][j].getHeuresTerrain }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -834,7 +938,7 @@
                                                                                         {% for k in 0..nbGroupesInnovation-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
-                                                                                                <p>Innovation ({{ usaColorationAnnuel[i][j].getHeuresInnovationPedagogique }} h)</p>
+                                                                                                <p>Innovation {{k+1}} ( {{ usaColorationAnnuel[i][j].getHeuresInnovationPedagogique }} h )</p>
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -863,25 +967,26 @@
                                     {% for i in 0..referentiels|length-1 %}
                                         <div class="miseEnPage2">
                                             <div class="infosServiceConteneur">
+                                                {% set nbGroupesCM = referentiels[i][0].getNbGroupesCM %}
+                                                {% set nbGroupesTD = referentiels[i][0].getNbGroupesTD %}
+                                                {% set nbGroupesTP = referentiels[i][0].getNbGroupesTP %}
+                                                {% set nbGroupesStage = referentiels[i][0].getNbGroupesStage %}
+                                                {% set nbGroupesTerrain = referentiels[i][0].getNbGroupesTerrain %}
+                                                {% set nbGroupesInnovation = referentiels[i][0].getNbGroupesInnovationPedagogique %}
+                                                {% set somme = nbGroupesCM + nbGroupesTD + nbGroupesTP + nbGroupesStage + nbGroupesTerrain + nbGroupesInnovation %}
                                                 {% if referentiels[i] is not null %}
                                                     <button class="boutonDisparition">+</button>
                                                     <p class="infosService2">{{ referentiels[i][1].getIdUSReferentiel }}
-                                                        {{ referentiels[i][0].getLibUSA }}</p>
+                                                        {{ referentiels[i][0].getLibUSA }} ( {{ somme }} groupe(s) )</p>
                                                 {% endif %}
                                             </div>
                                             <div class="disparition2 affichageInfoService">
                                                 <div class="infosSupplementaires">
-                                                    {% set nbGroupesCM = referentiels[i][0].getNbGroupesCM %}
-                                                    {% set nbGroupesTD = referentiels[i][0].getNbGroupesTD %}
-                                                    {% set nbGroupesTP = referentiels[i][0].getNbGroupesTP %}
-                                                    {% set nbGroupesStage = referentiels[i][0].getNbGroupesStage %}
-                                                    {% set nbGroupesTerrain = referentiels[i][0].getNbGroupesTerrain %}
-                                                    {% set nbGroupesInnovation = referentiels[i][0].getNbGroupesInnovationPedagogique %}
                                                     {% if nbGroupesCM > 0 %}
                                                         {% for k in 0..nbGroupesCM-1 %}
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
-                                                                <p>CM ({{ referentiels[i][0].getHeuresCM }} h)</p>
+                                                                <p>CM {{k+1}} ( {{ referentiels[i][0].getHeuresCM }} h )</p>
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
@@ -889,7 +994,7 @@
                                                         {% for k in 0..nbGroupesTD-1 %}
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
-                                                                <p>TD ({{ referentiels[i][0].getHeuresTD }} h)</p>
+                                                                <p>TD {{k+1}} ( {{ referentiels[i][0].getHeuresTD }} h )</p>
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
@@ -897,7 +1002,7 @@
                                                         {% for k in 0..nbGroupesTP-1 %}
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
-                                                                <p>TP ({{ referentiels[i][0].getHeuresTP }} h)</p>
+                                                                <p>TP {{k+1}} ( {{ referentiels[i][0].getHeuresTP }} h )</p>
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
@@ -905,7 +1010,7 @@
                                                         {% for k in 0..nbGroupesStage-1 %}
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
-                                                                <p>Stage ({{ referentiels[i][0].getHeuresStage }} h)</p>
+                                                                <p>Stage {{k+1}} ( {{ referentiels[i][0].getHeuresStage }} h )</p>
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
@@ -913,7 +1018,7 @@
                                                         {% for k in 0..nbGroupesTerrain-1 %}
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
-                                                                <p>Terrain ({{ referentiels[i][0].getHeuresTerrain }} h)</p>
+                                                                <p>Terrain {{k+1}} ( {{ referentiels[i][0].getHeuresTerrain }} h )</p>
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
@@ -921,7 +1026,7 @@
                                                         {% for k in 0..nbGroupesInnovation-1 %}
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
-                                                                <p>Innovation ({{ referentiels[i][0].getHeuresInnovationPedagogique }} h)</p>
+                                                                <p>Innovation {{k+1}} ( {{ referentiels[i][0].getHeuresInnovationPedagogique }} h )</p>
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
@@ -942,25 +1047,26 @@
                                     {% for i in 0..decharges|length-1 %}
                                         <div class="miseEnPage2">
                                             <div class="infosServiceConteneur">
+                                                {% set nbGroupesCM = decharges[i][0].getNbGroupesCM %}
+                                                {% set nbGroupesTD = decharges[i][0].getNbGroupesTD %}
+                                                {% set nbGroupesTP = decharges[i][0].getNbGroupesTP %}
+                                                {% set nbGroupesStage = decharges[i][0].getNbGroupesStage %}
+                                                {% set nbGroupesTerrain = decharges[i][0].getNbGroupesTerrain %}
+                                                {% set nbGroupesInnovation = decharges[i][0].getNbGroupesInnovationPedagogique %}
+                                                {% set somme = nbGroupesCM + nbGroupesTD + nbGroupesTP + nbGroupesStage + nbGroupesTerrain + nbGroupesInnovation %}
                                                 {% if decharges[i] is not null %}
                                                     <button class="boutonDisparition">+</button>
                                                     <p class="infosService2">{{ decharges[i][1].getIdUSReferentiel }}
-                                                        {{ decharges[i][0].getLibUSA }}</p>
+                                                        {{ decharges[i][0].getLibUSA }} ( {{ somme }} groupe(s) )</p>
                                                 {% endif %}
                                             </div>
                                             <div class="disparition2 affichageInfoService">
                                                 <div class="infosSupplementaires">
-                                                    {% set nbGroupesCM = decharges[i][0].getNbGroupesCM %}
-                                                    {% set nbGroupesTD = decharges[i][0].getNbGroupesTD %}
-                                                    {% set nbGroupesTP = decharges[i][0].getNbGroupesTP %}
-                                                    {% set nbGroupesStage = decharges[i][0].getNbGroupesStage %}
-                                                    {% set nbGroupesTerrain = decharges[i][0].getNbGroupesTerrain %}
-                                                    {% set nbGroupesInnovation = decharges[i][0].getNbGroupesInnovationPedagogique %}
                                                     {% if nbGroupesCM > 0 %}
                                                         {% for k in 0..nbGroupesCM-1 %}
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
-                                                                <p>CM ({{ decharges[i][0].getHeuresCM }} h)</p>
+                                                                <p>CM {{k+1}} ( {{ decharges[i][0].getHeuresCM }} h )</p>
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
@@ -968,7 +1074,7 @@
                                                         {% for k in 0..nbGroupesTD-1 %}
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
-                                                                <p>TD ({{ decharges[i][0].getHeuresTD }} h)</p>
+                                                                <p>TD {{k+1}} ( {{ decharges[i][0].getHeuresTD }} h )</p>
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
@@ -976,7 +1082,7 @@
                                                         {% for k in 0..nbGroupesTP-1 %}
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
-                                                                <p>TP ({{ decharges[i][0].getHeuresTP }} h)</p>
+                                                                <p>TP {{k+1}} ( {{ decharges[i][0].getHeuresTP }} h )</p>
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
@@ -984,7 +1090,7 @@
                                                         {% for k in 0..nbGroupesStage-1 %}
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
-                                                                <p>Stage ({{ decharges[i][0].getHeuresStage }} h)</p>
+                                                                <p>Stage {{k+1}} ( {{ decharges[i][0].getHeuresStage }} h )</p>
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
@@ -992,7 +1098,7 @@
                                                         {% for k in 0..nbGroupesTerrain-1 %}
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
-                                                                <p>Terrain ({{ decharges[i][0].getHeuresTerrain }} h)</p>
+                                                                <p>Terrain {{k+1}} ( {{ decharges[i][0].getHeuresTerrain }} h )</p>
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
@@ -1000,7 +1106,7 @@
                                                         {% for k in 0..nbGroupesInnovation-1 %}
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
-                                                                <p>Innovation ({{ decharges[i][0].getHeuresInnovationPedagogique }} h)</p>
+                                                                <p>Innovation {{k+1}} ( {{ decharges[i][0].getHeuresInnovationPedagogique }} h )</p>
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
