@@ -1,8 +1,5 @@
 {% block edition_service_annuel %}
     {% if connexionUtilisateur.estAdminOuChef %}
-{#        <a href="{{ route("afficherFormulaireMiseAJourDeclarationService", {"idIntervenant": intervenantsAnnuelsEtDuDepartementVacataire[i].getIdIntervenant}) }}">#}
-{#            <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">#}
-{#        </a>#}
             <button class="transparent" onclick="afficherFormService({{ intervenantsAnnuelsEtDuDepartementVacataire[i].getIdIntervenant }})">
                 <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">
             </button>

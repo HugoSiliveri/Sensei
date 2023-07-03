@@ -653,7 +653,7 @@ nav  button{
     height: 800px;
 }
 
-#pageVoeu .coteDroit .infosService2 {
+#pageVoeu .infosService2, #pageVoeu .infosService {
     padding: 1.5%;
 }
 

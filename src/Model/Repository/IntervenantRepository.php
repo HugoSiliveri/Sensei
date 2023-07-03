@@ -75,13 +75,13 @@ class IntervenantRepository extends AbstractRepository
      * @param $idDepartement
      * @return array
      */
-    public function recupererIntervenantsAvecAnneeEtDepartementNonVacataire($annee, $idDepartement): array
+    public function recupererIntervenantsAvecAnneeEtDepartementPermanent($annee, $idDepartement): array
     {
         try {
             $sql = "SELECT * 
             from Intervenant i
             JOIN ServiceAnnuel s On s.idIntervenant = i.idIntervenant
-            WHERE millesime=:millesimeTag AND idDepartement=:idDepartementTag AND idEmploi != 7
+            WHERE millesime=:millesimeTag AND idDepartement=:idDepartementTag AND idStatut = 1
             ORDER BY nom, prenom";
 
             $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
@@ -117,7 +117,7 @@ class IntervenantRepository extends AbstractRepository
             $sql = "SELECT * 
             from Intervenant i
             JOIN ServiceAnnuel s On s.idIntervenant = i.idIntervenant
-            WHERE millesime=:millesimeTag AND idDepartement=:idDepartementTag AND idEmploi = 7
+            WHERE millesime=:millesimeTag AND idDepartement=:idDepartementTag AND idStatut = 2
             ORDER BY nom, prenom";
 
             $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
@@ -139,7 +139,96 @@ class IntervenantRepository extends AbstractRepository
             echo $exception->getMessage();
             die("Erreur lors de la recherche dans la base de données.");
         }
+    }
 
+    public function recupererIntervenantsAvecAnneeEtDepartementGestionnaire($annee, $idDepartement): array
+    {
+        try {
+            $sql = "SELECT * 
+            from Intervenant i
+            JOIN ServiceAnnuel s On s.idIntervenant = i.idIntervenant
+            WHERE millesime=:millesimeTag AND idDepartement=:idDepartementTag AND idStatut = 3
+            ORDER BY nom, prenom";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "millesimeTag" => $annee,
+                "idDepartementTag" => $idDepartement
+            );
+            $pdoStatement->execute($values);
+
+            $objetsFormatTableau = $pdoStatement->fetchAll();
+
+            $objets = [];
+            foreach ($objetsFormatTableau as $objetFormatTableau) {
+                $objets[] = $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return $objets;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
+    public function recupererIntervenantsAvecAnneeEtDepartementUMHorsFds($annee, $idDepartement): array
+    {
+        try {
+            $sql = "SELECT * 
+            from Intervenant i
+            JOIN ServiceAnnuel s On s.idIntervenant = i.idIntervenant
+            WHERE millesime=:millesimeTag AND idDepartement=:idDepartementTag AND idStatut = 4
+            ORDER BY nom, prenom";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "millesimeTag" => $annee,
+                "idDepartementTag" => $idDepartement
+            );
+            $pdoStatement->execute($values);
+
+            $objetsFormatTableau = $pdoStatement->fetchAll();
+
+            $objets = [];
+            foreach ($objetsFormatTableau as $objetFormatTableau) {
+                $objets[] = $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return $objets;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
+    public function recupererIntervenantsAvecAnneeEtDepartementHorsUM($annee, $idDepartement): array
+    {
+        try {
+            $sql = "SELECT * 
+            from Intervenant i
+            JOIN ServiceAnnuel s On s.idIntervenant = i.idIntervenant
+            WHERE millesime=:millesimeTag AND idDepartement=:idDepartementTag AND idStatut = 5
+            ORDER BY nom, prenom";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "millesimeTag" => $annee,
+                "idDepartementTag" => $idDepartement
+            );
+            $pdoStatement->execute($values);
+
+            $objetsFormatTableau = $pdoStatement->fetchAll();
+
+            $objets = [];
+            foreach ($objetsFormatTableau as $objetFormatTableau) {
+                $objets[] = $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return $objets;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
     }
 
     public function ajouterSansIdIntervenant(array $intervenant)

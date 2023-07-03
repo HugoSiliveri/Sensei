@@ -162,8 +162,8 @@ class IntervenantServiceTest extends TestCase
     }
 
     public function testRecupererIntervenantsAvecAnneeEtDepartementNonVacataireVide(){
-        $this->intervenantRepositoryMock->method("recupererIntervenantsAvecAnneeEtDepartementNonVacataire")->with(1909, 1)->willReturn([]);
-        self::assertEquals([], $this->service->recupererIntervenantsAvecAnneeEtDepartementNonVacataire(1909, 1));
+        $this->intervenantRepositoryMock->method("recupererIntervenantsAvecAnneeEtDepartementPermanent")->with(1909, 1)->willReturn([]);
+        self::assertEquals([], $this->service->recupererIntervenantsAvecAnneeEtDepartementPermanent(1909, 1));
     }
 
     public function testRecupererIntervenantsAvecAnneeEtDepartementVacataireVide(){

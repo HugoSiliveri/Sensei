@@ -106,13 +106,28 @@ class IntervenantService implements IntervenantServiceInterface
         return $this->intervenantRepository->recupererParEmailInstitutionnel($email);
     }
 
-    public function recupererIntervenantsAvecAnneeEtDepartementNonVacataire(int $annee, int $idDepartement): array
+    public function recupererIntervenantsAvecAnneeEtDepartementPermanent(int $annee, int $idDepartement): array
     {
-        return $this->intervenantRepository->recupererIntervenantsAvecAnneeEtDepartementNonVacataire($annee, $idDepartement);
+        return $this->intervenantRepository->recupererIntervenantsAvecAnneeEtDepartementPermanent($annee, $idDepartement);
     }
 
-    public function recupererIntervenantsAvecAnneeEtDepartementVacataire(int $annee, int $idDepartement)
+    public function recupererIntervenantsAvecAnneeEtDepartementVacataire(int $annee, int $idDepartement): array
     {
         return $this->intervenantRepository->recupererIntervenantsAvecAnneeEtDepartementVacataire($annee, $idDepartement);
+    }
+
+    public function recupererIntervenantsAvecAnneeEtDepartementGestionnaire(int $annee, int $idDepartement): array
+    {
+        return $this->intervenantRepository->recupererIntervenantsAvecAnneeEtDepartementGestionnaire($annee, $idDepartement);
+    }
+
+    public function recupererIntervenantsAvecAnneeEtDepartementUMHorsFds(int $annee, int $idDepartement): array
+    {
+        return $this->intervenantRepository->recupererIntervenantsAvecAnneeEtDepartementUMHorsFds($annee, $idDepartement);
+    }
+
+    public function recupererIntervenantsAvecAnneeEtDepartementHorsUM(int $annee, int $idDepartement)
+    {
+        return $this->intervenantRepository->recupererIntervenantsAvecAnneeEtDepartementHorsUM($annee, $idDepartement);
     }
 }

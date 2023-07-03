@@ -60,11 +60,18 @@ class IntervenantController extends GenericController
             $annee = $serviceAnnuel->getMillesime();
             $anneeActuelle = InfosGlobales::lireAnnee() ?? $annee;
 
-            $intervenantsAnnuelsEtDuDepartementNonVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementNonVacataire($anneeActuelle, $idDepartement);
+            $intervenantsAnnuelsEtDuDepartementNonVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementPermanent($anneeActuelle, $idDepartement);
             $intervenantsAnnuelsEtDuDepartementVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementVacataire($anneeActuelle, $idDepartement);
+            $intervenantsAnnuelsEtDuDepartementGestionnaire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementGestionnaire($anneeActuelle, $idDepartement);
+            $intervenantsAnnuelsEtDuDepartementUMHorsFds = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementUMHorsFds($anneeActuelle, $idDepartement);
+            $intervenantsAnnuelsEtDuDepartementHorsUM = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementHorsUM($anneeActuelle, $idDepartement);
             return IntervenantController::afficherTwig("intervenant/listeIntervenants.twig", [
                 "intervenantsAnnuelsEtDuDepartementNonVacataire" => $intervenantsAnnuelsEtDuDepartementNonVacataire,
-                "intervenantsAnnuelsEtDuDepartementVacataire" => $intervenantsAnnuelsEtDuDepartementVacataire]);
+                "intervenantsAnnuelsEtDuDepartementVacataire" => $intervenantsAnnuelsEtDuDepartementVacataire,
+                "intervenantsAnnuelsEtDuDepartementGestionnaire" => $intervenantsAnnuelsEtDuDepartementGestionnaire,
+                "intervenantsAnnuelsEtDuDepartementUMHorsFds" => $intervenantsAnnuelsEtDuDepartementUMHorsFds,
+                "intervenantsAnnuelsEtDuDepartementHorsUM" => $intervenantsAnnuelsEtDuDepartementHorsUM,
+            ]);
 
         } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
@@ -438,91 +445,91 @@ class IntervenantController extends GenericController
      *
      * @return Response
      */
-    public function afficherServices(): Response{
-        try {
-            $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuelPlusRecent($this->connexionUtilisateur->getIdUtilisateurConnecte());
-            $idDepartement = $this->departementService->recupererParLibelle(InfosGlobales::lireDepartement() ?? "MATH")->getIdDepartement() ?? $serviceAnnuel->getIdDepartement();
-            $annee = $serviceAnnuel->getMillesime();
-            $anneeActuelle = InfosGlobales::lireAnnee() ?? $annee;
-
-            $intervenantsAnnuelsEtDuDepartementNonVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementNonVacataire($anneeActuelle, $idDepartement);
-            $intervenantsAnnuelsEtDuDepartementVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementVacataire($anneeActuelle, $idDepartement);
-
-            $servicesAnnuelsNonVacataires = [];
-            $declarationsServicesNonVacataires = [];
-            foreach ($intervenantsAnnuelsEtDuDepartementNonVacataire as $intervenantNonVacataire){
-                $servicesAnnuelsNonVacataires[] = $this->serviceAnnuelService->recupererParIntervenantAnnuel($intervenantNonVacataire->getIdIntervenant(), $anneeActuelle);
-                $declarationsServices = $this->declarationServiceService->recupererVueParIdIntervenantAnnuel($intervenantNonVacataire->getIdIntervenant(), $anneeActuelle);
-
-                $declarationsServicesParIntervenant = [];
-                $declarationsServicesAvecMemeId = [];
-                $i = 0;
-                foreach ($declarationsServices as $declarationService) {
-                    if ($i != 0) {
-                        if ($declarationService["idUsReferentiel"] != $declarationsServicesAvecMemeId[0]["idUsReferentiel"]) {
-                            $declarationsServicesParIntervenant[] = $declarationsServicesAvecMemeId;
-                            $declarationsServicesAvecMemeId = [];
-                            $i = 0;
-                        }
-                    }
-                    $declarationsServicesAvecMemeId[] = $declarationService;
-                    $i++;
-                }
-                if (count($declarationsServicesAvecMemeId) > 0){
-                    $declarationsServicesParIntervenant[] = $declarationsServicesAvecMemeId;
-                }
-                $declarationsServicesNonVacataires[] = $declarationsServicesParIntervenant;
-            }
-
-            $servicesAnnuelsVacataires = [];
-            $declarationsServicesVacataires = [];
-            foreach ($intervenantsAnnuelsEtDuDepartementVacataire as $intervenantVacataire){
-                $servicesAnnuelsVacataires[] = $this->serviceAnnuelService->recupererParIntervenantAnnuel($intervenantVacataire->getIdIntervenant(), $anneeActuelle);
-                $declarationsServices = $this->declarationServiceService->recupererVueParIdIntervenantAnnuel($intervenantVacataire->getIdIntervenant(), $anneeActuelle);
-
-                $declarationsServicesParIntervenant = [];
-                $declarationsServicesAvecMemeId = [];
-                $i = 0;
-                foreach ($declarationsServices as $declarationService) {
-                    if ($i != 0) {
-                        if ($declarationService["idUsReferentiel"] != $declarationsServicesAvecMemeId[0]["idUsReferentiel"]) {
-                            $declarationsServicesParIntervenant[] = $declarationsServicesAvecMemeId;
-                            $declarationsServicesAvecMemeId = [];
-                            $i = 0;
-                        }
-                    }
-                    $declarationsServicesAvecMemeId[] = $declarationService;
-                    $i++;
-                }
-                if (count($declarationsServicesAvecMemeId) > 0){
-                    $declarationsServicesParIntervenant[] = $declarationsServicesAvecMemeId;
-                }
-                $declarationsServicesVacataires[] = $declarationsServicesParIntervenant;
-            }
-
-            return IntervenantController::afficherTwig("service.twig", [
-                "intervenantsAnnuelsEtDuDepartementNonVacataire" => $intervenantsAnnuelsEtDuDepartementNonVacataire,
-                "intervenantsAnnuelsEtDuDepartementVacataire" => $intervenantsAnnuelsEtDuDepartementVacataire,
-                "servicesAnnuelsNonVacataires" => $servicesAnnuelsNonVacataires,
-                "servicesAnnuelsVacataires" => $servicesAnnuelsVacataires,
-                "declarationsServicesNonVacataires" => $declarationsServicesNonVacataires,
-                "declarationsServicesVacataires" => $declarationsServicesVacataires]);
-        } catch (ServiceException $exception) {
-            if (strcmp($exception->getCode(), "danger") == 0) {
-                MessageFlash::ajouter("danger", $exception->getMessage());
-            } else {
-                MessageFlash::ajouter("warning", $exception->getMessage());
-            }
-            return IntervenantController::rediriger("accueil");
-        }
-    }
+//    public function afficherServices(): Response{
+//        try {
+//            $serviceAnnuel = $this->serviceAnnuelService->recupererParIntervenantAnnuelPlusRecent($this->connexionUtilisateur->getIdUtilisateurConnecte());
+//            $idDepartement = $this->departementService->recupererParLibelle(InfosGlobales::lireDepartement() ?? "MATH")->getIdDepartement() ?? $serviceAnnuel->getIdDepartement();
+//            $annee = $serviceAnnuel->getMillesime();
+//            $anneeActuelle = InfosGlobales::lireAnnee() ?? $annee;
+//
+//            $intervenantsAnnuelsEtDuDepartementNonVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementNonVacataire($anneeActuelle, $idDepartement);
+//            $intervenantsAnnuelsEtDuDepartementVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementVacataire($anneeActuelle, $idDepartement);
+//
+//            $servicesAnnuelsNonVacataires = [];
+//            $declarationsServicesNonVacataires = [];
+//            foreach ($intervenantsAnnuelsEtDuDepartementNonVacataire as $intervenantNonVacataire){
+//                $servicesAnnuelsNonVacataires[] = $this->serviceAnnuelService->recupererParIntervenantAnnuel($intervenantNonVacataire->getIdIntervenant(), $anneeActuelle);
+//                $declarationsServices = $this->declarationServiceService->recupererVueParIdIntervenantAnnuel($intervenantNonVacataire->getIdIntervenant(), $anneeActuelle);
+//
+//                $declarationsServicesParIntervenant = [];
+//                $declarationsServicesAvecMemeId = [];
+//                $i = 0;
+//                foreach ($declarationsServices as $declarationService) {
+//                    if ($i != 0) {
+//                        if ($declarationService["idUsReferentiel"] != $declarationsServicesAvecMemeId[0]["idUsReferentiel"]) {
+//                            $declarationsServicesParIntervenant[] = $declarationsServicesAvecMemeId;
+//                            $declarationsServicesAvecMemeId = [];
+//                            $i = 0;
+//                        }
+//                    }
+//                    $declarationsServicesAvecMemeId[] = $declarationService;
+//                    $i++;
+//                }
+//                if (count($declarationsServicesAvecMemeId) > 0){
+//                    $declarationsServicesParIntervenant[] = $declarationsServicesAvecMemeId;
+//                }
+//                $declarationsServicesNonVacataires[] = $declarationsServicesParIntervenant;
+//            }
+//
+//            $servicesAnnuelsVacataires = [];
+//            $declarationsServicesVacataires = [];
+//            foreach ($intervenantsAnnuelsEtDuDepartementVacataire as $intervenantVacataire){
+//                $servicesAnnuelsVacataires[] = $this->serviceAnnuelService->recupererParIntervenantAnnuel($intervenantVacataire->getIdIntervenant(), $anneeActuelle);
+//                $declarationsServices = $this->declarationServiceService->recupererVueParIdIntervenantAnnuel($intervenantVacataire->getIdIntervenant(), $anneeActuelle);
+//
+//                $declarationsServicesParIntervenant = [];
+//                $declarationsServicesAvecMemeId = [];
+//                $i = 0;
+//                foreach ($declarationsServices as $declarationService) {
+//                    if ($i != 0) {
+//                        if ($declarationService["idUsReferentiel"] != $declarationsServicesAvecMemeId[0]["idUsReferentiel"]) {
+//                            $declarationsServicesParIntervenant[] = $declarationsServicesAvecMemeId;
+//                            $declarationsServicesAvecMemeId = [];
+//                            $i = 0;
+//                        }
+//                    }
+//                    $declarationsServicesAvecMemeId[] = $declarationService;
+//                    $i++;
+//                }
+//                if (count($declarationsServicesAvecMemeId) > 0){
+//                    $declarationsServicesParIntervenant[] = $declarationsServicesAvecMemeId;
+//                }
+//                $declarationsServicesVacataires[] = $declarationsServicesParIntervenant;
+//            }
+//
+//            return IntervenantController::afficherTwig("service.twig", [
+//                "intervenantsAnnuelsEtDuDepartementNonVacataire" => $intervenantsAnnuelsEtDuDepartementNonVacataire,
+//                "intervenantsAnnuelsEtDuDepartementVacataire" => $intervenantsAnnuelsEtDuDepartementVacataire,
+//                "servicesAnnuelsNonVacataires" => $servicesAnnuelsNonVacataires,
+//                "servicesAnnuelsVacataires" => $servicesAnnuelsVacataires,
+//                "declarationsServicesNonVacataires" => $declarationsServicesNonVacataires,
+//                "declarationsServicesVacataires" => $declarationsServicesVacataires]);
+//        } catch (ServiceException $exception) {
+//            if (strcmp($exception->getCode(), "danger") == 0) {
+//                MessageFlash::ajouter("danger", $exception->getMessage());
+//            } else {
+//                MessageFlash::ajouter("warning", $exception->getMessage());
+//            }
+//            return IntervenantController::rediriger("accueil");
+//        }
+//    }
 
     /**
-     * @Route ("/voeux", GET)
+     * @Route ("/services", GET)
      *
      * @return Response
      */
-    public function afficherVoeux(): Response
+    public function afficherServices(): Response
     {
         try {
 
@@ -544,8 +551,10 @@ class IntervenantController extends GenericController
                     $this->demarrerPhaseVoeu($departement->getIdDepartement(), $anneeService);
                 }
             }
-            $intervenantsAnnuelsEtDuDepartementNonVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementNonVacataire($anneeService, $departement->getIdDepartement());
+            $intervenantsAnnuelsEtDuDepartementNonVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementPermanent($anneeService, $departement->getIdDepartement());
             $intervenantsAnnuelsEtDuDepartementVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementVacataire($anneeService, $departement->getIdDepartement());
+            $intervenantsAnnuelsEtDuDepartementUMHorsFds = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementUMHorsFds($anneeService, $departement->getIdDepartement());
+            $intervenantsAnnuelsEtDuDepartementHorsUM = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementHorsUM($anneeService, $departement->getIdDepartement());
             $unitesServicesAnneesDepartement = $this->uniteServiceAnneeService->recupererUnitesServicesPourUneAnneePourUnDepartement($anneeService, $departement->getIdDepartement());
             $unitesServicesAnneesColoration = $this->uniteServiceAnneeService->recupererUnitesServicesAnneeUniquementColoration($anneeService, $departement->getIdDepartement());
 
@@ -559,11 +568,13 @@ class IntervenantController extends GenericController
                 $voeuxParIntervenant = [];
                 $i = 0;
                 foreach ($voeuxIntervenants as $voeuIntervenant) {
-                    if ($i != 0) {
-                        if ($voeuIntervenant["idUSReferentiel"] != $voeuxAvecMemeId[0]["idUSReferentiel"]) {
-                            $voeuxParIntervenant[] = $voeuxAvecMemeId;
-                            $voeuxAvecMemeId = [];
-                            $i = 0;
+                    if (!empty($voeuIntervenant)){
+                        if ($i != 0) {
+                            if ($voeuIntervenant["idUSReferentiel"] != $voeuxAvecMemeId[0]["idUSReferentiel"]) {
+                                $voeuxParIntervenant[] = $voeuxAvecMemeId;
+                                $voeuxAvecMemeId = [];
+                                $i = 0;
+                            }
                         }
                     }
                     $voeuxAvecMemeId[] = $voeuIntervenant;
@@ -579,17 +590,19 @@ class IntervenantController extends GenericController
             $voeuxVacataires = [];
             foreach ($intervenantsAnnuelsEtDuDepartementVacataire as $intervenantVacataire){
                 $servicesAnnuelsVacataires[] = $this->serviceAnnuelService->recupererParIntervenantAnnuel($intervenantVacataire->getIdIntervenant(), $anneeService);
-                $voeuxIntervenants[] = $this->voeuService->recupererVueParIntervenantAnnuel($intervenantVacataire->getIdIntervenant(), $anneeService);
+                $voeuxIntervenants = $this->voeuService->recupererVueParIntervenantAnnuel($intervenantVacataire->getIdIntervenant(), $anneeService);
 
                 $voeuxAvecMemeId = [];
                 $voeuxParIntervenant = [];
                 $i = 0;
                 foreach ($voeuxIntervenants as $voeuIntervenant) {
-                    if ($i != 0) {
-                        if ($voeuIntervenant["idUSReferentiel"] != $voeuxAvecMemeId[0]["idUSReferentiel"]) {
-                            $voeuxParIntervenant[] = $voeuxAvecMemeId;
-                            $voeuxAvecMemeId = [];
-                            $i = 0;
+                    if (!empty($voeuIntervenant)){
+                        if ($i != 0) {
+                            if ($voeuIntervenant["idUSReferentiel"] != $voeuxAvecMemeId[0]["idUSReferentiel"]) {
+                                $voeuxParIntervenant[] = $voeuxAvecMemeId;
+                                $voeuxAvecMemeId = [];
+                                $i = 0;
+                            }
                         }
                     }
                     $voeuxAvecMemeId[] = $voeuIntervenant;
@@ -599,6 +612,62 @@ class IntervenantController extends GenericController
                     $voeuxParIntervenant[] = $voeuxAvecMemeId;
                 }
                 $voeuxVacataires[] = $voeuxParIntervenant;
+            }
+
+            $servicesAnnuelsUMHorsFds = [];
+            $voeuxUMHorsFds = [];
+            foreach ($intervenantsAnnuelsEtDuDepartementUMHorsFds as $intervenantUMHorsFds){
+                $servicesAnnuelsUMHorsFds[] = $this->serviceAnnuelService->recupererParIntervenantAnnuel($intervenantUMHorsFds->getIdIntervenant(), $anneeService);
+                $voeuxIntervenants = $this->voeuService->recupererVueParIntervenantAnnuel($intervenantUMHorsFds->getIdIntervenant(), $anneeService);
+
+                $voeuxAvecMemeId = [];
+                $voeuxParIntervenant = [];
+                $i = 0;
+                foreach ($voeuxIntervenants as $voeuIntervenant) {
+                    if (!empty($voeuIntervenant)){
+                        if ($i != 0) {
+                            if ($voeuIntervenant["idUSReferentiel"] != $voeuxAvecMemeId[0]["idUSReferentiel"]) {
+                                $voeuxParIntervenant[] = $voeuxAvecMemeId;
+                                $voeuxAvecMemeId = [];
+                                $i = 0;
+                            }
+                        }
+                    }
+                    $voeuxAvecMemeId[] = $voeuIntervenant;
+                    $i++;
+                }
+                if (count($voeuxAvecMemeId) > 0){
+                    $voeuxParIntervenant[] = $voeuxAvecMemeId;
+                }
+                $voeuxUMHorsFds[] = $voeuxParIntervenant;
+            }
+
+            $servicesAnnuelsHorsUM= [];
+            $voeuxHorsUM = [];
+            foreach ($intervenantsAnnuelsEtDuDepartementHorsUM as $intervenantHorsUM){
+                $servicesAnnuelsHorsUM[] = $this->serviceAnnuelService->recupererParIntervenantAnnuel($intervenantHorsUM->getIdIntervenant(), $anneeService);
+                $voeuxIntervenants = $this->voeuService->recupererVueParIntervenantAnnuel($intervenantHorsUM->getIdIntervenant(), $anneeService);
+
+                $voeuxAvecMemeId = [];
+                $voeuxParIntervenant = [];
+                $i = 0;
+                foreach ($voeuxIntervenants as $voeuIntervenant) {
+                    if (!empty($voeuIntervenant)){
+                        if ($i != 0) {
+                            if ($voeuIntervenant["idUSReferentiel"] != $voeuxAvecMemeId[0]["idUSReferentiel"]) {
+                                $voeuxParIntervenant[] = $voeuxAvecMemeId;
+                                $voeuxAvecMemeId = [];
+                                $i = 0;
+                            }
+                        }
+                    }
+                    $voeuxAvecMemeId[] = $voeuIntervenant;
+                    $i++;
+                }
+                if (count($voeuxAvecMemeId) > 0){
+                    $voeuxParIntervenant[] = $voeuxAvecMemeId;
+                }
+                $voeuxHorsUM[] = $voeuxParIntervenant;
             }
 
             $indefinisDepartement = [];
@@ -717,15 +786,19 @@ class IntervenantController extends GenericController
                 $decharges[] = [$unite, $this->uniteServiceService->recupererParIdentifiant($unite->getIdUniteService())];
             }
 
-
-
-            return IntervenantController::afficherTwig("voeu.twig", [
+            return IntervenantController::afficherTwig("service.twig", [
                 "intervenantsAnnuelsEtDuDepartementNonVacataire" => $intervenantsAnnuelsEtDuDepartementNonVacataire,
                 "intervenantsAnnuelsEtDuDepartementVacataire" => $intervenantsAnnuelsEtDuDepartementVacataire,
+                "intervenantsAnnuelsEtDuDepartementUMHorsFds" => $intervenantsAnnuelsEtDuDepartementUMHorsFds,
+                "intervenantsAnnuelsEtDuDepartementHorsUM" => $intervenantsAnnuelsEtDuDepartementHorsUM,
                 "servicesAnnuelsNonVacataires" => $servicesAnnuelsNonVacataires,
                 "servicesAnnuelsVacataires" => $servicesAnnuelsVacataires,
+                "servicesAnnuelsUMHorsFds" => $servicesAnnuelsUMHorsFds,
+                "servicesAnnuelsHorsUM" => $servicesAnnuelsHorsUM,
                 "voeuxNonVacataires" => $voeuxNonVacataires,
                 "voeuxVacataires" => $voeuxVacataires,
+                "voeuxUMHorsFds" => $voeuxUMHorsFds,
+                "voeuxHorsUM" => $voeuxHorsUM,
                 "anneeService" => $anneeService,
                 "usaPrintemps" => $usaPrintemps,
                 "usaAutomne" => $usaAutomne,
@@ -764,13 +837,16 @@ class IntervenantController extends GenericController
      * @throws ServiceException
      */
     private function demarrerPhaseVoeu(int $idDepartement, int $annee){
-        $intervenantsAnnuelsEtDuDepartementNonVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementNonVacataire($annee, $idDepartement);
+        $intervenantsAnnuelsEtDuDepartementNonVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementPermanent($annee, $idDepartement);
         $intervenantsAnnuelsEtDuDepartementVacataire = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementVacataire($annee, $idDepartement);
+        $intervenantsAnnuelsEtDuDepartementUMHorsFds = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementUMHorsFds($annee, $idDepartement);
+        $intervenantsAnnuelsEtDuDepartementHorsUM = $this->intervenantService->recupererIntervenantsAvecAnneeEtDepartementHorsUM($annee, $idDepartement);
         $unitesServicesAnneesDuDepartement = $this->uniteServiceAnneeService->recupererUnitesServicesPourUneAnneePourUnDepartement($annee, $idDepartement);
         $unitesServicesAnneesColoration = $this->uniteServiceAnneeService->recupererUnitesServicesAnneeUniquementColoration($annee, $idDepartement);
 
         // Creation des services annuels pour la nouvelle année
-        if (count($intervenantsAnnuelsEtDuDepartementNonVacataire) == 0 && count($intervenantsAnnuelsEtDuDepartementVacataire) == 0){
+        if (count($intervenantsAnnuelsEtDuDepartementNonVacataire) == 0 && count($intervenantsAnnuelsEtDuDepartementVacataire) == 0
+        && count($intervenantsAnnuelsEtDuDepartementUMHorsFds) > 0 && count($intervenantsAnnuelsEtDuDepartementHorsUM) > 0){
             $servicesAnnuelsPrecedent = $this->serviceAnnuelService->recupererParDepartementAnnuel($idDepartement, $annee-1);
             foreach ($servicesAnnuelsPrecedent as $serviceAnnuelPrecedent){
                 $this->serviceAnnuelService->renouvelerServiceAnnuel($serviceAnnuelPrecedent, $annee);

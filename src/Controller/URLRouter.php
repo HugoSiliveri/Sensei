@@ -206,7 +206,7 @@ class URLRouter
         $statutController->setArguments([new Reference('statut_service'), new Reference('droit_service')]);
 
         $payeurController = $conteneur->register('payeur_controller', PayeurController::class);
-        $payeurController->setArguments([new Reference('payeur_service')]);
+        $payeurController->setArguments([new Reference('payeur_service'), new Reference('droit_service')]);
 
         $uniteServiceAnneeController = $conteneur->register('unite_service_annee_controller', UniteServiceAnneeController::class);
         $uniteServiceAnneeController->setArguments([new Reference('unite_service_annee_service'),
@@ -653,11 +653,6 @@ class URLRouter
         ]);
         $routeMettreAJourDeclarationServicePourUnIntervenant->setMethods(["POST"]);
 
-        $routeVoeux = new Route("/voeux", [
-            "_controller" => ["intervenant_controller", "afficherVoeux"]
-        ]);
-        $routeVoeux->setMethods(["GET"]);
-
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
         $routes->add("gestion", $routeGestion);
@@ -734,7 +729,6 @@ class URLRouter
         $routes->add("afficherFormulaireMiseAJourServiceAnnuel", $routeAfficherFormulaireMiseAJourServiceAnnuel);
         $routes->add("mettreAJourServiceAnnuel", $routeMettreAJourServiceAnnuel);
         $routes->add("mettreAJourDeclarationServicePourUnIntervenant", $routeMettreAJourDeclarationServicePourUnIntervenant);
-        $routes->add("voeux", $routeVoeux);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 

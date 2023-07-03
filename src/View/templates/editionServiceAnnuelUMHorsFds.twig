@@ -1,6 +1,6 @@
 {% block edition_service_annuel %}
     {% if connexionUtilisateur.estAdminOuChef %}
-        <button class="transparent" onclick="afficherFormService({{ intervenantsAnnuelsEtDuDepartementNonVacataire[i].getIdIntervenant }})">
+        <button class="transparent" onclick="afficherFormService({{ intervenantsAnnuelsEtDuDepartementUMHorsFds[i].getIdIntervenant }})">
             <img class="edition" src="{{ asset("../ressources/img/pencil.svg") }}" alt="edit">
         </button>
     {% endif %}

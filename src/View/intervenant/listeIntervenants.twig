@@ -2,8 +2,8 @@
 
 {% block page_content %}
     {% if intervenantsAnnuelsEtDuDepartementNonVacataire|length > 0 %}
-        {% set nbIntervenantsDuDepartementVacataire = intervenantsAnnuelsEtDuDepartementNonVacataire|length %}
-        {% set chunkSize = (nbIntervenantsDuDepartementVacataire / 3)|round(0, 'ceil') %}
+        {% set nbIntervenantsDuDepartementHorsUM = intervenantsAnnuelsEtDuDepartementNonVacataire|length %}
+        {% set chunkSize = (nbIntervenantsDuDepartementHorsUM / 3)|round(0, 'ceil') %}
         {% set chunks = intervenantsAnnuelsEtDuDepartementNonVacataire|batch(chunkSize) %}
     {% endif %}
     <div class="titreEtBarreRecherche">
@@ -31,13 +31,79 @@
         </div>
     {% endif %}
     {% if intervenantsAnnuelsEtDuDepartementVacataire|length > 0 %}
-        {% set nbIntervenantsDuDepartementVacataire = intervenantsAnnuelsEtDuDepartementVacataire|length %}
-        {% set chunkSize = (nbIntervenantsDuDepartementVacataire / 3)|round(0, 'ceil') %}
+        {% set nbIntervenantsDuDepartementHorsUM = intervenantsAnnuelsEtDuDepartementVacataire|length %}
+        {% set chunkSize = (nbIntervenantsDuDepartementHorsUM / 3)|round(0, 'ceil') %}
         {% set chunks = intervenantsAnnuelsEtDuDepartementVacataire|batch(chunkSize) %}
     {% endif %}
     {% if intervenantsAnnuelsEtDuDepartementVacataire|length > 0 %}
         <div class="titreEtBarreRecherche margintop">
             <h2>Liste des vacataires du département </h2>
+        </div>
+        <div class="liste">
+            {% for chunk in chunks %}
+                <ul>
+                    {% for intervenant in chunk %}
+                        <li class="boutonContainer">
+                            <a href="{{ route("afficherDetailIntervenant", {"idIntervenant": intervenant.getIdIntervenant}) }}">
+                                {{ intervenant.getNom }}   {{ intervenant.getPrenom }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if intervenantsAnnuelsEtDuDepartementGestionnaire|length > 0 %}
+        {% set nbIntervenantsDuDepartementHorsUM = intervenantsAnnuelsEtDuDepartementGestionnaire|length %}
+        {% set chunkSize = (nbIntervenantsDuDepartementHorsUM / 3)|round(0, 'ceil') %}
+        {% set chunks = intervenantsAnnuelsEtDuDepartementGestionnaire|batch(chunkSize) %}
+    {% endif %}
+    {% if intervenantsAnnuelsEtDuDepartementGestionnaire|length > 0 %}
+        <div class="titreEtBarreRecherche margintop">
+            <h2>Liste des gestionnaires du département </h2>
+        </div>
+        <div class="liste">
+            {% for chunk in chunks %}
+                <ul>
+                    {% for intervenant in chunk %}
+                        <li class="boutonContainer">
+                            <a href="{{ route("afficherDetailIntervenant", {"idIntervenant": intervenant.getIdIntervenant}) }}">
+                                {{ intervenant.getNom }}   {{ intervenant.getPrenom }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if intervenantsAnnuelsEtDuDepartementUMHorsFds|length > 0 %}
+        {% set nbIntervenantsDuDepartementHorsUM = intervenantsAnnuelsEtDuDepartementUMHorsFds|length %}
+        {% set chunkSize = (nbIntervenantsDuDepartementHorsUM / 3)|round(0, 'ceil') %}
+        {% set chunks = intervenantsAnnuelsEtDuDepartementUMHorsFds|batch(chunkSize) %}
+    {% endif %}
+    {% if intervenantsAnnuelsEtDuDepartementUMHorsFds|length > 0 %}
+        <div class="titreEtBarreRecherche margintop">
+            <h2>Liste des intervenants de l'UM hors Fds </h2>
+        </div>
+        <div class="liste">
+            {% for chunk in chunks %}
+                <ul>
+                    {% for intervenant in chunk %}
+                        <li class="boutonContainer">
+                            <a href="{{ route("afficherDetailIntervenant", {"idIntervenant": intervenant.getIdIntervenant}) }}">
+                                {{ intervenant.getNom }}   {{ intervenant.getPrenom }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if intervenantsAnnuelsEtDuDepartementHorsUM|length > 0 %}
+        {% set nbIntervenantsDuDepartementHorsUM = intervenantsAnnuelsEtDuDepartementHorsUM|length %}
+        {% set chunkSize = (nbIntervenantsDuDepartementHorsUM / 3)|round(0, 'ceil') %}
+        {% set chunks = intervenantsAnnuelsEtDuDepartementHorsUM|batch(chunkSize) %}
+    {% endif %}
+    {% if intervenantsAnnuelsEtDuDepartementHorsUM|length > 0 %}
+        <div class="titreEtBarreRecherche margintop">
+            <h2>Liste des intervenants hors UM</h2>
         </div>
         <div class="liste">
             {% for chunk in chunks %}
