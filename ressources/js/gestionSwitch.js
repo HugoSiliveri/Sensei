@@ -9,13 +9,13 @@ window.addEventListener("load", function (){
     let paragraphes = document.querySelectorAll(".switch ~ p");
     let checkboxs = document.querySelectorAll(".switch > input");
 
-    let fieldset = document.querySelector("#formVoeu" + idIntervenantConnecte + " > fieldset");
+    let fieldset = document.querySelector("#formService" + idIntervenantConnecte + " > fieldset");
     let boutonEnvoie = document.getElementById("conteneur" + idIntervenantConnecte);
 
     for (let i = 0; i < switchs.length; i++) {
         checkboxs[i].addEventListener("change", function (){
             if (checkboxs[i].checked){
-                let inputs = document.querySelectorAll("#formVoeu" + idIntervenantConnecte + " > fieldset enLigne")
+                let inputs = document.querySelectorAll("#formService" + idIntervenantConnecte + " > fieldset enLigne")
                 let nbInfos = inputs.length;
                 let paragraphe = paragraphes[i].innerHTML;
 
@@ -28,28 +28,29 @@ window.addEventListener("load", function (){
                 let idUSReferentiel = tab2[0];
                 let types = ["CM", "TD", "TP", "Stage", "Terrain", "Innovation Pédagogique"];
 
-                console.log(tab2);
-
                 let infosSup = document.createElement("div");
                 infosSup.setAttribute("class", "infosSupplementaires");
 
                 let enLigne = document.createElement("div");
-                infosSup.setAttribute("class", "enLigne")
+                enLigne.setAttribute("class", "enLigne")
 
                 let labelTypeIntervention = document.createElement("label");
-                infosSup.setAttribute("for", "typeIntervention_id");
+                labelTypeIntervention.setAttribute("for", "typeIntervention_id");
 
                 enLigne.innerHTML = idUSReferentiel //Mettre l'id référentiel du voeu
 
                 let selectTypeIntervention = document.createElement("select");
-                infosSup.setAttribute("id", "typeIntervention_id");
-                infosSup.setAttribute("class", "inputCreation2");
-                infosSup.setAttribute("name", "typeIntervention" + nbInfos);
+                selectTypeIntervention.setAttribute("id", "typeIntervention_id");
+                selectTypeIntervention.setAttribute("class", "inputCreation2");
+                selectTypeIntervention.setAttribute("name", "typeIntervention" + nbInfos);
+                selectTypeIntervention.setAttribute("readonly", "readonly");
                 let optionTypeIntervention = document.createElement("option");
-                for (const type of types) {
+                for (let type of types) {
                     if (type === intervention){
                         optionTypeIntervention.setAttribute("value", type);
+                        optionTypeIntervention.innerHTML = type;
                         optionTypeIntervention.setAttribute("selected", "selected");
+                        selectTypeIntervention.appendChild(optionTypeIntervention);
                     }
                 }
                 selectTypeIntervention.appendChild(optionTypeIntervention);
@@ -67,6 +68,14 @@ window.addEventListener("load", function (){
                 inputVolumeHoraire.setAttribute("name", "volumeHoraire" + nbInfos);
                 inputVolumeHoraire.setAttribute("value", tab[3]);
 
+                // TODO : Fix la suppression du champ lorsque l'utilisateur renseigne 0
+                // inputVolumeHoraire.addEventListener("change", function (){
+                //     if (inputVolumeHoraire.value === "0"){
+                //         checkboxs[i].checked = false;
+                //         infosSup.remove();
+                //     }
+                // });
+
                 enLigne.appendChild(labelVolumeHoraire);
                 enLigne.appendChild(inputVolumeHoraire);
                 enLigne.innerHTML += " - ";
@@ -80,12 +89,26 @@ window.addEventListener("load", function (){
                 inputNumGroupe.setAttribute("type", "text");
                 inputNumGroupe.setAttribute("name", "numGroupeIntervention" + nbInfos);
                 inputNumGroupe.setAttribute("value", tab[1]);
+                inputNumGroupe.setAttribute("readonly", "readonly");
 
                 enLigne.appendChild(labelNumGroupe);
                 enLigne.appendChild(inputNumGroupe);
+
+                let idChamp = document.createElement("input");
+
+                idChamp.setAttribute("type", "hidden");
+                idChamp.setAttribute("id", "idChamp"+ i);
+                enLigne.appendChild(idChamp);
                 infosSup.appendChild(enLigne);
 
                 fieldset.insertBefore(infosSup, boutonEnvoie);
+
+            } else {
+                let idChamp = document.getElementById("idChamp" + i);
+                let infosSup = idChamp.parentNode.parentNode;
+                if (infosSup != null){
+                    infosSup.remove();
+                }
             }
         });
     }
