@@ -7,4 +7,5 @@ use App\Sensei\Service\Exception\ServiceException;
 
 interface ColorationServiceInterface
 {
+    public function recupererParIdUniteServiceAnnee(int $idUniteServiceAnnee): array;
 }

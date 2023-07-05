@@ -13,4 +13,18 @@ interface NatureServiceInterface
      * @throws ServiceException
      */
     public function recupererParIdentifiant(int $idNature): AbstractDataObject;
+
+    /**
+     * @throws ServiceException
+     */
+    public function modifierNature(array $nature);
+
+    /**
+     * @throws ServiceException
+     */
+    public function creerNature(array $nature);
+
+    public function supprimerNature(int $idNature);
+
+    public function recupererNatures(): array;
 }

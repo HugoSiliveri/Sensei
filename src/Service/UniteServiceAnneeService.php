@@ -42,6 +42,18 @@ class UniteServiceAnneeService implements UniteServiceAnneeServiceInterface
     /**
      * @throws ServiceException
      */
+    public function recupererParUniteServiceAvecAnnee(int $idUniteService, int $millesime): ?AbstractDataObject
+    {
+        $usa = $this->uniteServiceAnneeRepository->recupererParUniteServiceAvecAnnee($idUniteService, $millesime);
+        if(!isset($usa)){
+            throw new ServiceException("Il n'existe pas d'unité de servcie pour cette année !");
+        }
+        return $usa;
+    }
+
+    /**
+     * @throws ServiceException
+     */
     public function creerUniteServiceAnnee(array $uniteServiceAnnee)
     {
         if (empty($uniteServiceAnnee)){

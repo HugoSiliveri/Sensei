@@ -13,9 +13,15 @@ window.addEventListener("load", function (){
     let boutonEnvoie = document.getElementById("conteneur" + idIntervenantConnecte);
 
     for (let i = 0; i < switchs.length; i++) {
+        let idChampInput = document.getElementById("idChamp "+i);
+
+        if (idChampInput !== null){
+            checkboxs[i].checked = true;
+        }
+
         checkboxs[i].addEventListener("change", function (){
             if (checkboxs[i].checked){
-                let inputs = document.querySelectorAll("#formService" + idIntervenantConnecte + " > fieldset enLigne")
+                let inputs = document.querySelectorAll("#formService" + idIntervenantConnecte + " .enLigne")
                 let nbInfos = inputs.length;
                 let paragraphe = paragraphes[i].innerHTML;
 
@@ -28,8 +34,7 @@ window.addEventListener("load", function (){
                 let idUSReferentiel = tab2[0];
                 let types = ["CM", "TD", "TP", "Stage", "Terrain", "Innovation Pédagogique"];
 
-                let infosSup = document.createElement("div");
-                infosSup.setAttribute("class", "infosSupplementaires");
+                let infosSup = document.querySelector("#formService" + idIntervenantConnecte + " .infosSupplementaires");
 
                 let enLigne = document.createElement("div");
                 enLigne.setAttribute("class", "enLigne")
@@ -97,17 +102,24 @@ window.addEventListener("load", function (){
                 let idChamp = document.createElement("input");
 
                 idChamp.setAttribute("type", "hidden");
-                idChamp.setAttribute("id", "idChamp"+ i);
+                idChamp.setAttribute("id", "idChamp "+ i);
                 enLigne.appendChild(idChamp);
-                infosSup.appendChild(enLigne);
 
+                let idUSReferentielInput = document.createElement("input");
+                idUSReferentielInput.setAttribute("type", "hidden");
+                idUSReferentielInput.setAttribute("name", "idUSReferentiel" + nbInfos);
+                idUSReferentielInput.setAttribute("value", idUSReferentiel.split("\n")[0]);
+
+                enLigne.appendChild(idUSReferentielInput);
+
+                infosSup.appendChild(enLigne);
                 fieldset.insertBefore(infosSup, boutonEnvoie);
 
             } else {
-                let idChamp = document.getElementById("idChamp" + i);
-                let infosSup = idChamp.parentNode.parentNode;
-                if (infosSup != null){
-                    infosSup.remove();
+                let idChamp = document.getElementById("idChamp " + i);
+                let enLigne = idChamp.parentNode;
+                if (enLigne != null){
+                    enLigne.remove();
                 }
             }
         });

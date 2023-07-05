@@ -66,7 +66,7 @@ class VoeuRepository extends AbstractRepository
         }
     }
 
-    public function recupererParIdUSA(int $idUniteServiceAnnee)
+    public function recupererParIdUSA(int $idUniteServiceAnnee): array
     {
         try {
             $sql = "SELECT DISTINCT * FROM Voeu WHERE idUniteServiceAnnee=:idUniteServiceAnneeTag";
@@ -88,6 +88,57 @@ class VoeuRepository extends AbstractRepository
         } catch (PDOException $exception) {
             echo $exception->getMessage();
             die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
+    public function recupererParIntervenantAnnuel(int $idIntervenant, int $annee): array
+    {
+        try {
+            $sql = "SELECT idVoeu, idIntervenant, v.idUniteServiceAnnee, idIntervention FROM Voeu v
+             JOIN UniteServiceAnnee usa ON v.idUniteServiceAnnee = usa.idUniteServiceAnnee
+             WHERE idIntervenant =:idIntervenantTag AND millesime=:millesimeTag";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "idIntervenantTag" => $idIntervenant,
+                "millesimeTag" => $annee
+            );
+            $pdoStatement->execute($values);
+
+            $objetsFormatTableau = $pdoStatement->fetchAll();
+
+            $objets = [];
+            foreach ($objetsFormatTableau as $objetFormatTableau) {
+                $objets[] = $this->construireDepuisTableau($objetFormatTableau);
+            }
+            return $objets;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
+    public function ajouterSansIdVoeu(array $voeu)
+    {
+        try {
+            $sql = "INSERT INTO Voeu
+            (idIntervenant,idUniteServiceAnnee, idIntervention) VALUES 
+            (:idIntervenantTag, :idUniteServiceAnneeTag, :idInterventionTag)";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "idIntervenantTag" => $voeu["idIntervenant"],
+                "idUniteServiceAnneeTag" => $voeu["idUniteServiceAnnee"],
+                "idInterventionTag" => $voeu["idIntervention"],
+            );
+            $pdoStatement->execute($values);
+
+            return null;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors d'insertion dans la base de données.");
         }
     }
 

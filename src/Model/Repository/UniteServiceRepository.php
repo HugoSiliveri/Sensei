@@ -91,6 +91,31 @@ class UniteServiceRepository extends AbstractRepository
         }
     }
 
+    public function recupererParIdUSReferentiel(string $idUSReferentiel): ?AbstractDataObject{
+        try {
+            $sql = "SELECT *
+            FROM UniteService
+            WHERE idUSReferentiel =:idUSReferentielTag";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "idUSReferentielTag" => $idUSReferentiel,
+            );
+            $pdoStatement->execute($values);
+
+            $objetFormatTableau = $pdoStatement->fetch();
+
+            if (!$objetFormatTableau){
+                return null;
+            }
+            return $this->construireDepuisTableau($objetFormatTableau);
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
     /** Construit un objet UniteService à partir d'un tableau donné en paramètre.
      * @param array $objetFormatTableau
      * @return UniteService

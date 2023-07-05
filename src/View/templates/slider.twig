@@ -1,5 +1,5 @@
 {% block slider %}
-    {% if departementIntervenantConnecte == departementActuel %}
+    {% if (idEtat > 1 and connexionUtilisateur.estAdminOuChef ) or idEtat == 2 %}
         <label class="switch">
             <input type="checkbox">
             <span class="slider round"></span>

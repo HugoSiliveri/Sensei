@@ -13,4 +13,18 @@ interface StatutServiceInterface
      * @throws ServiceException
      */
     public function recupererParIdentifiant(int $idStatut): AbstractDataObject;
+
+    public function supprimerStatut(int $idStatut);
+
+    public function recupererStatuts(): array;
+
+    /**
+     * @throws ServiceException
+     */
+    public function modifierStatut(array $statut);
+
+    /**
+     * @throws ServiceException
+     */
+    public function creerStatut(array $statut);
 }

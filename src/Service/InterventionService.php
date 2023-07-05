@@ -67,4 +67,16 @@ class InterventionService implements InterventionServiceInterface
             return $intervention;
         }
     }
+
+    /**
+     * @throws ServiceException
+     */
+    public function recupererDernierIntervention(): AbstractDataObject
+    {
+        $intervention = $this->interventionRepository->recupererDernierIntervention();
+        if(!isset($intervention)){
+            throw new ServiceException("La table des interventions est vide !");
+        }
+        return $intervention;
+    }
 }

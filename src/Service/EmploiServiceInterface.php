@@ -13,4 +13,18 @@ interface EmploiServiceInterface
      * @throws ServiceException
      */
     public function recupererParIdentifiant(int $idEmploi): AbstractDataObject;
+
+    public function supprimerEmploi(int $idEmploi);
+
+    public function recupererEmplois(): array;
+
+    /**
+     * @throws ServiceException
+     */
+    public function modifierEmploi(array $emploi);
+
+    /**
+     * @throws ServiceException
+     */
+    public function creerEmploi(array $emploi);
 }

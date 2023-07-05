@@ -74,7 +74,7 @@ class UniteServiceAnneeRepository extends AbstractRepository
         }
     }
 
-    public function recupererParUniteService(int $idUniteService)
+    public function recupererParUniteService(int $idUniteService): array
     {
         try {
             $sql = "SELECT DISTINCT *
@@ -95,6 +95,33 @@ class UniteServiceAnneeRepository extends AbstractRepository
                 $objets[] = $this->construireDepuisTableau($objetFormatTableau);
             }
             return $objets;
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
+    public function recupererParUniteServiceAvecAnnee(int $idUniteService, int $millesime): ?AbstractDataObject
+    {
+        try {
+            $sql = "SELECT DISTINCT *
+            FROM UniteServiceAnnee WHERE idUniteService =:idUniteServiceTag AND millesime =:millesimeTag
+            ORDER BY millesime DESC, libUSA";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $values = array(
+                "idUniteServiceTag" => $idUniteService,
+                "millesimeTag" => $millesime
+            );
+            $pdoStatement->execute($values);
+
+            $objetFormatTableau = $pdoStatement->fetch();
+
+            if (!$objetFormatTableau){
+                return null;
+            }
+            return $this->construireDepuisTableau($objetFormatTableau);
         } catch (PDOException $exception) {
             echo $exception->getMessage();
             die("Erreur lors de la recherche dans la base de données.");

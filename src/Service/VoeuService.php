@@ -21,6 +21,11 @@ class VoeuService implements VoeuServiceInterface
         return $this->voeuRepository->recupererParIdUSA($idUniteServiceAnnee);
     }
 
+    public function recupererParIntervenantAnnuel(int $idIntervenant, int $annee): array
+    {
+        return $this->voeuRepository->recupererParIntervenantAnnuel($idIntervenant, $annee);
+    }
+
     /**
      * @param int $idIntervenant
      * @return array
@@ -33,5 +38,15 @@ class VoeuService implements VoeuServiceInterface
     public function recupererVueParIntervenantAnnuel(int $idIntervenant, int $annee): array
     {
         return $this->voeuRepository->recupererVueParIntervenantAnnuel($idIntervenant, $annee);
+    }
+
+    public function creerVoeu(array $voeuTab)
+    {
+        $this->voeuRepository->ajouterSansIdVoeu($voeuTab);
+    }
+
+    public function supprimerVoeu(int $idVoeu)
+    {
+        $this->voeuRepository->supprimer($idVoeu);
     }
 }

@@ -221,6 +221,11 @@ class URLRouter
             new Reference('declaration_service_service'), new Reference('departement_service'),
             new Reference('intervenant_service'), new Reference('emploi_service')]);
 
+        $voeuController = $conteneur->register('voeu_controller', VoeuController::class);
+        $voeuController->setArguments([new Reference('voeu_service'), new Reference('intervenant_service'),
+            new Reference('unite_service_service'), new Reference('unite_service_annee_service'),
+            new Reference('intervention_service')]);
+
         $intervenantService = $conteneur->register('intervenant_service', IntervenantService::class);
         $intervenantService->setArguments([new Reference("intervenant_repository"), new Reference("connexion_utilisateur")]);
 
@@ -653,6 +658,11 @@ class URLRouter
         ]);
         $routeMettreAJourDeclarationServicePourUnIntervenant->setMethods(["POST"]);
 
+        $routeMettreAJourVoeux = new Route("/services", [
+            "_controller" => ["voeu_controller", "mettreAJourVoeux"]
+        ]);
+        $routeMettreAJourVoeux->setMethods(["POST"]);
+
         /* Ajoute les routes dans la collection et leur associe un nom */
         $routes->add("accueil", $routeParDefaut);
         $routes->add("gestion", $routeGestion);
@@ -729,6 +739,7 @@ class URLRouter
         $routes->add("afficherFormulaireMiseAJourServiceAnnuel", $routeAfficherFormulaireMiseAJourServiceAnnuel);
         $routes->add("mettreAJourServiceAnnuel", $routeMettreAJourServiceAnnuel);
         $routes->add("mettreAJourDeclarationServicePourUnIntervenant", $routeMettreAJourDeclarationServicePourUnIntervenant);
+        $routes->add("mettreAJourVoeux", $routeMettreAJourVoeux);
 
         $contexteRequete = (new RequestContext())->fromRequest($requete);
 

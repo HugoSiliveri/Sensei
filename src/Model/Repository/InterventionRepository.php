@@ -65,6 +65,29 @@ class InterventionRepository extends AbstractRepository
         }
     }
 
+    public function recupererDernierIntervention(){
+        try {
+            $sql = "SELECT *
+                    FROM Intervention
+                    WHERE idIntervention = (SELECT MAX(idIntervention)
+						                    FROM Intervention)";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+
+            $pdoStatement->execute();
+
+            $objetFormatTableau = $pdoStatement->fetch();
+
+            if (!$objetFormatTableau){
+                return null;
+            }
+            return $this->construireDepuisTableau($objetFormatTableau);
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
+    }
+
     /**
      * Retourne le nom de la table contenant les données d'Intervention.
      * @return string

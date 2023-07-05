@@ -13,4 +13,19 @@ interface InterventionServiceInterface
      * @throws ServiceException
      */
     public function recupererParIdentifiant(int $idIntervention): AbstractDataObject;
+
+    /**
+     * @throws ServiceException
+     */
+    public function creerIntervention(array $intervention);
+
+    /**
+     * @throws ServiceException
+     */
+    public function modifierIntervention(array $intervention);
+
+    /**
+     * @throws ServiceException
+     */
+    public function recupererParInfos(array $intervention): array;
 }

@@ -534,7 +534,6 @@ class IntervenantController extends GenericController
         try {
 
             $departement = $this->departementService->recupererParLibelle(InfosGlobales::lireDepartement() ?? "MATH");
-            $this->droitService->verifierDroitsPageVoeux($departement->getIdEtat());
 
             $serviceAnnuel = $this->serviceAnnuelService->recupererPlusRecentDuDepartement($departement->getIdDepartement());
             $anneeService = $serviceAnnuel->getMillesime();

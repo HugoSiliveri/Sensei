@@ -13,4 +13,18 @@ interface PayeurServiceInterface
      * @throws ServiceException
      */
     public function recupererParIdentifiant(int $idPayeur): AbstractDataObject;
+
+    /**
+     * @throws ServiceException
+     */
+    public function creerPayeur(array $payeur);
+
+    /**
+     * @throws ServiceException
+     */
+    public function modifierPayeur(array $payeur);
+
+    public function supprimerPayeur(int $idPayeur);
+
+    public function recupererPayeurs(): array;
 }
