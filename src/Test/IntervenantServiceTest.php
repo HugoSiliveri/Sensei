@@ -12,14 +12,6 @@ use TypeError;
 
 class IntervenantServiceTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->intervenantRepositoryMock = $this->createMock(IntervenantRepository::class);
-        $this->intervenantMock = $this->createMock(Intervenant::class);
-        $this->service = new IntervenantService($this->intervenantRepositoryMock);
-    }
-
     public function testRecupererParIdentifiantNull()
     {
         $this->expectException(TypeError::class);
@@ -86,20 +78,23 @@ class IntervenantServiceTest extends TestCase
         self::assertEquals($fakeIntervenant, $this->service->rechercherIntervenant("4903 Andre Jean Baptiste"));
     }
 
-    public function testCreerIntervenantVide(){
+    public function testCreerIntervenantVide()
+    {
         $this->expectException(ServiceException::class);
         $this->expectExceptionMessage("Aucune information fournie !");
         $this->intervenantRepositoryMock->method("ajouterSansIdIntervenant")->with([])->willReturn(null);
         $this->service->creerIntervenant([]);
     }
 
-    public function testCreerIntervenantPasVide(){
+    public function testCreerIntervenantPasVide()
+    {
         $array = ["beurre", "jambon"];
         $this->intervenantRepositoryMock->method("ajouterSansIdIntervenant")->with($array)->willReturn(null);
         self::assertNull($this->service->creerIntervenant($array));
     }
 
-    public function testModifierIntervenantInexistante(){
+    public function testModifierIntervenantInexistante()
+    {
         $this->expectException(ServiceException::class);
         $this->intervenantRepositoryMock->method("recupererParClePrimaire")->with(0)->willReturn(null);
         $this->service->modifierIntervenant([
@@ -114,8 +109,9 @@ class IntervenantServiceTest extends TestCase
             "deleted" => 0]);
     }
 
-    public function testModifierIntervenantExistante(){
-        $fakeIntervenant = new Intervenant(4903, "Andre", "Jean Baptiste", 2, 3, null, null, null, 0);;
+    public function testModifierIntervenantExistante()
+    {
+        $fakeIntervenant = new Intervenant(4903, "Andre", "Jean Baptiste", 2, 3, null, null, null, 0);
         $fakeIntervenantTab = [
             "idIntervenant" => 4903,
             "nom" => "Andre",
@@ -139,36 +135,50 @@ class IntervenantServiceTest extends TestCase
         self::assertNull($this->service->modifierIntervenant($fakeIntervenantTab));
     }
 
-    public function testRecupererParUIDInexistant(){
+    public function testRecupererParUIDInexistant()
+    {
         $this->intervenantRepositoryMock->method("recupererParUID")->with("")->willReturn(null);
         self::assertNull($this->service->recupererParUID(""));
     }
 
-    public function testRecupererParUIDExistant(){
+    public function testRecupererParUIDExistant()
+    {
         $fakeIntervenant = new Intervenant(1, "Akrout", "Hugo", 1, 3, "hugo.akrout@umontpellier.fr", null, "p00000008902", 0);
         $this->intervenantRepositoryMock->method("recupererParUID")->with("p00000008902")->willReturn($fakeIntervenant);
         self::assertEquals($fakeIntervenant, $this->service->recupererParUID("p00000008902"));
     }
 
-    public function testRecupererParEmailInstitutionnelInexistant(){
+    public function testRecupererParEmailInstitutionnelInexistant()
+    {
         $this->intervenantRepositoryMock->method("recupererParEmailInstitutionnel")->with("")->willReturn(null);
         self::assertNull($this->service->recupererParEmailInstitutionnel(""));
     }
 
-    public function testRecupererParEmailInstitutionnelExistant(){
+    public function testRecupererParEmailInstitutionnelExistant()
+    {
         $fakeIntervenant = new Intervenant(1, "Akrout", "Hugo", 1, 3, "hugo.akrout@umontpellier.fr", null, "p00000008902", 0);
         $this->intervenantRepositoryMock->method("recupererParEmailInstitutionnel")->with("hugo.akrout@umontpellier.fr")->willReturn($fakeIntervenant);
-        self::assertEquals($fakeIntervenant,$this->service->recupererParEmailInstitutionnel("hugo.akrout@umontpellier.fr"));
+        self::assertEquals($fakeIntervenant, $this->service->recupererParEmailInstitutionnel("hugo.akrout@umontpellier.fr"));
     }
 
-    public function testRecupererIntervenantsAvecAnneeEtDepartementNonVacataireVide(){
+    public function testRecupererIntervenantsAvecAnneeEtDepartementNonVacataireVide()
+    {
         $this->intervenantRepositoryMock->method("recupererIntervenantsAvecAnneeEtDepartementPermanent")->with(1909, 1)->willReturn([]);
         self::assertEquals([], $this->service->recupererIntervenantsAvecAnneeEtDepartementPermanent(1909, 1));
     }
 
-    public function testRecupererIntervenantsAvecAnneeEtDepartementVacataireVide(){
+    public function testRecupererIntervenantsAvecAnneeEtDepartementVacataireVide()
+    {
         $this->intervenantRepositoryMock->method("recupererIntervenantsAvecAnneeEtDepartementVacataire")->with(1909, 1)->willReturn([]);
         self::assertEquals([], $this->service->recupererIntervenantsAvecAnneeEtDepartementVacataire(1909, 1));
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->intervenantRepositoryMock = $this->createMock(IntervenantRepository::class);
+        $this->intervenantMock = $this->createMock(Intervenant::class);
+        $this->service = new IntervenantService($this->intervenantRepositoryMock);
     }
 
 }

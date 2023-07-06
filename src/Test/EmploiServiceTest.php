@@ -33,25 +33,29 @@ class EmploiServiceTest extends TestCase
         self::assertEquals($fakeEmploi, $this->service->recupererParIdentifiant(3));
     }
 
-    public function testCreerEmploiVide(){
+    public function testCreerEmploiVide()
+    {
         $this->expectException(ServiceException::class);
         $this->expectExceptionMessage("Aucune information fournie !");
         $this->emploiRepositoryMock->method("ajouterSansIdEmploi")->with([])->willReturn(null);
         $this->service->creerEmploi([]);
     }
 
-    public function testCreerEmploiPasVide(){
+    public function testCreerEmploiPasVide()
+    {
         $array = [10, 9];
         $this->emploiRepositoryMock->method("ajouterSansIdEmploi")->with($array)->willReturn(null);
         self::assertNull($this->service->creerEmploi($array));
     }
 
-    public function testSupprimerEmploi(){
+    public function testSupprimerEmploi()
+    {
         $this->emploiRepositoryMock->method("supprimer")->with(0);
         self::assertNull($this->service->supprimerEmploi(0));
     }
 
-    public function testModifierEmploiInexistante(){
+    public function testModifierEmploiInexistante()
+    {
         $this->expectException(ServiceException::class);
         $this->emploiRepositoryMock->method("recupererParClePrimaire")->with(0)->willReturn(null);
         $this->service->modifierEmploi([
@@ -59,7 +63,8 @@ class EmploiServiceTest extends TestCase
             "libEmploi" => "stagiaire"]);
     }
 
-    public function testModifierEmploiExistante(){
+    public function testModifierEmploiExistante()
+    {
         $fakeEmploi = new Emploi(1, "administrateur.e");
         $fakeEmploiTab = [
             "idEmploi" => 1,

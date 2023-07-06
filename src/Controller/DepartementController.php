@@ -20,7 +20,7 @@ class DepartementController extends GenericController
         private readonly EtatServiceInterface          $etatService,
         private readonly ComposanteServiceInterface    $composanteService,
         private readonly ServiceAnnuelServiceInterface $serviceAnnuelService,
-        private readonly DroitServiceInterface $droitService,
+        private readonly DroitServiceInterface         $droitService,
         private readonly ConnexionUtilisateurInterface $connexionUtilisateur
     )
     {
@@ -76,7 +76,7 @@ class DepartementController extends GenericController
             $this->departementService->creerDepartement($departement);
 
             MessageFlash::ajouter("success", "Le departement a bien été créé !");
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {
@@ -226,7 +226,7 @@ class DepartementController extends GenericController
             $idDepartement = $_POST["idDepartement"];
             $this->departementService->changerEtat($idDepartement, $idEtat);
             MessageFlash::ajouter("success", "L'état du département a bien été changé !");
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {

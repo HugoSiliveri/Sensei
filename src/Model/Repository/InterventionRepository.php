@@ -65,7 +65,8 @@ class InterventionRepository extends AbstractRepository
         }
     }
 
-    public function recupererDernierIntervention(){
+    public function recupererDernierIntervention()
+    {
         try {
             $sql = "SELECT *
                     FROM Intervention
@@ -78,7 +79,7 @@ class InterventionRepository extends AbstractRepository
 
             $objetFormatTableau = $pdoStatement->fetch();
 
-            if (!$objetFormatTableau){
+            if (!$objetFormatTableau) {
                 return null;
             }
             return $this->construireDepuisTableau($objetFormatTableau);
@@ -86,6 +87,20 @@ class InterventionRepository extends AbstractRepository
             echo $exception->getMessage();
             die("Erreur lors de la recherche dans la base de données.");
         }
+    }
+
+    /** Construit un objet Intervention à partir d'un tableau donné en paramètre.
+     * @param array $objetFormatTableau
+     * @return Intervention
+     */
+    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
+    {
+        return new Intervention(
+            $objetFormatTableau["idIntervention"],
+            $objetFormatTableau["typeIntervention"],
+            $objetFormatTableau["numeroGroupeIntervention"],
+            $objetFormatTableau["volumeHoraire"]
+        );
     }
 
     /**
@@ -113,19 +128,5 @@ class InterventionRepository extends AbstractRepository
     protected function getNomsColonnes(): array
     {
         return ["idIntervention", "typeIntervention", "numeroGroupeIntervention", "volumeHoraire"];
-    }
-
-    /** Construit un objet Intervention à partir d'un tableau donné en paramètre.
-     * @param array $objetFormatTableau
-     * @return Intervention
-     */
-    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
-    {
-        return new Intervention(
-            $objetFormatTableau["idIntervention"],
-            $objetFormatTableau["typeIntervention"],
-            $objetFormatTableau["numeroGroupeIntervention"],
-            $objetFormatTableau["volumeHoraire"]
-        );
     }
 }

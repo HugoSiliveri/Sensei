@@ -21,7 +21,7 @@ class UniteServiceAnneeController extends GenericController
         private readonly UniteServiceServiceInterface      $uniteServiceService,
         private readonly DepartementServiceInterface       $departementService,
         private readonly ServiceAnnuelServiceInterface     $serviceAnnuelService,
-        private readonly DroitServiceInterface $droitService,
+        private readonly DroitServiceInterface             $droitService,
         private readonly ConnexionUtilisateurInterface     $connexionUtilisateur
     )
     {

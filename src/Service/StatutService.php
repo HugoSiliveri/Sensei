@@ -34,7 +34,7 @@ class StatutService implements StatutServiceInterface
      */
     public function creerStatut(array $statut)
     {
-        if (empty($statut)){
+        if (empty($statut)) {
             throw new ServiceException("Aucune information fournie !");
         }
         $this->statutRepository->ajouterSansIdStatut($statut);

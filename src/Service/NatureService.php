@@ -34,7 +34,7 @@ class NatureService implements NatureServiceInterface
      */
     public function creerNature(array $nature)
     {
-        if (empty($nature)){
+        if (empty($nature)) {
             throw new ServiceException("Aucune information fournie !");
         }
         $this->natureRepository->ajouterSansIdNature($nature);

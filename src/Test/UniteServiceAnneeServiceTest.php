@@ -54,20 +54,23 @@ class UniteServiceAnneeServiceTest extends TestCase
         self::assertEquals($tab, $this->service->recupererParUniteService(3));
     }
 
-    public function testCreerUniteServiceAnneeVide(){
+    public function testCreerUniteServiceAnneeVide()
+    {
         $this->expectException(ServiceException::class);
         $this->expectExceptionMessage("Aucune information fournie !");
         $this->uniteServiceAnneeRepositoryMock->method("ajouterSansIdUniteServiceAnnee")->with([])->willReturn(null);
         $this->service->creerUniteServiceAnnee([]);
     }
 
-    public function testCreerUniteServiceAnneePasVide(){
+    public function testCreerUniteServiceAnneePasVide()
+    {
         $array = [10, 9];
         $this->uniteServiceAnneeRepositoryMock->method("ajouterSansIdUniteServiceAnnee")->with($array)->willReturn(null);
         self::assertNull($this->service->creerUniteServiceAnnee($array));
     }
 
-    public function testModifierUniteServiceAnneeInexistante(){
+    public function testModifierUniteServiceAnneeInexistante()
+    {
         $this->expectException(ServiceException::class);
         $this->uniteServiceAnneeRepositoryMock->method("recupererParClePrimaire")->with(0)->willReturn(null);
         $this->service->modifierUniteServiceAnnee([
@@ -75,7 +78,8 @@ class UniteServiceAnneeServiceTest extends TestCase
             "libUSA" => "matière"]);
     }
 
-    public function testModifierUniteServiceAnneeExistante(){
+    public function testModifierUniteServiceAnneeExistante()
+    {
         $fakeUniteServiceAnnee = new UniteServiceAnnee(224, 1, 2, null, 2006, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0);
         $fakeUniteServiceAnneeTab = [
             "idUniteServiceAnnee" => 1,
@@ -120,12 +124,14 @@ class UniteServiceAnneeServiceTest extends TestCase
         self::assertNull($this->service->modifierUniteServiceAnnee($fakeUniteServiceAnneeTab));
     }
 
-    public function testRecupererUnitesServicesPourUneAnneePourUnDepartementInexistant(){
+    public function testRecupererUnitesServicesPourUneAnneePourUnDepartementInexistant()
+    {
         $this->uniteServiceAnneeRepositoryMock->method("recupererUnitesServicesPourUneAnneePourUnDepartement")->with(0, 1)->willReturn([]);
         self::assertEquals([], $this->service->recupererUnitesServicesPourUneAnneePourUnDepartement(0, 1));
     }
-    
-    public function testRecupererUnitesServicesAnneeUniquementColorationInexistant(){
+
+    public function testRecupererUnitesServicesAnneeUniquementColorationInexistant()
+    {
         $this->uniteServiceAnneeRepositoryMock->method("recupererUniteServiceAnneeUniquementColoration")->with(0, 1)->willReturn([]);
         self::assertEquals([], $this->service->recupererUnitesServicesAnneeUniquementColoration(0, 1));
     }

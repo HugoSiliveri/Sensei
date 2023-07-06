@@ -12,7 +12,7 @@ class EmploiController extends GenericController
 {
     public function __construct(
         private readonly EmploiServiceInterface $emploiService,
-        private readonly DroitServiceInterface $droitService
+        private readonly DroitServiceInterface  $droitService
     )
     {
     }
@@ -53,7 +53,7 @@ class EmploiController extends GenericController
             ];
             $this->emploiService->creerEmploi($emploi);
             MessageFlash::ajouter("success", "L'emploi a bien été créé !");
-        }catch (ServiceException $exception) {
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {

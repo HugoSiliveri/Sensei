@@ -9,7 +9,6 @@ use App\Sensei\Service\Exception\ServiceException;
 use App\Sensei\Service\IntervenantServiceInterface;
 use App\Sensei\Service\InterventionServiceInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
@@ -20,8 +19,8 @@ class DeclarationServiceController extends GenericController
     public function __construct(
         private readonly DeclarationServiceServiceInterface $declarationServiceService,
         private readonly IntervenantServiceInterface        $intervenantService,
-        private readonly DroitServiceInterface $droitService,
-        private readonly InterventionServiceInterface $interventionService
+        private readonly DroitServiceInterface              $droitService,
+        private readonly InterventionServiceInterface       $interventionService
     )
     {
     }
@@ -57,7 +56,7 @@ class DeclarationServiceController extends GenericController
             $declarationsServices = $this->declarationServiceService->recupererVueParIdIntervenantAnnuel($idIntervenant, $_POST["millesime"]);
 
 
-            for($i=0; $i < count($declarationsServices); $i++){
+            for ($i = 0; $i < count($declarationsServices); $i++) {
                 // Comme des services peuvent partager plusieurs interventions alors la modification d'un
                 // va entrainer la modification des autres, on va donc en créer un nouveau sinon renvoyer
                 // un existant
@@ -69,7 +68,7 @@ class DeclarationServiceController extends GenericController
                 ];
                 $intervention = $this->interventionService->recupererParInfos($interventionTab);
 
-                if (count($intervention) == 0){
+                if (count($intervention) == 0) {
                     $this->interventionService->creerIntervention($interventionTab);
                     $intervention = $this->interventionService->recupererParInfos($interventionTab);
                 }

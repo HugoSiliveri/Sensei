@@ -2,9 +2,7 @@
 
 namespace App\Sensei\Service;
 
-use App\Sensei\Model\DataObject\AbstractDataObject;
 use App\Sensei\Model\Repository\ColorationRepository;
-use App\Sensei\Service\Exception\ServiceException;
 
 class ColorationService implements ColorationServiceInterface
 {

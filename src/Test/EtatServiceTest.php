@@ -33,7 +33,8 @@ class EtatServiceTest extends TestCase
         self::assertEquals($fakeEtat, $this->service->recupererParIdentifiant(3));
     }
 
-    public function testModifierEtatInexistante(){
+    public function testModifierEtatInexistante()
+    {
         $this->expectException(ServiceException::class);
         $this->etatRepositoryMock->method("recupererParClePrimaire")->with(0)->willReturn(null);
         $this->service->modifierEtat([
@@ -41,7 +42,8 @@ class EtatServiceTest extends TestCase
             "libEtat" => "CREATION"]);
     }
 
-    public function testModifierEtatExistante(){
+    public function testModifierEtatExistante()
+    {
         $fakeEtat = new Etat(1, "administrateur.e");
         $fakeEtatTab = [
             "idEtat" => 1,

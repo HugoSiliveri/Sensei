@@ -16,12 +16,12 @@ class ServiceAnnuelController extends GenericController
 {
 
     public function __construct(
-        private readonly ServiceAnnuelServiceInterface $serviceAnnuelService,
-        private readonly DroitServiceInterface $droitService,
+        private readonly ServiceAnnuelServiceInterface      $serviceAnnuelService,
+        private readonly DroitServiceInterface              $droitService,
         private readonly DeclarationServiceServiceInterface $declarationServiceService,
-        private readonly DepartementServiceInterface $departementService,
-        private readonly IntervenantServiceInterface $intervenantService,
-        private readonly EmploiServiceInterface $emploiService
+        private readonly DepartementServiceInterface        $departementService,
+        private readonly IntervenantServiceInterface        $intervenantService,
+        private readonly EmploiServiceInterface             $emploiService
     )
     {
     }

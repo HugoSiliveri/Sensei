@@ -18,7 +18,7 @@ class AppartenirService implements AppartenirServiceInterface
      */
     public function creerAppartenir(array $appartenir)
     {
-        if (count($appartenir) == 0){
+        if (count($appartenir) == 0) {
             throw new ServiceException("Aucune information fournie !");
         }
         $this->appartenirRepository->ajouterSansIdAppartenir($appartenir);
@@ -37,7 +37,8 @@ class AppartenirService implements AppartenirServiceInterface
         }
     }
 
-    public function verifierAppartenance(int $idUniteService, int $idDepartement): bool{
+    public function verifierAppartenance(int $idUniteService, int $idDepartement): bool
+    {
         $appartenance = $this->appartenirRepository->verifierAppartenance($idUniteService, $idDepartement);
         return isset($appartenance);
     }

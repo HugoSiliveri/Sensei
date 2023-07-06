@@ -17,7 +17,6 @@ use App\Sensei\Service\SaisonServiceInterface;
 use App\Sensei\Service\SemestreServiceInterface;
 use App\Sensei\Service\UniteServiceAnneeServiceInterface;
 use App\Sensei\Service\UniteServiceServiceInterface;
-use App\Sensei\Service\VoeuServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
 use TypeError;
 
@@ -34,9 +33,9 @@ class UniteServiceController extends GenericController
         private readonly NatureServiceInterface             $natureService,
         private readonly ColorationServiceInterface         $colorationService,
         private readonly DeclarationServiceServiceInterface $declarationServiceService,
-        private readonly DroitServiceInterface $droitService,
-        private readonly SaisonServiceInterface $saisonService,
-        private readonly SemestreServiceInterface $semestreService
+        private readonly DroitServiceInterface              $droitService,
+        private readonly SaisonServiceInterface             $saisonService,
+        private readonly SemestreServiceInterface           $semestreService
     )
     {
     }
@@ -95,7 +94,7 @@ class UniteServiceController extends GenericController
                 $j++;
             }
 
-            return UniteServiceController::afficherTwig("uniteService/detailUniteService.twig",  [
+            return UniteServiceController::afficherTwig("uniteService/detailUniteService.twig", [
                 "uniteService" => $uniteService,
                 "unitesServicesAnnees" => $unitesServicesAnnees,
                 "declarationsServices" => $declarationsServices,

@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 class EtatController extends GenericController
 {
     public function __construct(
-        private readonly EtatServiceInterface $etatService,
+        private readonly EtatServiceInterface  $etatService,
         private readonly DroitServiceInterface $droitService
     )
     {

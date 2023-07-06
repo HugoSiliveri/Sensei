@@ -34,7 +34,7 @@ class ComposanteService implements ComposanteServiceInterface
      */
     public function creerComposante(array $composante)
     {
-        if (empty($composante)){
+        if (empty($composante)) {
             throw new ServiceException("Aucune information fournie !");
         }
         $this->composanteRepository->ajouterSansIdComposante($composante);

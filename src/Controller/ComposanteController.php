@@ -2,7 +2,6 @@
 
 namespace App\Sensei\Controller;
 
-use App\Sensei\Lib\ConnexionUtilisateurInterface;
 use App\Sensei\Lib\MessageFlash;
 use App\Sensei\Service\ComposanteServiceInterface;
 use App\Sensei\Service\DroitServiceInterface;
@@ -13,7 +12,7 @@ class ComposanteController extends GenericController
 {
     public function __construct(
         private readonly ComposanteServiceInterface $composanteService,
-        private readonly DroitServiceInterface $droitService,
+        private readonly DroitServiceInterface      $droitService,
     )
     {
     }
@@ -29,7 +28,7 @@ class ComposanteController extends GenericController
         try {
             $this->droitService->verifierDroits();
             return ComposanteController::afficherTwig("composante/creationComposante.twig");
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {
@@ -73,7 +72,7 @@ class ComposanteController extends GenericController
             $this->droitService->verifierDroits();
             $composantes = $this->composanteService->recupererComposantes();
             return ComposanteController::afficherTwig("composante/listeComposantes.twig", ["composantes" => $composantes]);
-        } catch (ServiceException $exception){
+        } catch (ServiceException $exception) {
             if (strcmp($exception->getCode(), "danger") == 0) {
                 MessageFlash::ajouter("danger", $exception->getMessage());
             } else {

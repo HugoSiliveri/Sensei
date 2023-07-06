@@ -12,7 +12,7 @@ class DeclarationServiceService implements DeclarationServiceServiceInterface
 
     public function __construct(
         private readonly DeclarationServiceRepository $declarationServiceRepository,
-        private readonly ServiceAnnuelRepository $serviceAnnuelRepository,
+        private readonly ServiceAnnuelRepository      $serviceAnnuelRepository,
     )
     {
     }
@@ -69,16 +69,6 @@ class DeclarationServiceService implements DeclarationServiceServiceInterface
     }
 
     /**
-     * @param int $idIntervenant
-     * @param int $annee
-     * @return array
-     */
-    public function recupererVueParIdIntervenantAnnuel(int $idIntervenant, int $annee): array
-    {
-        return $this->declarationServiceRepository->recupererVueParIdIntervenantAnnuel($idIntervenant, $annee);
-    }
-
-    /**
      * @param int $idUniteServiceAnnee
      * @return array
      */
@@ -87,20 +77,31 @@ class DeclarationServiceService implements DeclarationServiceServiceInterface
         return $this->declarationServiceRepository->recupererParIdUSA($idUniteServiceAnnee);
     }
 
-    public function verifierPhaseDeVoeu(int $annee, int $idDepartement): bool{
+    public function verifierPhaseDeVoeu(int $annee, int $idDepartement): bool
+    {
         $servicesAnnuels = $this->serviceAnnuelRepository->recupererParDepartementAnnuel($idDepartement, $annee);
         $taille = count($servicesAnnuels);
         $taille2 = 0;
         foreach ($servicesAnnuels as $serviceAnnuel) {
             $declarationService = $this->declarationServiceRepository->recupererVueParIdIntervenantAnnuel($serviceAnnuel->getIdIntervenant(), $annee);
-            if (empty($declarationService)){
+            if (empty($declarationService)) {
                 $taille2 += 1;
             }
         }
         // Si tous les services ne sont pas déclarés pour chaque intervenant alors la phase de voeu n'est pas terminé
-        if ($taille == $taille2){
+        if ($taille == $taille2) {
             return false;
         }
         return true;
+    }
+
+    /**
+     * @param int $idIntervenant
+     * @param int $annee
+     * @return array
+     */
+    public function recupererVueParIdIntervenantAnnuel(int $idIntervenant, int $annee): array
+    {
+        return $this->declarationServiceRepository->recupererVueParIdIntervenantAnnuel($idIntervenant, $annee);
     }
 }

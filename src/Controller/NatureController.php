@@ -13,7 +13,7 @@ class NatureController extends GenericController
 
     public function __construct(
         private readonly NatureServiceInterface $natureService,
-        private readonly DroitServiceInterface $droitService
+        private readonly DroitServiceInterface  $droitService
     )
     {
     }
@@ -46,7 +46,7 @@ class NatureController extends GenericController
      */
     public function creerDepuisFormulaire(): Response
     {
-        try{
+        try {
             $libNature = $_POST["libNature"];
 
             $nature = [

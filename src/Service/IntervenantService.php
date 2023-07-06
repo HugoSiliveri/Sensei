@@ -67,7 +67,7 @@ class IntervenantService implements IntervenantServiceInterface
      */
     public function creerIntervenant(array $intervenant)
     {
-        if (empty($intervenant)){
+        if (empty($intervenant)) {
             throw new ServiceException("Aucune information fournie !");
         }
         $this->intervenantRepository->ajouterSansIdIntervenant($intervenant);

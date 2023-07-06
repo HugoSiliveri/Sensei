@@ -26,7 +26,7 @@ class SemestreRepository extends AbstractRepository
 
     protected function getNomsColonnes(): array
     {
-       return ["idSemestre", "libSemestre"];
+        return ["idSemestre", "libSemestre"];
     }
 
     protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject

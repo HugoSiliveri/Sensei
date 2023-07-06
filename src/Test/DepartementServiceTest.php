@@ -64,25 +64,29 @@ class DepartementServiceTest extends TestCase
         self::assertEquals($fakeDepartement, $this->service->recupererParLibelle("MATH"));
     }
 
-    public function testCreerDepartementVide(){
+    public function testCreerDepartementVide()
+    {
         $this->expectException(ServiceException::class);
         $this->expectExceptionMessage("Aucune information fournie !");
         $this->departementRepositoryMock->method("ajouterSansIdDepartement")->with([])->willReturn(null);
         $this->service->creerDepartement([]);
     }
 
-    public function testCreerDepartementPasVide(){
+    public function testCreerDepartementPasVide()
+    {
         $array = [10, 9];
         $this->departementRepositoryMock->method("ajouterSansIdDepartement")->with($array)->willReturn(null);
         self::assertNull($this->service->creerDepartement($array));
     }
 
-    public function testSupprimerDepartement(){
+    public function testSupprimerDepartement()
+    {
         $this->departementRepositoryMock->method("supprimer")->with(0);
         self::assertNull($this->service->supprimerDepartement(0));
     }
 
-    public function testModifierDepartementInexistante(){
+    public function testModifierDepartementInexistante()
+    {
         $this->expectException(ServiceException::class);
         $this->departementRepositoryMock->method("recupererParClePrimaire")->with(0)->willReturn(null);
         $this->service->modifierDepartement([
@@ -94,7 +98,8 @@ class DepartementServiceTest extends TestCase
             "idEtat" => 39]);
     }
 
-    public function testModifierDepartementExistante(){
+    public function testModifierDepartementExistante()
+    {
         $fakeDepartement = new Departement(1, "MATH", "MA", 25, 1, 2);
         $fakeDepartementTab = [
             "idDepartement" => 1,
@@ -113,49 +118,55 @@ class DepartementServiceTest extends TestCase
         self::assertNull($this->service->modifierDepartement($fakeDepartementTab));
     }
 
-    public function testChangerEtatInferieurAUn(){
+    public function testChangerEtatInferieurAUn()
+    {
         $this->expectException(ServiceException::class);
         $this->expectExceptionMessage("L'état choisi n'existe pas !");
         $this->departementRepositoryMock->method("changerEtat")->with(1, 0)->willReturn(null);
-        $this->service->changerEtat(1,0);
+        $this->service->changerEtat(1, 0);
     }
 
-    public function testChangerEtatSuperieurATrois(){
+    public function testChangerEtatSuperieurATrois()
+    {
         $this->expectException(ServiceException::class);
         $this->expectExceptionMessage("L'état choisi n'existe pas !");
         $this->departementRepositoryMock->method("changerEtat")->with(1, 4)->willReturn(null);
-        $this->service->changerEtat(1,4);
+        $this->service->changerEtat(1, 4);
     }
 
-    public function testChangerEtatExistant(){
+    public function testChangerEtatExistant()
+    {
         $this->departementRepositoryMock->method("changerEtat")->with(1, 2)->willReturn(null);
-        self::assertNull($this->service->changerEtat(1,2));
+        self::assertNull($this->service->changerEtat(1, 2));
     }
 
-    public function testVerifierDroitsPourGestionDepartementDifferent(){
+    public function testVerifierDroitsPourGestionDepartementDifferent()
+    {
         $this->expectException(ServiceException::class);
         $this->expectExceptionMessage("Vous n'appartenez pas au département que vous souhaitez modifier !");
-        $fakeServiceAnnuel = new ServiceAnnuel(30802, 1, 1, 2023, 6, 192, 164.5, -1.5,0);
+        $fakeServiceAnnuel = new ServiceAnnuel(30802, 1, 1, 2023, 6, 192, 164.5, -1.5, 0);
         $this->serviceAnnuelRepositoryMock->method("recupererParIntervenantAnnuelPlusRecent")->with(1)->willReturn($fakeServiceAnnuel);
-        $this->service->verifierDroitsPourGestion(1,4);
+        $this->service->verifierDroitsPourGestion(1, 4);
     }
 
-    public function testVerifierDroitsPourGestionDroitManquant(){
+    public function testVerifierDroitsPourGestionDroitManquant()
+    {
         $this->expectException(ServiceException::class);
         $this->expectExceptionMessage("Vous n'avez pas les permissions pour réaliser la modification !");
-        $fakeServiceAnnuel = new ServiceAnnuel(30802, 1, 1, 2023, 6, 192, 164.5, -1.5,0);
+        $fakeServiceAnnuel = new ServiceAnnuel(30802, 1, 1, 2023, 6, 192, 164.5, -1.5, 0);
         $this->serviceAnnuelRepositoryMock->method("recupererParIntervenantAnnuelPlusRecent")->with(1)->willReturn($fakeServiceAnnuel);
-        $fakeIntervenant = new Intervenant(1, "Akrout", "Hugo", 1, 3,"hugo.akrout@umontpellier.fr", null, "p00000008902", 0);
+        $fakeIntervenant = new Intervenant(1, "Akrout", "Hugo", 1, 3, "hugo.akrout@umontpellier.fr", null, "p00000008902", 0);
         $this->intervenantRepositoryMock->method("recupererParClePrimaire")->with(1)->willReturn($fakeIntervenant);
-        $this->service->verifierDroitsPourGestion(1,1);
+        $this->service->verifierDroitsPourGestion(1, 1);
     }
 
-    public function testVerifierDroitsPourGestionPossible(){
-        $fakeServiceAnnuel = new ServiceAnnuel(30823, 1, 3637, 2023, 3, 192, 0, 0,0);
+    public function testVerifierDroitsPourGestionPossible()
+    {
+        $fakeServiceAnnuel = new ServiceAnnuel(30823, 1, 3637, 2023, 3, 192, 0, 0, 0);
         $this->serviceAnnuelRepositoryMock->method("recupererParIntervenantAnnuelPlusRecent")->with(3637)->willReturn($fakeServiceAnnuel);
-        $fakeIntervenant = new Intervenant(3637, "de Saporta", "Benoite", 1, 1,"benoite.de-saporta@umontpellier.fr", null, "p00000007991", 0);
+        $fakeIntervenant = new Intervenant(3637, "de Saporta", "Benoite", 1, 1, "benoite.de-saporta@umontpellier.fr", null, "p00000007991", 0);
         $this->intervenantRepositoryMock->method("recupererParClePrimaire")->with(3637)->willReturn($fakeIntervenant);
-        self::assertNull($this->service->verifierDroitsPourGestion(3637,1));
+        self::assertNull($this->service->verifierDroitsPourGestion(3637, 1));
     }
 
     protected function setUp(): void

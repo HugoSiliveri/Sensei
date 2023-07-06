@@ -33,25 +33,29 @@ class StatutServiceTest extends TestCase
         self::assertEquals($fakeStatut, $this->service->recupererParIdentifiant(3));
     }
 
-    public function testCreerStatutVide(){
+    public function testCreerStatutVide()
+    {
         $this->expectException(ServiceException::class);
         $this->expectExceptionMessage("Aucune information fournie !");
         $this->statutRepositoryMock->method("ajouterSansIdStatut")->with([])->willReturn(null);
         $this->service->creerStatut([]);
     }
 
-    public function testCreerStatutPasVide(){
+    public function testCreerStatutPasVide()
+    {
         $array = [10, 9];
         $this->statutRepositoryMock->method("ajouterSansIdStatut")->with($array)->willReturn(null);
         self::assertNull($this->service->creerStatut($array));
     }
 
-    public function testSupprimerStatut(){
+    public function testSupprimerStatut()
+    {
         $this->statutRepositoryMock->method("supprimer")->with(0);
         self::assertNull($this->service->supprimerStatut(0));
     }
 
-    public function testModifierStatutInexistante(){
+    public function testModifierStatutInexistante()
+    {
         $this->expectException(ServiceException::class);
         $this->statutRepositoryMock->method("recupererParClePrimaire")->with(0)->willReturn(null);
         $this->service->modifierStatut([
@@ -60,7 +64,8 @@ class StatutServiceTest extends TestCase
             "nbHeures" => 390]);
     }
 
-    public function testModifierStatutExistante(){
+    public function testModifierStatutExistante()
+    {
         $fakeStatut = new Statut(1, "permanent", null);
         $fakeStatutTab = [
             "idStatut" => 1,

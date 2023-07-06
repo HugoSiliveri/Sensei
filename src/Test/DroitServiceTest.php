@@ -34,25 +34,29 @@ class DroitServiceTest extends TestCase
         self::assertEquals($fakeDroit, $this->service->recupererParIdentifiant(3));
     }
 
-    public function testCreerDroitVide(){
+    public function testCreerDroitVide()
+    {
         $this->expectException(ServiceException::class);
         $this->expectExceptionMessage("Aucune information fournie !");
         $this->droitRepositoryMock->method("ajouterSansIdDroit")->with([])->willReturn(null);
         $this->service->creerDroit([]);
     }
 
-    public function testCreerDroitPasVide(){
+    public function testCreerDroitPasVide()
+    {
         $array = [10, 9];
         $this->droitRepositoryMock->method("ajouterSansIdDroit")->with($array)->willReturn(null);
         self::assertNull($this->service->creerDroit($array));
     }
 
-    public function testSupprimerDroit(){
+    public function testSupprimerDroit()
+    {
         $this->droitRepositoryMock->method("supprimer")->with(0);
         self::assertNull($this->service->supprimerDroit(0));
     }
 
-    public function testModifierDroitInexistante(){
+    public function testModifierDroitInexistante()
+    {
         $this->expectException(ServiceException::class);
         $this->droitRepositoryMock->method("recupererParClePrimaire")->with(0)->willReturn(null);
         $this->service->modifierDroit([
@@ -60,7 +64,8 @@ class DroitServiceTest extends TestCase
             "typeDroit" => "stagiaire"]);
     }
 
-    public function testModifierDroitExistante(){
+    public function testModifierDroitExistante()
+    {
         $fakeDroit = new Droit(1, "administrateur.e");
         $fakeDroitTab = [
             "idDroit" => 1,

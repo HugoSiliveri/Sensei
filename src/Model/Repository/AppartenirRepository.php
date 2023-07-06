@@ -41,28 +41,6 @@ class AppartenirRepository extends AbstractRepository
         }
     }
 
-    public function verifierAppartenance(int $idUniteService, int $idDepartement): ?array{
-        try {
-            $sql = "SELECT * from UniteService WHERE idUniteService = (
-            SELECT MAX(idUniteService)
-            FROM UniteService)";
-
-            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
-            $pdoStatement->execute();
-
-            $objet = $pdoStatement->fetch();
-
-            if (!$objet){
-                return null;
-            }
-            return $objet;
-
-        } catch (PDOException $exception) {
-            echo $exception->getMessage();
-            die("Erreur lors de la recherche dans la base de données.");
-        }
-    }
-
     /** Construit un objet Appartenir à partir d'un tableau donné en paramètre.
      * @param array $objetFormatTableau
      * @return Appartenir
@@ -74,6 +52,29 @@ class AppartenirRepository extends AbstractRepository
             $objetFormatTableau["idDepartement"],
             $objetFormatTableau["idUniteService"]
         );
+    }
+
+    public function verifierAppartenance(int $idUniteService, int $idDepartement): ?array
+    {
+        try {
+            $sql = "SELECT * from UniteService WHERE idUniteService = (
+            SELECT MAX(idUniteService)
+            FROM UniteService)";
+
+            $pdoStatement = parent::getConnexionBaseDeDonnees()->getPdo()->prepare($sql);
+            $pdoStatement->execute();
+
+            $objet = $pdoStatement->fetch();
+
+            if (!$objet) {
+                return null;
+            }
+            return $objet;
+
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+            die("Erreur lors de la recherche dans la base de données.");
+        }
     }
 
     public function ajouterSansIdAppartenir(array $uniteService)

@@ -60,7 +60,7 @@ class DepartementService implements DepartementServiceInterface
      */
     public function creerDepartement(array $departement)
     {
-        if (empty($departement)){
+        if (empty($departement)) {
             throw new ServiceException("Aucune information fournie !");
         }
         $this->departementRepository->ajouterSansIdDepartement($departement);
@@ -96,7 +96,7 @@ class DepartementService implements DepartementServiceInterface
      */
     public function changerEtat(int $idDepartement, int $idEtat)
     {
-        if ($idEtat < 1 || $idEtat > 3){
+        if ($idEtat < 1 || $idEtat > 3) {
             throw new ServiceException("L'état choisi n'existe pas !");
         }
         $this->departementRepository->changerEtat($idDepartement, $idEtat);

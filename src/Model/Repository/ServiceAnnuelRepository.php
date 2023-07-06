@@ -48,7 +48,27 @@ class ServiceAnnuelRepository extends AbstractRepository
         }
     }
 
-    public function recupererPlusRecentDuDepartement(int $idDepartement){
+    /** Construit un objet ServiceAnnuel à partir d'un tableau donné en paramètre.
+     * @param array $objetFormatTableau
+     * @return ServiceAnnuel
+     */
+    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
+    {
+        return new ServiceAnnuel(
+            $objetFormatTableau["idServiceAnnuel"],
+            $objetFormatTableau["idDepartement"],
+            $objetFormatTableau["idIntervenant"],
+            $objetFormatTableau["millesime"],
+            $objetFormatTableau["idEmploi"],
+            $objetFormatTableau["serviceStatuaire"],
+            $objetFormatTableau["serviceFait"],
+            $objetFormatTableau["delta"],
+            $objetFormatTableau["deleted"]
+        );
+    }
+
+    public function recupererPlusRecentDuDepartement(int $idDepartement)
+    {
         try {
             $sql = "SELECT *
                     FROM ServiceAnnuel
@@ -67,7 +87,7 @@ class ServiceAnnuelRepository extends AbstractRepository
 
             $objetFormatTableau = $pdoStatement->fetch();
 
-            if (!$objetFormatTableau){
+            if (!$objetFormatTableau) {
                 return null;
             }
             return $this->construireDepuisTableau($objetFormatTableau);
@@ -77,7 +97,8 @@ class ServiceAnnuelRepository extends AbstractRepository
         }
     }
 
-    public function recupererParDepartementAnnuel(int $idDepartement, int $annee){
+    public function recupererParDepartementAnnuel(int $idDepartement, int $annee)
+    {
         try {
             $sql = "SELECT *
                     FROM ServiceAnnuel
@@ -131,25 +152,6 @@ class ServiceAnnuelRepository extends AbstractRepository
             echo $exception->getMessage();
             die("Erreur lors d'insertion dans la base de données.");
         }
-    }
-
-    /** Construit un objet ServiceAnnuel à partir d'un tableau donné en paramètre.
-     * @param array $objetFormatTableau
-     * @return ServiceAnnuel
-     */
-    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
-    {
-        return new ServiceAnnuel(
-            $objetFormatTableau["idServiceAnnuel"],
-            $objetFormatTableau["idDepartement"],
-            $objetFormatTableau["idIntervenant"],
-            $objetFormatTableau["millesime"],
-            $objetFormatTableau["idEmploi"],
-            $objetFormatTableau["serviceStatuaire"],
-            $objetFormatTableau["serviceFait"],
-            $objetFormatTableau["delta"],
-            $objetFormatTableau["deleted"]
-        );
     }
 
     public function creerDepuisTableau(array $serviceAnnuel): AbstractDataObject

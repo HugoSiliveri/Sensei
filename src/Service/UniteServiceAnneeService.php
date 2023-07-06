@@ -45,7 +45,7 @@ class UniteServiceAnneeService implements UniteServiceAnneeServiceInterface
     public function recupererParUniteServiceAvecAnnee(int $idUniteService, int $millesime): ?AbstractDataObject
     {
         $usa = $this->uniteServiceAnneeRepository->recupererParUniteServiceAvecAnnee($idUniteService, $millesime);
-        if(!isset($usa)){
+        if (!isset($usa)) {
             throw new ServiceException("Il n'existe pas d'unité de servcie pour cette année !");
         }
         return $usa;
@@ -56,7 +56,7 @@ class UniteServiceAnneeService implements UniteServiceAnneeServiceInterface
      */
     public function creerUniteServiceAnnee(array $uniteServiceAnnee)
     {
-        if (empty($uniteServiceAnnee)){
+        if (empty($uniteServiceAnnee)) {
             throw new ServiceException("Aucune information fournie !");
         }
         $this->uniteServiceAnneeRepository->ajouterSansIdUniteServiceAnnee($uniteServiceAnnee);
@@ -104,8 +104,9 @@ class UniteServiceAnneeService implements UniteServiceAnneeServiceInterface
     {
         return $this->uniteServiceAnneeRepository->recupererUniteServiceAnneeUniquementColoration($anneeActuelle, $idDepartement);
     }
-    
-    public function renouvelerUniteServiceAnnee(UniteServiceAnnee $usa, int $annee){
+
+    public function renouvelerUniteServiceAnnee(UniteServiceAnnee $usa, int $annee)
+    {
         $usa->setMillesime($annee);
         $tab = [
             "idDepartement" => $usa->getIdDepartement(),
@@ -130,11 +131,13 @@ class UniteServiceAnneeService implements UniteServiceAnneeServiceInterface
         $this->uniteServiceAnneeRepository->ajouterSansIdUniteServiceAnnee($tab);
     }
 
-    public function recupererReferentiels(int $annee): array{
+    public function recupererReferentiels(int $annee): array
+    {
         return $this->uniteServiceAnneeRepository->recupererReferentiels($annee);
     }
 
-    public function recupererDecharges(int $annee): array{
+    public function recupererDecharges(int $annee): array
+    {
         return $this->uniteServiceAnneeRepository->recupererDecharges($annee);
     }
 }

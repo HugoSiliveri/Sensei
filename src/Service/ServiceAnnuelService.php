@@ -70,9 +70,10 @@ class ServiceAnnuelService implements ServiceAnnuelServiceInterface
     /**
      * @throws ServiceException
      */
-    public function recupererPlusRecentDuDepartement(int $idDepartement){
+    public function recupererPlusRecentDuDepartement(int $idDepartement)
+    {
         $serviceAnnuel = $this->serviceAnnuelRepository->recupererPlusRecentDuDepartement($idDepartement);
-        if (!isset($serviceAnnuel)){
+        if (!isset($serviceAnnuel)) {
             throw new ServiceException("La table des services est vide !");
         }
         return $serviceAnnuel;
@@ -83,7 +84,8 @@ class ServiceAnnuelService implements ServiceAnnuelServiceInterface
         return $this->serviceAnnuelRepository->recupererParDepartementAnnuel($idDepartement, $annee);
     }
 
-    public function renouvelerServiceAnnuel(ServiceAnnuel $serviceAnnuel, int $annee){
+    public function renouvelerServiceAnnuel(ServiceAnnuel $serviceAnnuel, int $annee)
+    {
         $serviceAnnuel->setMillesime($annee);
         $serviceAnnuel->setServiceFait(0);
         $serviceAnnuel->setDelta(0);
@@ -93,8 +95,9 @@ class ServiceAnnuelService implements ServiceAnnuelServiceInterface
     /**
      * @throws ServiceException
      */
-    public function creerServiceAnnuel(array $serviceAnnuel){
-        if (empty($serviceAnnuel)){
+    public function creerServiceAnnuel(array $serviceAnnuel)
+    {
+        if (empty($serviceAnnuel)) {
             throw new ServiceException("Aucune information fournie !");
         }
         $objet = $this->serviceAnnuelRepository->creerDepuisTableau($serviceAnnuel);

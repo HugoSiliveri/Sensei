@@ -66,26 +66,28 @@ class UniteServiceServiceTest extends TestCase
 
     public function testRechercherUniteServiceExistantAvecUniquementIdentifiant()
     {
-        $fakeUniteService = new UniteService(9209, "HAS357H", "Modélisation en chimie CPES", "UE", 8897, 2023, 2027, 0, 0, 30, 0, 0, 0, 0,3, 1, 1, 3, 0);
+        $fakeUniteService = new UniteService(9209, "HAS357H", "Modélisation en chimie CPES", "UE", 8897, 2023, 2027, 0, 0, 30, 0, 0, 0, 0, 3, 1, 1, 3, 0);
         $this->uniteServiceRepositoryMock->method("recupererParClePrimaire")->with(9209)->willReturn($fakeUniteService);
         self::assertEquals($fakeUniteService, $this->service->rechercherUniteService("9209"));
     }
 
     public function testRechercherUniteServiceExistantAvecChaine()
     {
-        $fakeUniteService = new UniteService(9209, "HAS357H", "Modélisation en chimie CPES", "UE", 8897, 2023, 2027, 0, 0, 30, 0, 0, 0, 0,3, 1, 1, 3, 0);
+        $fakeUniteService = new UniteService(9209, "HAS357H", "Modélisation en chimie CPES", "UE", 8897, 2023, 2027, 0, 0, 30, 0, 0, 0, 0, 3, 1, 1, 3, 0);
         $this->uniteServiceRepositoryMock->method("recupererParClePrimaire")->with(9209)->willReturn($fakeUniteService);
         self::assertEquals($fakeUniteService, $this->service->rechercherUniteService("9209 Modélisation en chimie CPES"));
     }
 
-    public function testCreerUniteServiceAnneeCorrect(){
+    public function testCreerUniteServiceAnneeCorrect()
+    {
         $array = ["anneeOuverture" => 0,
             "anneeCloture" => 0];
         $this->uniteServiceRepositoryMock->method("ajouterSansIdUniteService")->with($array)->willReturn(null);
         self::assertNull($this->service->creerUniteService($array));
     }
 
-    public function testCreerUniteServiceAnneePasCorrect(){
+    public function testCreerUniteServiceAnneePasCorrect()
+    {
         $this->expectException(ServiceException::class);
         $array = ["anneeOuverture" => 10,
             "anneeCloture" => 1];
@@ -93,13 +95,15 @@ class UniteServiceServiceTest extends TestCase
         self::assertNull($this->service->creerUniteService($array));
     }
 
-    public function testModifierUniteServiceInexistante(){
+    public function testModifierUniteServiceInexistante()
+    {
         $this->expectException(ServiceException::class);
         $this->uniteServiceRepositoryMock->method("recupererParClePrimaire")->with(0)->willReturn(null);
         $this->service->modifierUniteService(["idUniteService" => 0]);
     }
 
-    public function testModifierUniteServiceExistante(){
+    public function testModifierUniteServiceExistante()
+    {
         $fakeUniteService = new UniteService(9202, "Soutien LAS2", "Soutien LAS2", 1, 8897, 2022, 2026, 0, 0, 30, 0, 0, 0, 0, 3, 1, 1, 3, 0);
         $fakeUniteServiceTab = [
             "idUniteService" => 1,
@@ -151,9 +155,10 @@ class UniteServiceServiceTest extends TestCase
         self::assertEquals($fakeUniteService, $this->service->recupererDernierUniteService());
     }
 
-    public function testRecupererDernierElementTableVide(){
+    public function testRecupererDernierElementTableVide()
+    {
         $this->expectException(ServiceException::class);
-        $fakeUniteService = new UniteService(9225, "test2", "test2", 4, null, null, null, 0,0,0,0,0,0,0, 6,1,3,3,0);
+        $fakeUniteService = new UniteService(9225, "test2", "test2", 4, null, null, null, 0, 0, 0, 0, 0, 0, 0, 6, 1, 3, 3, 0);
         $this->uniteServiceRepositoryMock->method("recupererDernierElement");
         self::assertEquals($fakeUniteService, $this->service->recupererDernierUniteService());
     }

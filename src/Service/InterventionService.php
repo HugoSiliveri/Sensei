@@ -36,7 +36,7 @@ class InterventionService implements InterventionServiceInterface
      */
     public function creerIntervention(array $intervention)
     {
-        if (empty($intervention)){
+        if (empty($intervention)) {
             throw new ServiceException("Aucune information fournie !");
         }
         $this->interventionRepository->ajouterSansIdIntervention($intervention);
@@ -47,7 +47,7 @@ class InterventionService implements InterventionServiceInterface
      */
     public function recupererParInfos(array $intervention): array
     {
-        if (empty($intervention)){
+        if (empty($intervention)) {
             throw new ServiceException("Aucune information disponible !");
         }
         return $this->interventionRepository->recupererParInfos($intervention);
@@ -74,7 +74,7 @@ class InterventionService implements InterventionServiceInterface
     public function recupererDernierIntervention(): AbstractDataObject
     {
         $intervention = $this->interventionRepository->recupererDernierIntervention();
-        if(!isset($intervention)){
+        if (!isset($intervention)) {
             throw new ServiceException("La table des interventions est vide !");
         }
         return $intervention;

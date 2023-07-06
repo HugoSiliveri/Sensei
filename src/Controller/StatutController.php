@@ -12,7 +12,7 @@ class StatutController extends GenericController
 {
     public function __construct(
         private readonly StatutServiceInterface $statutService,
-        private readonly DroitServiceInterface $droitService
+        private readonly DroitServiceInterface  $droitService
     )
     {
     }

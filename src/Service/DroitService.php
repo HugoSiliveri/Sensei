@@ -11,7 +11,7 @@ class DroitService implements DroitServiceInterface
 {
 
     public function __construct(
-        private readonly DroitRepository $droitRepository,
+        private readonly DroitRepository      $droitRepository,
         private readonly ConnexionUtilisateur $connexionUtilisateur
     )
     {
@@ -37,7 +37,7 @@ class DroitService implements DroitServiceInterface
      */
     public function creerDroit(array $droit)
     {
-        if (empty($droit)){
+        if (empty($droit)) {
             throw new ServiceException("Aucune information fournie !");
         }
         $this->droitRepository->ajouterSansIdDroit($droit);
@@ -72,9 +72,10 @@ class DroitService implements DroitServiceInterface
     /**
      * @throws ServiceException
      */
-    public function verifierDroits(){
+    public function verifierDroits()
+    {
         $avoirLesPermissions = $this->connexionUtilisateur->estAdminOuChef();
-        if (!$avoirLesPermissions){
+        if (!$avoirLesPermissions) {
             throw new ServiceException("Vous n'avez pas les permissions !");
         }
     }

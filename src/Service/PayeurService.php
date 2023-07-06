@@ -39,7 +39,7 @@ class PayeurService implements PayeurServiceInterface
      */
     public function creerPayeur(array $payeur)
     {
-        if (empty($payeur)){
+        if (empty($payeur)) {
             throw new ServiceException("Aucune information fournie !");
         }
         $this->payeurRepository->ajouterSansIdPayeur($payeur);

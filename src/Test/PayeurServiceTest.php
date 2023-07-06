@@ -33,25 +33,29 @@ class PayeurServiceTest extends TestCase
         self::assertEquals($fakePayeur, $this->service->recupererParIdentifiant(1));
     }
 
-    public function testCreerPayeurVide(){
+    public function testCreerPayeurVide()
+    {
         $this->expectException(ServiceException::class);
         $this->expectExceptionMessage("Aucune information fournie !");
         $this->payeurRepositoryMock->method("ajouterSansIdPayeur")->with([])->willReturn(null);
         $this->service->creerPayeur([]);
     }
 
-    public function testCreerPayeurPasVide(){
+    public function testCreerPayeurPasVide()
+    {
         $array = [10, 9];
         $this->payeurRepositoryMock->method("ajouterSansIdPayeur")->with($array)->willReturn(null);
         self::assertNull($this->service->creerPayeur($array));
     }
 
-    public function testSupprimerPayeur(){
+    public function testSupprimerPayeur()
+    {
         $this->payeurRepositoryMock->method("supprimer")->with(0);
         self::assertNull($this->service->supprimerPayeur(0));
     }
 
-    public function testModifierPayeurInexistante(){
+    public function testModifierPayeurInexistante()
+    {
         $this->expectException(ServiceException::class);
         $this->payeurRepositoryMock->method("recupererParClePrimaire")->with(0)->willReturn(null);
         $this->service->modifierPayeur([
@@ -59,7 +63,8 @@ class PayeurServiceTest extends TestCase
             "libPayeur" => "UAIM"]);
     }
 
-    public function testModifierPayeurExistante(){
+    public function testModifierPayeurExistante()
+    {
         $fakePayeur = new Payeur(1, "administrateur.e");
         $fakePayeurTab = [
             "idPayeur" => 1,

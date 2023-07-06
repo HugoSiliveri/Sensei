@@ -12,7 +12,7 @@ class PayeurController extends GenericController
 {
     public function __construct(
         private readonly PayeurServiceInterface $payeurService,
-        private readonly DroitServiceInterface $droitService
+        private readonly DroitServiceInterface  $droitService
     )
     {
     }

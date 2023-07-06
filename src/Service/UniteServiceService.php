@@ -47,7 +47,7 @@ class UniteServiceService implements UniteServiceServiceInterface
     public function recupererParIdUSReferentiel(string $idUSReferentiel): AbstractDataObject
     {
         $uniteService = $this->uniteServiceRepository->recupererParIdUSReferentiel($idUSReferentiel);
-        if (!isset($uniteService)){
+        if (!isset($uniteService)) {
             throw new ServiceException("L'unité ne dispose pas d'identifiant référentiel !");
         }
         return $uniteService;

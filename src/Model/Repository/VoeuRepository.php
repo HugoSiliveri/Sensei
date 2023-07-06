@@ -91,6 +91,20 @@ class VoeuRepository extends AbstractRepository
         }
     }
 
+    /** Construit un objet Voeu à partir d'un tableau donné en paramètre.
+     * @param array $objetFormatTableau
+     * @return Voeu
+     */
+    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
+    {
+        return new Voeu(
+            $objetFormatTableau["idVoeu"],
+            $objetFormatTableau["idIntervenant"],
+            $objetFormatTableau["idUniteServiceAnnee"],
+            $objetFormatTableau["idIntervention"]
+        );
+    }
+
     public function recupererParIntervenantAnnuel(int $idIntervenant, int $annee): array
     {
         try {
@@ -140,20 +154,6 @@ class VoeuRepository extends AbstractRepository
             echo $exception->getMessage();
             die("Erreur lors d'insertion dans la base de données.");
         }
-    }
-
-    /** Construit un objet Voeu à partir d'un tableau donné en paramètre.
-     * @param array $objetFormatTableau
-     * @return Voeu
-     */
-    protected function construireDepuisTableau(array $objetFormatTableau): AbstractDataObject
-    {
-        return new Voeu(
-            $objetFormatTableau["idVoeu"],
-            $objetFormatTableau["idIntervenant"],
-            $objetFormatTableau["idUniteServiceAnnee"],
-            $objetFormatTableau["idIntervention"]
-        );
     }
 
     /**

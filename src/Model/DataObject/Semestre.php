@@ -13,7 +13,7 @@ namespace App\Sensei\Model\DataObject;
 class Semestre extends AbstractDataObject
 {
     public function __construct(
-        private int $idSemestre,
+        private int     $idSemestre,
         private ?string $libSemestre
     )
     {

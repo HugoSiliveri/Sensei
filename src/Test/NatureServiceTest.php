@@ -33,25 +33,29 @@ class NatureServiceTest extends TestCase
         self::assertEquals($fakeNature, $this->service->recupererParIdentifiant(3));
     }
 
-    public function testCreerNatureVide(){
+    public function testCreerNatureVide()
+    {
         $this->expectException(ServiceException::class);
         $this->expectExceptionMessage("Aucune information fournie !");
         $this->natureRepositoryMock->method("ajouterSansIdNature")->with([])->willReturn(null);
         $this->service->creerNature([]);
     }
 
-    public function testCreerNaturePasVide(){
+    public function testCreerNaturePasVide()
+    {
         $array = [10, 9];
         $this->natureRepositoryMock->method("ajouterSansIdNature")->with($array)->willReturn(null);
         self::assertNull($this->service->creerNature($array));
     }
 
-    public function testSupprimerNature(){
+    public function testSupprimerNature()
+    {
         $this->natureRepositoryMock->method("supprimer")->with(0);
         self::assertNull($this->service->supprimerNature(0));
     }
 
-    public function testModifierNatureInexistante(){
+    public function testModifierNatureInexistante()
+    {
         $this->expectException(ServiceException::class);
         $this->natureRepositoryMock->method("recupererParClePrimaire")->with(0)->willReturn(null);
         $this->service->modifierNature([
@@ -59,7 +63,8 @@ class NatureServiceTest extends TestCase
             "libNature" => "UN"]);
     }
 
-    public function testModifierNatureExistante(){
+    public function testModifierNatureExistante()
+    {
         $fakeNature = new Nature(1, "administrateur.e");
         $fakeNatureTab = [
             "idNature" => 1,
