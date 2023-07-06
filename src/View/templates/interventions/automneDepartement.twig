@@ -1,58 +1,53 @@
 {% block automne_departement %}
-    {% if voeuxNonVacataires|length > 1 %}
-        {% for l in 0..voeuxNonVacataires|length-1 %}
-            {% for voeu in voeuxNonVacataires[l] %}
-                <div class="enLigne">
+    <div class="enLigne">
+        {% if voeuxNonVacataires|length > 1 %}
+            {% for l in 0..voeuxNonVacataires|length-1 %}
+                {% for voeu in voeuxNonVacataires[l] %}
+
                     {% for voeuMemeId in voeu %}
                         {% if voeuMemeId.idUSReferentiel == usAutomne[i][j].getIdUSReferentiel and
                             voeuMemeId.typeIntervention == typeIntervention and voeuMemeId.numGroupe == k+1 %}
                             <p class="infosService"> {{ voeuMemeId.nom }} {{ voeuMemeId.prenom }} {{ voeuMemeId.volumeHoraire }}</p>
                         {% endif %}
                     {% endfor %}
-                </div>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    {% endif %}
-    {% if voeuxVacataires|length > 1 %}
-        {% for l in 0..voeuxVacataires|length-1 %}
-            {% for voeu in voeuxVacataires[l] %}
-                <div class="enLigne">
+        {% endif %}
+        {% if voeuxVacataires|length > 1 %}
+            {% for l in 0..voeuxVacataires|length-1 %}
+                {% for voeu in voeuxVacataires[l] %}
                     {% for voeuMemeId in voeu %}
                         {% if voeuMemeId.idUSReferentiel == usAutomne[i][j].getIdUSReferentiel and
                             voeuMemeId.typeIntervention == typeIntervention and voeuMemeId.numGroupe == k+1 %}
                             <p class="infosService"> {{ voeuMemeId.nom }} {{ voeuMemeId.prenom }} {{ voeuMemeId.volumeHoraire }}</p>
                         {% endif %}
                     {% endfor %}
-                </div>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    {% endif %}
-    {% if voeuxUMHorsFds|length > 1 %}
-        {% for l in 0..voeuxUMHorsFds|length-1 %}
-            {% for voeu in voeuxUMHorsFds[l] %}
-                <div class="enLigne">
-                    {% for voeuMemeId in voeu %}
-                        {% if voeuMemeId.idUSReferentiel == usAutomne[i][j].getIdUSReferentiel and
-                            voeuMemeId.typeIntervention == typeIntervention and voeuMemeId.numGroupe == k+1 %}
-                             <p class="infosService"> {{ voeuMemeId.nom }} {{ voeuMemeId.prenom }} {{ voeuMemeId.volumeHoraire }}</p>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            {% endfor %}
-        {% endfor %}
-    {% endif %}
-    {% if voeuxHorsUM|length > 1 %}
-        {% for l in 0..voeuxHorsUM|length-1 %}
-            {% for voeu in voeuxHorsUM[l] %}
-                <div class="enLigne">
+        {% endif %}
+        {% if voeuxUMHorsFds|length > 1 %}
+            {% for l in 0..voeuxUMHorsFds|length-1 %}
+                {% for voeu in voeuxUMHorsFds[l] %}
                     {% for voeuMemeId in voeu %}
                         {% if voeuMemeId.idUSReferentiel == usAutomne[i][j].getIdUSReferentiel and
                             voeuMemeId.typeIntervention == typeIntervention and voeuMemeId.numGroupe == k+1 %}
                             <p class="infosService"> {{ voeuMemeId.nom }} {{ voeuMemeId.prenom }} {{ voeuMemeId.volumeHoraire }}</p>
                         {% endif %}
                     {% endfor %}
-                </div>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    {% endif %}
+        {% endif %}
+        {% if voeuxHorsUM|length > 1 %}
+            {% for l in 0..voeuxHorsUM|length-1 %}
+                {% for voeu in voeuxHorsUM[l] %}
+                    {% for voeuMemeId in voeu %}
+                        {% if voeuMemeId.idUSReferentiel == usAutomne[i][j].getIdUSReferentiel and
+                            voeuMemeId.typeIntervention == typeIntervention and voeuMemeId.numGroupe == k+1 %}
+                            <p class="infosService"> {{ voeuMemeId.nom }} {{ voeuMemeId.prenom }} {{ voeuMemeId.volumeHoraire }}</p>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+    </div>
 {% endblock %}
