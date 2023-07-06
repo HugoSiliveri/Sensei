@@ -844,59 +844,59 @@ class IntervenantController extends GenericController
 
         // Creation des services annuels pour la nouvelle année
         if (count($intervenantsAnnuelsEtDuDepartementNonVacataire) == 0 && count($intervenantsAnnuelsEtDuDepartementVacataire) == 0
-            && count($intervenantsAnnuelsEtDuDepartementUMHorsFds) > 0 && count($intervenantsAnnuelsEtDuDepartementHorsUM) > 0) {
+            && count($intervenantsAnnuelsEtDuDepartementUMHorsFds) == 0 && count($intervenantsAnnuelsEtDuDepartementHorsUM) == 0) {
+
             $servicesAnnuelsPrecedent = $this->serviceAnnuelService->recupererParDepartementAnnuel($idDepartement, $annee - 1);
             foreach ($servicesAnnuelsPrecedent as $serviceAnnuelPrecedent) {
                 $this->serviceAnnuelService->renouvelerServiceAnnuel($serviceAnnuelPrecedent, $annee);
             }
+
+
+            if (count($unitesServicesAnneesDuDepartement) == 0 && count($unitesServicesAnneesColoration) == 0) {
+                $unitesServicesAnneesDuDepartementPrecedent = $this->uniteServiceAnneeService->recupererUnitesServicesPourUneAnneePourUnDepartement($annee - 1, $idDepartement);
+                $unitesServicesAnneesColorationPrecedent = $this->uniteServiceAnneeService->recupererUnitesServicesAnneeUniquementColoration($annee - 1, $idDepartement);
+                foreach ($unitesServicesAnneesDuDepartementPrecedent as $usa) {
+                    $us = $this->uniteServiceService->recupererParIdentifiant($usa->getIdUniteService());
+                    if ($us->getAnneeCloture() > $annee) {
+                        $this->uniteServiceAnneeService->renouvelerUniteServiceAnnee($usa, $annee);
+                    }
+                }
+                foreach ($unitesServicesAnneesColorationPrecedent as $usa) {
+                    $us = $this->uniteServiceService->recupererParIdentifiant($usa->getIdUniteService());
+                    if ($us->getAnneeCloture() > $annee) {
+                        $this->uniteServiceAnneeService->renouvelerUniteServiceAnnee($usa, $annee);
+                    }
+                }
+
+                // Ouverture des unités de services de la nouvelle année
+                $usOuverture = $this->uniteServiceService->recupererParAnneeOuverture($annee);
+                foreach ($usOuverture as $us) {
+                    if ($this->appartenirService->verifierAppartenance($us->getIdUniteService(), $idDepartement)) {
+                        $usa = [
+                            "idDepartement" => $idDepartement,
+                            "idUniteService" => $us->getIdUniteService(),
+                            "libUSA" => $us->getLibUS(),
+                            "millesime" => $annee,
+                            "heuresCM" => $us->getHeuresCM(),
+                            "nbGroupesCM" => 0,
+                            "heuresTD" => $us->getHeuresTD(),
+                            "nbGroupesTD" => 0,
+                            "heuresTP" => $us->getHeuresTP(),
+                            "nbGroupesTP" => 0,
+                            "heuresStage" => $us->getHeuresStage(),
+                            "nbGroupesStage" => 0,
+                            "heuresTerrain" => $us->getHeuresTerrain(),
+                            "nbGroupesTerrain" => 0,
+                            "heuresInnovationPedagogique" => $us->getHeuresInnovationPedagogique(),
+                            "nbGroupesInnovationPedagogique" => 0,
+                            "validite" => $us->getValidite(),
+                            "deleted" => $us->getDeleted()
+                        ];
+                        $this->uniteServiceAnneeService->creerUniteServiceAnnee($usa);
+                    }
+                }
+            }
         }
-
-        if (count($unitesServicesAnneesDuDepartement) == 0 && count($unitesServicesAnneesColoration) == 0) {
-            $unitesServicesAnneesDuDepartementPrecedent = $this->uniteServiceAnneeService->recupererUnitesServicesPourUneAnneePourUnDepartement($annee - 1, $idDepartement);
-            $unitesServicesAnneesColorationPrecedent = $this->uniteServiceAnneeService->recupererUnitesServicesAnneeUniquementColoration($annee - 1, $idDepartement);
-            foreach ($unitesServicesAnneesDuDepartementPrecedent as $usa) {
-                $us = $this->uniteServiceService->recupererParIdentifiant($usa->getIdUniteService());
-                if ($us->getAnneeCloture() > $annee) {
-                    $this->uniteServiceAnneeService->renouvelerUniteServiceAnnee($usa, $annee);
-                }
-            }
-            foreach ($unitesServicesAnneesColorationPrecedent as $usa) {
-                $us = $this->uniteServiceService->recupererParIdentifiant($usa->getIdUniteService());
-                if ($us->getAnneeCloture() > $annee) {
-                    $this->uniteServiceAnneeService->renouvelerUniteServiceAnnee($usa, $annee);
-                }
-            }
-
-            // Ouverture des unités de services de la nouvelle année
-            $usOuverture = $this->uniteServiceService->recupererParAnneeOuverture($annee);
-            foreach ($usOuverture as $us) {
-                if ($this->appartenirService->verifierAppartenance($us->getIdUniteService(), $idDepartement)) {
-                    $usa = [
-                        "idDepartement" => $idDepartement,
-                        "idUniteService" => $us->getIdUniteService(),
-                        "libUSA" => $us->getLibUS(),
-                        "millesime" => $annee,
-                        "heuresCM" => $us->getHeuresCM(),
-                        "nbGroupesCM" => 0,
-                        "heuresTD" => $us->getHeuresTD(),
-                        "nbGroupesTD" => 0,
-                        "heuresTP" => $us->getHeuresTP(),
-                        "nbGroupesTP" => 0,
-                        "heuresStage" => $us->getHeuresStage(),
-                        "nbGroupesStage" => 0,
-                        "heuresTerrain" => $us->getHeuresTerrain(),
-                        "nbGroupesTerrain" => 0,
-                        "heuresInnovationPedagogique" => $us->getHeuresInnovationPedagogique(),
-                        "nbGroupesInnovationPedagogique" => 0,
-                        "validite" => $us->getValidite(),
-                        "deleted" => $us->getDeleted()
-                    ];
-                    $this->uniteServiceAnneeService->creerUniteServiceAnnee($usa);
-                }
-            }
-        }
-
-
     }
 
     /**
