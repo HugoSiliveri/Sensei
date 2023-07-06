@@ -661,6 +661,14 @@ nav  button{
     align-items: center;
 }
 
+.enLigne > p {
+    margin-left: 3%;
+}
+
+#pageVoeu .coteDroit .enLigne {
+    width: 70%;
+    justify-content: start;
+}
 
 /* Bootstrap alerts */
 /* https://getbootstrap.com/docs/3.4/components/#alerts */

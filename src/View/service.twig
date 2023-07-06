@@ -446,6 +446,7 @@
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
                                                                                 <p>CM {{k+1}} ( {{ indefinisDepartement[i][0].getHeuresCM }} h )</p>
+                                                                                {% include "templates/interventions/indefinisDepartement.twig" with {"typeIntervention" : "CM"} %}
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -454,6 +455,7 @@
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
                                                                                 <p>TD {{k+1}} ( {{ indefinisDepartement[i][0].getHeuresTD }} h )</p>
+                                                                                {% include "templates/interventions/indefinisDepartement.twig" with {"typeIntervention" : "TD"} %}
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -462,6 +464,7 @@
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
                                                                                 <p>TP {{k+1}} ( {{ indefinisDepartement[i][0].getHeuresTP }} h )</p>
+                                                                                {% include "templates/interventions/indefinisDepartement.twig" with {"typeIntervention" : "TP"} %}
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -470,6 +473,7 @@
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
                                                                                 <p>Stage {{k+1}} ( {{ indefinisDepartement[i][0].getHeuresStage }} h )</p>
+                                                                                {% include "templates/interventions/indefinisDepartement.twig" with {"typeIntervention" : "Stage"} %}
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -478,6 +482,7 @@
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
                                                                                 <p>Terrain {{k+1}} ( {{ indefinisDepartement[i][0].getHeuresTerrain }} h )</p>
+                                                                                {% include "templates/interventions/indefinisDepartement.twig" with {"typeIntervention" : "Terrain"} %}
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -486,6 +491,7 @@
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
                                                                                 <p>Innovation {{k+1}} ( {{ indefinisDepartement[i][0].getHeuresInnovationPedagogique }} h )</p>
+                                                                                {% include "templates/interventions/indefinisDepartement.twig" with {"typeIntervention" : "InnovationPedagogique"} %}
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -535,6 +541,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>CM {{k+1}} ( {{ usaPrintemps[i][j].getHeuresCM }} h )</p>
+                                                                                                {% include "templates/interventions/printempsDepartement.twig" with {"typeIntervention" : "CM"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -543,6 +550,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>TD {{k+1}} ( {{ usaPrintemps[i][j].getHeuresTD }} h )</p>
+                                                                                                {% include "templates/interventions/printempsDepartement.twig" with {"typeIntervention" : "TD"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -551,6 +559,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>TP {{k+1}} ( {{ usaPrintemps[i][j].getHeuresTP }} h )</p>
+                                                                                                {% include "templates/interventions/printempsDepartement.twig" with {"typeIntervention" : "TP"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -559,6 +568,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>Stage {{k+1}} ( {{ usaPrintemps[i][j].getHeuresStage }} h )</p>
+                                                                                                {% include "templates/interventions/printempsDepartement.twig" with {"typeIntervention" : "Stage"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -567,6 +577,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>Terrain {{k+1}} ( {{ usaPrintemps[i][j].getHeuresTerrain }} h )</p>
+                                                                                                {% include "templates/interventions/printempsDepartement.twig" with {"typeIntervention" : "Terrain"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -575,6 +586,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>Innovation {{k+1}} ( {{ usaPrintemps[i][j].getHeuresInnovationPedagogique }} h )</p>
+                                                                                                {% include "templates/interventions/printempsDepartement.twig" with {"typeIntervention" : "InnovationPedagogique"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -628,6 +640,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>CM {{k+1}} ( {{ usaAutomne[i][j].getHeuresCM }} h )</p>
+                                                                                                {% include "templates/interventions/automneDepartement.twig" with {"typeIntervention" : "CM"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -636,6 +649,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>TD {{k+1}} ( {{ usaAutomne[i][j].getHeuresTD }} h )</p>
+                                                                                                {% include "templates/interventions/automneDepartement.twig" with {"typeIntervention" : "TD"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -644,6 +658,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>TP {{k+1}} ( {{ usaAutomne[i][j].getHeuresTP }} h )</p>
+                                                                                                {% include "templates/interventions/automneDepartement.twig" with {"typeIntervention" : "TP"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -652,6 +667,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>Stage {{k+1}} ( {{ usaAutomne[i][j].getHeuresStage }} h )</p>
+                                                                                                {% include "templates/interventions/automneDepartement.twig" with {"typeIntervention" : "Stage"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -660,6 +676,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>Terrain {{k+1}} ( {{ usaAutomne[i][j].getHeuresTerrain }} h )</p>
+                                                                                                {% include "templates/interventions/automneDepartement.twig" with {"typeIntervention" : "Terrain"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -668,6 +685,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>Innovation {{k+1}} ( {{ usaAutomne[i][j].getHeuresInnovationPedagogique }} h )</p>
+                                                                                                {% include "templates/interventions/automneDepartement.twig" with {"typeIntervention" : "InnovationPedagogique"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -721,6 +739,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>CM {{k+1}} ( {{ usaAnnuel[i][j].getHeuresCM }} h )</p>
+                                                                                                {% include "templates/interventions/annuelDepartement.twig" with {"typeIntervention" : "CM"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -729,6 +748,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>TD {{k+1}} ( {{ usaAnnuel[i][j].getHeuresTD }} h )</p>
+                                                                                                {% include "templates/interventions/annuelDepartement.twig" with {"typeIntervention" : "TD"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -737,6 +757,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>TP {{k+1}} ( {{ usaAnnuel[i][j].getHeuresTP }} h )</p>
+                                                                                                {% include "templates/interventions/annuelDepartement.twig" with {"typeIntervention" : "TP"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -745,6 +766,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>Stage {{k+1}} ( {{ usaAnnuel[i][j].getHeuresStage }} h )</p>
+                                                                                                {% include "templates/interventions/annuelDepartement.twig" with {"typeIntervention" : "Stage"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -753,6 +775,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>Terrain {{k+1}} ( {{ usaAnnuel[i][j].getHeuresTerrain }} h )</p>
+                                                                                                {% include "templates/interventions/annuelDepartement.twig" with {"typeIntervention" : "Terrain"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -761,6 +784,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>Innovation {{k+1}} ( {{ usaAnnuel[i][j].getHeuresInnovationPedagogique }} h )</p>
+                                                                                                {% include "templates/interventions/annuelDepartement.twig" with {"typeIntervention" : "InnovationPedagique"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -814,6 +838,7 @@
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
                                                                                 <p>CM {{k+1}} ( {{ indefinisColoration[i][0].getHeuresCM }} h )</p>
+                                                                                {% include "templates/interventions/indefinisColoration.twig" with {"typeIntervention" : "CM"} %}
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -822,6 +847,7 @@
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
                                                                                 <p>TD {{k+1}} ( {{ indefinisColoration[i][0].getHeuresTD }} h )</p>
+                                                                                {% include "templates/interventions/indefinisColoration.twig" with {"typeIntervention" : "TD"} %}
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -830,6 +856,7 @@
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
                                                                                 <p>TP {{k+1}} ( {{ indefinisColoration[i][0].getHeuresTP }} h )</p>
+                                                                                {% include "templates/interventions/indefinisColoration.twig" with {"typeIntervention" : "TP"} %}
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -838,6 +865,7 @@
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
                                                                                 <p>Stage {{k+1}} ( {{ indefinisColoration[i][0].getHeuresStage }} h )</p>
+                                                                                {% include "templates/interventions/indefinisColoration.twig" with {"typeIntervention" : "Stage"} %}
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -846,6 +874,7 @@
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
                                                                                 <p>Terrain {{k+1}} ( {{ indefinisColoration[i][0].getHeuresTerrain }} h )</p>
+                                                                                {% include "templates/interventions/indefinisColoration.twig" with {"typeIntervention" : "Terrain"} %}
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -854,6 +883,7 @@
                                                                             <div class="miseEnPage">
                                                                                 {% include "templates/slider.twig" %}
                                                                                 <p>Innovation {{k+1}} ( {{ indefinisColoration[i][0].getHeuresInnovationPedagogique }} h )</p>
+                                                                                {% include "templates/interventions/indefinisColoration.twig" with {"typeIntervention" : "InnovationPedagogique"} %}
                                                                             </div>
                                                                         {% endfor %}
                                                                     {% endif %}
@@ -898,12 +928,12 @@
                                                                             </div>
                                                                             <div class="disparition2 affichageInfoService">
                                                                                 <div class="infosSupplementaires">
-
                                                                                     {% if nbGroupesCM > 0 %}
                                                                                         {% for k in 0..nbGroupesCM-1 %}
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>CM {{k+1}} ( {{ usaColorationPrintemps[i][j].getHeuresCM }} h )</p>
+                                                                                                {% include "templates/interventions/printempsColoration.twig" with {"typeIntervention" : "CM"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -912,6 +942,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>TD {{k+1}} ( {{ usaColorationPrintemps[i][j].getHeuresTD }} h )</p>
+                                                                                                {% include "templates/interventions/printempsColoration.twig" with {"typeIntervention" : "TD"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -920,6 +951,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>TP {{k+1}} ( {{ usaColorationPrintemps[i][j].getHeuresTP }} h )</p>
+                                                                                                {% include "templates/interventions/printempsColoration.twig" with {"typeIntervention" : "TP"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -928,6 +960,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>Stage ( {{ usaColorationPrintemps[i][j].getHeuresStage }} h )</p>
+                                                                                                {% include "templates/interventions/printempsColoration.twig" with {"typeIntervention" : "Stage"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -936,6 +969,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>Terrain {{k+1}} ( {{ usaColorationPrintemps[i][j].getHeuresTerrain }} h )</p>
+                                                                                                {% include "templates/interventions/printempsColoration.twig" with {"typeIntervention" : "Terrain"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -944,6 +978,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>Innovation {{k+1}} ( {{ usaColorationPrintemps[i][j].getHeuresInnovationPedagogique }} h )</p>
+                                                                                                {% include "templates/interventions/printempsColoration.twig" with {"typeIntervention" : "InnovationPedagogique"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -997,6 +1032,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>CM {{k+1}} ( {{ usaColorationAutomne[i][j].getHeuresCM }} h )</p>
+                                                                                                {% include "templates/interventions/automneColoration.twig" with {"typeIntervention" : "CM"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -1005,6 +1041,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>TD {{k+1}} ( {{ usaColorationAutomne[i][j].getHeuresTD }} h )</p>
+                                                                                                {% include "templates/interventions/automneColoration.twig" with {"typeIntervention" : "TD"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -1013,6 +1050,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>TP {{k+1}} ( {{ usaColorationAutomne[i][j].getHeuresTP }} h )</p>
+                                                                                                {% include "templates/interventions/automneColoration.twig" with {"typeIntervention" : "TP"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -1021,6 +1059,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>Stage {{k+1}} ( {{ usaColorationAutomne[i][j].getHeuresStage }} h )</p>
+                                                                                                {% include "templates/interventions/automneColoration.twig" with {"typeIntervention" : "Stage"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -1029,6 +1068,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>Terrain {{k+1}} ( {{ usaColorationAutomne[i][j].getHeuresTerrain }} h )</p>
+                                                                                                {% include "templates/interventions/automneColoration.twig" with {"typeIntervention" : "Terrain"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -1037,6 +1077,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>Innovation {{k+1}} ( {{ usaColorationAutomne[i][j].getHeuresInnovationPedagogique }} h )</p>
+                                                                                                {% include "templates/interventions/automneColoration.twig" with {"typeIntervention" : "InnovationPedagogique"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -1090,6 +1131,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>CM {{k+1}} ( {{ usaColorationAnnuel[i][j].getHeuresCM }} h )</p>
+                                                                                                {% include "templates/interventions/annuelColoration.twig" with {"typeIntervention" : "CM"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -1098,6 +1140,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>TD {{k+1}} ( {{ usaColorationAnnuel[i][j].getHeuresTD }} h )</p>
+                                                                                                {% include "templates/interventions/annuelColoration.twig" with {"typeIntervention" : "TD"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -1106,6 +1149,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>TP {{k+1}} ( {{ usaColorationAnnuel[i][j].getHeuresTP }} h )</p>
+                                                                                                {% include "templates/interventions/annuelColoration.twig" with {"typeIntervention" : "TP"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -1114,6 +1158,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>Stage {{k+1}} ( {{ usaColorationAnnuel[i][j].getHeuresStage }} h )</p>
+                                                                                                {% include "templates/interventions/annuelColoration.twig" with {"typeIntervention" : "Stage"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -1122,6 +1167,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>Terrain {{k+1}} ( {{ usaColorationAnnuel[i][j].getHeuresTerrain }} h )</p>
+                                                                                                {% include "templates/interventions/annuelColoration.twig" with {"typeIntervention" : "Terrain"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -1130,6 +1176,7 @@
                                                                                             <div class="miseEnPage">
                                                                                                 {% include "templates/slider.twig" %}
                                                                                                 <p>Innovation {{k+1}} ( {{ usaColorationAnnuel[i][j].getHeuresInnovationPedagogique }} h )</p>
+                                                                                                {% include "templates/interventions/annuelColoration.twig" with {"typeIntervention" : "InnovationPedagique"} %}
                                                                                             </div>
                                                                                         {% endfor %}
                                                                                     {% endif %}
@@ -1178,6 +1225,7 @@
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
                                                                 <p>CM {{k+1}} ( {{ referentiels[i][0].getHeuresCM }} h )</p>
+                                                                {% include "templates/interventions/referentiel.twig" with {"typeIntervention" : "CM"} %}
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
@@ -1186,6 +1234,7 @@
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
                                                                 <p>TD {{k+1}} ( {{ referentiels[i][0].getHeuresTD }} h )</p>
+                                                                {% include "templates/interventions/referentiel.twig" with {"typeIntervention" : "TD"} %}
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
@@ -1194,6 +1243,7 @@
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
                                                                 <p>TP {{k+1}} ( {{ referentiels[i][0].getHeuresTP }} h )</p>
+                                                                {% include "templates/interventions/referentiel.twig" with {"typeIntervention" : "TP"} %}
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
@@ -1202,6 +1252,7 @@
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
                                                                 <p>Stage {{k+1}} ( {{ referentiels[i][0].getHeuresStage }} h )</p>
+                                                                {% include "templates/interventions/referentiel.twig" with {"typeIntervention" : "Stage"} %}
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
@@ -1210,6 +1261,7 @@
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
                                                                 <p>Terrain {{k+1}} ( {{ referentiels[i][0].getHeuresTerrain }} h )</p>
+                                                                {% include "templates/interventions/referentiel.twig" with {"typeIntervention" : "Terrain"} %}
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
@@ -1218,6 +1270,7 @@
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
                                                                 <p>Innovation {{k+1}} ( {{ referentiels[i][0].getHeuresInnovationPedagogique }} h )</p>
+                                                                {% include "templates/interventions/referentiel.twig" with {"typeIntervention" : "InnovationPedagique"} %}
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
@@ -1258,6 +1311,7 @@
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
                                                                 <p>CM {{k+1}} ( {{ decharges[i][0].getHeuresCM }} h )</p>
+                                                                {% include "templates/interventions/decharge.twig" with {"typeIntervention" : "CM"} %}
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
@@ -1266,6 +1320,7 @@
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
                                                                 <p>TD {{k+1}} ( {{ decharges[i][0].getHeuresTD }} h )</p>
+                                                                {% include "templates/interventions/decharge.twig" with {"typeIntervention" : "TD"} %}
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
@@ -1274,6 +1329,7 @@
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
                                                                 <p>TP {{k+1}} ( {{ decharges[i][0].getHeuresTP }} h )</p>
+                                                                {% include "templates/interventions/decharge.twig" with {"typeIntervention" : "TP"} %}
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
@@ -1282,6 +1338,7 @@
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
                                                                 <p>Stage {{k+1}} ( {{ decharges[i][0].getHeuresStage }} h )</p>
+                                                                {% include "templates/interventions/decharge.twig" with {"typeIntervention" : "Stage"} %}
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
@@ -1290,6 +1347,7 @@
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
                                                                 <p>Terrain {{k+1}} ( {{ decharges[i][0].getHeuresTerrain }} h )</p>
+                                                                {% include "templates/interventions/decharge.twig" with {"typeIntervention" : "Terrain"} %}
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
@@ -1298,6 +1356,7 @@
                                                             <div class="miseEnPage">
                                                                 {% include "templates/slider.twig" %}
                                                                 <p>Innovation {{k+1}} ( {{ decharges[i][0].getHeuresInnovationPedagogique }} h )</p>
+                                                                {% include "templates/interventions/decharge.twig" with {"typeIntervention" : "InnovationPedagique"} %}
                                                             </div>
                                                         {% endfor %}
                                                     {% endif %}
