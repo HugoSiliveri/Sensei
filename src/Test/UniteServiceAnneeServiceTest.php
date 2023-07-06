@@ -36,7 +36,7 @@ class UniteServiceAnneeServiceTest extends TestCase
     public function testRecupererUniteServiceNull()
     {
         $this->expectException(TypeError::class);
-        $this->uniteServiceAnneeRepositoryMock->method("recupererParUniteService")->with(null)->willReturn(null);
+        $this->uniteServiceAnneeRepositoryMock->method("recupererParUniteService")->with(null)->willReturn([]);
         $this->service->recupererParUniteService(null);
     }
 

@@ -13,7 +13,7 @@ class VoeuServiceTest extends TestCase
     public function testRecupererParIdUSANull()
     {
         $this->expectException(TypeError::class);
-        $this->voeuRepositoryMock->method("recupererParIdUSA")->with(null)->willReturn(null);
+        $this->voeuRepositoryMock->method("recupererParIdUSA")->with(null)->willReturn([]);
         $this->service->recupererParIdUSA(null);
     }
 

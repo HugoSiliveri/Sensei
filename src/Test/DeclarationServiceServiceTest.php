@@ -4,6 +4,7 @@ namespace App\Sensei\Test;
 
 use App\Sensei\Model\DataObject\DeclarationService;
 use App\Sensei\Model\Repository\DeclarationServiceRepository;
+use App\Sensei\Model\Repository\ServiceAnnuelRepository;
 use App\Sensei\Service\DeclarationServiceService;
 use PHPUnit\Framework\TestCase;
 
@@ -54,6 +55,7 @@ class DeclarationServiceServiceTest extends TestCase
     {
         parent::setUp();
         $this->declarationServiceRepositoryMock = $this->createMock(DeclarationServiceRepository::class);
-        $this->service = new DeclarationServiceService($this->declarationServiceRepositoryMock);
+        $this->serviceAnnuelRepositoryMock = $this->createMock(ServiceAnnuelRepository::class);
+        $this->service = new DeclarationServiceService($this->declarationServiceRepositoryMock, $this->serviceAnnuelRepositoryMock);
     }
 }
