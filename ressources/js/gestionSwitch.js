@@ -35,6 +35,10 @@ window.addEventListener("load", function (){
                 let types = ["CM", "TD", "TP", "Stage", "Terrain", "Innovation Pédagogique"];
 
                 let infosSup = document.querySelector("#formService" + idIntervenantConnecte + " .infosSupplementaires");
+                if (infosSup === null){
+                    infosSup = document.createElement("div");
+                    infosSup.setAttribute("class", ".infosSupplementaires");
+                }
 
                 let enLigne = document.createElement("div");
                 enLigne.setAttribute("class", "enLigne")
@@ -72,14 +76,6 @@ window.addEventListener("load", function (){
                 inputVolumeHoraire.setAttribute("type", "text");
                 inputVolumeHoraire.setAttribute("name", "volumeHoraire" + nbInfos);
                 inputVolumeHoraire.setAttribute("value", tab[3]);
-
-                // TODO : Fix la suppression du champ lorsque l'utilisateur renseigne 0
-                // inputVolumeHoraire.addEventListener("change", function (){
-                //     if (inputVolumeHoraire.value === "0"){
-                //         checkboxs[i].checked = false;
-                //         infosSup.remove();
-                //     }
-                // });
 
                 enLigne.appendChild(labelVolumeHoraire);
                 enLigne.appendChild(inputVolumeHoraire);
